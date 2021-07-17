@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="9e5baa81-ba36-4a39-a1c2-1e2eef7f0870" name="jenah" url="http://jenaah.4hoste.com">
+        <fileTransfer rootFolder="/public_html" host="jenaah.4hoste.com" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

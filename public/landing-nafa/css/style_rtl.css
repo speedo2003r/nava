@@ -1,0 +1,1233 @@
+@font-face {
+    font-family: 'Brfont';
+    src: url('../fonts/ArbFONTS-BR.ttf') format("truetype")
+}
+
+body {
+    font-family: 'Brfont' !important
+}
+
+a {
+    font-family: 'Brfont' !important
+}
+
+.dropdown .dropdown-icon {
+    margin: 0;
+    margin-right: 5px
+}
+
+.dropdown-menu {
+    right: auto;
+    left: 0
+}
+
+.nav-sec .navbar-nav>li>a {
+    font-size: 16px;
+    font-weight: 500;
+    -webkit-transform: translateX(10px);
+    -moz-transform: translateX(10px);
+    -ms-transform: translateX(10px);
+    -o-transform: translateX(10px);
+    transform: translateX(10px)
+}
+
+.nav-sec .dropdown-menu>li>a {
+    font-size: 18px;
+    font-weight: 100;
+    padding-top: 0
+}
+
+.home .header-content h1 {
+    font-size: 60px;
+    line-height: 90px
+}
+
+.bttn-appnova-gradient i {
+    margin: 0;
+    margin-left: 10px
+}
+
+.bttn-appnova-gradient {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    padding: 10px;
+    width: 120px;
+}
+
+.bttn-appnova-gradient span {
+    font-weight: 100
+}
+
+.section-title h4 {
+    font-size: 19px;
+    font-weight: 100
+}
+
+.section-title h2 {
+    font-size: 65px;
+    font-weight: 100
+}
+
+.feature-text h4 {
+    font-weight: 100;
+    font-size: 25px
+}
+
+.feature-text p {
+    font-size: 20px;
+    line-height: 30px
+}
+
+.about .mobile-features .features-slider:after {
+    border: 0;
+    border-left: 1px dashed #ddd;
+    left: auto;
+    right: 0
+}
+
+.about .mobile-features .nav {
+    float: none;
+    float: right
+}
+
+.about .mobile-features .nav-pills>li>a {
+    left: auto;
+    right: 57px
+}
+
+.about .mobile-features .tab-content {
+    margin-left: 0;
+    margin-right: 245px
+}
+
+.about .mobile-features .tab-content>.tab-pane:before {
+    border-style: solid;
+    border-width: 10px 0 10px 20px;
+    border-color: transparent transparent transparent #fff;
+    left: auto;
+    right: -20px
+}
+
+.about .mobile-features .tab-content>.tab-pane h4 {
+    font-size: 22px;
+    font-weight: 100
+}
+
+.about .mobile-features .tab-content>.tab-pane p {
+    font-size: 17px
+}
+
+.feat-one .feat-one-text p,
+.feat-one .feat-two-text p {
+    font-size: 21px
+}
+
+.single-statis h4 {
+    padding: 4px 20px;
+    font-size: 20px;
+    left: -35px;
+    right: auto
+}
+
+.swiper-button-prev:before {
+    content: "\f178";
+    font-family: "FontAwesome"
+}
+
+.swiper-button-next:before {
+    content: "\f177";
+    font-family: "fontAwesome"
+}
+
+.swiper-container-rtl .swiper-button-prev,
+.swiper-container-rtl .swiper-button-next {
+    background-image: none
+}
+
+.main-timeline .timeline-content {
+    float: left
+}
+
+.main-timeline .title {
+    font-size: 22px;
+    font-weight: 100;
+    margin: 0 0 20px 0
+}
+
+.main-timeline .description {
+    font-size: 17px;
+    line-height: 28px
+}
+
+.single-downloadLink .bttn-appnova-gradient span {
+    font-size: 10px;
+    margin-left: 0;
+    margin-right: 40px
+}
+
+.single-downloadLink .bttn-appnova-gradient {
+    text-align: right;
+    padding: 10px 40px
+}
+
+.single-downloadLink .bttn-appnova-gradient span:last-child {
+    font-size: 19px;
+    font-weight: 100
+}
+
+.single-downloadLink .bttn-appnova-gradient span {
+    font-size: 15px
+}
+
+.single-downloadLink .bttn-appnova-gradient i {
+    top: 33%
+}
+
+.single-person .personquote p {
+    line-height: 28px;
+    font-size: 17px
+}
+
+.single-person .personName h4 {
+    font-weight: 100;
+    font-size: 22px;
+    letter-spacing: 0
+}
+
+.single-person .personName span {
+    font-size: 18px
+}
+
+.single-plan .head-plan h4 {
+    font-size: 30px;
+    letter-spacing: 0
+}
+
+.body-plan .price-plan h3 sup {
+    font-size: 25px
+}
+
+.body-plan .price-plan h3 {
+    font-size: 65px;
+    font-weight: 100
+}
+
+.body-plan .price-plan span {
+    font-size: 16px
+}
+
+.feat-plan ul li {
+    font-size: 20px
+}
+
+.single-team-member .member-info h4 {
+    font-weight: 100;
+    font-size: 22px
+}
+
+.single-team-member .member-info p {
+    font-size: 18px
+}
+
+.single-team-member .member-info ul {
+    top: 8px
+}
+
+.text-history .title-hist {
+    font-size: 66px;
+    color: #fff;
+    font-weight: 100
+}
+
+.text-history .title-hist-p {
+    line-height: 35px;
+    font-size: 22px
+}
+
+.numberfeat .tab-content {
+    text-align: right
+}
+
+.numberfeat .tab-content .tab-pane p i {
+    margin-right: 0;
+    margin-left: 10px
+}
+
+.numberfeat .tab-content .tab-pane p {
+    font-size: 19px
+}
+
+.numberfeat .nav-tabs>li>a {
+    font-weight: 100;
+    font-size: 20px;
+    padding: 3px 0
+}
+
+#accordion .panel:before {
+    right: -2px;
+    left: auto
+}
+
+#accordion .panel-title a {
+    padding: 15px 30px 15px 55px;
+    font-size: 22px;
+    font-weight: 100
+}
+
+#accordion .panel-body p {
+    font-size: 18px;
+    line-height: 30px
+}
+
+#accordion .panel-title a:before,
+#accordion .panel-title a.collapsed:before {
+    left: 25px;
+    right: auto
+}
+
+.subscribe-box .subscribe-text h4 {
+    font-weight: 100;
+    font-size: 26px
+}
+
+.subscribe-box .subscribe-text p {
+    font-size: 19px
+}
+
+.subscribe-box .subscribe-form.name-email input {
+    padding-left: 49px;
+    padding-right: 25px
+}
+
+.subscribe-box .custom-input button.btn {
+    left: 3px;
+    right: auto
+}
+
+.single-article .article-category {
+    font-size: 18px;
+    font-weight: 100
+}
+
+.single-article .article-text h4 {
+    font-size: 22px
+}
+
+.single-article .article-text p {
+    line-height: 30px;
+    font-size: 18px
+}
+
+.single-article .article-footer ul li a i {
+    margin-right: 0;
+    margin-left: 10px
+}
+
+.single-article .date {
+    right: auto;
+    left: 15px
+}
+
+.single-article .article-footer ul li a {
+    font-size: 16px
+}
+
+.contact .mobile-place .mobile-preview {
+    left: -41px;
+    top: 65px
+}
+
+.single-contact h4 {
+    font-weight: 100;
+    font-size: 22px
+}
+
+.single-contact p {
+    font-size: 20px
+}
+
+.form-touch input,
+.form-touch textarea {
+    font-size: 18px
+}
+
+.copyright-design {
+    font-weight: 100;
+    font-size: 20px
+}
+
+.icon-statis {
+    right: -39px;
+    left: auto
+}
+
+.single-statis span {
+    left: auto;
+    right: 71px
+}
+
+.home02 .bttn-head a:first-child {
+    margin-right: 0;
+    margin-left: 10px
+}
+
+.text-feat h4 {
+    font-weight: bold;
+    font-size: 18px
+}
+
+.text-feat p {
+    font-family: BrFont;
+    font-size: 14px;
+    line-height: 30px;
+}
+
+.left-aboutApp .icon-feat i:after {
+    left: 0;
+    -webkit-transition: right .4s ease-out;
+    -moz-transition: right .4s ease-out;
+    -o-transition: right .4s ease-out;
+    transition: right .4s ease-out
+}
+
+.right-aboutApp .icon-feat i:after {
+    right: 0;
+    -webkit-transition: left .4s ease-out;
+    -moz-transition: left .4s ease-out;
+    -o-transition: left .4s ease-out;
+    transition: left .4s ease-out
+}
+
+.right-aboutApp,
+.left-aboutApp {
+    padding: 66px 0
+}
+
+.left-aboutApp .icon-feat:before {
+    left: auto;
+    right: 69px
+}
+
+.left-aboutApp .icon-feat.active-service i:after {
+    right: auto;
+    left: -263px;
+    opacity: 1;
+    -webkit-transition: left .4s ease-out;
+    -moz-transition: left .4s ease-out;
+    -o-transition: left .4s ease-out;
+    transition: left .4s ease-out
+}
+
+.flrItem {
+    float: left
+}
+
+.fllItem {
+    float: right
+}
+
+.icon-feat i:after {
+    top: 7px
+}
+
+.right-aboutApp .icon-feat:before {
+    right: auto;
+    left: 68px
+}
+
+.right-aboutApp .icon-feat.active-service i:after {
+    left: auto;
+    right: -263px;
+    opacity: 1;
+    -webkit-transition: right .4s ease-out;
+    -moz-transition: right .4s ease-out;
+    -o-transition: right .4s ease-out;
+    transition: right .4s ease-out
+}
+
+.right-aboutApp .icon-feat:before {
+    border-radius: 0 50% 50% 0
+}
+
+.left-aboutApp .icon-feat:before {
+    border-radius: 50% 0 0 50%
+}
+
+.features02 .nav-tabs li a span {
+    font-size: 18px
+}
+
+.single-work02 .work02-text p {
+    font-size: 18px;
+    line-height: 38px;
+}
+
+.work02-text-points i {
+    margin-right: 0;
+    margin-left: 10px
+}
+
+.one-statis02 .icon-statis02 {
+    float: right;
+    margin-right: 0;
+    margin-left: 20px
+}
+
+.one-statis02 h4 {
+    font-size: 20px
+}
+
+.one-statis02 sup {
+    font-size: 16px
+}
+
+.section-title02 h4 {
+    font-weight: bold;
+    font-size: 50px
+}
+
+.single-person02 .personquote:after {
+    left: auto;
+    right: 65px;
+    transform: skewY(45deg)
+}
+
+.single-person02 .personquote {
+    font-size: 18px;
+    line-height: 30px
+}
+
+.single-person02 .personName h4 {
+    font-size: 22px;
+    font-weight: 100
+}
+
+.single-person02 .personName small {
+    font-size: 18px
+}
+
+.video-app02 .bg-videoApp {
+    right: 0
+}
+
+.pricing-table02 .ribbon span {
+    font-weight: 100;
+    font-size: 12px
+}
+
+.pricing-table02 .pricingTable02 .month {
+    letter-spacing: 0;
+    font-size: 18px
+}
+
+.pricing-table02 .pricingTable02 .price-value {
+    font-size: 65px;
+    font-weight: 100
+}
+
+.pricing-table02 .pricingTable02 .title {
+    font-size: 25px;
+    font-weight: 100;
+    letter-spacing: 0
+}
+
+.pricing-table02 .pricingTable02 .pricing-content li {
+    font-size: 20px
+}
+
+.member-content .member02-text h4 {
+    font-weight: 100;
+    font-size: 22px
+}
+
+.member-content .member02-text span {
+    font-size: 18px
+}
+
+.history-col p {
+    line-height: 30px
+}
+
+.history-col h4 {
+    font-size: 30px
+}
+
+.single-article02 .article-text h4 {
+    font-size: 22px
+}
+
+.single-article02 .article-text .article-details a {
+    font-size: 15px
+}
+
+.single-article02 .article-text p {
+    font-size: 17px
+}
+
+.single-article02 .article-footer a {
+    float: left
+}
+
+.single-article02 .article-footer a {
+    margin: 0 12px 0 0
+}
+
+.single-article02 .article-footer span {
+    font-size: 14px;
+    font-weight: 100
+}
+
+.single-contact02 .contact02-icon {
+    float: right;
+    margin-right: 0;
+    margin-left: 30px
+}
+
+.single-contact02 .contact02-text h4 {
+    font-size: 18px;
+    font-weight: 500
+}
+
+.single-contact02 .contact02-text p {
+    font-size: 14px
+}
+
+.logo-footer-place {
+    margin: 0;
+    margin-left: 16px
+}
+
+.footer-about-app p {
+    font-size: 20px;
+    line-height: 27px
+}
+
+.footer-sitemap ul li a {
+    font-weight: 100;
+    font-size: 18px
+}
+
+.footer-sitemap ul li a:hover {
+    padding-right: 10px
+}
+
+.copyright-design p {
+    font-weight: 100;
+    font-size: 20px
+}
+
+.video-app02 .videoApp-text h4 {
+    font-weight: 100
+}
+
+.home03 .header-content .bttn-head a:first-child {
+    margin-right: 0;
+    margin-left: 20px
+}
+
+.about03 .mobile-features .nav-pills>li:nth-child(1)>a,
+.about03 .mobile-features .nav-pills>li:nth-child(4)>a {
+    left: 175px
+}
+
+.about03 .tab-content>.tab-pane h4 {
+    font-weight: 100;
+    font-size: 22px
+}
+
+.about03 .tab-content>.tab-pane p {
+    line-height: 26px;
+    font-size: 17px
+}
+
+.section-title03 h4 {
+    font-weight: 100;
+    font-size: 65px
+}
+
+.section-title03 h4:after {
+    right: -18px;
+    left: auto
+}
+
+.section-title03 h4:before {
+    right: -23px;
+    left: auto
+}
+
+.sepa-section-title03:before {
+    left: -33px;
+    right: auto
+}
+
+.sepa-section-title03:after {
+    left: -28px;
+    right: auto
+}
+
+.single-feat03 .feat03-text h4 {
+    font-size: 23px;
+    font-weight: 100;
+    margin-top: 0
+}
+
+.single-feat03 .feat03-text p {
+    line-height: 27px;
+    font-size: 17px
+}
+
+.random-feat03 .work03-text p {
+    font-size: 19px;
+    line-height: 30px
+}
+
+.random-feat03 .work03-progress .color-heading {
+    float: left
+}
+
+.progress-box h5 {
+    font-size: 18px
+}
+
+.one-statis03 h4 {
+    font-size: 20px
+}
+
+.single-person03 p.personquote {
+    font-size: 18px;
+    line-height: 30px
+}
+
+.single-person03 .personName h4 {
+    font-size: 22px;
+    font-weight: 100
+}
+
+.single-person03 .personName small {
+    font-size: 18px
+}
+
+.pricingTable03 .price-value {
+    font-weight: 100
+}
+
+.pricingTable03 .month {
+    letter-spacing: 0;
+    font-size: 20px
+}
+
+.pricingTable03 .title {
+    font-size: 30px
+}
+
+.pricingTable03 .pricing-content ul li {
+    font-size: 18px;
+    font-weight: 100;
+    letter-spacing: 0
+}
+
+.pricingTable03 .pricing-content ul {
+    text-align: right
+}
+
+.pricingTable03 .pricing-content ul li span.after-icon {
+    float: left
+}
+
+.member-card .content h4 {
+    font-weight: 100;
+    font-size: 22px
+}
+
+.member-card .content span {
+    font-size: 18px
+}
+
+.brdright {
+    border-right: 0;
+    border-left: 1px solid rgba(255, 255, 255, .1)
+}
+
+.single-contact03 .contact03-text h4 {
+    font-size: 22px;
+    font-weight: 100
+}
+
+.single-contact03 .contact03-text p {
+    font-size: 20px
+}
+
+.footer-photos h4,
+.footer-sitemap h4,
+.footer-subscribe h4 {
+    font-size: 22px;
+    letter-spacing: 0
+}
+
+.footer-about-app .footer02-logo span,
+.footer-about-app .footer03-logo span {
+    font-size: 25px
+}
+
+.footer-subscribe .subscribe-box .subscribe-text p {
+    text-align: right;
+    font-size: 20px;
+    line-height: 27px
+}
+
+.contact03 .google-map-area #googleMap {
+    height: 543.2px !important
+}
+
+.header-blog .blog-content .page-title h2 {
+    font-size: 50px
+}
+
+.page-breadcrumbs .breadcrumb li {
+    font-weight: 100;
+    font-size: 18px
+}
+
+.page-breadcrumbs .breadcrumb>li+li:before {
+    content: "\f3d5";
+    top: 3px;
+    position: relative
+}
+
+.post-page .single-article .article-categ a {
+    font-weight: 100;
+    font-size: 14px
+}
+
+.post-page .single-article blockquote {
+    padding-right: 30px;
+    margin-right: 25px;
+    padding-left: 0;
+    margin-left: 0;
+    font-size: 18px
+}
+
+.post-page .single-article blockquote:before {
+    right: -12px;
+    left: auto
+}
+
+.footer-single-post {
+    text-align: right
+}
+
+.post-share {
+    float: left
+}
+
+.post-page .article-person .person-write {
+    float: right;
+    margin-right: 0;
+    margin-left: 20px
+}
+
+.post-page .article-person .person-write-name h4 {
+    margin-top: 0;
+    font-weight: 100;
+    font-size: 22px
+}
+
+.post-page .article-person .person-write-name span {
+    font-size: 17px
+}
+
+.post-share ul {
+    right: -205px;
+    transform: translateX(-5px);
+    -webkit-transform: translateX(-5px)
+}
+
+.post-controls-buttons .controls-left a,
+.post-controls-buttons .controls-right a {
+    font-weight: 100;
+    font-size: 18px
+}
+
+.comments-wrapper ul li .author-img {
+    float: right;
+    margin-right: 0;
+    margin-left: 20px
+}
+
+.comments-wrapper ul li .author-details h4 a {
+    font-weight: 100;
+    font-size: 22px
+}
+
+.comments-wrapper ul li .author-details p {
+    font-size: 18px;
+    line-height: 30px;
+    letter-spacing: 0
+}
+
+.comments-wrapper ul li .author-details .comment-date {
+    font-size: 17px
+}
+
+.comments-wrapper ul li .author-details .comment-date a {
+    float: left;
+    font-size: 16px
+}
+
+.comments-wrapper ul li .author-details .comment-date span {
+    margin: 0
+}
+
+.sidebar-title h4 {
+    font-size: 20px;
+    font-weight: 100;
+    letter-spacing: 0;
+    right: 35px;
+    left: auto
+}
+
+.leave-reply02 .reply-input input,
+.reply-comments .reply-input input,
+.leave-reply02 .reply-textarea textarea,
+.reply-comments .reply-textarea textarea {
+    font-size: 18px
+}
+
+.page-breadcrumbs .breadcrumb li a {
+    font-weight: 100
+}
+
+.social-sidebar .single-find span {
+    font-size: 17px
+}
+
+.search-sidebar .search-form button {
+    right: auto;
+    left: 8px
+}
+
+.search-sidebar .search-form input {
+    padding: 20px 20px 20px 45px
+}
+
+.textWidget-sidebar p {
+    font-size: 17px;
+    letter-spacing: 0
+}
+
+.category-sidebar ul li a span {
+    right: auto;
+    left: 0;
+    font-size: 17px
+}
+
+.category-sidebar ul li a {
+    font-size: 17px
+}
+
+.tab-recentposts .nav-tabs>li>a {
+    font-size: 17px;
+    padding: 5px 18px
+}
+
+.tab-recentposts .nav>li>a:before {
+    left: auto;
+    right: 0
+}
+
+.tab-recentposts .tab-content .media .media-heading a {
+    font-size: 17px
+}
+
+.tab-recentposts .tab-content .media-body {
+    font-size: 14px
+}
+
+.tab-recentposts .tab-content .media-body i {
+    margin-right: 0;
+    margin-left: 6px
+}
+
+.newsletter-sidebar p {
+    font-size: 17px;
+    letter-spacing: 0
+}
+
+.newsletter-sidebar .newsletter-form input {
+    padding: 20px 20px 20px 45px
+}
+
+.newsletter-sidebar .newsletter-form button {
+    right: auto;
+    left: 8px
+}
+
+[type="checkbox"]:not(:checked)+label:before,
+[type="checkbox"]:checked+label:before {
+    left: auto;
+    right: 0
+}
+
+[type="checkbox"]:not(:checked)+label:after,
+[type="checkbox"]:checked+label:after {
+    left: auto;
+    right: 6px
+}
+
+[type="checkbox"]:not(:checked)+label,
+[type="checkbox"]:checked+label {
+    padding-left: 0;
+    padding-right: 2.95em;
+    font-size: 16px
+}
+
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    position: absolute;
+    left: 9999px
+}
+
+.tags-sidebar a {
+    font-weight: 100;
+    font-size: 16px
+}
+
+.tags-sidebar a i {
+    margin-left: 8px;
+    margin-right: 0
+}
+
+.pagination li:last-child a.page-link {
+    margin-right: 15px
+}
+
+.post-page02 .single-article02 .article-text blockquote {
+    font-size: 17px
+}
+
+.post-page02 .single-article02 .article-text .img-incontent span {
+    font-size: 15px;
+    margin-top: 5px
+}
+
+.post-page02 .single-article02 .article-footer .bookmark-link {
+    float: left
+}
+
+.post-page02 .single-article02 .article-footer .tags-post a {
+    font-weight: 100;
+    font-size: 14px
+}
+
+.single-article02 .article-footer a {
+    margin: 0 0 0 12px
+}
+
+.post-page02 .single-article02 .article-footer .tags-post a:first-child {
+    margin-left: 12px
+}
+
+.post-page02 .single-article02 .article-footer .tags-post a:last-child {
+    margin-left: 0
+}
+
+.controls-article .left-control {
+    float: left;
+    text-align: left
+}
+
+.controls-article .right-control {
+    display: inline-block;
+    float: none
+}
+
+.controls-article .left-control a p,
+.controls-article .right-control a p {
+    font-weight: 100;
+    font-size: 18px
+}
+
+.controls-article .left-control a span,
+.controls-article .right-control a span {
+    font-size: 16px
+}
+
+.post-comments02 .comment-head .comment-img {
+    float: right;
+    margin-right: 0;
+    margin-left: 20px
+}
+
+.post-comments02 .comment-text .comment-text-reply {
+    float: left
+}
+
+.post-comments02 .comment-head .comment-text h4 a {
+    font-weight: 100;
+    font-size: 22px
+}
+
+.post-comments02 .comment-head .comment-text span {
+    font-size: 17px
+}
+
+.post-comments02 .comment-text p {
+    font-size: 18px;
+    line-height: 30px;
+    letter-spacing: 0
+}
+
+.comment-text-reply a i {
+    margin-right: 0;
+    margin-left: 6px
+}
+
+.comment-text-reply a {
+    font-weight: 100;
+    font-size: 16px;
+    padding: 3px 15px
+}
+
+.sidebar-title02 h4 {
+    font-weight: 100;
+    font-size: 22px
+}
+
+.sidebar-title02 h4 i {
+    margin-right: 0;
+    margin-left: 15px
+}
+
+.social-sidebar02 .single-find a span.social-count {
+    font-weight: 100;
+    font-size: 18px
+}
+
+.social-sidebar02 .single-find a span.social-name {
+    font-size: 17px
+}
+
+.category-sidebar02 ul li i {
+    margin-right: 0;
+    margin-left: 10px
+}
+
+.category-sidebar02 ul li a:hover {
+    padding-left: 0;
+    padding-right: 10px
+}
+
+.category-sidebar02 ul li.active a {
+    padding-right: 10px
+}
+
+.category-sidebar02 ul li {
+    font-size: 17px
+}
+
+.sidebar-title02 h4 i:after {
+    top: -3px
+}
+
+.tags-sidebar02 a {
+    font-size: 16px
+}
+
+.carousel-head-content {
+    text-align: right
+}
+
+.phone-carousel .owl-theme .owl-dots {
+    right: 0;
+    left: auto
+}
+
+.inner-carousel .header-content .bttn-head a:before {
+    font-size: 14px
+}
+
+.NFpage .NFpage-content .sepa {
+    width: 138px;
+    height: 138px;
+    top: 10px
+}
+
+.nav-sec .dropdown-menu>li>a {
+    letter-spacing: 0
+}
+
+.textCount h2 {
+    font-weight: 100;
+    font-size: 10rem
+}
+
+.timerCount .countDate h2 {
+    font-size: 8rem;
+    margin-bottom: 0;
+    font-weight: 100
+}
+
+.timerCount .countDate h4 {
+    font-size: 25px
+}
+
+.timerCount .countDate {
+    padding: 21px 0
+}
+
+.timerCount .countDate:after {
+    right: auto;
+    left: -43px
+}
+
+@media only screen and (min-width:768px) and (max-width:991px) {
+    .carousel-head-content {
+        text-align: center
+    }
+}
+
+@media only screen and (max-width:767px) {
+    .header-blog .blog-content .page-title h2 {
+        line-height: 60px
+    }
+
+    .tab-recentposts .nav-tabs>li>a {
+        font-size: 15px
+    }
+
+    .NFpage .NFpage-content .sepa {
+        width: 50px;
+        height: 50px
+    }
+}
+
+@media only screen and (min-width:480px) and (max-width:767px) {
+    .NFpage .NFpage-content .page-title h2 {
+        font-size: 9em
+    }
+
+    .NFpage .NFpage-content .sepa {
+        width: 80px;
+        height: 80px
+    }
+
+    .button-NFpage a {
+        margin: 10px
+    }
+}
+@media(max-width:767px){
+	.fllItem{
+		float:none;
+	}
+}
+#video-top{
+	display:none !important;
+}
+
+
+@media(max-width:992px){
+	#video-top{display:block !important}
+	#video-bottom{
+		display:none !important;
+	}}

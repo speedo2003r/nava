@@ -1,0 +1,214 @@
+ul.tabs{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+ul.tabs li{
+    background: none;
+    color: #222;
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+ul.tabs li.current{
+    background: #5867dd;
+    color: #fff;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+.tab-content{
+    display: none;
+    padding: 15px 0;
+}
+
+.tab-content.current{
+    display: inherit;
+}
+
+
+/* my css */
+
+.map{
+    padding-top: 50px;
+}
+ .track-side{
+    width: 395px;
+    background: #fff;
+    height: calc(100% - (65px + 80px));
+    position: fixed;
+    left: 0;
+    top: 65px;
+    transition: all .4s;
+    -webkit-transition: all .4s;
+    -moz-transition: all .4s;
+    -ms-transition: all .4s;
+    -o-transition: all .4s;
+}
+.track-side .items{
+    height: 100%;    
+}
+
+.track-side .items .track-head{
+    height: 85px;
+    border-bottom: 2px solid #f2f3f8;
+    padding: 10px;
+}
+.track-side .items .track-head ul{
+    margin-top: 20px;
+}
+.track-side .items .track-head ul li{
+   display: inline-block;
+   margin:  0 20px;
+   font-size: 14px;
+   color: #fd397a;
+}
+.track-side .items .track-head ul li:first-of-type{
+    margin-right: 0;
+    color: #0abb87
+}
+.track-side .items .ditials{
+    height: calc(100% - 125px);
+    overflow: auto;
+    padding: 10px;
+}
+@media(max-width:1024px){
+    .track-side{
+        top: 50px;
+        left: -500px;
+        height: calc(100% - (50px + 80px));
+    }
+
+}
+
+@media(max-width:420px){
+    .track-side{
+        width: 300px;
+    }
+    .driver-details .states div::after{
+        width: 66px !important;
+    }
+}
+.track-side .items .track-tab {
+    display: flex;
+    height: 40px;
+    margin-bottom: 0 !important;
+}
+.track-side .items .track-tab  li{
+    width: calc(100% / 2);
+    color: #333;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.track-side .items .track-tab  li.current{
+    background: transparent;
+    color: #0abb87;
+    border-bottom: 2px solid #0abb87;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+}
+
+.track-side .items .driver-details{
+    padding: 20px 10px;
+    border: 1px solid #f2f3f8;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    margin-bottom: 10px;
+    background: #f2f3f8;
+    box-shadow: 0px 1px 4px #0000003d;
+}
+
+.track-side .items .driver-details .div{
+    display: flex;
+    justify-content: space-between;
+align-items: center;
+margin-bottom: 20px;
+}
+.track-side .items .driver-details .div:last-of-type{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0;
+
+}
+.track-side .items .driver-details h5
+{
+    color:#0abb87;
+    font-size: 14px;
+    font-weight: 700;
+}
+.track-side .items .driver-details h5 span{
+    color: #333;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 10px;
+    display: inline-block;
+}
+#tab-2 .driver-details .div{
+    height: 80px;
+}
+#tab-2 .driver-details h5 span{
+    margin-top: 10px;
+}
+#tab-2 .driver-details{
+    padding: 20px 10px;
+}
+ .driver-details .states
+{
+    display: flex;
+    justify-content: space-around;
+}
+.driver-details .states span{
+    display: block;
+    margin-top: 5px;
+}
+
+.driver-details .states span.state{
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border: 1px solid #e6e5e5;
+    margin: auto;
+}
+.states-bg{
+    background: #0abb87;
+}
+.driver-details .states div{
+    position: relative;
+    width: 80px;
+}
+.driver-details .states div::after{
+    content: "";
+    height: 2px;
+    background: #e6e5e5;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    width: 93px;
+}
+
+.driver-details .states div:last-of-type::after{
+    content: "";
+    display: none;
+}
+.h-80{
+    height: 80px;
+}
+.left{
+    left: 0;
+}
+

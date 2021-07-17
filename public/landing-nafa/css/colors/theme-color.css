@@ -1,0 +1,343 @@
+.top-nav-collapse .navbar-brand,
+.top-nav-collapse .navbar-brand:hover,
+.icon-statis,
+.swiper-button-prev,
+.swiper-button-next,
+.main-timeline:before,
+.main-timeline .timeline:first-child:before,
+.main-timeline .timeline:last-child:before,
+.main-timeline .timeline-icon,
+.main-timeline .timeline-icon:before,
+.single-person .personIMG i,
+.testimonials-slider.owl-theme .owl-nav [class*=owl-],
+.testimonials-slider.owl-theme .owl-dots .owl-dot span,
+.testimonials-slider.owl-theme .owl-dots .owl-dot.active span,
+.testimonials-slider.owl-theme .owl-dots .owl-dot:hover span,
+.price-plan i,
+.numberfeat .nav-tabs>li.active>a,
+.numberfeat .nav-tabs>li.active>a:focus,
+.numberfeat .nav-tabs>li.active>a:hover,
+.numberfeat .nav-tabs>li>a:hover,
+.single-article .date,
+.article-category,
+.home .header-content h1 span,
+.footer-logo,
+.icon-feat i:after,
+.single-article02 .article-footer span,
+.single-contact02 .contact02-icon,
+.button-map button,
+.logo-footer-place,
+.tags-sidebar a,
+.post-page .single-article .article-categ a,
+.post-page .single-article blockquote:before,
+.post-page02 .single-article02 .article-footer .tags-post a,
+.comment-text-reply a {
+    background: #0065FF
+}
+
+.bttn-appnova-gradient:hover span,
+.bttn-appnova-gradient span,
+.bttn-appnova-gradient i,
+.bttn-appnova-gradient:before,
+.about .mobile-features .nav-pills>li.active-icon>a,
+.body-plan .price-plan,
+#accordion .panel:before,
+.subscribe-place,
+.subscribe-box .custom-input button.btn,
+#scroll-top,
+#loading-mask,
+.single-team-member .bttn-appnova-gradient:before,
+.social-gradient:before,
+.left-aboutApp .icon-feat:before,
+.right-aboutApp .icon-feat:before,
+.left-aboutApp .icon-feat:after,
+.right-aboutApp .icon-feat:after,
+.icon-feat.active-service,
+.icon-feat.active-service,
+.video-app02 .videoApp-place a i,
+.pricing-table02 .ribbon span,
+.pricing-table02 .pricingTable02 .title,
+.history-app02,
+.gallery-feed>a:before,
+.about03 .mobile-features .nav-pills>li.active-icon>a,
+.random-feat03 .work03-progress .bg-color-base,
+.pricingTable03,
+.sidebar-title h4,
+.search-sidebar .search-form button,
+.tab-recentposts .nav>li>a:before,
+.newsletter-sidebar .newsletter-form button,
+.share-box,
+.single-feature i,
+.about .mobile-features .nav-pills>li>a i,
+.feat-butt .bttn-appnova-gradient:hover span,
+.footer-plan .bttn-appnova-gradient:hover span,
+.single-team-member .bttn-appnova-gradient i,
+#accordion .panel-title a:before,
+#accordion .panel-title a.collapsed:before,
+.social-gradient i,
+.icon-feat i,
+.single-work02 .bttn-appnova-gradient:hover span,
+.pricing-table02 .pricingTable02 .bttn-appnova-gradient:hover span,
+.about03 .mobile-features .nav-pills>li>a i,
+.single-work03 .bttn-appnova-gradient:hover span,
+.video-app03 .pulse i,
+.pricing-table03 .pricingTable03 .bttn-appnova-gradient:hover span,
+.tab-recentposts .tab-content .media-body i,
+.post-controls-buttons .controls-left a,
+.post-controls-buttons .controls-right a,
+.post-controls-buttons .controls-right a i,
+.post-controls-buttons .controls-left a i,
+.leave-reply02 .bttn-appnova-gradient:hover span,
+.leave-reply02 .bttn-appnova-gradient:hover i,
+.reply-comments .bttn-appnova-gradient:hover span,
+.reply-comments .bttn-appnova-gradient:hover i,
+.home.bg-color,
+.home02.bg-color,
+.home03.bg-color
+{
+    background: #0065Ff;
+    background: -webkit-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: -moz-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: -o-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+}
+
+.bttn-appnova-gradient:hover span,
+.bttn-appnova-gradient span,
+.bttn-appnova-gradient i,
+.single-feature i,
+.about .mobile-features .nav-pills>li>a i,
+.about .mobile-features .nav-pills>li.active-icon>a i,
+.feat-butt .bttn-appnova-gradient:hover span,
+.footer-plan .bttn-appnova-gradient:hover span,
+.single-team-member .bttn-appnova-gradient i,
+#accordion .panel-title a:before,
+#accordion .panel-title a.collapsed:before,
+.social-gradient i,
+.icon-feat i,
+.icon-feat.active-service i,
+.icon-feat.active-service i,
+.single-work02 .bttn-appnova-gradient:hover span,
+.pricing-table02 .pricingTable02 .bttn-appnova-gradient:hover span,
+.about03 .mobile-features .nav-pills>li>a i,
+.single-work03 .bttn-appnova-gradient:hover span,
+.video-app03 .pulse i,
+.pricing-table03 .pricingTable03 .bttn-appnova-gradient:hover span,
+.tab-recentposts .tab-content .media-body i,
+.post-controls-buttons .controls-left a,
+.post-controls-buttons .controls-right a,
+.post-controls-buttons .controls-right a i,
+.post-controls-buttons .controls-left a i,
+.leave-reply02 .bttn-appnova-gradient:hover span,
+.leave-reply02 .bttn-appnova-gradient:hover i,
+.reply-comments .bttn-appnova-gradient:hover span,
+.reply-comments .bttn-appnova-gradient:hover i
+{
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.bttn-applora-gradient:hover span {
+    color: #FFF;
+}
+
+.top-nav-collapse .navbar-brand,
+.swiper-button-prev,
+.swiper-button-next,
+.testimonials-slider.owl-theme .owl-nav [class*=owl-],
+.testimonials-slider.owl-theme .owl-dots .owl-dot.active span,
+.testimonials-slider.owl-theme .owl-dots .owl-dot:hover span,
+.price-plan i,
+.footer-logo,
+.single-contact02 .contact02-icon,
+.button-map button,
+.logo-footer-place {
+    -webkit-box-shadow: 0px 0px 0px 6px rgba(128, 137, 255, 0.4);
+    -moz-box-shadow: 0px 0px 0px 6px rgba(128, 137, 255, 0.4);
+    -ms-box-shadow: 0px 0px 0px 6px rgba(128, 137, 255, 0.4);
+    -o-box-shadow: 0px 0px 0px 6px rgba(128, 137, 255, 0.4);
+    box-shadow: 0px 0px 0px 6px rgba(128, 137, 255, 0.4);
+}
+
+.overlay {
+
+    background: -webkit-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: -moz-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: -o-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+}
+
+.nav-sec .dropdown-menu>li>a:hover,
+.single-statis h4,
+.dropdown-menu .active>a,
+.single-person .personRate i,
+.single-article .article-text h4 a,
+.single-article .article-footer ul li a:hover,
+.copyright-design a,
+.work02-text-points i,
+.single-article02 .article-text h4 a,
+.single-article02 .article-text .article-details span,
+.single-article02 .article-footer a:hover,
+.footer-sitemap ul li a:hover,
+.member-card ul li a:hover,
+.pricingTable03 .pricing-content ul li i.fa-check,
+.social-sidebar .single-find a:hover,
+.category-sidebar ul li a:hover,
+.category-sidebar ul li.active a,
+.tab-recentposts .tab-content .media .media-heading a,
+[type="checkbox"]:not(:checked) + label:hover,
+[type="checkbox"]:checked + label:hover,
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after,
+[type="checkbox"]:checked + label,
+.tags-sidebar a:hover,
+.tags-sidebar a.active,
+.tags-sidebar a.active i,
+.pagination li.active a.page-link,
+.pagination li a.page-link:hover,
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover,
+.category-sidebar02 ul li a:hover,
+.category-sidebar02 ul li.active a,
+.comments-wrapper ul li .author-details h4 a,
+.comments-wrapper ul li .author-details .comment-date a,
+.controls-article .left-control a:hover span,
+.controls-article .right-control a:hover span,
+.controls-article .left-control a p,
+.controls-article .right-control a p,
+.post-comments02 .comment-head .comment-text h4 a {
+    color: #0065FF
+}
+
+.nav-sec .dropdown-menu>li>a:hover,
+.dropdown-menu .active>a {
+    color: #0065FF !important
+}
+
+.bttn-appnova-gradient:before {
+    background: #0065Ff !important;
+    background: -webkit-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: -moz-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: -o-linear-gradient(-45deg, #0065FFe6, #4d4dffe6);
+    background: linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    color: #FFF !important;
+}
+
+.bttn-appnova-gradient:hover span {
+    color: #FFF;
+    background: transparent;
+}
+
+.main-timeline .timeline-icon {
+    -webkit-box-shadow: 0 0 0 0 rgba(128, 137, 255, 0.9);
+    -moz-box-shadow: 0 0 0 0 rgba(128, 137, 255, 0.9);
+    -o-box-shadow: 0 0 0 0 rgba(128, 137, 255, 0.9);
+    box-shadow: 0 0 0 0 rgba(128, 137, 255, 0.9);
+}
+
+.sidebar-title h4:after {
+    border-color: transparent transparent transparent #4e54c8;
+}
+
+.sidebar-title h4:before {
+    border-color: transparent transparent #0065FF transparent;
+}
+
+.sidebar-title02 h4 i:after {
+    background: -webkit-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: -moz-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: -o-linear-gradient(-45deg, #0065FFe6, #4d4dffe6);
+    background: linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+}
+
+.icon-feat i:after,
+.video-app02 .videoApp-place a i
+{
+    -webkit-box-shadow: 0 0 0 0 rgba(128, 137, 255, 0.9);
+    -moz-box-shadow: 0 0 0 0 rgba(128, 137, 255, 0.9);
+    -o-box-shadow: 0 0 0 0 rgba(128, 137, 255, 0.9);
+    box-shadow: 0 0 0 0 rgba(128, 137, 255, 0.9);
+}
+
+.pricing-table02 .ribbon span::after {
+    border-top-color: #0065FF;
+    border-right-color: #0065FF
+}
+
+.pricing-table02 .ribbon span::before {
+    border-top-color: #0065FF;
+    border-left-color: #0065FF
+}
+
+.single-person03 .personIMG:before {
+    background: #0065FF;
+    background: -webkit-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: -moz-linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+    background: -o-linear-gradient(-45deg, #0065FFe6, #4d4dffe6);
+    background: linear-gradient(-45deg, #0065FFe6, #4D4DFFe6);
+}
+
+.category-sidebar ul li a:hover > span,
+.category-sidebar ul li.active a span {
+    background-color: #0065FF;
+}
+
+[type="checkbox"]:checked + label:before {
+    border-color: #0065FF
+}
+
+label:hover:before {
+    border: 2px dotted #0065FF !important;
+}
+
+[type="checkbox"]:checked:focus + label:before,
+[type="checkbox"]:not(:checked):focus + label:before {
+    border: 2px dotted #0065FF;
+}
+
+.search-sidebar .search-form input:focus,
+.tags-sidebar a:hover,
+.tags-sidebar a.active {
+     border-color: #0065FF
+}
+
+.NFpage .NFpage-content .sepa:before, .NFpage .NFpage-content .sepa:after {
+    box-shadow: inset 30px 0 0 rgba(128, 137, 255, 0.4), inset 0 30px 0 rgba(128, 137, 255, 0.4), inset -30px 0 0 rgba(250, 250, 250, 0.4), inset 0 -30px 0 rgba(255, 255, 255, 0.4);
+}
+
+@keyframes shadowsdancing {
+    0% {
+      box-shadow: inset 30px 0 0 rgba(128, 137, 255, 0.4),
+                  inset 0 30px 0 rgba(128, 137, 255, 0.4),
+                  inset -30px 0 0 rgba(250, 250, 250, 0.4),	
+                  inset 0 -30px 0 rgba(255, 255, 255, 0.4);
+    }
+    25% {
+        box-shadow: inset 30px 0 0 rgba(255, 255, 255, 0.4),
+                    inset 0 30px 0 rgba(128, 137, 255, 0.4),
+                    inset -30px 0 0 rgba(128, 137, 255, 0.4),	
+                    inset 0 -30px 0 rgba(250, 250, 250, 0.4);
+    }
+    50% {
+        box-shadow: inset 30px 0 0 rgba(250, 250, 250, 0.4),
+                    inset 0 30px 0 rgba(255, 255, 255, 0.4),
+                    inset -30px 0 0 rgba(128, 137, 255, 0.4),	
+                    inset 0 -30px 0 rgba(128, 137, 255, 0.4);
+    }
+    75% {
+        box-shadow: inset 30px 0 0 rgba(128, 137, 255, 0.4),
+                    inset 0 30px 0 rgba(250, 250, 250, 0.4),
+                    inset -30px 0 0 rgba(255, 255, 255, 0.4),	
+                    inset 0 -30px 0 rgba(128, 137, 255, 0.4);
+    }
+    100% {
+        box-shadow: inset 30px 0 0 rgba(128, 137, 255, 0.4),
+                    inset 0 30px 0 rgba(128, 137, 255, 0.4),
+                    inset -30px 0 0 rgba(250, 250, 250, 0.4),	
+                    inset 0 -30px 0 rgba(255, 255, 255, 0.4);
+    }
+  }
