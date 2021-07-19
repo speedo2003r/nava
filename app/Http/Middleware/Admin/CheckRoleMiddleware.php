@@ -27,7 +27,7 @@ class CheckRoleMiddleware
 
                 session()->invalidate();
                 session()->regenerateToken();
-                return redirect(route('admin.login'));
+                return redirect(route('show.login'));
             }
             return back()->with('danger', 'لا تملك هذه الصلاحية');
         }

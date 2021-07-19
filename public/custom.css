@@ -1,0 +1,259 @@
+
+/* BASIC */
+.sidebar-mini,
+.content-wrapper{
+    min-height: 0!important;
+}
+
+.ml-auto, .mx-auto {
+    margin-right: unset!important;
+    margin-left: auto !important;
+}
+
+.modal-title{
+    color: #fff !important;
+}
+
+
+.space-between {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.error-toast {
+    min-width: 400px;
+}
+
+.images-upload-block {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    margin: 15px 0;
+}
+
+.upload-img {
+    display: inline-block;
+    width: 130px;
+    height: 120px;
+    border: 1px dashed #5B5B5B;
+    line-height: 140px;
+    text-align: center;
+    position: relative;
+    border-radius: 50%;
+    margin: 5px;
+}
+
+.upload-img i {
+    font-size: 50px;
+    color: #5B5B5B;
+}
+
+.upload-img input {
+    position: absolute;
+    /*opacity: 0;*/
+    z-index: -1;
+    /*display: none*/
+}
+
+.uploaded-block {
+    position: absolute;
+    top: 0;
+    width: 140px;
+    height: 135px;
+}
+
+.uploaded-block img {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 50%;
+}
+
+.uploaded-block .close {
+    position: absolute;
+    top: -8px;
+    color: #FFF;
+    background: #03A9F4;
+    font-size: 18px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    border-radius: 50%;
+    opacity: 1;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 0
+}
+
+.block-img .images-upload-block {
+    display: block;
+}
+
+.block-img .upload-img {
+    display: table;
+    margin: 5px auto;
+}
+
+.block-img .uploaded-block {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+
+
+.role-title {
+    background-color: #343a40;
+    margin: 0;
+    padding: 10px;
+}
+
+.modal-backdrop {
+    width: 100%;
+    height: 100%;
+    z-index: 5000;
+}
+
+.modal {
+    z-index: 6000;
+    /*margin-top: 100px;*/
+}
+
+.modal-content {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+}
+
+.modal-header {
+    background-color: #343a40;
+    color: #FFFFFF;
+}
+
+.make-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+
+.set-tabs .nav-tabs {
+    flex-flow: row wrap;
+    border: none;
+    padding: 15px;
+}
+
+.set-tabs .nav-tabs li {
+    flex: 50%;
+}
+
+.set-tabs .nav-tabs li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    border: 2px solid #dadada;
+    margin: 15px;
+    box-shadow: 0 0 5px #dadada;
+    border-radius: 10px;
+    color: #343a40;
+    padding: 20px 10px;
+    height: 130px;
+}
+
+.dropzone .drop-div,
+.dropzone .dz-message {
+    border: 3px dashed #ccc;
+}
+
+.dropzone .dz-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 160px;
+}
+
+.set-tabs .nav-tabs .nav-link.active {
+    border-color: #007bff;
+    color: #007bff;
+}
+
+textarea.textarea-in {
+    width: 100%;
+    height: 200px;
+    font-size: 14px;
+    line-height: 18px;
+    border: 1px solid #dddddd;
+    padding: 10px;
+}
+
+.set-tabs .nav-tabs .nav-link img {
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    margin: 5px auto;
+}
+
+.set-tabs .nav-tabs li a span {
+    font-size: 15px;
+    font-weight: bold;
+}
+#pac-input {
+    margin-bottom: 0;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 9;
+    height: 40px;
+    border-radius: 3px;
+    max-width: 500px;
+    width: 250px;
+    border: 1px solid #4caf50;
+    text-align: center;
+}
+
+.add_map {
+    width: 100%;
+    height: 400px;
+    margin-top: 40px;
+    border: 1px solid #ccc;
+}
+.timeline > div > .timeline-item {
+    margin-left: 15px;
+    margin-right: 60px;
+    text-align: right;
+    direction: rtl;
+}
+.timeline::before {
+    left: unset;
+    right: 31px;
+}
+.timeline > div > .fa,
+.timeline > div > .fab,
+.timeline > div > .far,
+.timeline > div > .fas,
+.timeline > div > .glyphicon,
+.timeline > div > .ion {
+    left: unset;
+    right: 8px;
+}
+.bill-info ul {
+    display: flex;
+    flex-flow: row wrap;
+    font-size: 14px;
+    padding: 10px;
+    list-style: none;
+}
+.bill-info ul li {
+    flex: 48%;
+    margin-bottom: 10px;
+}
+.bill-info ul li span:not(:last-of-type) {
+    color: #16203f;
+    font-weight: bold;
+}
+.bill-info ul li span {
+    color: #747474;
+}

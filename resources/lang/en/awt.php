@@ -149,6 +149,9 @@ return [
 "طلب"=>"Request",
 "إلغاء"=>"Cancellation",
 "جميع الحقوق محفوظه"=>"all rights are save",
+"تاريخ اليوم"=>"today's date",
+"مرحبا"=>"Hello",
+"نافا"=>"Nava",
     #AWTLINEHELPER
     #don`t Remove the up line at all
 

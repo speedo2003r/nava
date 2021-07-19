@@ -6541,41 +6541,6 @@ a.close.disabled {
   border-radius: 0.25rem;
 }
 
-.toast:not(:last-child) {
-  margin-bottom: 0.75rem;
-}
-
-.toast.showing {
-  opacity: 1;
-}
-
-.toast.show {
-  display: block;
-  opacity: 1;
-}
-
-.toast.hide {
-  display: none;
-}
-
-.toast-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 0.25rem 0.75rem;
-  color: #595d6e;
-  background-color: #fff;
-  background-clip: padding-box;
-  border-bottom: 1px solid #ebedf2;
-}
-
-.toast-body {
-  padding: 0.75rem;
-}
-
 .modal-open {
   overflow: hidden;
 }
@@ -17304,118 +17269,6 @@ code {
   border-bottom-color: transparent !important;
 }
 
-.toast.toast-custom {
-  display: none;
-  position: absolute;
-  z-index: 195;
-  top: 2rem;
-  left: 2rem;
-  width: 350px;
-  border: 0;
-}
-
-.toast.toast-custom.toast-left {
-  right: 2rem;
-  left: auto;
-}
-
-.toast.toast-custom.toast-bottom {
-  top: auto;
-  bottom: 2rem;
-}
-
-.toast.toast-custom.toast-top {
-  bottom: auto;
-  top: 2rem;
-}
-
-.toast.toast-custom.toast-center-v {
-  top: 45%;
-  bottom: auto;
-}
-
-.toast.toast-custom.toast-center-h {
-  left: auto;
-  right: 50%;
-  margin-right: -175px;
-}
-
-.toast.toast-custom .toast-header {
-  padding: 0.5rem 1rem;
-}
-
-.toast.toast-custom .toast-body {
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-}
-
-.toast.toast-custom.show {
-  display: block;
-}
-
-.toast.toast-custom.toast-fill {
-  background-color: #fff;
-}
-
-.toast .toast-title {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #595d6e;
-  margin-left: auto !important;
-}
-
-.toast .toast-time {
-  margin-right: 0.5rem;
-  font-size: 0.85rem;
-  font-weight: 400;
-  color: #595d6e;
-}
-
-.toast .toast-icon {
-  margin-left: 0.5rem;
-  font-size: 1.2rem;
-  color: #74788d;
-}
-
-.toast .toast-close {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  border-radius: none;
-  border: none;
-  cursor: pointer;
-  background: none;
-  outline: none !important;
-  margin: 0;
-  padding: 0;
-  margin-right: 1rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.toast .toast-close i {
-  font-size: 1.1rem;
-  color: #74788d;
-}
-
-.toast .toast-close i:before {
-  line-height: 0;
-  vertical-align: middle;
-}
-
-.toast .toast-close:hover i {
-  color: #5d78ff;
-}
-
 .tooltip .tooltip-inner {
   -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
@@ -17664,7 +17517,7 @@ canvas {
 }
 
 /* Customize website's scrollbar like Mac OS */
-/* 
+/*
 ::-webkit-scrollbar {
     background-color:#f6f6f6;
     width:14px;
@@ -37494,91 +37347,6 @@ td>.kt-radio.kt-radio--single {
   color: #fd397a;
 }
 
-.toast {
-  background-position: calc(100% - 15px) center !important;
-  -webkit-box-shadow: 0px 0px 50px 0px rgba(82, 63, 105, 0.15);
-  box-shadow: 0px 0px 50px 0px rgba(82, 63, 105, 0.15);
-  border: 0;
-}
-
-.toast .toast-close-button {
-  font-family: "LineAwesome";
-  text-decoration: inherit;
-  text-rendering: optimizeLegibility;
-  text-transform: none;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
-  outline: none !important;
-  font-size: 0;
-  content: " ";
-}
-
-.toast .toast-close-button:before {
-  content: "";
-}
-
-.toast .toast-close-button:before {
-  font-size: 0.9rem;
-}
-
-.toast .toast-title {
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-}
-
-.toast .toast-message {
-  font-size: 0.9rem;
-}
-
-.toast-success {
-  background-color: #0abb87;
-  color: #ffffff;
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
-}
-
-#toast-container>div:hover {
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.125);
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.125);
-}
-
-.toast-warning {
-  background-color: #ffb822;
-  color: #111111;
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
-}
-
-#toast-container>div:hover {
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.125);
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.125);
-}
-
-.toast-info {
-  background-color: #5578eb;
-  color: #ffffff;
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
-}
-
-#toast-container>div:hover {
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.125);
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.125);
-}
-
-.toast-error {
-  background-color: #fd397a;
-  color: #ffffff;
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
-}
-
-#toast-container>div:hover {
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.125);
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.125);
-}
 
 .kt-gmaps {
   /* important!  bootstrap sets max-width on img to 100% which conflicts with google map canvas*/
@@ -55066,12 +54834,12 @@ body {
   text-align: left;
   margin-bottom: 30px;
 }
- 
+
 
 .nav-tabs li a
 {
   width: 100%;
-} 
+}
 
 .kt-portlet
 {
@@ -55120,7 +54888,7 @@ div.dataTables_wrapper div.dataTables_filter {
     color: #000 !important;
     background: transparent !important;
     border-bottom: 1px solid #5d78ff !important;
-    
+
 }
 .nav-tabs li .active{
     border-bottom: 0;

@@ -18,11 +18,14 @@ class AuthController extends Controller
             'password'  => 'required|string',
         ]);
 
-        $remember = $request->remember == 1 ? true : false;
+        $remember = true;
         if (auth()->guard()->attempt(['email' => $request->email, 'password' => $request->password], $remember))
+        {
             return redirect()->route('admin.dashboard');
-        else
-            return redirect()->route('admin.show.login')->withErrors('تحقق من صحة البيانات المدخلة');
+        }else{
+            return redirect()->route('show.login')->withErrors('تحقق من صحة البيانات المدخلة');
+
+        }
 
     }
 

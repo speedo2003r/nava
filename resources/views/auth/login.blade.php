@@ -38,6 +38,7 @@
     <link href="{{ asset('assets/css/demo1/skins/brand/dark.rtl.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/demo1/skins/aside/dark.rtl.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Layout Skins -->
+    <link rel="stylesheet" href="{{asset('admin/toastr/toastr.min.css')}}">
 
     <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico') }}" />
 </head>
@@ -75,10 +76,10 @@
                                         <form action="{{route('admin.login')}}" method="post" class="kt-form'">
                                         @csrf
                                             <div class="form-group">
-                                                <input type="email" class="form-control p-3" placeholder="{{awtTrans('البريد الاليكتروني')}}">
+                                                <input type="email" name="email" class="form-control p-3" placeholder="{{awtTrans('البريد الاليكتروني')}}">
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" class="form-control form-control-last p-3" placeholder="{{awtTrans('كلمـة السر')}}">
+                                                <input type="password" name="password" class="form-control form-control-last p-3" placeholder="{{awtTrans('كلمـة السر')}}">
                                             </div>
                                             <div class="kt-login__extra">
                                                 <label class="kt-checkbox">
@@ -179,7 +180,10 @@
     <script src="{{ asset('assets/vendors/general/sticky-js/dist/sticky.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/vendors/general/wnumb/wNumb.js') }}" type="text/javascript"></script>
     <!--end:: Global Mandatory Vendors -->
+    <script src="{{asset('admin/toastr/toastr.min.js')}}"></script>
 
+    @include('admin.partial.alert')
+    @include('admin.partial.confirm_delete')
     <!--begin:: Global Optional Vendors -->
     <!-- <script src="./assets/vendors/general/jquery-form/dist/jquery.form.min.js" type="text/javascript"></script>
     <script src="./assets/vendors/general/block-ui/jquery.blockUI.js" type="text/javascript"></script>

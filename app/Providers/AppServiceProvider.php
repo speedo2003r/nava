@@ -6,6 +6,7 @@ use App\Entities\Category;
 use App\Entities\City;
 use App\Entities\ContactUs;
 use App\Entities\Country;
+use App\Entities\Lang;
 use App\Entities\Offer;
 use App\Entities\Page;
 use App\Entities\Setting;
@@ -44,6 +45,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        view()->composer('admin/layout/master',function($view){
+            $view->with('logo', dashboard_url('images/nafalogo1.png'));
+            $view->with('langs', Lang::all());
+        });
         Paginator::useBootstrap();
         User::observe(UserObserver::class);
         Country::observe(CountryObserver::class);

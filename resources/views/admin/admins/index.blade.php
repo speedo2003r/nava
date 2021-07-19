@@ -1,24 +1,44 @@
 @extends('admin.layout.master')
+@section('title',awtTrans('المشرفين'))
+@section('breadcrumb')
+    <a href="{{ route(\Illuminate\Support\Facades\Route::currentRouteName()) }}" class="kt-subheader__breadcrumbs-link">
+        {{ awtTrans('المشرفين') }}</a>
+@endsection
 @section('content')
 
 
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 ">
-                    <div class="page-header callout-primary d-flex justify-content-between">
-                        <h2>{{__('supervisors')}}</h2>
-                        <button type="button" data-toggle="modal" data-target="#editModel" class="btn btn-primary btn-wide waves-effect waves-light add-user">
-                            <i class="fas fa-plus"></i> {{__('add_supervisors')}}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+        <!-- begin:: Content -->
+        <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body kt-portlet__body--fit">
 
-        <div class="card page-body">
-            <div class="table-responsive">
-                <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap"  style="width:100%">
+                    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+
+                        <div class="kt-portlet__head kt-portlet__head--lg p-0">
+                            <div class="kt-portlet__head-label">
+                            <span class="kt-portlet__head-icon">
+                            <img style="width: 25px" alt="icon" src="{{asset('assets/media/menuicon/document.svg')}}" />
+                            </span>
+                                <h3 class="kt-portlet__head-title">
+                                    {{awtTrans('المشرفين')}}
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__head-label mt-3">
+                            <a href="{{route('admin.admins.store')}}" class="btn btn-brand btn-elevate btn-icon-sm">
+                                <i class="la la-plus"></i>
+                                {{awtTrans('اضافه')}}
+                            </a>
+
+                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.roles.delete',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
+                                <i class="la la-trash"></i>
+                                {{awtTrans('حذف')}}
+                            </button>
+                        </div>
+                        <div class="kt-portlet__body kt-portlet__body--fit  margin-15 ">
+                            <div class="table-responsive">
+                                <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap"  style="width:100%">
                     <thead>
                     <tr>
                         <th>
@@ -38,7 +58,7 @@
                     @foreach($admins as $ob)
                         <tr>
                             <td>
-                                @if(\App\Models\User::where('user_type',1)->first()['id'] != $ob['id'])
+                                @if(\App\Models\User::where('user_type','admin')->first()['id'] != $ob['id'])
                                     <label class="custom-control material-checkbox" style="margin: auto">
                                         <input type="checkbox" class="material-control-input checkSingle" id="{{$ob->id}}">
                                         <span class="material-control-indicator"></span>
@@ -49,38 +69,34 @@
                             <td>{{$ob->email}}</td>
                             <td>{{$ob->phone}}</td>
                             <td>
-                                @if(\App\Models\User::where('user_type',1)->first()['id'] != $ob['id'])
+                                @if(\App\Models\User::where('user_type','admin')->first()['id'] != $ob['id'])
                                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" style="direction: ltr">
                                     <input type="checkbox" onchange="changeUserStatus('{{$ob->id}}')" {{ $ob->banned == 0 ? 'checked' : '' }} class="custom-control-input" id="customSwitch{{$ob->id}}">
                                     <label class="custom-control-label" id="status_label{{$ob->id}}" for="customSwitch{{$ob->id}}"></label>
                                 </div>
                                 @endif
                             </td>
-                            <td>
-                            <button class="btn btn-success mx-2"  onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel"><i class="fas fa-edit"></i></button>
-                                @if(\App\Models\User::where('user_type',1)->first()['id'] != $ob['id'])
-                                <button class="btn btn-danger" onclick="confirmDelete('{{route('admin.admins.delete',$ob->id)}}')" data-toggle="modal" data-target="#delete-model">
-                                    <i class="fas fa-trash-alt"></i>
+                            <td class="tAction">
+                                <button onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel" data-placement="top" data-original-title="{{awtTrans('تعديل')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
+                                    <i class="la la-cog"></i>
+                                </button>
+                                @if(\App\Models\User::where('user_type','admin')->first()['id'] != $ob['id'])
+                                <button type="button"  onclick="confirmDelete('{{route('admin.roles.delete',$ob->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
+                                    <i    class="la la-trash"></i>
                                 </button>
                                 @endif
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
-                    @if(count($admins) > 0)
-                        <tr>
-                            <td colspan="30">
-                                <button class="btn btn-danger confirmDel" disabled onclick="deleteAllData('more','{{route('admin.admins.delete',$ob->id)}}')" data-toggle="modal" data-target="#confirm-all-del">
-                                    <i class="fas fa-trash"></i>
-                                    حذف المحدد
-                                </button>
-                            </td>
-                        </tr>
-                    @endif
                 </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
 
 <!-- end add model -->

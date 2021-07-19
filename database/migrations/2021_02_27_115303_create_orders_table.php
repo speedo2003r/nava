@@ -80,6 +80,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('order_id')->nullable()->constrained('orders');
             $table->foreignId('service_id')->nullable()->constrained('services');
+            $table->integer('count')->default(1);
             $table->double('price',8,2)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();

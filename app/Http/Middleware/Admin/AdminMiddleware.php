@@ -19,7 +19,7 @@ class AdminMiddleware
         if (Auth::check() && Auth::user()['role_id'] != null && auth()->user()['banned'] == 0) {
             return $next($request);
         } else {
-            return redirect()->route('admin.login');
+            return redirect()->route('show.login');
         }
     }
 }

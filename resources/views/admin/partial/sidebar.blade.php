@@ -1,33 +1,9 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-  <!-- Brand Logo -->
-  <a href="{{ route('admin.dashboard') }}" class="brand-link">
-    <img src="{{dashboard_url('dashboard/images/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-    {{-- <span class="brand-text font-weight-light">{{__('dashboard')}}</span> --}}
-    <span class="brand-text font-weight-light">{{awtTrans('dashboard')}}</span>
-  </a>
+<div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
+    <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1" data-ktmenu-dropdown-timeout="500">
+        <ul class="kt-menu__nav ">
 
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div style="">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{dashboard_url('dashboard/images/avatar.png')}}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">{{ auth()->user()['name'] }}</a>
-        </div>
-      </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column nav-compact" data-widget="treeview" role="menu" data-accordion="false">
-          {{sidebar()}}
+            {{sidebar()}}
         </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
     </div>
-  </div>
-  <!-- /.sidebar -->
-</aside>
+</div>

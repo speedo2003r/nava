@@ -17,7 +17,7 @@ Route::group(['middleware' => ['admin-lang']], function () {
     Route::get('/', 'MainController@index');
     Route::get('change-language/{lang}', 'MainController@changeLanguage')->name('change.language');
 
-    Route::get( 'login',[
+    Route::get( '/login',[
         'uses'  => 'MainController@showLoginForm',
         'title'=>'تسجيل الدخول',
     ])->name('show.login');
@@ -32,7 +32,6 @@ Route::group(['middleware' => ['admin-lang']], function () {
             ? back()->with(['status' => __($status)])
             : back()->withErrors(['email' => __($status)]);
     })->middleware('guest')->name('password.email');
-});
 Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     Route::post('login', 'AuthController@login')->name('login');
@@ -44,7 +43,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('dashboard', [
             'uses'  => 'HomeController@dashboard',
             'as'    => 'dashboard',
-            'icon'  => '<i class="nav-icon fa fa-book"></i>',
+            'icon'  => asset('assets/media/menuicon/home.svg'),
             'title' => 'الرئيسيه',
             'type'  => 'parent'
         ]);
@@ -55,7 +54,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'uses'      => 'RoleController@index',
             'as'        => 'roles.index',
             'title'     => 'قائمة الصلاحيات',
-            'icon'      => '<i class="nav-icon fa fa-book"></i>',
+            'icon'      => asset('assets/media/menuicon/document.svg'),
             'type'      => 'parent',
             'sub_route' => false,
             'child'     => ['roles.create', 'roles.store', 'roles.edit', 'roles.update', 'roles.delete']
@@ -73,7 +72,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'uses'      => 'SettingController@index',
             'as'        => 'settings.index',
             'title'     => 'الاعدادات',
-            'icon'      => '<i class="nav-icon fa fa-cog"></i>',
+            'icon'      => asset('assets/media/menuicon/gear.svg'),
             'type'      => 'parent',
             'sub_route' => false,
             'child'     => ['settings.update', 'socials.store', 'socials.update']
@@ -87,13 +86,15 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         /********************************* all users controllers start *********************************/
         Route::get('users', [
             'as'        => 'users',
-            'icon'      => '<i class="fa fa-users"></i>',
+            'icon'      => asset('assets/media/menuicon/shield.svg'),
             'title'     => 'المستخدمين',
             'type'      => 'parent',
             'sub_route' => true,
             'child'     => [
                 'admins.index', 'admins.store', 'admins.update', 'admins.delete',
-                'clients.index', 'clients.store', 'clients.update', 'clients.delete','sendnotifyuser', 'changeStatus', 'addToWallet'
+                'clients.index', 'clients.store', 'clients.update', 'clients.delete',
+                'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete',
+                'sendnotifyuser', 'changeStatus', 'addToWallet'
             ]
         ]);
 
@@ -108,6 +109,11 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('clients/{id}',['uses'=> 'ClientController@update','as'=> 'clients.update','title'=> 'تعديل عميل']);
         Route::delete('clients/{id}',['uses'=> 'ClientController@destroy','as'=> 'clients.delete','title'=> 'حذف عميل']);
         Route::post('addToWallet',['uses'=> 'ClientController@addToWallet','as'=> 'addToWallet','title'=> 'اضافه الي المحفظه']);
+        # TechnicianController
+        Route::get('technicians',['uses'=> 'TechnicianController@index','as'=> 'technicians.index','title'=> ' التقني','icon'=> '<i class="nav-icon fa fa-users"></i>']);
+        Route::post('technicians/store',['uses'=> 'TechnicianController@store','as'=> 'technicians.store','title'=> 'اضافة تقني']);
+        Route::post('technicians/{id}',['uses'=> 'TechnicianController@update','as'=> 'technicians.update','title'=> 'تعديل تقني']);
+        Route::delete('technicians/{id}',['uses'=> 'TechnicianController@destroy','as'=> 'technicians.delete','title'=> 'حذف تقني']);
 
         Route::post('send-notify-user',['uses'=> 'ClientController@sendnotifyuser','as'=> 'sendnotifyuser','title'=> 'ارسال اشعارات']);
         Route::post('change-status',['uses'=> 'ClientController@changeStatus','as'=> 'changeStatus','title'=> 'تغيير الحاله']);
@@ -119,7 +125,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'uses'      => 'ServiceController@index',
             'as'        => 'services.index',
             'title'     => 'خدمات',
-            'icon'      => '<i class="nav-icon fa fa-tags"></i>',
+            'icon'      => asset('assets/media/menuicon/customer-support.svg'),
             'type'      => 'parent',
             'sub_route' => false,
             'child' => [
@@ -196,7 +202,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'uses'      => 'OrderController@index',
             'as'        => 'orders.index',
             'title'     => ' الطلبات',
-            'icon'      => '<i class="nav-icon fa fa-database"></i>',
+            'icon'      => asset('assets/media/menuicon/gear.svg'),
             'type'      => 'parent',
             'sub_route' => false,
             'child'     => ['orders.show', 'orders.destroy']
@@ -206,29 +212,12 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::delete('orders/{id}',['uses'=> 'OrderController@destroy','as'=> 'orders.destroy','title'=> 'حذف طلب']);
         /********************************* OrderController end *********************************/
 
-        /********************************* SliderController start *********************************/
-        Route::get('sliders', [
-            'uses'      => 'SliderController@index',
-            'as'        => 'sliders.index',
-            'title'     => ' البنرات المتحركه',
-            'icon'      => '<i class="nav-icon fa fa-database"></i>',
-            'type'      => 'parent',
-            'sub_route' => false,
-            'child'     => ['sliders.index', 'sliders.store', 'sliders.update', 'sliders.destroy']
-        ]);
-
-        Route::post('sliders/store',['uses'=> 'SliderController@store','as'=> 'sliders.store','title'=> 'اضافة بنر']);
-        Route::post('sliders/{id}',['uses'=> 'SliderController@update','as'=> 'sliders.update','title'=> 'تعديل بنر']);
-        Route::delete('sliders/{id}',['uses'=> 'SliderController@destroy','as'=> 'sliders.destroy','title'=> 'حذف بنر']);
-        Route::post('sliders/active/change',['uses'=> 'SliderController@changeActive','as'=> 'sliders.changeActive','title'=> 'تنشيط']);
-        /********************************* SliderController end *********************************/
-
         /********************************* CategoryController start *********************************/
         Route::get('categories', [
             'uses'      => 'CategoryController@index',
             'as'        => 'categories.index',
             'title'     => ' الأقسام',
-            'icon'      => '<i class="nav-icon fa fa-database"></i>',
+            'icon'      => asset('assets/media/menuicon/services.svg'),
             'type'      => 'parent',
             'sub_route' => false,
             'child'     => [
@@ -249,23 +238,6 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('categories/banners/{id}',['uses'=> 'CategoryController@bannerUpdate','as'=> 'banners.update','title'=> 'تعديل البانرات الثابته']);
         Route::delete('categories/banners/{id}',['uses'=> 'CategoryController@bannerDestroy','as'=> 'banners.destroy','title'=> 'حذف البانرات الثابته']);
         Route::post('banners/active/change',['uses'=> 'CategoryController@changeActive','as'=> 'banners.changeActive','title'=> 'تنشيط']);
-
-        /********************************* SliderController start *********************************/
-        Route::get('ads', [
-            'uses'      => 'AdsController@index',
-            'as'        => 'ads.index',
-            'title'     => 'الاعلانات',
-            'icon'      => '<i class="nav-icon fa fa-database"></i>',
-            'type'      => 'parent',
-            'sub_route' => false,
-            'child'     => ['ads.index', 'ads.store', 'ads.update', 'ads.destroy','ads.changeActive']
-        ]);
-
-        Route::post('ads/store',['uses'=> 'AdsController@store','as'=> 'ads.store','title'=> 'اضافة اعلان']);
-        Route::post('ads/{id}',['uses'=> 'AdsController@update','as'=> 'ads.update','title'=> 'تعديل اعلان']);
-        Route::delete('ads/{id}',['uses'=> 'AdsController@destroy','as'=> 'ads.destroy','title'=> 'حذف اعلان']);
-        Route::post('ads/active/change',['uses'=> 'AdsController@changeActive','as'=> 'ads.changeActive','title'=> 'تنشيط']);
-        /********************************* SliderController end *********************************/
 
         /********************************* SubCategoryController start *********************************/
         Route::get('subcategories/{id}',['uses'=> 'SubCategoryController@index','as'=> 'subcategories.index','title'=> 'الأقسام الفرعيه']);
@@ -311,7 +283,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'uses'      => 'PageController@index',
             'as'        => 'pages.index',
             'title'     => ' الصفحات الرئيسيه',
-            'icon'      => '<i class="nav-icon fa fa-file-medical-alt"></i>',
+            'icon'      => asset('assets/media/menuicon/document.svg'),
             'type'      => 'parent',
             'sub_route' => false,
             'child'     => ['pages.index', 'pages.update']
@@ -324,7 +296,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'uses'      => 'ContactController@index',
             'as'        => 'contacts.index',
             'title'     => ' تواصل معنا',
-            'icon'      => '<i class="nav-icon fa fa-envelope"></i>',
+            'icon'      => asset('assets/media/menuicon/document.svg'),
             'type'      => 'parent',
             'sub_route' => false,
             'child'     => ['contacts.index', 'contacts.update', 'contacts.destroy']
@@ -332,26 +304,13 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('contacts/{id}',['uses'=> 'ContactController@update','as'=> 'contacts.update','title'=> 'تعديل تواصل معنا']);
         Route::delete('contacts/{id}',['uses'=> 'ContactController@destroy','as'=> 'contacts.destroy','title'=> 'حذف تواصل معنا']);
         /********************************* ContactController end *********************************/
-        Route::get('questions', [
-            'uses'      => 'QuestionController@index',
-            'as'        => 'questions.index',
-            'title'     => ' الأسئله والأجوبه',
-            'icon'      => '<i class="nav-icon fa fa-database"></i>',
-            'type'      => 'parent',
-            'sub_route' => false,
-            'child'     => ['questions.index', 'questions.store', 'questions.update', 'questions.destroy']
-        ]);
-
-        Route::post('questions/store',['uses'=> 'QuestionController@store','as'=> 'questions.store','title'=> 'اضافة سؤال']);
-        Route::post('questions/{id}',['uses'=> 'QuestionController@update','as'=> 'questions.update','title'=> 'تعديل سؤال']);
-        Route::delete('questions/{id}',['uses'=> 'QuestionController@destroy','as'=> 'questions.destroy','title'=> 'حذف سؤال']);
 
         /********************************* ReportController start *********************************/
         Route::get('reports', [
             'uses'      => 'ReportController@index',
             'as'        => 'reports.index',
             'title'     => ' تقارير لوحة التحكم',
-            'icon'      => '<i class="nav-icon fa fa-flag"></i>',
+            'icon'      => asset('assets/media/menuicon/surface1.svg'),
             'type'      => 'parent',
             'sub_route' => false,
             'child'     => ['reports.index', 'reports.delete']
@@ -364,7 +323,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'uses'      => 'TransController@index',
             'as'        => 'trans.index',
             'title'     => ' الترجمات',
-            'icon'      => '<i class="nav-icon fa fa-flag"></i>',
+            'icon'      => asset('assets/media/menuicon/route.svg'),
             'type'      => 'parent',
             'sub_route' => false,
             'child'     => ['trans.getLangDetails', 'trans.transInput']
@@ -378,6 +337,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
 
 });
 
+});
 //    ajax helper
 Route::post('/admin/cities','AjaxController@getCities')->name('admin.ajax.getCities');
 Route::post('/admin/getCategories','AjaxController@getCategories')->name('admin.ajax.getCategories');

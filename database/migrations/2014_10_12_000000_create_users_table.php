@@ -35,7 +35,7 @@ class CreateUsersTable extends Migration
             $table->boolean('notify')->default(1);
             $table->boolean('online')->default(0);
             $table->unsignedInteger('role_id')->nullable();
-            $table->enum('user_type',['admin','client','agent','operation','driver','technician','engineer','accountant'])->default('admin');
+            $table->enum('user_type',['admin','client','operation','technician','accountant'])->default('admin');
             $table->enum('type_of_user',['office', 'field'])->default('field');
 
             $table->text('address')->nullable();

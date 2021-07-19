@@ -1,8 +1,18 @@
 @extends('admin.layout.master')
+@section('title',awtTrans('الاعدادات'))
+@section('breadcrumb')
+    <a href="{{ route(\Illuminate\Support\Facades\Route::currentRouteName()) }}" class="kt-subheader__breadcrumbs-link">
+        {{ awtTrans('الاعدادات') }}</a>
+@endsection
 @section('content')
-<section class="content">
-  <div class="container">
-    <div class="row">
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+        <!-- begin:: Content -->
+        <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+            <div class="row">
+                <div class="col-md-12">
+                <!--begin::Portlet-->
+                    <div class="kt-portlet" style="padding-top:15px">
+                        <div class="row">
       <div class="col-md-4 col-12">
         <!-- Default box -->
         <div class="card card card-outline card-info">
@@ -25,12 +35,6 @@
                   <a class="nav-link" id="location-tab" data-toggle="tab" href="#location" role="tab" aria-controls="location" aria-selected="false">
                     <img src="{{dashboard_url('map-placeholder.png')}}" alt="">
                     <span>اعدادات الخريطة</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="seo-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="seo" aria-selected="true">
-                    <img src="{{dashboard_url('presentation.png')}}" alt="">
-                    <span>اعدادات شاشة الافتتاح</span>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -75,10 +79,6 @@
                         <input type="number" name="keys[tax]" value="{{settings('tax')}}" class="form-control" id="exampleInputTax1" placeholder="">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputTax1">قيمة العربون بالنسبه</label>
-                        <input type="number" min="1" max="100" name="keys[deposit]" value="{{settings('deposit')}}" class="form-control" id="exampleInputTax1" placeholder="">
-                      </div>
-                      <div class="form-group">
                         <label for="exampleInputPassword1">واتساب</label>
                         <input type="number" name="keys[whatsapp]" value="{{settings('whatsapp')}}" class="form-control" id="exampleInputPhone1" placeholder="">
                       </div>
@@ -93,15 +93,6 @@
                       <div class="form-group">
                         <label for="exampleInputMapkey">مفتاح الخريطة</label>
                         <input type="text" name="keys[map_key]" value="{{settings('map_key')}}" class="form-control" id="exampleInputMapkey" placeholder="">
-                      </div>
-                      <div class="form-group">
-                        <label for="input-file-now-custom-1">لوجو</label>
-                        <input type="file" name="logo" id="input-file-now-custom-1" class="dropify" data-default-file="{{dashboard_url('storage/images/settings/'.settings('logo'))}}" />
-                        @if(settings('logo'))
-                        <div class="upload-area" id="upload_area_img">
-                          <div class="uploaded-block" data-count-order="1" style="position:relative;"><img class="logo" src="{{dashboard_url('storage/images/settings/'.settings('logo'))}}"><button class="close">&times;</button></div>
-                        </div>
-                        @endif
                       </div>
                     </div>
                     <!-- /.card-body -->
@@ -140,41 +131,6 @@
                         <input type="hidden" name="keys[lat]" id="lat" value="{{settings('lat')}}" readonly />
                         <input type="hidden" name="keys[lng]" id="lng" value="{{settings('lng')}}" readonly />
                         <div class="col-sm-12 add_map" id="map"></div>
-                      </div>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                      <button type="submit" class="btn btn-success save" style="width:100%">حفظ</button>
-                    </div>
-                  </form>
-                </div>
-                <div class="tab-pane fade" id="seo" role="tabpanel" aria-labelledby="seo-tab">
-                  <form action="{{route('admin.settings.update')}}" id="updateseoForm" method="POST" class="dropzone">
-                    @csrf
-                    <div class="card-body">
-                      <div class="form-group">
-                        <label for="exampleInputMapkey1">الشاشه الافتتاحيه بالعربي 1</label>
-                        <input type="text" name="keys[intro1_ar]" value="{{settings('intro1_ar')}}" class="form-control" id="exampleInputMapkey" placeholder="">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputMapkey2">الشاشه الافتتاحيه بالانجليزي 1</label>
-                        <input type="text" name="keys[intro1_en]" value="{{settings('intro1_en')}}" class="form-control" id="exampleInputMapkey" placeholder="">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputMapkey3">الشاشه الافتتاحيه بالعربي 2</label>
-                        <input type="text" name="keys[intro2_ar]" value="{{settings('intro2_ar')}}" class="form-control" id="exampleInputMapkey" placeholder="">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputMapkey4">الشاشه الافتتاحيه بالانجليزي 2</label>
-                        <input type="text" name="keys[intro2_en]" value="{{settings('intro2_en')}}" class="form-control" id="exampleInputMapkey" placeholder="">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputMapkey5">الشاشه الافتتاحيه بالعربي 3</label>
-                        <input type="text" name="keys[intro3_ar]" value="{{settings('intro3_ar')}}" class="form-control" id="exampleInputMapkey" placeholder="">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputMapkey6">الشاشه الافتتاحيه بالانجليزي 3</label>
-                        <input type="text" name="keys[intro3_en]" value="{{settings('intro3_en')}}" class="form-control" id="exampleInputMapkey" placeholder="">
                       </div>
                     </div>
                     <!-- /.card-body -->
@@ -247,8 +203,11 @@
         </div>
       </div>
     </div>
+                    </div>
+                </div>
+            </div>
+        </div>
   </div>
-</section>
 
 <!-- add model -->
 <div class="modal fade" id="addModel">

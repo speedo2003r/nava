@@ -42,33 +42,34 @@ function sidebar()
                         $opend      = '';
                         $child_name = substr(Route::currentRouteName(), 6);
                         if(in_array($child_name, $value->getAction()['child'])){
-                            $active = 'active';
-                            $opend  = 'menu-open';
+                            $active = 'kt-menu__item--active';
+                            $opend  = 'kt-menu__item--open';
                         }
 
-                        echo '<li class="nav-item has-treeview mt-2  ' . $opend . '" >
-                                <a href="javascript:void(0);" class="nav-link side-item p-2 '.$active.'">' . $value->getAction()['icon'] . '<p class="mx-3"> ' . $value->getAction()['title'] . '<i class="right fas fa-angle-left"></i></p></a>
-                                <ul class="nav nav-treeview">';
+                        echo '<li class="kt-menu__item kt-menu__item--submenu ' . $opend . '" >
+                                <a href="#" class="kt-menu__link kt-menu__toggle" aria-haspopup="false" data-ktmenu-submenu-toggle="hover"><span class="kt-menu__link-icon"><div class="kt-demo-icon__preview kt-menu__link-text"><img src="' . $value->getAction()['icon'] . '"  width="23px" alt="" srcset=""/></div></span> <span class="kt-menu__link-text"> ' . $value->getAction()['title'] . ' </span> <i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                <div class="kt-menu__submenu " kt-hidden-height="120" style=""><span class="kt-menu__arrow"></span>
+                                <ul class="kt-menu__subnav">';
 
 
                         // display child sub directories
                         foreach ($value->getAction()['child'] as $child){
-                            $active = ('admin.'.$child) == Route::currentRouteName() ? 'active' : '';
-
-
-                            if (isset($routes_data['"admin.' . $child . '"']) && $routes_data['"admin.' . $child . '"']['title'] && $routes_data['"admin.' . $child . '"']['icon'])
-                                echo '<li class="nav-item"><a href="' . route('admin.'.$child) . '" class="nav-link p-2 ' .$active.'">' . $routes_data['"admin.' . $child . '"']['icon'] . '<p> ' . $routes_data['"admin.' . $child . '"']['title'] . ' </p></a></li>';
+                            if (isset($routes_data['"admin.' . $child . '"']) && $routes_data['"admin.' . $child . '"']['title'] && $routes_data['"admin.' . $child . '"']['icon'] && Permission::where('permission',"admin.$child")->exists())
+                                echo '<li aria-haspopup="true" data-ktmenu-submenu-toggle="hover" class="kt-menu__item  kt-menu__item--submenu ">
+                                    <a href="' . route('admin.'.$child) . '" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i> <span class="kt-menu__link-text"> ' . $routes_data['"admin.' . $child . '"']['title'] . ' </span>
+                                    </a></li>';
 
                         }
 
-                        echo '</ul></li>';
+                        echo '</ul></div>
+                                </li>';
                     }
                 } else {
 
                     if (in_array($value->getName(), $my_routes)) {
-                        $active = $value->getName() == Route::currentRouteName() ? 'active' : '';
+                        $active = $value->getName() == Route::currentRouteName() ? 'kt-menu__item--active' : '';
 
-                        echo '<li class="nav-item mt-2"><a href="' . route($value->getName()) . '" class="nav-link side-item p-2 ' . $active . '">' . $value->getAction()['icon'] . ' <p class="mx-3"> ' . $value->getAction()['title'] . ' </p> </a></li>';
+                        echo '<li class="kt-menu__item  kt-menu__item--submenu ' . $active . '" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="' . route($value->getName()) . '" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><div class="kt-demo-icon__preview kt-menu__link-text"><img src="' . $value->getAction()['icon'] . '"  width="23px" alt="" srcset=""/></div></span> <span class="kt-menu__link-text"> ' . $value->getAction()['title'] . ' </span> </a></li>';
                     }
                 }
             }
