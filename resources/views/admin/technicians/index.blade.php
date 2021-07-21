@@ -1,8 +1,8 @@
 @extends('admin.layout.master')
-@section('title',awtTrans('العملاء'))
+@section('title',awtTrans('التقنيين'))
 @section('breadcrumb')
     <a href="{{ route(\Illuminate\Support\Facades\Route::currentRouteName()) }}" class="kt-subheader__breadcrumbs-link">
-        {{ awtTrans('العملاء') }}</a>
+        {{ awtTrans('التقنيين') }}</a>
 @endsection
 @section('content')
 
@@ -20,7 +20,7 @@
                             <img style="width: 25px" alt="icon" src="{{asset('assets/media/menuicon/document.svg')}}" />
                             </span>
                                 <h3 class="kt-portlet__head-title">
-                                    {{awtTrans('العملاء')}}
+                                    {{awtTrans('التقنيين')}}
                                 </h3>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                                 {{awtTrans('اضافه')}}
                             </button>
 
-                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.clients.delete',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
+                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.technicians.delete',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
                                 <i class="la la-trash"></i>
                                 {{awtTrans('حذف')}}
                             </button>
@@ -42,7 +42,7 @@
                             <div class="table-responsive">
                                 {!! $dataTable->table([
                                  'class' => "table table-striped table-bordered dt-responsive nowrap",
-                                 'id' => "clientdatatable-table",
+                                 'id' => "techniciandatatable-table",
                                  ],true) !!}
                             </div>
                         </div>
@@ -118,7 +118,7 @@
     <div class="modal fade" id="editModel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header"><h4 class="modal-title">{{awtTrans('تعديل عميل')}}</h4></div>
+                <div class="modal-header"><h4 class="modal-title">تعديل التقني</h4></div>
                 <form action=""  id="editForm" method="post" role="form" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -129,7 +129,7 @@
                                 <div class = "text-center">
                                     <div class = "images-upload-block single-image">
                                         <label class = "upload-img">
-                                            <input type = "file" name = "image" id = "image" accept = "image/*" class = "image-uploader">
+                                            <input type = "file" name = "image" id = "image" accept = "image/*" class = "image-uploader" >
                                             <i class="fas fa-cloud-upload-alt"></i>
                                         </label>
                                         <div class = "upload-area" id="upload_area_img"></div>
@@ -137,27 +137,26 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-12">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>{{__('name')}}</label>
                                     <input type="text" name="name" id="name" class="form-control">
                                 </div>
                             </div>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>{{__('phone')}}</label>
-                                    <input type="number" name="phone" class="form-control" id="phone">
+                                    <input type="number" name="phone" id="phone" class="form-control">
                                 </div>
                             </div>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>{{__('email')}}</label>
-                                    <input type="email" name="email" class="form-control" id="email">
+                                    <input type="email" name="email" id="email" class="form-control">
                                 </div>
                             </div>
-
 
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -167,17 +166,68 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>{{awtTrans('اعادة كلمة المرور')}}</label>
+                                    <label>اعادة كلمة المرور</label>
                                     <input type="password" name="password_confirmation" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>الفرع</label>
+                                    <select name="branch_id" id="branch" class="form-control">
+                                        <option value="">اختر</option>
+                                        @foreach($branches as $branch)
+                                            <option value="{{$branch['id']}}">{{$branch->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>الدوله</label>
+                                    <select name="country_id" id="country_id" class="form-control">
+                                        <option value="">اختر</option>
+                                        @foreach($countries as $country)
+                                            <option value="{{$country['id']}}">{{$country->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>المدينه</label>
+                                    <select name="city_id" id="city" class="form-control">
+                                        <option value="">اختر</option>
+                                        @foreach($cities as $city)
+                                            <option value="{{$city['id']}}">{{$city->title}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
-                                    <label>{{awtTrans('العنوان')}}</label>
+                                    <label>العنوان</label>
                                     <input type="hidden" name="lat" id="lat" value="24.7135517">
                                     <input type="hidden" name="lng" id="lng" value="46.67529569999999">
-                                    <input type="text" name="address" id="address" class="form-control pac-target-input" value="" placeholder="{{awtTrans('قم بادخال ...')}}" autocomplete="off">
-                                    <div id="map" style="height: 300px"></div>
+                                    <input type="text" name="address" id="address" class="form-control" placeholder="{{awtTrans('قم بادخال ...')}}">
+                                </div>
+                                <div id="map" style="height: 300px"></div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>رقم البطاقه</label>
+                                    <input type="number" name="id_number" id="id_number" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>رقم الحساب البنكي</label>
+                                    <input type="number" name="bank_acc_id" id="bank_acc_id" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>العموله بالنسبه</label>
+                                    <input type="number" max="100" name="commission" id="commission" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -209,22 +259,25 @@
                             </label>`);
         });
         $('.add-user').on('click',function () {
-            $('#editModel .modal-title').text(`{{awtTrans('اضافة عميل')}}`);
+            $('#editModel .modal-title').text(`{{awtTrans('اضافة تقني')}}`);
             $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
             $( '#upload_area_img' ).empty();
-            $('#editForm')      .attr("action","{{route('admin.clients.store')}}");
+            $('#editForm')      .attr("action","{{route('admin.technicians.store')}}");
         });
         function edit(ob){
             $('#password')         .val('');
-            $('#editForm')      .attr("action","{{route('admin.clients.update','obId')}}".replace('obId',ob.id));
+            $('#editForm')      .attr("action","{{route('admin.technicians.update','obId')}}".replace('obId',ob.id));
             $('#name')    .val(ob.name);
             $('#phone')         .val(ob.phone);
             $('#email')         .val(ob.email);
             $('#address')         .val(ob.address);
             $('#lat')         .val(ob.lat);
             $('#lng')         .val(ob.lng);
-            // $('#country_id')         .val(ob.country_id).change;
-            // getCities(ob.country_id,ob.city_id);
+            $('#commission')         .val(ob.commission);
+            $('#id_number')         .val(ob.technician.id_number);
+            $('#bank_acc_id')         .val(ob.technician.bank_acc_id);
+            $('#country_id')         .val(ob.country_id).change;
+            getCities(ob.country_id,ob.city_id);
 
             initMap();
 

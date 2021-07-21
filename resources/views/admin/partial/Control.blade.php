@@ -1,10 +1,12 @@
-<a href="#" class="btn btn-sm btn-warning single" title="إرسال إشعار" onclick="sendNotify('one' , '{{ $id }}')" data-toggle="modal" data-target="#send-noti">
+<button onclick="sendNotify('one' , '{{ $id }}')" data-toggle="modal" data-target="#send-noti" data-placement="top" data-original-title="{{awtTrans('إرسال إشعار')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
     <i class="fas fa-paper-plane"></i>
-</a>
-<a href="#" class="btn btn-sm btn-info mr-2 single" title="اضافة رصيد" onclick="sendToWallet('{{ $id }}')" data-toggle="modal" data-target="#send-wallet">
+</button>
+<button onclick="sendToWallet({{$id}})" data-toggle="modal" data-target="#send-wallet" data-placement="top" data-original-title="{{awtTrans('اضافة رصيد')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
     <i class="fas fa-wallet"></i>
-</a>
-<button class="btn btn-success mx-2"  onclick="edit({{$data}})" data-toggle="modal" data-target="#{{$target}}"><i class="fas fa-edit"></i></button>
-<button class="btn btn-danger" onclick="confirmDelete('{{route($url,$id)}}')" data-toggle="modal" data-target="#delete-model">
-    <i class="fas fa-trash-alt"></i>
+</button>
+<button onclick="edit({{$data}})" data-toggle="modal" data-target="#{{$target}}" data-placement="top" data-original-title="{{awtTrans('تعديل')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
+    <i class="la la-cog"></i>
+</button>
+<button type="button"  onclick="confirmDelete('{{route($url,$id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
+    <i    class="la la-trash"></i>
 </button>

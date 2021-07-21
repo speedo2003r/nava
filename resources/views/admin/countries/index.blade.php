@@ -1,146 +1,147 @@
 @extends('admin.layout.master')
+@section('title',awtTrans('الدول'))
+@section('breadcrumb')
+    <a href="{{ route(\Illuminate\Support\Facades\Route::currentRouteName()) }}" class="kt-subheader__breadcrumbs-link">
+        {{ awtTrans('الدول') }}</a>
+@endsection
 @section('content')
 
 
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 ">
-                    <div class="page-header callout-primary d-flex justify-content-between">
-                        <h2>الدول</h2>
-                        <button type="button" data-toggle="modal" data-target="#addModel" class="btn btn-primary btn-wide waves-effect waves-light">
-                            <i class="fas fa-plus"></i> اضافة دوله
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+        <!-- begin:: Content -->
+        <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body kt-portlet__body--fit">
 
-        <div class="card page-body">
-            <div class="table-responsive">
-                <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap"  style="width:100%">
-                    <thead>
-                    <tr>
-                        <th>
-                            <label class="custom-control material-checkbox" style="margin: auto">
-                                <input type="checkbox" class="material-control-input" id="checkedAll">
-                                <span class="material-control-indicator"></span>
-                            </label>
-                        </th>
-                        <th>{{__('name')}}</th>
-                        <th>{{__('control')}}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($countries as $ob)
-                        <tr>
-                            <td>
-                                <label class="custom-control material-checkbox" style="margin: auto">
-                                    <input type="checkbox" class="material-control-input checkSingle" id="{{$ob->id}}">
-                                    <span class="material-control-indicator"></span>
-                                </label>
-                            </td>
-                            <td>{{$ob->title}}</td>
-                            <td>
-                                <button class="btn btn-success mx-2"  onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-danger" onclick="confirmDelete('{{route('admin.countries.destroy',$ob->id)}}')" data-toggle="modal" data-target="#delete-model">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                    @if(count($countries) > 0)
-                    <tr>
-                        <td colspan="3">
-                            <button class="btn btn-danger confirmDel" disabled onclick="deleteAllData('more','{{route('admin.countries.destroy',$ob->id)}}')" data-toggle="modal" data-target="#confirm-all-del">
-                                <i class="fas fa-trash"></i>
-                                حذف المحدد
+                    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+
+                        <div class="kt-portlet__head kt-portlet__head--lg p-0">
+                            <div class="kt-portlet__head-label">
+                            <span class="kt-portlet__head-icon">
+                            <img style="width: 25px" alt="icon" src="{{asset('assets/media/menuicon/document.svg')}}" />
+                            </span>
+                                <h3 class="kt-portlet__head-title">
+                                    {{awtTrans('الدول')}}
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="kt-portlet__head-label mt-3">
+                            <button type="button" data-toggle="modal" data-target="#editModel" class="btn btn-brand btn-elevate btn-icon-sm add-user">
+                                <i class="la la-plus"></i>
+                                {{awtTrans('اضافه')}}
                             </button>
-                        </td>
-                    </tr>
-                    @endif
-                </table>
+
+                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.countries.destroy',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
+                                <i class="la la-trash"></i>
+                                {{awtTrans('حذف')}}
+                            </button>
+                        </div>
+
+
+                        <div class="kt-portlet__body kt-portlet__body--fit  margin-15 ">
+                            <!--begin: Datatable -->
+                            <div class="table-responsive">
+                                <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap"  style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <label class="custom-control material-checkbox" style="margin: auto">
+                                                <input type="checkbox" class="material-control-input" id="checkedAll">
+                                                <span class="material-control-indicator"></span>
+                                            </label>
+                                        </th>
+                                        <th>{{__('name')}}</th>
+                                        <th>{{__('control')}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($countries as $ob)
+                                        <tr>
+                                            <td>
+                                                <label class="custom-control material-checkbox" style="margin: auto">
+                                                    <input type="checkbox" class="material-control-input checkSingle" id="{{$ob->id}}">
+                                                    <span class="material-control-indicator"></span>
+                                                </label>
+                                            </td>
+                                            <td>{{$ob->title}}</td>
+                                            <td class="tAction">
+                                                <button onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel" data-placement="top" data-original-title="{{awtTrans('تعديل')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
+                                                    <i class="la la-cog"></i>
+                                                </button>
+                                                <button type="button"  onclick="confirmDelete('{{route('admin.countries.destroy',$ob->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
+                                                    <i    class="la la-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--end: Datatable -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- end:: Content -->
+    </div>
+    <!-- end:: Footer -->
+    <!-- end:: Page -->
+
+    <!-- edit model -->
+    <div class="modal fade" id="editModel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header"><h4 class="modal-title">{{awtTrans('تعديل دوله')}}</h4></div>
+                <form action=""  id="editForm" method="post" role="form" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+
+                    @include('components.lang_taps')
+                    <!--begin::Portlet-->
+                        <div class="kt-portlet" style="padding-top:15px">
+
+                                <div class="nav-tabs-custom nav-tabs-lang-inputs">
+                                    <div class="tab-content">
+                                        @foreach(\App\Entities\Lang::all() as $key => $locale)
+                                            <div class="tab-pane @if(\App\Entities\Lang::first() == $locale)  fade show active @endif" id="locale-tab-{{$locale['lang']}}">
+                                                <div class="form-group">
+                                                    <input type="text" value="{{old('title_'.$locale['lang'])}}" name="title_{{$locale['lang']}}" id="title_{{$locale['lang']}}" class="form-control" placeholder="{{__('enter')}} ..." required>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary">{{__('save')}}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{__('close')}}</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </section>
-
-
- <!-- add model -->
- <div class="modal fade" id="addModel">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header"><h4 class="modal-title">اضافة دوله</h4></div>
-            <form action="{{route('admin.countries.store')}}" method="post" role="form" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="uuid" value="uuid">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>الاسم بالعربي</label>
-                                <input type="text" name="title_ar" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>الاسم بالانجليزي</label>
-                                <input type="text" name="title_en" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="submit" class="btn btn-primary">{{__('save')}}</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{__('close')}}</button>
-                </div>
-            </form>
-        </div>
     </div>
-</div>
-<!-- end add model -->
-
-<!-- edit model -->
-<div class="modal fade" id="editModel">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header"><h4 class="modal-title">تعديل دوله</h4></div>
-            <form action=""  id="editForm" method="post" role="form" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
-                    <div class="row">
-
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>الاسم بالعربي</label>
-                                <input type="text" id="title_ar" name="title_ar" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>الاسم بالانجليزي</label>
-                                <input type="text" id="title_en" name="title_en" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="submit" class="btn btn-primary">{{__('save')}}</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{__('close')}}</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- end edit model -->
+    <!-- end edit model -->
 @endsection
 @push('js')
     <script>
+        $('.add-user').on('click',function () {
+            $('#editModel .modal-title').text(`{{awtTrans('اضافة دوله')}}`);
+            $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
+            $('#editForm')      .attr("action","{{route('admin.countries.store')}}");
+        });
         function edit(ob){
-            console.log(ob);
+            $('#editModel .modal-title').text(`{{awtTrans('تعديل دوله')}}`);
             $('#editForm')      .attr("action","{{route('admin.countries.update','obId')}}".replace('obId',ob.id));
-            $('#title_ar')    .val(ob.title.ar);
-            $('#title_en')     .val(ob.title.en);
+            @foreach(\App\Entities\Lang::all() as $key => $locale)
+            $('#title_{{$locale['lang']}}')    .val(ob.title.{{$locale['lang']}});
+            @endforeach
         }
+
     </script>
+
 @endpush

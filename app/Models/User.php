@@ -13,9 +13,11 @@ use App\Entities\Order;
 use App\Entities\RatingUser;
 use App\Entities\ReviewRate;
 use App\Entities\Service;
+use App\Entities\Technician;
 use App\Entities\UserAddress;
 use App\Models\Role;
 use App\Traits\UploadTrait;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,9 +31,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable,UploadTrait;
-    use SoftDeletes;
+    use SoftDeletes,CascadeSoftDeletes;
     use HasTranslations;
-
+    protected $cascadeDeletes = ['technician'];
     public $translatable = ['service_desc','store_name'];
 
     protected $fillable= [
@@ -121,6 +123,10 @@ class User extends Authenticatable implements JWTSubject
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function technician()
+    {
+        return $this->belongsTo(Technician::class);
     }
     public function notifications()
     {

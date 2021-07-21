@@ -1,8 +1,8 @@
 @extends('admin.layout.master')
-@section('title',awtTrans('المدن'))
+@section('title',awtTrans('المناطق'))
 @section('breadcrumb')
     <a href="{{ route(\Illuminate\Support\Facades\Route::currentRouteName()) }}" class="kt-subheader__breadcrumbs-link">
-        {{ awtTrans('المدن') }}</a>
+        {{ awtTrans('المناطق') }}</a>
 @endsection
 @section('content')
 
@@ -21,7 +21,7 @@
                             <img style="width: 25px" alt="icon" src="{{asset('assets/media/menuicon/document.svg')}}" />
                             </span>
                                 <h3 class="kt-portlet__head-title">
-                                    {{awtTrans('المدن')}}
+                                    {{awtTrans('المناطق')}}
                                 </h3>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                 {{awtTrans('اضافه')}}
                             </button>
 
-                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.cities.destroy',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
+                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.regions.destroy',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
                                 <i class="la la-trash"></i>
                                 {{awtTrans('حذف')}}
                             </button>
@@ -42,43 +42,10 @@
                         <div class="kt-portlet__body kt-portlet__body--fit  margin-15 ">
                             <!--begin: Datatable -->
                             <div class="table-responsive">
-                                <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap"  style="width:100%">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            <label class="custom-control material-checkbox" style="margin: auto">
-                                                <input type="checkbox" class="material-control-input" id="checkedAll">
-                                                <span class="material-control-indicator"></span>
-                                            </label>
-                                        </th>
-                                        <th>{{awtTrans('الدوله')}}</th>
-                                        <th>{{__('name')}}</th>
-                                        <th>{{__('control')}}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($cities as $ob)
-                                        <tr>
-                                            <td>
-                                                <label class="custom-control material-checkbox" style="margin: auto">
-                                                    <input type="checkbox" class="material-control-input checkSingle" id="{{$ob->id}}">
-                                                    <span class="material-control-indicator"></span>
-                                                </label>
-                                            </td>
-                                            <td>{{$ob->Country['title']}}</td>
-                                            <td>{{$ob->title}}</td>
-                                            <td class="tAction">
-                                                <button onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel" data-placement="top" data-original-title="{{awtTrans('تعديل')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
-                                                    <i class="la la-cog"></i>
-                                                </button>
-                                                <button type="button"  onclick="confirmDelete('{{route('admin.cities.destroy',$ob->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
-                                                    <i    class="la la-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                                {!! $dataTable->table([
+                                 'class' => "table table-striped table-bordered dt-responsive nowrap",
+                                 'id' => "regionsdatatable-table",
+                                 ],true) !!}
                             </div>
                             <!--end: Datatable -->
                         </div>
@@ -97,7 +64,7 @@
     <div class="modal fade" id="editModel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header"><h4 class="modal-title">{{awtTrans('تعديل المدينه')}}</h4></div>
+                <div class="modal-header"><h4 class="modal-title">{{awtTrans('تعديل المنطقه')}}</h4></div>
                 <form action=""  id="editForm" method="post" role="form" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -118,11 +85,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>{{awtTrans('الدوله')}}</label>
-                                <select name="country_id" id="country_id" class="form-control">
+                                <label>{{awtTrans('المدينه')}}</label>
+                                <select name="city_id" id="city_id" class="form-control">
                                     <option value="" hidden selected>{{awtTrans('اختر')}}</option>
-                                    @foreach($countries as $country)
-                                        <option value="{{$country['id']}}">{{$country['title']}}</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{$city['id']}}">{{$city['title']}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -139,19 +106,20 @@
     <!-- end edit model -->
 @endsection
 @push('js')
+    {!! $dataTable->scripts() !!}
     <script>
         $('.add-user').on('click',function () {
-            $('#editModel .modal-title').text(`{{awtTrans('اضافة المدينه')}}`);
+            $('#editModel .modal-title').text(`{{awtTrans('اضافة المنطقه')}}`);
             $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
-            $('#editForm')      .attr("action","{{route('admin.cities.store')}}");
+            $('#editForm')      .attr("action","{{route('admin.regions.store')}}");
         });
         function edit(ob){
-            $('#editModel .modal-title').text(`{{awtTrans('تعديل المدينه')}}`);
-            $('#editForm')      .attr("action","{{route('admin.cities.update','obId')}}".replace('obId',ob.id));
+            $('#editModel .modal-title').text(`{{awtTrans('تعديل المنطقه')}}`);
+            $('#editForm')      .attr("action","{{route('admin.regions.update','obId')}}".replace('obId',ob.id));
             @foreach(\App\Entities\Lang::all() as $key => $locale)
             $('#title_{{$locale['lang']}}')    .val(ob.title.{{$locale['lang']}});
             @endforeach
-            $('#country_id').val(ob.country_id).change;
+            $('#city_id').val(ob.city_id).change;
         }
 
     </script>

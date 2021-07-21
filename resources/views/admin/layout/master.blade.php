@@ -40,6 +40,9 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="{{asset('admin/toastr/toastr.min.css')}}">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{{dashboard_url('custom.css')}}">
     <link rel="stylesheet" href="{{dashboard_url('custom_ar.css')}}">
@@ -389,142 +392,158 @@
 {{--<script src="{{asset('js/admin.js')}}"></script>--}}
 
 
-@include('admin.partial.alert')
-@include('admin.partial.confirm_delete')
 
 <script type="text/javascript">
+    $(function () {
+        'use strict'
+        $('input[type="password"]').val('');
+        var a = $("#datatable-table").DataTable({
+            dom: 'Blfrtip',
+            pageLength: 10,
+            lengthMenu :[
+                [10,25,50,100,-1],[10,25,50,100,'عرض الكل']
+            ],
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: 'ملف Excel',
+                    className: "btn btn-success"
 
+                },
+                {
+                    extend: 'copy',
+                    text: 'نسخ',
+                    className: "btn btn-inverse"
+                },
+                {
+                    extend: 'print',
+                    text: 'طباعه',
+                    className: "btn btn-success"
+                },
+            ],
 
-
-
-        $(function () {
-            'use strict'
-            $('input[type="password"]').val('');
-            var a = $("#datatable-table").DataTable({
-                dom: 'Blfrtip',
-                pageLength: 10,
-                lengthMenu :[
-                    [10,25,50,100,-1],[10,25,50,100,'عرض الكل']
-                ],
-                buttons: [
-                    {
-                        extend: 'excel',
-                        text: 'ملف Excel',
-                        className: "btn btn-success"
-
-                    },
-                    {
-                        extend: 'copy',
-                        text: 'نسخ',
-                        className: "btn btn-inverse"
-                    },
-                    {
-                        extend: 'print',
-                        text: 'طباعه',
-                        className: "btn btn-success"
-                    },
-                ],
-
-                "language": {
-                    "sEmptyTable": `{{awtTrans("ليست هناك بيانات متاحة في الجدول")}}`,
-                    "sLoadingRecords": `{{awtTrans("جارٍ التحميل...")}}`,
-                    "sProcessing": `{{awtTrans("جارٍ التحميل...")}}`,
-                    "sLengthMenu": `{{awtTrans("أظهر _MENU_ مدخلات")}}`,
-                    "sZeroRecords": `{{awtTrans("لم يعثر على أية سجلات")}}`,
-                    "sInfo": `{{awtTrans("إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل")}}`,
-                    "sInfoEmpty": `{{awtTrans("يعرض 0 إلى 0 من أصل 0 سجل")}}`,
-                    "sInfoFiltered": `{{awtTrans("(منتقاة من مجموع _MAX_ مُدخل)")}}`,
-                    "sInfoPostFix": "",
-                    "sSearch": `{{awtTrans("ابحث:")}}`,
-                    "sUrl": "",
-                    "oPaginate": {
-                        "sFirst": `{{awtTrans("الأول")}}`,
-                        "sPrevious": `{{awtTrans("السابق")}}`,
-                        "sNext": `{{awtTrans("التالي")}}`,
-                        "sLast": `{{awtTrans("الأخير")}}`
-                    },
-                    "oAria": {
-                        "sSortAscending": `{{awtTrans(": تفعيل لترتيب العمود تصاعدياً")}}`,
-                        "sSortDescending": `{{awtTrans(": تفعيل لترتيب العمود تنازلياً")}}`
-                    }
+            "language": {
+                "sEmptyTable": `{{awtTrans("ليست هناك بيانات متاحة في الجدول")}}`,
+                "sLoadingRecords": `{{awtTrans("جارٍ التحميل...")}}`,
+                "sProcessing": `{{awtTrans("جارٍ التحميل...")}}`,
+                "sLengthMenu": `{{awtTrans("أظهر _MENU_ مدخلات")}}`,
+                "sZeroRecords": `{{awtTrans("لم يعثر على أية سجلات")}}`,
+                "sInfo": `{{awtTrans("إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل")}}`,
+                "sInfoEmpty": `{{awtTrans("يعرض 0 إلى 0 من أصل 0 سجل")}}`,
+                "sInfoFiltered": `{{awtTrans("(منتقاة من مجموع _MAX_ مُدخل)")}}`,
+                "sInfoPostFix": "",
+                "sSearch": `{{awtTrans("ابحث:")}}`,
+                "sUrl": "",
+                "oPaginate": {
+                    "sFirst": `{{awtTrans("الأول")}}`,
+                    "sPrevious": `{{awtTrans("السابق")}}`,
+                    "sNext": `{{awtTrans("التالي")}}`,
+                    "sLast": `{{awtTrans("الأخير")}}`
+                },
+                "oAria": {
+                    "sSortAscending": `{{awtTrans(": تفعيل لترتيب العمود تصاعدياً")}}`,
+                    "sSortDescending": `{{awtTrans(": تفعيل لترتيب العمود تنازلياً")}}`
                 }
-            });
-            a.buttons().container().appendTo("#datatable-table_wrapper .col-md-6:eq() ")
-
-
+            }
         });
+        a.buttons().container().appendTo("#datatable-table_wrapper .col-md-6:eq() ")
 
-        function confirmDelete(url){
-            $('#confirm-delete-form').attr('action',url);
-        }
-        function deleteAllData(type,url){
-            $('#delete_type').val(type);
-            $('#delete-all').attr('action',url);
-        }
 
-        function sendNotify(type , id) {
-            $('#type').val(type);
-            $('#notify_id').val(id);
-            $("#notifyMessage").val('');
-            $('#notifyMessage').html('');
-        }
-        function sendToWallet( id) {
-            $('#user_id').val(id);
-        }
+    });
 
-        function changeUserStatus(id) {
-            var tokenv  = "{{csrf_token()}}";
-            var status = 1;
+    function confirmDelete(url){
+        $('#confirm-delete-form').attr('action',url);
+    }
+    function deleteAllData(type,url){
+        $('#delete_type').val(type);
+        $('#delete-all').attr('action',url);
+    }
+
+    function sendNotify(type , id) {
+        $('#type').val(type);
+        $('#notify_id').val(id);
+        $("#notifyMessage").val('');
+        $('#notifyMessage').html('');
+    }
+    function sendToWallet( id) {
+        $('#user_id').val(id);
+    }
+
+    function changeUserStatus(id) {
+        var tokenv  = "{{csrf_token()}}";
+        var status = 1;
+        $.ajax({
+            type     : 'POST',
+            url      : "{{route('admin.changeStatus')}}" ,
+            datatype : 'json' ,
+            data     : {
+                'id'         :  id ,
+                'status'     :  status ,
+                '_token'     :  tokenv
+            }, success   : function(res){
+                //
+            }
+        });
+    }
+    function changeCategoryAppear(id) {
+        var tokenv  = "{{csrf_token()}}";
+        var appear = 1;
+        $.ajax({
+            type     : 'POST',
+            url      : "{{route('admin.categories.changeCategoryAppear')}}" ,
+            datatype : 'json' ,
+            data     : {
+                'id'         :  id ,
+                'appear'     :  appear ,
+                '_token'     :  tokenv
+            }, success   : function(res){
+                //
+            }
+        });
+    }
+    function getCities(country_id,type = '',placeholder = 'اختر'){
+        var html = '';
+        var city_id = '';
+        $('[name=city_id]').empty();
+        if(country_id){
             $.ajax({
-                type     : 'POST',
-                url      : "{{route('admin.changeStatus')}}" ,
-                datatype : 'json' ,
-                data     : {
-                    'id'         :  id ,
-                    'status'     :  status ,
-                    '_token'     :  tokenv
-                }, success   : function(res){
-                    //
+                url: `{{route('admin.ajax.getCities')}}`,
+                type: 'post',
+                dataType: 'json',
+                data:{id: country_id},
+                success: function (res) {
+                    if(type != ''){
+                        city_id = type;
+                    }
+                    html += `<option value="">${placeholder}</option>`;
+                    $.each(res.data,function (index,value) {
+                        html += `<option value="${value.id}" ${city_id == value.id ? 'selected':'' }>${value.title.ar}</option>`;
+                    });
+                    $('[name=city_id]').append(html);
                 }
             });
         }
-        function getCities(country_id,type = '',placeholder = 'اختر'){
-            var html = '';
-            var city_id = '';
-            $('[name=city_id]').empty();
-            if(country_id){
-                $.ajax({
-                    url: `{{route('admin.ajax.getCities')}}`,
-                    type: 'post',
-                    dataType: 'json',
-                    data:{id: country_id},
-                    success: function (res) {
-                        if(type != ''){
-                            city_id = type;
-                        }
-                        html += `<option value="">${placeholder}</option>`;
-                        $.each(res.data,function (index,value) {
-                            html += `<option value="${value.id}" ${city_id == value.id ? 'selected':'' }>${value.title.ar}</option>`;
-                        });
-                        $('[name=city_id]').append(html);
-                    }
-                });
-            }
+    }
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+    });
+</script>
+<script>
+
     $(function () {
         'use strict'
         $('.table thead tr:first th:first').html(`
-                            <label class="custom-control material-checkbox" style="margin: auto">
-                                <input type="checkbox" class="material-control-input" id="checkedAll">
-                                <span class="material-control-indicator"></span>
-                            </label>`);
+        <label class="custom-control material-checkbox" style="margin: auto">
+            <input type="checkbox" class="material-control-input" id="checkedAll">
+            <span class="material-control-indicator"></span>
+        </label>`);
     });
 </script>
+
+@include('admin.partial.alert')
+@include('admin.partial.confirm_delete')
 @stack('css')
 @stack('js')
 </body>

@@ -2,32 +2,32 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\RegionDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\City\Create;
 use App\Http\Requests\Admin\City\Update;
 use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
-use App\Repositories\GovernorateRepository;
-use App\Repositories\Interfaces\ICity;
-use App\Repositories\Interfaces\ICountry;
+use App\Repositories\RegionRepository;
 use Illuminate\Http\Request;
 
-class CityController extends Controller
+class RegionController extends Controller
 {
-    protected $country,$city;
+    protected $country,$region;
 
-    public function __construct(CityRepository $city,CountryRepository $country)
+    public function __construct(RegionRepository $region,CityRepository $city,CountryRepository $country)
     {
+        $this->region = $region;
         $this->city = $city;
         $this->country = $country;
     }
 
     /***************************  get all providers  **************************/
-    public function index()
+    public function index(RegionDatatable $datatable)
     {
         $countries = $this->country->all();
         $cities = $this->city->all();
-        return view('admin.cities.index', compact('countries','cities'));
+        return $datatable->render('admin.regions.index', compact('countries','cities'));
     }
 
 
@@ -38,7 +38,7 @@ class CityController extends Controller
         foreach(\App\Entities\Lang::all() as $key => $locale){
             $translations[$locale['lang']] = $request['title_'.$locale['lang']];
         }
-        $this->city->create(['title'=>$translations,'country_id'=>$request['country_id']]);
+        $this->region->create(['title'=>$translations,'city_id'=>$request['city_id']]);
         return redirect()->back()->with('success', 'تم الاضافه بنجاح');
     }
 
@@ -50,7 +50,7 @@ class CityController extends Controller
         foreach(\App\Entities\Lang::all() as $key => $locale){
             $translations[$locale['lang']] = $request['title_'.$locale['lang']];
         }
-        $this->city->update(['title'=>$translations,'country_id'=>$request['country_id']],$id);
+        $this->region->update(['title'=>$translations,'city_id'=>$request['city_id']],$id);
         return redirect()->back()->with('success', 'تم التحديث بنجاح');
     }
 
@@ -62,12 +62,12 @@ class CityController extends Controller
             $data = explode(',', $request['data_ids']);
             foreach ($data as $d){
                 if($d != ""){
-                    $this->city->delete($d);
+                    $this->region->delete($d);
                 }
             }
         }else {
-            $role = $this->city->find($id);
-            $this->city->delete($role['id']);
+            $role = $this->region->find($id);
+            $this->region->delete($role['id']);
         }
         return redirect()->back()->with('success', 'تم الحذف بنجاح');
     }

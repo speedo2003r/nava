@@ -26,10 +26,10 @@
                             </div>
                         </div>
                         <div class="kt-portlet__head-label mt-3">
-                            <a href="{{route('admin.admins.store')}}" class="btn btn-brand btn-elevate btn-icon-sm">
+                            <button type="button" data-toggle="modal" data-target="#editModel" class="btn btn-brand btn-elevate btn-icon-sm add-user">
                                 <i class="la la-plus"></i>
                                 {{awtTrans('اضافه')}}
-                            </a>
+                            </button>
 
                             <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.roles.delete',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
                                 <i class="la la-trash"></i>

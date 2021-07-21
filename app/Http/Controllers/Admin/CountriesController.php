@@ -29,10 +29,10 @@ class CountriesController extends Controller
     /***************************  store provider **************************/
     public function store(Create $request)
     {
-        $translations = [
-            'ar' => $request['title_ar'],
-            'en' => $request['title_en']
-        ];
+        $translations = [];
+        foreach(\App\Entities\Lang::all() as $key => $locale){
+            $translations[$locale['lang']] = $request['title_'.$locale['lang']];
+        }
         $this->countryRepo->create(['title'=>$translations]);
         return redirect()->back()->with('success', 'تم الاضافه بنجاح');
     }
@@ -42,10 +42,10 @@ class CountriesController extends Controller
     public function update(Update $request, $id)
     {
         $country = $this->countryRepo->find($id);
-        $translations = [
-            'ar' => $request['title_ar'],
-            'en' => $request['title_en']
-        ];
+        $translations = [];
+        foreach(\App\Entities\Lang::all() as $key => $locale){
+            $translations[$locale['lang']] = $request['title_'.$locale['lang']];
+        }
         $this->countryRepo->update(['title'=>$translations],$country['id']);
         return redirect()->back()->with('success', 'تم التحديث بنجاح');
     }

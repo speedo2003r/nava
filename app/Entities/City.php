@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
@@ -16,8 +17,9 @@ use Spatie\Translatable\HasTranslations;
 class City extends Model implements Transformable
 {
     use TransformableTrait;
-    use SoftDeletes;
+    use SoftDeletes,CascadeSoftDeletes;
     use HasTranslations;
+    protected $cascadeDeletes = ['Regions'];
 
     public $translatable = ['title'];
     protected $fillable = [
@@ -27,6 +29,10 @@ class City extends Model implements Transformable
     public function Country()
     {
         return $this->belongsTo(Country::class);
+    }
+    public function Regions()
+    {
+        return $this->hasMany(Region::class);
     }
 
 }

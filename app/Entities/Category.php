@@ -31,10 +31,7 @@ class Category extends Model implements Transformable
         'title',
         'icon',
         'parent_id',
-        'sort',
         'status',
-        'pledge',
-        'contract',
     ];
 
     public function getIconAttribute($value)
@@ -51,10 +48,6 @@ class Category extends Model implements Transformable
     public function providers()
     {
         return $this->hasMany(User::class,'category_id','id');
-    }
-    public function banners()
-    {
-        return $this->hasMany(Banner::class,'category_id','id');
     }
     public function children()
     {

@@ -119,6 +119,92 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('change-status',['uses'=> 'ClientController@changeStatus','as'=> 'changeStatus','title'=> 'تغيير الحاله']);
         /********************************* all users controllers end *********************************/
 
+        /********************************* CountriesController start *********************************/
+
+        Route::get('country', [
+            'as'        => 'country',
+            'icon'      => asset('assets/media/menuicon/earth.svg'),
+            'title'     => 'الاداره الجيوجرافيه',
+            'type'      => 'parent',
+            'sub_route' => true,
+            'child'     => [
+                'countries.index','countries.store', 'countries.update', 'countries.destroy',
+                'cities.index', 'cities.store', 'cities.update', 'cities.destroy',
+                'regions.index', 'regions.store', 'regions.update', 'regions.destroy',
+                'branches.index','branches.create', 'branches.store', 'branches.update', 'branches.destroy',
+            ]
+        ]);
+
+        Route::get('countries',['uses'=> 'CountriesController@index','as'=> 'countries.index','title'=> 'الدول','icon'=> '<i class="nav-icon fa fa-flag"></i>']);
+        Route::post('countries/store',['uses'=> 'CountriesController@store','as'=> 'countries.store','title'=> 'اضافة دوله']);
+        Route::post('countries/{id}',['uses'=> 'CountriesController@update','as'=> 'countries.update','title'=> 'تعديل دوله']);
+        Route::delete('countries/{id}',['uses'=> 'CountriesController@destroy','as'=> 'countries.destroy','title'=> 'حذف دوله']);
+        /********************************* CountriesController end *********************************/
+
+        /********************************* CityController start *********************************/
+        Route::get('cities', [
+            'uses'      => 'CityController@index',
+            'as'        => 'cities.index',
+            'title'     => ' المدن',
+            'icon'      => '<i class="nav-icon fa fa-flag"></i>',
+        ]);
+        Route::post('cities/store',['uses'=> 'CityController@store','as'=> 'cities.store','title'=> 'اضافة مدينه']);
+        Route::post('cities/{id}',['uses'=> 'CityController@update','as'=> 'cities.update','title'=> 'تعديل مدينه']);
+        Route::delete('cities/{id}',['uses'=> 'CityController@destroy','as'=> 'cities.destroy','title'=> 'حذف مدينه']);
+        /********************************* CityController end *********************************/
+
+        /********************************* RegionController start *********************************/
+        Route::get('regions', [
+            'uses'      => 'RegionController@index',
+            'as'        => 'regions.index',
+            'title'     => ' المناطق',
+            'icon'      => '<i class="nav-icon fa fa-flag"></i>',
+        ]);
+        Route::post('regions/store',['uses'=> 'RegionController@store','as'=> 'regions.store','title'=> 'اضافة منطقه']);
+        Route::post('regions/{id}',['uses'=> 'RegionController@update','as'=> 'regions.update','title'=> 'تعديل منطقه']);
+        Route::delete('regions/{id}',['uses'=> 'RegionController@destroy','as'=> 'regions.destroy','title'=> 'حذف منطقه']);
+        /********************************* RegionController end *********************************/
+
+        /********************************* RegionController start *********************************/
+        Route::get('branches', [
+            'uses'      => 'BranchController@index',
+            'as'        => 'branches.index',
+            'title'     => ' الفروع',
+            'icon'      => '<i class="nav-icon fa fa-flag"></i>',
+        ]);
+        Route::get('branches/create',['uses'=> 'BranchController@create','as'=> 'branches.create','title'=> 'صفحة اضافة فرع']);
+        Route::post('branches/store',['uses'=> 'BranchController@store','as'=> 'branches.store','title'=> 'اضافة فرع']);
+        Route::post('branches/{id}',['uses'=> 'BranchController@update','as'=> 'branches.update','title'=> 'تعديل فرع']);
+        Route::delete('branches/{id}',['uses'=> 'BranchController@destroy','as'=> 'branches.destroy','title'=> 'حذف فرع']);
+        /********************************* RegionController end *********************************/
+
+        /********************************* CategoryController start *********************************/
+        Route::get('categories', [
+            'uses'      => 'CategoryController@index',
+            'as'        => 'categories.index',
+            'title'     => ' الأقسام',
+            'icon'      => asset('assets/media/menuicon/services.svg'),
+            'type'      => 'parent',
+            'sub_route' => false,
+            'child'     => [
+                'categories.index', 'categories.view', 'categories.store', 'categories.update', 'categories.destroy','categories.changeCategoryAppear'
+            ]
+        ]);
+        Route::get('categories/view',['uses'=> 'CategoryController@view','as'=> 'categories.view','title'=> 'عرض شجري للاقسام']);
+        Route::post('categories/store',['uses'=> 'CategoryController@store','as'=> 'categories.store','title'=> 'اضافة قسم']);
+        Route::post('categories/{id}',['uses'=> 'CategoryController@update','as'=> 'categories.update','title'=> 'تعديل قسم']);
+        Route::delete('categories/{id}',['uses'=> 'CategoryController@destroy','as'=> 'categories.destroy','title'=> 'حذف قسم']);
+        Route::post('categories/changeCategory/Appear',['uses'=> 'CategoryController@changeCategoryAppear','as'=> 'categories.changeCategoryAppear','title'=> 'تنشيط القسم']);
+
+        /********************************* SubCategoryController start *********************************/
+//        Route::get('subcategories/{id}',['uses'=> 'SubCategoryController@index','as'=> 'subcategories.index','title'=> 'الأقسام الفرعيه']);
+//        Route::post('subcategories/store/{id}',['uses'=> 'SubCategoryController@store','as'=> 'subcategories.store','title'=> 'اضافة قسم فرعي']);
+//        Route::post('subcategories/{id}',['uses'=> 'SubCategoryController@update','as'=> 'subcategories.update','title'=> 'تعديل قسم فرعي']);
+//        Route::delete('subcategories/{id}',['uses'=> 'SubCategoryController@destroy','as'=> 'subcategories.destroy','title'=> 'حذف قسم فرعي']);
+//        Route::get('subcategories/uploadFile/{id}',['uses'=> 'SubCategoryController@getuploadFile','as'=> 'subcategories.uploadFile','title'=> 'العقد']);
+//        Route::post('subcategories/uploadFile/{id}',['uses'=> 'SubCategoryController@storeUploadFile','as'=> 'subcategories.storeUploadFile','title'=> 'حفظ العقد']);
+        /********************************* SubCategoryController end *********************************/
+
         /*------------ start Of services Controller ----------*/
         #season page
         Route::get('services', [
@@ -129,28 +215,22 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'type'      => 'parent',
             'sub_route' => false,
             'child' => [
+                'services.getFilterData',
                 'services.store',
                 'services.update',
-                'services.create',
-                'services.edit',
-                'services.delete',
                 'services.destroy',
-                'services.delimage',
-                'services.addFile',
-                'services.changeMain',
-                'services.SellerCategories',
                 'services.changeStatus',
             ]
         ]);
-        Route::get('services/create', [
-            'uses' => 'ServiceController@create',
-            'as' => 'services.create',
-            'title' => 'اضافة خدمه',
+        Route::get('services/getFilterData', [
+            'uses' => 'ServiceController@getFilterData',
+            'as' => 'services.getFilterData',
+            'title' => 'جلب بيانات الخدمات',
         ]);
-        Route::get('services/edit/{id}', [
-            'uses' => 'ServiceController@edit',
-            'as' => 'services.edit',
-            'title' => 'تعديل خدمه',
+        Route::get('services/store', [
+            'uses' => 'ServiceController@store',
+            'as' => 'services.store',
+            'title' => 'اضافة خدمه',
         ]);
         Route::put('services/update/{id}', [
             'uses' => 'ServiceController@update',
@@ -162,41 +242,12 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'as' => 'services.changeStatus',
             'title' => 'تغيير حالة خدمه',
         ]);
-        Route::post('delimage', [
-            'uses' => 'ServiceController@delimage',
-            'as' => 'services.delimage',
-            'title' => 'حذف الصور',
-        ]);
-        Route::post('services/delete', [
-            'uses' => 'ServiceController@delete',
-            'as' => 'services.delete',
-            'title' => 'حذف خدمه',
-        ]);
         Route::delete('services/delete/{id}', [
             'uses' => 'ServiceController@destroy',
             'as' => 'services.destroy',
             'title' => 'حذف خدمه من الجدول',
         ]);
-        Route::post('files/change', [
-            'uses' => 'ServiceController@changeMain',
-            'as' => 'services.changeMain',
-            'title' => 'الصوره الرئيسيه',
-        ]);
-        Route::post('services/files', [
-            'uses' => 'ServiceController@addFile',
-            'as' => 'services.addFile',
-            'title' => 'اضافة صور',
-        ]);
-        Route::post('services/store', [
-            'uses' => 'ServiceController@store',
-            'as' => 'services.store',
-            'title' => 'حفظ خدمه',
-        ]);
-        Route::post('services/getSellerCategories', [
-            'uses' => 'ServiceController@getSellerCategories',
-            'as' => 'services.SellerCategories',
-            'title' => 'أقسام المتجر',
-        ]);
+
         /********************************* OrderController start *********************************/
         Route::get('orders', [
             'uses'      => 'OrderController@index',
@@ -211,72 +262,6 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('orders/{id}',['uses'=> 'OrderController@show','as'=> 'orders.show','title'=> 'مشاهدة طلب']);
         Route::delete('orders/{id}',['uses'=> 'OrderController@destroy','as'=> 'orders.destroy','title'=> 'حذف طلب']);
         /********************************* OrderController end *********************************/
-
-        /********************************* CategoryController start *********************************/
-        Route::get('categories', [
-            'uses'      => 'CategoryController@index',
-            'as'        => 'categories.index',
-            'title'     => ' الأقسام',
-            'icon'      => asset('assets/media/menuicon/services.svg'),
-            'type'      => 'parent',
-            'sub_route' => false,
-            'child'     => [
-                'categories.index', 'categories.view', 'categories.store', 'categories.update', 'categories.destroy','categories.changeCategoryAppear','categories.changeCategoryPledge',
-                'subcategories.index', 'subcategories.store', 'subcategories.update', 'subcategories.destroy','subcategories.uploadFile','subcategories.storeUploadFile',
-                'banners.index','banners.store','banners.update','banners.destroy','banners.changeActive',
-            ]
-        ]);
-        Route::post('changeCategoryAppear',['uses'=> 'CategoryController@changeCategoryAppear','as'=> 'categories.changeCategoryAppear','title'=> 'تغيير ظهور القسم']);
-        Route::post('changeCategoryPladge',['uses'=> 'CategoryController@changeCategoryPladge','as'=> 'categories.changeCategoryPledge','title'=> 'تغيير ظهور التعهد']);
-        Route::get('categories/view',['uses'=> 'CategoryController@view','as'=> 'categories.view','title'=> 'عرض شجري للاقسام']);
-        Route::post('categories/store',['uses'=> 'CategoryController@store','as'=> 'categories.store','title'=> 'اضافة قسم']);
-        Route::post('categories/{id}',['uses'=> 'CategoryController@update','as'=> 'categories.update','title'=> 'تعديل قسم']);
-        Route::delete('categories/{id}',['uses'=> 'CategoryController@destroy','as'=> 'categories.destroy','title'=> 'حذف قسم']);
-        /********************************* CategoryController end *********************************/
-        Route::get('categories/banners/{id}',['uses'=> 'CategoryController@banners','as'=> 'banners.index','title'=> 'صفحة البانرات الثابته']);
-        Route::post('categories/banners/store/{id}',['uses'=> 'CategoryController@bannerStore','as'=> 'banners.store','title'=> 'اضافة البانرات الثابته']);
-        Route::post('categories/banners/{id}',['uses'=> 'CategoryController@bannerUpdate','as'=> 'banners.update','title'=> 'تعديل البانرات الثابته']);
-        Route::delete('categories/banners/{id}',['uses'=> 'CategoryController@bannerDestroy','as'=> 'banners.destroy','title'=> 'حذف البانرات الثابته']);
-        Route::post('banners/active/change',['uses'=> 'CategoryController@changeActive','as'=> 'banners.changeActive','title'=> 'تنشيط']);
-
-        /********************************* SubCategoryController start *********************************/
-        Route::get('subcategories/{id}',['uses'=> 'SubCategoryController@index','as'=> 'subcategories.index','title'=> 'الأقسام الفرعيه']);
-        Route::post('subcategories/store/{id}',['uses'=> 'SubCategoryController@store','as'=> 'subcategories.store','title'=> 'اضافة قسم فرعي']);
-        Route::post('subcategories/{id}',['uses'=> 'SubCategoryController@update','as'=> 'subcategories.update','title'=> 'تعديل قسم فرعي']);
-        Route::delete('subcategories/{id}',['uses'=> 'SubCategoryController@destroy','as'=> 'subcategories.destroy','title'=> 'حذف قسم فرعي']);
-        Route::get('subcategories/uploadFile/{id}',['uses'=> 'SubCategoryController@getuploadFile','as'=> 'subcategories.uploadFile','title'=> 'العقد']);
-        Route::post('subcategories/uploadFile/{id}',['uses'=> 'SubCategoryController@storeUploadFile','as'=> 'subcategories.storeUploadFile','title'=> 'حفظ العقد']);
-        /********************************* SubCategoryController end *********************************/
-
-        /********************************* CountriesController start *********************************/
-
-//        Route::get('country', [
-//            'as'        => 'country',
-//            'icon'      => '<i class="nav-icon fa fa-globe"></i>',
-//            'title'     => ' ادارة الدول والمدن',
-//            'type'      => 'parent',
-//            'sub_route' => true,
-//            'child'     => ['countries.index','countries.store', 'countries.update', 'countries.destroy',
-//                'cities.index', 'cities.store', 'cities.update', 'cities.destroy']
-//        ]);
-//
-//        Route::get('countries',['uses'=> 'CountriesController@index','as'=> 'countries.index','title'=> 'الدول','icon'=> '<i class="nav-icon fa fa-flag"></i>']);
-//        Route::post('countries/store',['uses'=> 'CountriesController@store','as'=> 'countries.store','title'=> 'اضافة دوله']);
-//        Route::post('countries/{id}',['uses'=> 'CountriesController@update','as'=> 'countries.update','title'=> 'تعديل دوله']);
-//        Route::delete('countries/{id}',['uses'=> 'CountriesController@destroy','as'=> 'countries.destroy','title'=> 'حذف دوله']);
-//        /********************************* CountriesController end *********************************/
-//
-//        /********************************* CityController start *********************************/
-//        Route::get('cities', [
-//            'uses'      => 'CityController@index',
-//            'as'        => 'cities.index',
-//            'title'     => ' المدن',
-//            'icon'      => '<i class="nav-icon fa fa-flag"></i>',
-//        ]);
-//        Route::post('cities/store',['uses'=> 'CityController@store','as'=> 'cities.store','title'=> 'اضافة مدينه']);
-//        Route::post('cities/{id}',['uses'=> 'CityController@update','as'=> 'cities.update','title'=> 'تعديل مدينه']);
-//        Route::delete('cities/{id}',['uses'=> 'CityController@destroy','as'=> 'cities.destroy','title'=> 'حذف مدينه']);
-        /********************************* CityController end *********************************/
 
         /********************************* PageController start *********************************/
         Route::get('pages', [

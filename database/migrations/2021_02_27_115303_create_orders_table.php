@@ -22,8 +22,6 @@ class CreateOrdersTable extends Migration
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('technician_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->foreignId('engineer_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->foreignId('driver_id')->nullable()->constrained('users')->onDelete('cascade');
 
             $table->foreignId('region_id')->nullable()->constrained('regions')->onDelete('cascade');
             $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('cascade');

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\ServiceDatatable;
 use App\Entities\Category;
 use App\Entities\Service;
 use App\Http\Controllers\Controller;
@@ -16,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Nwidart\Modules\FileRepository;
+use Yajra\DataTables\Facades\DataTables;
 
 class ServiceController extends Controller
 {
@@ -33,9 +33,9 @@ class ServiceController extends Controller
             'en' => 'english',
         ];
     }
-    public function index(ServiceDatatable $serviceDatatable)
+    public function index()
     {
-        return $serviceDatatable->render('admin.service.index');
+        return view('admin.service.index');
     }
 
     public function create()
@@ -173,5 +173,40 @@ class ServiceController extends Controller
         $seller = $this->userRepo->find($request['id']);
         $allcategories = $seller->categories;
         return response()->json(['categories'=>$allcategories]);
+    }
+    public function getFilterData(Request $request,Service $model)
+    {
+        $items = $model->query()->latest();
+        return DataTables::of($items)
+            ->editColumn('id',function ($query){
+                return '<label class="custom-control material-checkbox" style="margin: auto">
+                            <input type="checkbox" class="material-control-input checkSingle" id="'.$query->id.'">
+                            <span class="material-control-indicator"></span>
+                        </label>';
+            })
+            ->addColumn('url',function ($query){
+                return 'admin.services.edit';
+            })
+            ->addColumn('delete_url',function ($query){
+                return 'admin.services.destroy';
+            })
+            ->editColumn('created_at',function ($query){
+                return date('Y-m-d H:i:s',strtotime($query['created_at']));
+            })
+            ->addColumn('data',function ($query){
+                return $query;
+            })
+            ->filter(function ($query) use ($request) {
+                if($request->search != null) {
+                    $query->where('services.name','like','%'.$request->search['value'].'%');
+                }
+//                if($request->month != null) {
+//                    $query->whereMonth('outlay_operations.created_at',date('m',strtotime($request->month)))
+//                        ->whereYear('outlay_operations.created_at',date('Y',strtotime($request->month)));
+//                }
+                return $query;
+            })
+            ->addColumn('control','admin.partial.ControlPag')
+            ->rawColumns(['status','control','id'])->make(true);
     }
 }

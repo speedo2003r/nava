@@ -6,6 +6,8 @@ use App\Repositories\AdRepository;
 use App\Repositories\AdRepositoryEloquent;
 use App\Repositories\BannerRepository;
 use App\Repositories\BannerRepositoryEloquent;
+use App\Repositories\BranchRepository;
+use App\Repositories\BranchRepositoryEloquent;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CategoryRepositoryEloquent;
 use App\Repositories\CityRepository;
@@ -30,6 +32,8 @@ use App\Repositories\ProviderRepository;
 use App\Repositories\ProviderRepositoryEloquent;
 use App\Repositories\QuestionRepository;
 use App\Repositories\QuestionRepositoryEloquent;
+use App\Repositories\RegionRepository;
+use App\Repositories\RegionRepositoryEloquent;
 use App\Repositories\ReportRepository;
 use App\Repositories\ReportRepositoryEloquent;
 use App\Repositories\ServiceRepository;
@@ -40,6 +44,8 @@ use App\Repositories\SliderRepository;
 use App\Repositories\SliderRepositoryEloquent;
 use App\Repositories\SocialRepository;
 use App\Repositories\SocialRepositoryEloquent;
+use App\Repositories\TechnicianRepository;
+use App\Repositories\TechnicianRepositoryEloquent;
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
@@ -64,6 +70,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(NotificationRepository::class           , NotificationRepositoryEloquent::class);
         $this->app->bind(ProviderRepository::class           , ProviderRepositoryEloquent::class);
         $this->app->bind(OrderServiceRepository::class           , OrderServiceRepositoryEloquent::class);
+        $this->app->bind(TechnicianRepository::class           , TechnicianRepositoryEloquent::class);
+        $this->app->bind(BranchRepository::class           , BranchRepositoryEloquent::class);
+        $this->app->bind(RegionRepository::class           , RegionRepositoryEloquent::class);
     }
 
     public function boot()
