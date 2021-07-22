@@ -21,7 +21,7 @@ class Category
      */
     public function created(CategoryModel $category)
     {
-        $text = 'قام ' . $this->user . '' . 'أضافة قسم ' . $category->title;
+        $text = 'قام ' . $this->user . '' . ' أضافة قسم ' . $category->title;
         $this->report->create(['desc' => $text]);
     }
 
@@ -33,7 +33,7 @@ class Category
      */
     public function updated(CategoryModel $category)
     {
-        $text = 'قام ' . $this->user . '' . 'تحديث قسم ' . $category->title;
+        $text = 'قام ' . $this->user . '' . ' تحديث قسم ' . $category->title;
         $this->report->create(['desc' => $text]);
     }
 
@@ -45,7 +45,7 @@ class Category
      */
     public function deleted(CategoryModel $category)
     {
-        $text = 'قام ' . $this->user . '' . 'حذف قسم ' . $category->title;
+        $text = 'قام ' . $this->user . '' . ' حذف قسم ' . $category->title;
         $this->report->create(['desc' => $text]);
     }
 

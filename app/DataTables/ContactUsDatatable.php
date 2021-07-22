@@ -71,8 +71,6 @@ class ContactUsDatatable extends DataTable
                         ],
                         'buttons' => [
                             ['extend' => 'excel','className' => 'btn btn-success' , 'text' => 'ملف Excel'],
-                            ['extend' => 'pdf','className' => 'btn btn-inverse' , 'text' => 'ملف PDF'],
-                            ['extend' => 'csv','className' => 'btn btn-info' , 'text' => 'ملف CSV'],
                             ['extend' => 'print','className' => 'btn btn-inverse' , 'text' => 'طباعه'],
                             ['extend' => 'copy','className' => 'btn btn-success' , 'text' => 'نسخ'],
                         ],

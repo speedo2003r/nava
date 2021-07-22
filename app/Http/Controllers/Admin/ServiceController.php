@@ -6,6 +6,7 @@ use App\Entities\Category;
 use App\Entities\Service;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Repositories\BranchRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\ServiceRepository;
@@ -20,11 +21,12 @@ use Yajra\DataTables\Facades\DataTables;
 class ServiceController extends Controller
 {
     use UploadTrait;
-    protected $serviceRepo,$serviceType,$categoryRepo,$userRepo,$fileRepo,$langs;
+    protected $serviceRepo,$branch,$serviceType,$categoryRepo,$userRepo,$fileRepo,$langs;
 
-    public function __construct(ServiceRepository $service,CategoryRepository $category,UserRepository $user,ImageRepository $file)
+    public function __construct(BranchRepository $branch,ServiceRepository $service,CategoryRepository $category,UserRepository $user,ImageRepository $file)
     {
         $this->serviceRepo = $service;
+        $this->branch = $branch;
         $this->categoryRepo = $category;
         $this->userRepo = $user;
         $this->fileRepo = $file;
@@ -35,25 +37,10 @@ class ServiceController extends Controller
     }
     public function index()
     {
-        return view('admin.service.index');
+        $categories = $this->categoryRepo->all();
+        return view('admin.service.index',compact('categories'));
     }
 
-    public function create()
-    {
-        $langs = $this->langs;
-        $categories = $this->categoryRepo->findWhere(['parent_id'=>null]);
-        $services = $this->serviceRepo->paginate(8);
-        $sellers = $this->userRepo->findWhere(['user_type'=>'provider']);
-        return view('admin.service.addService', compact('services', 'categories', 'langs', 'sellers'));
-    }
-    public function edit($id)
-    {
-        $langs = $this->langs;
-        $categories = $this->categoryRepo->findWhere(['parent_id'=>null]);
-        $services = Service::whereId($id)->with('files')->orderBy('id', 'desc')->get();
-        $sellers = $services->first()->user()->get();
-        return view('admin.service.addService', compact('id','services',  'categories', 'langs', 'sellers'));
-    }
     public function delete(Request $request)
     {
         $service = $this->serviceRepo->find($request->id);
@@ -74,86 +61,48 @@ class ServiceController extends Controller
             }
         }else{
             $service = $this->serviceRepo->find($request->id);
-            $this->serviceRepo->softDelete($service);
+            $this->serviceRepo->delete($request->id);
         }
         return redirect()->back()->with('success','تم الحذف بنجاح');
     }
-    public function addFile(Request $request)
-    {
-        $service = $this->serviceRepo->find($request->id);
-        $image = $this->uploadFile($request['file'],'services');
-        $service->update([
-            'image' => $image
-        ]);
-        return response()->json(['image'=>dashboard_url('storage/images/services/'.$image)]);
-    }
-    public function changeMain(Request $request)
-    {
-        $file = $this->fileRepo->find($request->id);
-        $service = $file->service;
-        $service->files->each(function ($value,$index) use ($request){
-            if($request['id'] != $value['id']){
-                $value->main = 0;
-                $value->save();
-            }else{
-                $value->main = 1;
-                $value->save();
-            }
-        });
-        return response()->json(dashboard_url('storage/images/services/'. $file['image']));
-    }
-
     public function store(Request $request)
     {
-        if ($request->id == null) {
-            $data = $request->except('image');
-            $data['title'] = [
-                'ar' => $request['title_ar'],
-                'en' => $request['title_en'],
-            ];
-            $category = Category::find($request['subcategory_id']);
-            $data['category_id'] = $category->parent['id'];
-            $service = $this->serviceRepo->create($data);
-            $service = $this->serviceRepo->find($service['id']);
-            $request->request->add(['service_id' => $service['id']]);
-        } else {
-            $service = $this->serviceRepo->find($request->id);
-            $data = $request->except('image');
-            $data['title'] = [
-                'ar' => $request['title_ar'],
-                'en' => $request['title_en'],
-            ];
-            $data['sub_category_id'] = $request['subcategory_id'];
-            $data['category_id'] = $request['category_id'];
-            $this->serviceRepo->update($data,$service['id']);
+        $data = $request->except('image');
+        $translations = [];
+        $desctranslations = [];
+        foreach(\App\Entities\Lang::all() as $key => $locale){
+            $translations[$locale['lang']] = $request['title_'.$locale['lang']];
+            $desctranslations[$locale['lang']] = $request['description_'.$locale['lang']];
         }
-        return response()->json($service);
-    }
-
-
-    public function delimage(Request $request)
-    {
-        $id = $request->id;
-        $image = $this->fileRepo->find($id);
-        $image_path = $image['image']; // Value is not URL but directory file path;
-        if (File::exists($image_path)) {
-            File::delete($image_path);
+        if($request->has('image')){
+            $data['image'] = $this->uploadFile($request['image'],'services');
         }
-        $this->fileRepo->softDelete($image);
-        return response()->json(true);
+        $data['title'] = $translations;
+        $data['description'] = $desctranslations;
+        $service = $this->serviceRepo->create($data);
+
+        return redirect()->back()->with('success', 'تم الاضافه بنجاح');
     }
 
 
     public function update(Request $request,$id)
     {
         $service = $this->serviceRepo->find($id);
-        $data = array_filter($request->all());
-        $data['description'] = [
-            'ar' => $request['description_ar'],
-            'en' => $request['description_en'],
-        ];
+        $data = $request->except('image');
+        if($request->has('image')){
+            $data['image'] = $this->uploadFile($request['image'],'services');
+        }
+        $translations = [];
+        $desctranslations = [];
+        foreach(\App\Entities\Lang::all() as $key => $locale){
+            $translations[$locale['lang']] = $request['title_'.$locale['lang']];
+            $desctranslations[$locale['lang']] = $request['description_'.$locale['lang']];
+        }
+        $data['title'] = $translations;
+        $data['description'] = $desctranslations;
         $this->serviceRepo->update($data,$service['id']);
-        return response()->json($service);
+
+        return redirect()->back()->with('success', 'تم التحديث بنجاح');
     }
 
 
@@ -168,15 +117,12 @@ class ServiceController extends Controller
         $service->save();
         return response()->json($service->active);
     }
-    public function getSellerCategories(Request $request)
-    {
-        $seller = $this->userRepo->find($request['id']);
-        $allcategories = $seller->categories;
-        return response()->json(['categories'=>$allcategories]);
-    }
     public function getFilterData(Request $request,Service $model)
     {
-        $items = $model->query()->latest();
+        $items = $model->query()
+            ->select('services.id','services.image','services.active','services.title','services.category_id','services.title->'.app()->getLocale().' as services_title','services.description','services.created_at','services.price','services.type','categories.title->'.app()->getLocale().' as cat_title')
+            ->leftJoin('categories','categories.id','=','services.category_id')
+            ->latest();
         return DataTables::of($items)
             ->editColumn('id',function ($query){
                 return '<label class="custom-control material-checkbox" style="margin: auto">
@@ -184,8 +130,14 @@ class ServiceController extends Controller
                             <span class="material-control-indicator"></span>
                         </label>';
             })
+            ->addColumn('active',function ($query){
+                return '<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" style="direction: ltr">
+                            <input type="checkbox" onchange="changeServiceActive('.$query->id.')" '.($query->active == 1 ? 'checked' : '') .' class="custom-control-input" id="customSwitch'.$query->id.'">
+                            <label class="custom-control-label" id="status_label'.$query->id.'" for="customSwitch'.$query->id.'"></label>
+                        </div>';
+            })
             ->addColumn('url',function ($query){
-                return 'admin.services.edit';
+                return 'admin.services.update';
             })
             ->addColumn('delete_url',function ($query){
                 return 'admin.services.destroy';
@@ -196,9 +148,21 @@ class ServiceController extends Controller
             ->addColumn('data',function ($query){
                 return $query;
             })
+            ->addColumn('target',function ($query){
+                return 'editModel';
+            })
+            ->editColumn('type',function ($query){
+                if($query['type'] == 'fixed'){
+                    return awtTrans('ثابت');
+                }elseif($query['type'] == 'hourly'){
+                    return awtTrans('بالساعه');
+                }elseif($query['type'] == 'pricing'){
+                    return awtTrans('تقديري');
+                }
+            })
             ->filter(function ($query) use ($request) {
                 if($request->search != null) {
-                    $query->where('services.name','like','%'.$request->search['value'].'%');
+                    $query->where('services.title->'.app()->getLocale(),'like','%'.$request->search['value'].'%');
                 }
 //                if($request->month != null) {
 //                    $query->whereMonth('outlay_operations.created_at',date('m',strtotime($request->month)))
@@ -206,7 +170,7 @@ class ServiceController extends Controller
 //                }
                 return $query;
             })
-            ->addColumn('control','admin.partial.ControlPag')
-            ->rawColumns(['status','control','id'])->make(true);
+            ->addColumn('control','admin.partial.ControlEditDel')
+            ->rawColumns(['active','control','id'])->make(true);
     }
 }

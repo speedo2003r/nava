@@ -43,7 +43,7 @@ class Order
      */
     public function deleted(OrderModel $order)
     {
-        $text = 'قام ' . $this->user . '' . 'حذف طلب ' . $order->id;
+        $text = 'قام ' . $this->user . '' . ' حذف طلب ' . $order->id;
         $this->report->store(['desc' => $text]);
     }
 
@@ -66,7 +66,7 @@ class Order
      */
     public function forceDeleted(OrderModel $order)
     {
-        $text = 'قام ' . $this->user . '' . 'حذف طلب نهائيا ' . $order->id;
+        $text = 'قام ' . $this->user . '' . ' حذف طلب نهائيا ' . $order->id;
         $this->report->store(['desc' => $text]);
     }
 }

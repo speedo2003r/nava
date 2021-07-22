@@ -16,6 +16,10 @@ use App\Repositories\ContactUsRepository;
 use App\Repositories\ContactUsRepositoryEloquent;
 use App\Repositories\CountryRepository;
 use App\Repositories\CountryRepositoryEloquent;
+use App\Repositories\CouponRepository;
+use App\Repositories\CouponRepositoryEloquent;
+use App\Repositories\CreditRepository;
+use App\Repositories\CreditRepositoryEloquent;
 use App\Repositories\DeviceRepository;
 use App\Repositories\DeviceRepositoryEloquent;
 use App\Repositories\ImageRepository;
@@ -73,6 +77,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(TechnicianRepository::class           , TechnicianRepositoryEloquent::class);
         $this->app->bind(BranchRepository::class           , BranchRepositoryEloquent::class);
         $this->app->bind(RegionRepository::class           , RegionRepositoryEloquent::class);
+        $this->app->bind(CouponRepository::class           , CouponRepositoryEloquent::class);
+        $this->app->bind(CreditRepository::class           , CreditRepositoryEloquent::class);
+
     }
 
     public function boot()

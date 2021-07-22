@@ -16,6 +16,8 @@ class CreateCouponsTable extends Migration
 //        add new view table to show users and count of use of coupon
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
+            $table->text('title')->nullable();
+            $table->text('content')->nullable();
             $table->enum('type',['public','private']);
             $table->enum('kind',['percent','fixed'])->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users');

@@ -23,7 +23,7 @@ class User
      */
     public function created(UserModel $user)
     {
-        $text = 'قام ' . $this->user . ' ب' . 'أضافة العميل ' . $user->name;
+        $text = 'قام ' . $this->user . ' ب' . ' أضافة العميل ' . $user->name;
         $this->report->create(['desc' => $text]);
     }
 
@@ -35,7 +35,7 @@ class User
      */
     public function updated(UserModel $user)
     {
-        $text = 'قام ' . $this->user . ' ب' . 'تحديث العميل ' . $user->name;
+        $text = 'قام ' . $this->user . ' ب' . ' تحديث العميل ' . $user->name;
         $this->report->create(['desc' => $text]);
     }
 
@@ -50,7 +50,7 @@ class User
         if($user['avatar'] != null){
             $this->deleteFile($user['avatar'],'users');
         }
-        $text = 'قام ' . $this->user . ' ب' . 'حذف العميل ' . $user->name;
+        $text = 'قام ' . $this->user . ' ب' . ' حذف العميل ' . $user->name;
         $this->report->create(['desc' => $text]);
     }
 
@@ -73,7 +73,7 @@ class User
      */
     public function forceDeleted(UserModel $user)
     {
-        $text = 'قام ' . $this->user . ' ب' . 'حذف العميل نهائيا ' . $user->name;
+        $text = 'قام ' . $this->user . ' ب' . ' حذف العميل نهائيا ' . $user->name;
         $this->report->create(['desc' => $text]);
     }
 }

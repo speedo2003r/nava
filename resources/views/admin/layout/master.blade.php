@@ -485,6 +485,22 @@
             }
         });
     }
+    function changeServiceActive(id) {
+        var tokenv  = "{{csrf_token()}}";
+        var active = 1;
+        $.ajax({
+            type     : 'POST',
+            url      : "{{route('admin.services.changeStatus')}}" ,
+            datatype : 'json' ,
+            data     : {
+                'id'         :  id ,
+                'active'     :  active ,
+                '_token'     :  tokenv
+            }, success   : function(res){
+                //
+            }
+        });
+    }
     function changeCategoryAppear(id) {
         var tokenv  = "{{csrf_token()}}";
         var appear = 1;

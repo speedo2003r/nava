@@ -32,7 +32,7 @@ class Page
      */
     public function updated(PageModel $page)
     {
-        $text = 'قام ' . $this->user . '' . 'بتعديل صفحه ' . $page->title;
+        $text = 'قام ' . $this->user . '' . ' بتعديل صفحه ' . $page->title;
         $this->report->create(['desc' => $text]);
     }
 

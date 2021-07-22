@@ -41,59 +41,59 @@
 
                         <div class="kt-portlet__body kt-portlet__body--fit  margin-15 ">
                             <div class="table-responsive">
-                <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap"  style="width:100%">
-                    <thead>
-                    <tr>
-                        <th>
-                            <label class="custom-control material-checkbox" style="margin: auto">
-                                <input type="checkbox" class="material-control-input" id="checkedAll">
-                                <span class="material-control-indicator"></span>
-                            </label>
-                        </th>
-                        <th>{{__('name')}}</th>
-                        <th>ظهور واخفاء</th>
-                        <th>{{__('control')}}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($categories as $ob)
-                        <tr>
-                            <td>
-                                <label class="custom-control material-checkbox" style="margin: auto">
-                                    <input type="checkbox" class="material-control-input checkSingle" id="{{$ob->id}}">
-                                    <span class="material-control-indicator"></span>
-                                </label>
-                            </td>
-                            <td>{{$ob->title}}</td>
-                            <td>
-                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" style="direction: ltr">
-                                    <input type="checkbox" onchange="changeCategoryAppear('{{$ob->id}}')" {{ $ob->status == 1 ? 'checked' : '' }} class="custom-control-input" id="customSwitch{{$ob->id}}">
-                                    <label class="custom-control-label" id="status_label{{$ob->id}}" for="customSwitch{{$ob->id}}"></label>
-                                </div>
-                            </td>
-                            <td class="tAction">
-                                <button onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel" data-placement="top" data-original-title="{{awtTrans('تعديل')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
-                                    <i class="la la-cog"></i>
-                                </button>
-                                <button type="button"  onclick="confirmDelete('{{route('admin.categories.destroy',$ob->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
-                                    <i    class="la la-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                    @if(count($categories) > 0)
-                        <tr>
-                            <td colspan="3">
-                                <button class="btn btn-danger confirmDel" disabled onclick="deleteAllData('more','{{route('admin.categories.destroy',$ob->id)}}')" data-toggle="modal" data-target="#confirm-all-del">
-                                    <i class="fas fa-trash"></i>
-                                    حذف المحدد
-                                </button>
-                            </td>
-                        </tr>
-                    @endif
-                </table>
-            </div>
+                                <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap"  style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <label class="custom-control material-checkbox" style="margin: auto">
+                                                <input type="checkbox" class="material-control-input" id="checkedAll">
+                                                <span class="material-control-indicator"></span>
+                                            </label>
+                                        </th>
+                                        <th>{{__('name')}}</th>
+                                        <th>ظهور واخفاء</th>
+                                        <th>{{__('control')}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($categories as $ob)
+                                        <tr>
+                                            <td>
+                                                <label class="custom-control material-checkbox" style="margin: auto">
+                                                    <input type="checkbox" class="material-control-input checkSingle" id="{{$ob->id}}">
+                                                    <span class="material-control-indicator"></span>
+                                                </label>
+                                            </td>
+                                            <td>{{$ob->title}}</td>
+                                            <td>
+                                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" style="direction: ltr">
+                                                    <input type="checkbox" onchange="changeCategoryAppear('{{$ob->id}}')" {{ $ob->status == 1 ? 'checked' : '' }} class="custom-control-input" id="customSwitch{{$ob->id}}">
+                                                    <label class="custom-control-label" id="status_label{{$ob->id}}" for="customSwitch{{$ob->id}}"></label>
+                                                </div>
+                                            </td>
+                                            <td class="tAction">
+                                                <button onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel" data-placement="top" data-original-title="{{awtTrans('تعديل')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
+                                                    <i class="la la-cog"></i>
+                                                </button>
+                                                <button type="button"  onclick="confirmDelete('{{route('admin.categories.destroy',$ob->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
+                                                    <i    class="la la-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                    @if(count($categories) > 0)
+                                        <tr>
+                                            <td colspan="3">
+                                                <button class="btn btn-danger confirmDel" disabled onclick="deleteAllData('more','{{route('admin.categories.destroy',$ob->id)}}')" data-toggle="modal" data-target="#confirm-all-del">
+                                                    <i class="fas fa-trash"></i>
+                                                    حذف المحدد
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                </table>
+                            </div>
                             <!--end: Datatable -->
                         </div>
                     </div>
@@ -159,6 +159,7 @@
         $('.add-user').on('click',function () {
             $('#editModel .modal-title').text(`{{awtTrans('اضافة القسم')}}`);
             $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
+            $( '#upload_area_img' ).empty();
             $('#editForm')      .attr("action","{{route('admin.categories.store')}}");
         });
         function edit(ob){

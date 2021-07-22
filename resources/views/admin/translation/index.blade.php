@@ -54,8 +54,8 @@
         </div>
     </div>
     @push('js')
-        <script src="{{dashboard_url('dashboard/js/vue.js')}}"></script>
-        <script src="{{dashboard_url('dashboard/js/axios.min.js')}}"></script>
+        <script src="{{dashboard_url('js/vue.js')}}"></script>
+        <script src="{{dashboard_url('js/axios.min.js')}}"></script>
         <script>
             let translate_table = new Vue({
                 el: `#translate_table`,

@@ -21,7 +21,7 @@ class Setting
      */
     public function created(SettingModel $setting)
     {
-        $text = 'قام ' . $this->user . '' . 'بأضافة اعداد ' . $setting->key;
+        $text = 'قام ' . $this->user . '' . ' بأضافة اعداد ' . $setting->key;
         $this->report->create(['desc' => $text]);
     }
 
@@ -33,7 +33,7 @@ class Setting
      */
     public function updated(SettingModel $setting)
     {
-        $text = 'قام ' . $this->user . '' . 'بتحديث اعداد ' . $setting->key;
+        $text = 'قام ' . $this->user . '' . ' بتحديث اعداد ' . $setting->key;
         $this->report->create(['desc' => $text]);
     }
 
@@ -45,7 +45,7 @@ class Setting
      */
     public function deleted(SettingModel $setting)
     {
-        $text = 'قام ' . $this->user . '' . 'بحذف اعداد ' . $setting->key;
+        $text = 'قام ' . $this->user . '' . ' بحذف اعداد ' . $setting->key;
         $this->report->create(['desc' => $text]);
     }
 

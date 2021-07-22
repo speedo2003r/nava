@@ -21,7 +21,7 @@ class City
      */
     public function created(CityModel $city)
     {
-        $text = 'قام ' . $this->user . '' . 'أضافة مدينه ' . $city->title;
+        $text = 'قام ' . $this->user . '' . ' أضافة مدينه ' . $city->title;
         $this->report->create(['desc' => $text]);
     }
 
@@ -33,7 +33,7 @@ class City
      */
     public function updated(CityModel $city)
     {
-        $text = 'قام ' . $this->user . '' . 'تحديث مدينه ' . $city->title;
+        $text = 'قام ' . $this->user . '' . ' تحديث مدينه ' . $city->title;
         $this->report->create(['desc' => $text]);
     }
 
@@ -45,7 +45,7 @@ class City
      */
     public function deleted(CityModel $city)
     {
-        $text = 'قام ' . $this->user . '' . 'حذف مدينه ' . $city->title;
+        $text = 'قام ' . $this->user . '' . ' حذف مدينه ' . $city->title;
         $this->report->create(['desc' => $text]);
     }
 
@@ -68,7 +68,7 @@ class City
      */
     public function forceDeleted(CityModel $city)
     {
-        $text = 'قام ' . $this->user . '' . 'حذف مدينه نهائيا ' . $city->title;
+        $text = 'قام ' . $this->user . '' . ' حذف مدينه نهائيا ' . $city->title;
         $this->report->create(['desc' => $text]);
     }
 }

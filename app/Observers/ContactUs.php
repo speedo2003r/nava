@@ -32,7 +32,7 @@ class ContactUs
      */
     public function updated(ContactUsModel $contactUs)
     {
-        $text = 'قام ' . $this->user . '' . 'بقراءة رساله ' . $contactUs->name;
+        $text = 'قام ' . $this->user . '' . ' بقراءة رساله ' . $contactUs->name;
         $this->report->create(['desc' => $text]);
     }
 
@@ -44,7 +44,7 @@ class ContactUs
      */
     public function deleted(ContactUsModel $contactUs)
     {
-        $text = 'قام ' . $this->user . '' . 'بحذف رساله ' . $contactUs->name;
+        $text = 'قام ' . $this->user . '' . ' بحذف رساله ' . $contactUs->name;
         $this->report->create(['desc' => $text]);
     }
 
@@ -67,7 +67,7 @@ class ContactUs
      */
     public function forceDeleted(ContactUsModel $contactUs)
     {
-        $text = 'قام ' . $this->user . '' . 'بحذف رساله نهائيا ' . $contactUs->name;
+        $text = 'قام ' . $this->user . '' . ' بحذف رساله نهائيا ' . $contactUs->name;
         $this->report->create(['desc' => $text]);
     }
 }

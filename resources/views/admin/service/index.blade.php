@@ -46,9 +46,11 @@
                                     <tr>
 
                                         <th>  </th>
-                                        <th> الحاله </th>
-
-                                        <th>   التاريخ   </th>
+                                        <th> القسم </th>
+                                        <th> اسم الخدمه </th>
+                                        <th> السعر </th>
+                                        <th> النوع </th>
+                                        <th>   الحاله   </th>
                                         <th>   التحكم   </th>
 
 
@@ -66,10 +68,110 @@
         </div>
         <!-- end:: Content -->
     </div>
+    <!-- edit model -->
+    <div class="modal fade" id="editModel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header"><h4 class="modal-title">{{awtTrans('تعديل الخدمه')}}</h4></div>
+                <form action=""  id="editForm" method="post" role="form" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+
+                    @include('components.lang_taps')
+                    <!--begin::Portlet-->
+                        <div class="kt-portlet" style="padding-top:15px">
+
+                            <div>
+                                <label class = "mb-0">الصوره</label>
+                                <div class = "text-center">
+                                    <div class = "images-upload-block single-image">
+                                        <label class = "upload-img">
+                                            <input type="file" name="image" id = "image" accept = "image/*" class = "image-uploader" >
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </label>
+                                        <div class = "upload-area" id="upload_area_img"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav-tabs-custom nav-tabs-lang-inputs">
+                                <div class="tab-content">
+                                    @foreach(\App\Entities\Lang::all() as $key => $locale)
+                                        <div class="tab-pane @if(\App\Entities\Lang::first() == $locale)  fade show active @endif" id="locale-tab-{{$locale['lang']}}">
+                                            <div class="form-group">
+                                                <input type="text" value="{{old('title_'.$locale['lang'])}}" name="title_{{$locale['lang']}}" id="title_{{$locale['lang']}}" class="form-control" placeholder="{{__('enter')}} ..." >
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea rows="6" name="description_{{$locale['lang']}}" id="description_{{$locale['lang']}}" class="form-control" placeholder="{{awtTrans('الوصف')}} ..." >{{old('description_'.$locale['lang'])}}</textarea>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{awtTrans('السعر')}}</label>
+                                        <input type="number" value="{{old('price')}}" class="form-control" name="price" id="price">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{awtTrans('القسم')}}</label>
+                                        <select name="category_id" id="category_id" class="form-control">
+                                            <option value="" hidden selected>{{awtTrans('اختر')}}</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{$category['id']}}">{{$category['title']}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{awtTrans('النوع')}}</label>
+                                        <select name="type" id="type" class="form-control">
+                                            <option value="" hidden selected>{{awtTrans('اختر')}}</option>
+                                            <option value="fixed">{{awtTrans('ثابت')}}</option>
+                                            <option value="hourly">{{awtTrans('بالساعه')}}</option>
+                                            <option value="pricing">{{awtTrans('تقديري')}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary">{{__('save')}}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{__('close')}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end edit model -->
 @endsection
 @push('js')
     <script>
+        $('.add-user').on('click',function () {
+            $('#editModel .modal-title').text(`{{awtTrans('اضافة خدمه')}}`);
+            $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
+            $( '#upload_area_img' ).empty();
+            $('#editForm')      .attr("action","{{route('admin.services.store')}}");
+        });
 
+        function edit(ob){
+            $('#editModel .modal-title').text(`{{awtTrans('تعديل خدمه')}}`);
+            $('#editForm')      .attr("action","{{route('admin.services.update','obId')}}".replace('obId',ob.id));
+            @foreach(\App\Entities\Lang::all() as $key => $locale)
+            $('#title_{{$locale['lang']}}')    .val(ob.title.{{$locale['lang']}});
+            $('#description_{{$locale['lang']}}')    .val(ob.description.{{$locale['lang']}});
+            @endforeach
+            $('#price').val(ob.price);
+            $('#category_id').val(ob.category_id);
+            $('#type').val(ob.type).change;
+            let image = $( '#upload_area_img' );
+            image.empty();
+            image.append( '<div class="uploaded-block" data-count-order="1"><img src="' + ob.image + '"><button class="close">&times;</button></div>' );
+        }
         var oTable;
         $(function () {
             'use strict'
@@ -93,8 +195,11 @@
                 },
                 columns: [
                     {data: 'id', name: 'id',orderable: false},
-                    {data: 'status', name: 'status',orderable: true},
-                    {data: 'created_at', name: 'created_at',orderable: true},
+                    {data: 'cat_title', name: 'cat_title'},
+                    {data: 'services_title', name:'services_title'},
+                    {data: 'price', name:'price'},
+                    {data: 'type', name:'type'},
+                    {data: 'active', name:'active'},
                     {data: 'control', name: 'control'},
                 ],
                 lengthMenu :[

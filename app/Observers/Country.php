@@ -21,7 +21,7 @@ class Country
      */
     public function created(CountryModel $country)
     {
-        $text = 'قام ' . $this->user . '' . 'أضافة دوله ' . $country->title;
+        $text = 'قام ' . $this->user . '' . ' أضافة دوله ' . $country->title;
         $this->report->create(['desc' => $text]);
     }
 
@@ -33,7 +33,7 @@ class Country
      */
     public function updated(CountryModel $country)
     {
-        $text = 'قام ' . $this->user . '' . 'تحديث دوله ' . $country->title;
+        $text = 'قام ' . $this->user . '' . ' تحديث دوله ' . $country->title;
         $this->report->create(['desc' => $text]);
     }
 
@@ -45,7 +45,7 @@ class Country
      */
     public function deleted(CountryModel $country)
     {
-        $text = 'قام ' . $this->user . '' . 'حذف دوله ' . $country->title;
+        $text = 'قام ' . $this->user . '' . ' حذف دوله ' . $country->title;
         $this->report->create(['desc' => $text]);
     }
 
@@ -68,7 +68,7 @@ class Country
      */
     public function forceDeleted(CountryModel $country)
     {
-        $text = 'قام ' . $this->user . '' . 'حذف دوله نهائيا ' . $country->title;
+        $text = 'قام ' . $this->user . '' . ' حذف دوله نهائيا ' . $country->title;
         $this->report->create(['desc' => $text]);
     }
 }

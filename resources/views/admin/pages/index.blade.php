@@ -1,21 +1,36 @@
 @extends('admin.layout.master')
+@section('title',awtTrans('الصفحات الأساسيه'))
+@section('breadcrumb')
+    <a href="{{ route(\Illuminate\Support\Facades\Route::currentRouteName()) }}" class="kt-subheader__breadcrumbs-link">
+        {{ awtTrans('الصفحات الأساسيه') }}</a>
+@endsection
 @section('content')
 
 
-    <section class="content">
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+        <!-- begin:: Content -->
+        <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body kt-portlet__body--fit">
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 ">
-                    <div class="page-header callout-primary d-flex justify-content-between">
-                        <h2>الصفحات الاساسيه</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card page-body">
-            <div class="table-responsive">
-                <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap"  style="width:100%">
+                    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+
+                        <div class="kt-portlet__head kt-portlet__head--lg p-0">
+                            <div class="kt-portlet__head-label">
+                            <span class="kt-portlet__head-icon">
+                            <img style="width: 25px" alt="icon" src="{{asset('assets/media/menuicon/document.svg')}}" />
+                            </span>
+                                <h3 class="kt-portlet__head-title">
+                                    {{awtTrans('الصفحات الأساسيه')}}
+                                </h3>
+                            </div>
+                        </div>
+
+
+
+                        <div class="kt-portlet__body kt-portlet__body--fit  margin-15 ">
+                            <div class="table-responsive">
+                                <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap"  style="width:100%">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -28,16 +43,25 @@
                         <tr>
                             <td>{{$loop->iteration}}</td>
                             <td>{{$ob->title}}</td>
-                            <td>
-                                <button class="btn btn-success mx-2"  onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel"><i class="fas fa-edit"></i></button>
+                            <td class="tAction">
+                                <button onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel" data-placement="top" data-original-title="{{awtTrans('تعديل')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
+                                    <i class="la la-cog"></i>
+                                </button>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
         </div>
-    </section>
+        <!-- end:: Content -->
+    </div>
 
 
     <!-- end add model -->
@@ -50,30 +74,23 @@
                 <form action=""  id="editForm" method="post" role="form" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="row">
+                    @include('components.lang_taps')
+                    <!--begin::Portlet-->
+                        <div class="kt-portlet" style="padding-top:15px">
 
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>الاسم بالعربي</label>
-                                    <input type="text" id="title_ar" name="title_ar" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>الاسم بالانجليزي</label>
-                                    <input type="text" id="title_en" name="title_en" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label>التفاصيل بالعربي</label>
-                                    <textarea id="desc_ar" name="desc_ar" class="form-control" cols="30" rows="10"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label>التفاصيل بالانجليزي</label>
-                                    <textarea id="desc_en" name="desc_en" class="form-control" cols="30" rows="10"></textarea>
+                            <div class="nav-tabs-custom nav-tabs-lang-inputs">
+                                <div class="tab-content">
+                                    @foreach(\App\Entities\Lang::all() as $key => $locale)
+                                        <div class="tab-pane @if(\App\Entities\Lang::first() == $locale)  fade show active @endif" id="locale-tab-{{$locale['lang']}}">
+                                            <div class="form-group">
+                                                <input type="text" value="{{old('title_'.$locale['lang'])}}" name="title_{{$locale['lang']}}" id="title_{{$locale['lang']}}" class="form-control" placeholder="{{__('enter')}} ..." required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>{{awtTrans('التفاصيل')}}</label>
+                                                <textarea id="desc_{{$locale['lang']}}" name="desc_{{$locale['lang']}}" class="form-control" cols="30" rows="10">{{old('desc_'.$locale['lang'])}}</textarea>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -95,10 +112,10 @@
         function edit(ob){
 
             $('#editForm')      .attr("action","{{route('admin.pages.update','obId')}}".replace('obId',ob.id));
-            $('#title_ar')    .val(ob.title.ar);
-            $('#title_en')     .val(ob.title.en);
-            $('#desc_ar')     .val(ob.desc.ar);
-            $('#desc_en')     .val(ob.desc.en);
+            @foreach(\App\Entities\Lang::all() as $key => $locale)
+            $('#title_{{$locale['lang']}}')    .val(ob.title.{{$locale['lang']}});
+            $('#desc_{{$locale['lang']}}')    .val(ob.desc.{{$locale['lang']}});
+            @endforeach
         }
     </script>
 @endpush

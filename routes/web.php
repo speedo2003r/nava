@@ -227,12 +227,12 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'as' => 'services.getFilterData',
             'title' => 'جلب بيانات الخدمات',
         ]);
-        Route::get('services/store', [
+        Route::post('services/store', [
             'uses' => 'ServiceController@store',
             'as' => 'services.store',
             'title' => 'اضافة خدمه',
         ]);
-        Route::put('services/update/{id}', [
+        Route::post('services/update/{id}', [
             'uses' => 'ServiceController@update',
             'as' => 'services.update',
             'title' => 'تحديث خدمه',
@@ -289,6 +289,28 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('contacts/{id}',['uses'=> 'ContactController@update','as'=> 'contacts.update','title'=> 'تعديل تواصل معنا']);
         Route::delete('contacts/{id}',['uses'=> 'ContactController@destroy','as'=> 'contacts.destroy','title'=> 'حذف تواصل معنا']);
         /********************************* ContactController end *********************************/
+
+        /*------------ start Of coupon Controller ----------*/
+
+
+        #index
+        Route::get('coupons', [
+            'uses'      => 'CouponController@index',
+            'as'        => 'coupons.index',
+            'title'     => ' الكوبونات',
+            'icon'      => asset('assets/media/menuicon/coupon.svg'),
+            'type'      => 'parent',
+            'sub_route' => false,
+            'child'     => ['coupons.index', 'coupons.store', 'coupons.update', 'coupons.destroy']
+        ]);
+
+        #store
+        Route::post('coupons/store', ['uses' => 'CouponController@store','as' => 'coupons.store','title'=> 'اضافة الكوبون']);
+        #update
+        Route::post('coupons/{id}', ['uses' => 'CouponController@update','as'  => 'coupons.update','title'=> 'تعديل الكوبون']);
+        #delete
+        Route::delete('coupons/{id}', ['uses' => 'CouponController@destroy','as' => 'coupons.destroy','title' => 'حذف الكوبون']);
+        /*------------ start Of reviews Controller ----------*/
 
         /********************************* ReportController start *********************************/
         Route::get('reports', [
