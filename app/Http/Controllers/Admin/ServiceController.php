@@ -37,7 +37,7 @@ class ServiceController extends Controller
     }
     public function index()
     {
-        $categories = $this->categoryRepo->all();
+        $categories = $this->categoryRepo->where('parent_id','!=',null)->get();
         return view('admin.service.index',compact('categories'));
     }
 

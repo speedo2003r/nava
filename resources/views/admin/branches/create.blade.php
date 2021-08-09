@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{asset('/css/admin.css')}}">
     <link rel="stylesheet" href="{{asset('/css/admin-rtl.css')}}">
     <style>
-
         .kt-aside-menu .kt-menu__nav>.kt-menu__item>.kt-menu__heading .kt-menu__link-text, .kt-aside-menu .kt-menu__nav>.kt-menu__item>.kt-menu__link .kt-menu__link-text {
             font-weight: 400 !important;
             font-size: 1rem !important;
@@ -32,13 +31,13 @@
 
                             <div class="form-group">
                                 <div class="row" >
-                                    <div class="col-md-6 col-lg-6 col-sm-12" >
+                                    <div class="col-md-4 col-lg-4 col-sm-12" >
                                         <div class="nav-tabs-custom nav-tabs-lang-inputs">
                                             <div class="tab-content">
                                                 @foreach(\App\Entities\Lang::all() as $key => $locale)
                                                     <div class="tab-pane @if(\App\Entities\Lang::first() == $locale)  fade show active @endif" id="locale-tab-{{$locale['lang']}}">
                                                         <div class="form-group">
-                                                            <label for="">الاسم</label>
+                                                            <label for="">{{awtTrans('الاسم')}}</label>
                                                             <input type="text" name="title_{{$locale['lang']}}" class="form-control" placeholder="{{__('enter')}} ..." required>
                                                         </div>
                                                     </div>
@@ -46,76 +45,34 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-6 col-sm-12" >
-                                        <label for="">وقت الأستجابة</label>
+                                    <div class="col-md-4 col-lg-4 col-sm-12" >
+                                        <label for="">{{awtTrans('وقت الأستجابة')}}</label>
                                         <input type="number" name="assign_deadline" class="form-control" id="assign_deadline">
+                                    </div>
+                                    <div class="col-md-4 col-lg-4 col-sm-12" >
+                                        <label for="">{{awtTrans('المدينه')}}</label>
+                                        <select name="city_id" id="city_id" class="form-control">
+                                            <option value="" selected hidden></option>
+                                            @foreach($cities as $city)
+                                                <option value="{{$city['id']}}">{{$city['title']}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
 
-                        <div class="form-group">
+                        <div class="form-group region-dis" style="display: none">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>المناطق</label>
-                                    <div class="nav-tabs-custom nav-tabs-vertical">
-                                        <ul class="nav nav-tabs">
-                                            @foreach($cities as $city)
-                                                <li><a href="#city-tab-{{$city->id}}" data-toggle="tab" aria-expanded="true">{{$city->title}}</a></li>
-                                            @endforeach
-                                        </ul>
-                                        <div class="tab-content">
-                                            @foreach($cities as $city)
-                                                <div class="tab-pane" id="city-tab-{{$city->id}}">
-                                                    <ul>
-                                                        @foreach($city->Regions as $region)
-                                                            <li>
-                                                                <div class="checkbox">
-                                                                    <label>
-                                                                        <input type="checkbox" name="regions[]">
-                                                                        {{$region->title}}
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
+                                    <label>{{awtTrans('المناطق')}}</label>
+                                    <div class="regions">
 
-                                <div class="col-md-6">
-                                    <label>الخدمات</label>
-                                    <div class="nav-tabs-custom nav-tabs-vertical">
-                                        <ul class="nav nav-tabs">
-                                            @foreach($categories as $category)
-                                                <li><a href="#category-tab-{{$category->id}}" data-toggle="tab" aria-expanded="true">{{$category->title}}</a></li>
-                                            @endforeach
-                                        </ul>
-                                        <div class="tab-content">
-                                            @foreach($categories as $category)
-                                                <div class="tab-pane" id="category-tab-{{$category->id}}">
-                                                    <ul>
-                                                        @foreach($category->services as $service)
-                                                            <li>
-                                                                <div class="checkbox">
-                                                                    <label>
-                                                                        <input type="checkbox" name="services[]" >
-                                                                        {{$service->title}}
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            @endforeach
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class='btn btn-primary' style='width:auto'>حفظ</button>
+                            <button type="submit" class='btn btn-primary' style='width:auto'>{{awtTrans('حفظ')}}</button>
                         </div>
                         </form>
                     <!--end::Form-->
@@ -128,3 +85,14 @@
         <!-- end:: Content -->
     </div>
 @endsection
+@push('js')
+    <script>
+        $(function (){
+            'use strict'
+           $('body').on('change','#city_id',function (){
+               var city_id = $(this).val();
+               getRegionsCheckBox(city_id);
+           });
+        });
+    </script>
+@endpush

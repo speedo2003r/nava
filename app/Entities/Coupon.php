@@ -27,11 +27,7 @@ class Coupon extends Model implements Transformable
     protected $fillable = [
         'title',
         'content',
-        'type',
         'kind',
-        'user_id',
-        'manager_id',
-        'branch_id',
         'code',
         'value',
         'max_use',

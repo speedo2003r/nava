@@ -13,7 +13,7 @@ class CreateRoomsTable extends Migration
             $table->id();
             $table->integer('private')->default(0); // not used yet
             $table->string('type')->default('order'); // order/support
-            $table->foreignId('order_id')->nullable(); // order/support
+            $table->unsignedBigInteger('order_id')->nullable(); // order/support
             $table->integer('user_id'); // creater
             $table->integer('other_user_id')->nullable(); // partner in private room
             $table->integer('last_message_id')->default(0);

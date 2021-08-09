@@ -20,7 +20,9 @@ class OrderService extends Model implements Transformable
     protected $fillable = [
         'order_id',
         'service_id',
+        'count',
         'price',
+        'status',
     ];
     public function order()
     {

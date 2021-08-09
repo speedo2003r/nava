@@ -40,8 +40,7 @@ class TechnicianController extends Controller
     {
         $countries = $this->country->all();
         $cities = $this->city->all();
-        $branches = $this->branch->all();
-        return $clientDatatable->render('admin.technicians.index', compact('branches','cities','countries'));
+        return $clientDatatable->render('admin.technicians.index', compact('cities','countries'));
     }
 
 

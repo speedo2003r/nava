@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\RegionDatatable;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\City\Create;
-use App\Http\Requests\Admin\City\Update;
+use App\Http\Requests\Admin\State\Create;
+use App\Http\Requests\Admin\State\Update;
 use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\RegionRepository;

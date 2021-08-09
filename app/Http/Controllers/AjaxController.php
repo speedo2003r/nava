@@ -47,6 +47,15 @@ class AjaxController extends Controller
             return $this->successResponse($cities);
         }
     }
+    public function getRegions(Request $request)
+    {
+        if($request->ajax()){
+            $city_id = $request['id'];
+            $city = $this->city->find($city_id);
+            $regions = $city->Regions;
+            return $this->successResponse($regions);
+        }
+    }
 
     public function getItems(Request $request)
     {

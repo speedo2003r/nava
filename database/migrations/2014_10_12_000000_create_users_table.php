@@ -35,8 +35,9 @@ class CreateUsersTable extends Migration
             $table->boolean('notify')->default(1);
             $table->boolean('online')->default(0);
             $table->unsignedInteger('role_id')->nullable();
-            $table->enum('user_type',['admin','client','operation','technician','accountant'])->default('admin');
-            $table->enum('type_of_user',['office', 'field'])->default('field');
+            $table->foreignId('country_id')->nullable()->constrained('countries');
+            $table->foreignId('city_id')->nullable()->constrained('cities');
+            $table->enum('user_type',['admin','client','operation','company','technician','accountant'])->default('admin');
 
             $table->text('address')->nullable();
             $table->string('lat')->nullable();
@@ -47,12 +48,36 @@ class CreateUsersTable extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();
+            $table->foreignId('company_id')->nullable()->constrained('users');
+        });
+//        الخصم من الموظف
+        Schema::create('user_deductions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('admin_id')->nullable()->constrained('users');
+            $table->double('balance')->default(0);
+            $table->text('notes')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+            $table->softDeletes();
         });
         $user = new \App\Models\User();
         $user->name = 'المدير العام';
         $user->email      = 'info@aait.sa';
         $user->password   = '123456';
         $user->phone      = '01007416947';
+        $user->address    = 'السعوديه - الرياض';
+        $user->lang       = 'ar';
+        $user->role_id  = 1;
+        $user->user_type  = 'admin';
+        $user->active     = 1;
+        $user->banned    = 0;
+        $user->save();
+        $user = new \App\Models\User();
+        $user->name = 'المدير العام';
+        $user->email      = 'admin@example.net';
+        $user->password   = '123456';
+        $user->phone      = '01007416948';
         $user->address    = 'السعوديه - الرياض';
         $user->lang       = 'ar';
         $user->role_id  = 1;

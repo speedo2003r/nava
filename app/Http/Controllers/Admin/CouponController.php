@@ -22,7 +22,7 @@ class CouponController extends Controller
     /***************************  get all providers  **************************/
     public function index()
     {
-        $coupons = $this->couponRepo->findWhere(['type'=>'public']);
+        $coupons = $this->couponRepo->orderBy('id','desc')->get();
         $providers = $this->userRepo->findWhere(['user_type'=>'provider']);
         return view('admin.coupons.index', compact('coupons','providers'));
     }
@@ -32,7 +32,6 @@ class CouponController extends Controller
     public function store(Create $request)
     {
         $data = array_filter($request->all());
-        $data['type'] = 'public';
         $this->couponRepo->create($data);
         return redirect()->back()->with('success', 'تم الاضافه بنجاح');
     }
@@ -41,7 +40,7 @@ class CouponController extends Controller
     /***************************  update provider  **************************/
     public function update(Update $request, $id)
     {
-        $coupon = $this->couponRepo->findOrFail($id);
+        $coupon = $this->couponRepo->find($id);
         $this->couponRepo->update(array_filter($request->all()),$coupon['id']);
         return redirect()->back()->with('success', 'تم التحديث بنجاح');
     }

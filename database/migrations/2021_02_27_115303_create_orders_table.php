@@ -23,11 +23,9 @@ class CreateOrdersTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('technician_id')->nullable()->constrained('users')->onDelete('cascade');
 
+            $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('cascade');
             $table->foreignId('region_id')->nullable()->constrained('regions')->onDelete('cascade');
             $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('cascade');
-
-            $table->foreignId('subscription_id')->nullable()->constrained('subscriptions')->onDelete('cascade');
-
 
             $table->integer('total_services')->default(0);
             $table->foreignId('coupon_id')->nullable()->constrained('coupons');
@@ -39,9 +37,9 @@ class CreateOrdersTable extends Migration
             $table->double('final_total', 9, 2)->default(0);
 
             $table->enum('status', ['created', 'accepted', 'on-way', 'arrived', 'in-progress', 'finished', 'canceled'])->default('created');
-            $table->string('cycle')->nullable()->default(null);
+
             $table->text('cancellation_reason')->nullable()->default(null);
-            $table->string('canceled_by')->nullable()->default(null);
+            $table->foreignId('canceled_by')->nullable()->constrained('users');
 
             $table->enum('payment_method', ['balance', 'cod']);
             $table->enum('pay_type', [ 'cash', 'visa','master','apple','stc'])->nullable();
@@ -80,6 +78,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('service_id')->nullable()->constrained('services');
             $table->integer('count')->default(1);
             $table->double('price',8,2)->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
             $table->softDeletes();
@@ -90,6 +89,26 @@ class CreateOrdersTable extends Migration
             $table->foreignId('part_id')->nullable()->constrained('parts');
             $table->integer('count')->default(0);
             $table->double('price',8,2)->default(0);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
+            $table->softDeletes();
+        });
+
+        Schema::create('order_guarantees', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('order_id')->nullable()->constrained('orders');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
+            $table->softDeletes();
+        });
+        Schema::create('guarantee_visits', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('order_id')->nullable()->constrained('orders');
+            $table->foreignId('order_guarantee_id')->nullable()->constrained('order_guarantees');
+            $table->foreignId('technician_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->date('date')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
             $table->softDeletes();

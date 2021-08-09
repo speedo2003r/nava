@@ -29,20 +29,19 @@ class Branch extends Model implements Transformable
      */
     protected $fillable = [
         'title',
-        'user_id',
         'assign_deadline',
+        'city_id',
     ];
-
-    public function user()
+    public function city()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(City::class,'city_id');
     }
     public function regions()
     {
         return $this->belongsToMany(Region::class,'branch_regions','branch_id','region_id');
     }
-    public function services()
+    public function users()
     {
-        return $this->belongsToMany(Service::class,'branch_services','branch_id','service_id');
+        return $this->belongsToMany(User::class,'users_branches','branch_id','user_id');
     }
 }

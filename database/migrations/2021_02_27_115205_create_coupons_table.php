@@ -18,11 +18,7 @@ class CreateCouponsTable extends Migration
             $table->id();
             $table->text('title')->nullable();
             $table->text('content')->nullable();
-            $table->enum('type',['public','private']);
             $table->enum('kind',['percent','fixed'])->nullable();
-            $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->foreignId('manager_id')->nullable()->constrained('users');
-            $table->foreignId('branch_id')->nullable()->constrained('branches');
             $table->string('code')->nullable();
             $table->double('value',9,2)->nullable();
             $table->integer('max_use')->nullable();

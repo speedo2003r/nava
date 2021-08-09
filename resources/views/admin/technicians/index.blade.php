@@ -170,18 +170,7 @@
                                     <input type="password" name="password_confirmation" class="form-control" autocomplete="off">
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>الفرع</label>
-                                    <select name="branch_id" id="branch" class="form-control">
-                                        <option value="">اختر</option>
-                                        @foreach($branches as $branch)
-                                            <option value="{{$branch['id']}}">{{$branch->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>الدوله</label>
                                     <select name="country_id" id="country_id" class="form-control">
@@ -192,7 +181,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>المدينه</label>
                                     <select name="city_id" id="city" class="form-control">
@@ -227,7 +216,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>العموله بالنسبه</label>
-                                    <input type="number" max="100" name="commission" id="commission" class="form-control">
+                                    <input type="number" min="0" max="100" value="0" name="commission" id="commission" class="form-control">
                                 </div>
                             </div>
                         </div>

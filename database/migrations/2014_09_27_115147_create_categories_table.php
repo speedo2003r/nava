@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->text('title');
             $table->string('icon')->nullable();
+            $table->integer('guarantee_days')->default(0)->comment('عدد أيام الضمان');
             $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade');
             $table->boolean('status')->default(true);
             $table->timestamp('created_at')->useCurrent();

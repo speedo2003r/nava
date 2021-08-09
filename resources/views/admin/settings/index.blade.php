@@ -105,7 +105,6 @@
                   <form action="{{route('admin.socials.update')}}" id="settings.updateForm" method="POST" class="dropzone">
                     @csrf
                     <div class="card-body">
-                      <button type="button" data-toggle="modal" data-target="#addModel" class="btn btn-success mb-2">اضافة وسيله تواصل</button>
                       @foreach($socials as $social)
                       <div class="form-group">
                         <label>{{$social['key']}}</label>

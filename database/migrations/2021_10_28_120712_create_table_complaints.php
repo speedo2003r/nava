@@ -15,8 +15,13 @@ class CreateTableComplaints extends Migration
     {
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
-            $table->string('description')->nullable()->default(null);
-            $table->foreignId('order_service_id')->nullable()->constrained('order_services');
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->string('title')->nullable();
+            $table->string('name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->longText('message')->nullable();
+            $table->longText('seen')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();

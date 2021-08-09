@@ -15,6 +15,7 @@ use App\Repositories\GovernorateRepository;
 use App\Repositories\Interfaces\ICity;
 use App\Repositories\Interfaces\ICountry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BranchController extends Controller
 {
@@ -29,7 +30,7 @@ class BranchController extends Controller
     }
 
     /***************************  get all providers  **************************/
-    public function index(BranchDatatable $datatable)
+    public function index(BranchDatatable $datatable,Branch $model)
     {
         return $datatable->render('admin.branches.index');
     }
@@ -37,8 +38,14 @@ class BranchController extends Controller
     public function create()
     {
         $cities = $this->city->all();
-        $categories = $this->category->where('status',1)->get();
-        return view('admin.branches.create',compact('cities','categories'));
+        return view('admin.branches.create',compact('cities'));
+    }
+    /***************************  get all providers  **************************/
+    public function edit($id)
+    {
+        $cities = $this->city->all();
+        $branch = $this->branch->find($id);
+        return view('admin.branches.edit',compact('cities','id','branch'));
     }
 
 
@@ -48,12 +55,10 @@ class BranchController extends Controller
         $this->validate($request,[
             'title_ar' => 'required|max:191',
             'title_en' => 'required|max:191',
+            'city_id' => 'required|exists:cities,id,deleted_at,NULL',
             'regions' => 'required|array',
-            'services' => 'required|array',
         ]);
-        $branches = Branch::whereHas('services', function($q) use ($request) {
-            $q->whereIn('services.id', $request->get('services'));
-        })->whereHas('regions', function($q) use ($request) {
+        $branches = Branch::whereHas('regions', function($q) use ($request) {
             $q->whereIn('regions.id', $request->get('regions'));
         })->get();
 
@@ -67,7 +72,6 @@ class BranchController extends Controller
         }
         $data['title'] = $translations;
         $branch = $this->branch->create($data);
-        $branch->services()->sync($request->get('services'));
         $branch->regions()->sync($request->get('regions'));
         return redirect()->back()->with('success', 'تم الاضافه بنجاح');
     }
@@ -79,14 +83,12 @@ class BranchController extends Controller
         $this->validate($request,[
             'title_ar' => 'required|max:191',
             'title_en' => 'required|max:191',
+            'city_id' => 'required|exists:cities,id,deleted_at,NULL',
             'regions' => 'required|array',
-            'services' => 'required|array',
         ]);
         $branch = $this->branch->find($id);
 
-        $branches = Branch::whereHas('services', function($q) use ($request) {
-            $q->whereIn('services.id', $request->get('services'));
-        })->whereHas('regions', function($q) use ($request) {
+        $branches = Branch::whereHas('regions', function($q) use ($request) {
             $q->whereIn('regions.id', $request->get('regions'));
         })->where('id', '!=', $branch->id)->count();
 
@@ -100,7 +102,6 @@ class BranchController extends Controller
         }
         $data['title'] = $translations;
         $this->branch->update($data,$id);
-        $branch->services()->sync($request->get('services'));
         $branch->regions()->sync($request->get('regions'));
         return redirect()->back()->with('success', 'تم التحديث بنجاح');
     }

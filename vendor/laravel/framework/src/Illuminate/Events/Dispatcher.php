@@ -549,9 +549,9 @@ class Dispatcher implements DispatcherContract
     {
         [$listener, $job] = $this->createListenerAndJob($class, $method, $arguments);
 
-        $connection = $this->resolveQueue()->connection(
-            $listener->connection ?? null
-        );
+        $connection = $this->resolveQueue()->connection(method_exists($listener, 'viaConnection')
+                    ? $listener->viaConnection()
+                    : $listener->connection ?? null);
 
         $queue = method_exists($listener, 'viaQueue')
                     ? $listener->viaQueue()
@@ -590,6 +590,8 @@ class Dispatcher implements DispatcherContract
     {
         return tap($job, function ($job) use ($listener) {
             $job->tries = $listener->tries ?? null;
+
+            $job->maxExceptions = $listener->maxExceptions ?? null;
 
             $job->backoff = method_exists($listener, 'backoff')
                                 ? $listener->backoff() : ($listener->backoff ?? null);

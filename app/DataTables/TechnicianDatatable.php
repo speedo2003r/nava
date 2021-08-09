@@ -55,7 +55,7 @@ class TechnicianDatatable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->query()->with('Technician')->where('user_type','technician')->latest();
+        return $model->query()->with('Technician')->where('company_id',null)->where('user_type','technician')->latest();
     }
 
     /**

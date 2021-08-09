@@ -19,8 +19,8 @@ class CreateBranchesTable extends Migration
 		Schema::create('branches', function(Blueprint $table) {
             $table->id();
             $table->text('title')->nullable();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->integer('assign_deadline')->default(10);
+            $table->integer('assign_deadline')->default(0);
+            $table->foreignId('city_id')->nullable()->constrained('cities');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();

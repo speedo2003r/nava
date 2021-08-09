@@ -32,7 +32,7 @@
                                 {{awtTrans('اضافه')}}
                             </button>
 
-                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.cities.destroy',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
+                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.categories.destroy',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
                                 <i class="la la-trash"></i>
                                 {{awtTrans('حذف')}}
                             </button>
@@ -51,7 +51,9 @@
                                             </label>
                                         </th>
                                         <th>{{__('name')}}</th>
-                                        <th>ظهور واخفاء</th>
+                                        <th>{{awtTrans('الأقسام الفرعيه')}}</th>
+                                        <th>{{awtTrans('ظهور واخفاء')}}</th>
+                                        <th>{{awtTrans('عدد أيام الضمان')}}</th>
                                         <th>{{__('control')}}</th>
                                     </tr>
                                     </thead>
@@ -66,10 +68,16 @@
                                             </td>
                                             <td>{{$ob->title}}</td>
                                             <td>
+                                                <a href="{{route('admin.subcategories.index',$ob['id'])}}" class="btn btn-brand btn-elevate btn-icon-sm">{{awtTrans('الأقسام الفرعيه')}} ({{count($ob->children)}})</a>
+                                            </td>
+                                            <td>
                                                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" style="direction: ltr">
                                                     <input type="checkbox" onchange="changeCategoryAppear('{{$ob->id}}')" {{ $ob->status == 1 ? 'checked' : '' }} class="custom-control-input" id="customSwitch{{$ob->id}}">
                                                     <label class="custom-control-label" id="status_label{{$ob->id}}" for="customSwitch{{$ob->id}}"></label>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                {{$ob['guarantee_days']}}
                                             </td>
                                             <td class="tAction">
                                                 <button onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel" data-placement="top" data-original-title="{{awtTrans('تعديل')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
@@ -82,16 +90,6 @@
                                         </tr>
                                     @endforeach
                                     </tbody>
-                                    @if(count($categories) > 0)
-                                        <tr>
-                                            <td colspan="3">
-                                                <button class="btn btn-danger confirmDel" disabled onclick="deleteAllData('more','{{route('admin.categories.destroy',$ob->id)}}')" data-toggle="modal" data-target="#confirm-all-del">
-                                                    <i class="fas fa-trash"></i>
-                                                    حذف المحدد
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endif
                                 </table>
                             </div>
                             <!--end: Datatable -->
@@ -124,6 +122,12 @@
                                         </div>
                                     </div>
                                 @endforeach
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="">عدد أيام الضمان</label>
+                                <input type="number" value="{{old('guarantee_days')}}" name="guarantee_days" id="guarantee_days" class="form-control" placeholder="{{awtTrans('عدد أيام الضمان')}}" required>
                             </div>
                         </div>
                         <div>
@@ -168,6 +172,7 @@
             @foreach(\App\Entities\Lang::all() as $key => $locale)
             $('#title_{{$locale['lang']}}')    .val(ob.title.{{$locale['lang']}});
             @endforeach
+            $('#guarantee_days')    .val(ob.guarantee_days);
             let image = $( '#upload_area_img' );
             image.empty();
             image.append( '<div class="uploaded-block" data-count-order="1"><img src="' + ob.icon + '"><button class="close">&times;</button></div>' );

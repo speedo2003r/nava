@@ -540,6 +540,38 @@
             });
         }
     }
+    function getRegionsCheckBox(city_id,placeholder = 'اختر'){
+        var html = '';
+        if(city_id){
+            $('.regions').empty();
+            $.ajax({
+                url: `{{route('admin.ajax.getRegions')}}`,
+                type: 'post',
+                dataType: 'json',
+                data:{id: city_id},
+                success: function (res) {
+                    if(res.data.length > 0){
+                        $('.region-dis').show();
+                    }else{
+                        $('.region-dis').hide();
+                    }
+                    html += `<ul class="list-group">`;
+                    $.each(res.data,function (index,value) {
+                        html += `<li class="list-inline-item">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" value="${value.id}" name="regions[]">
+                                            ${value.title.ar}
+                                        </label>
+                                    </div>
+                                </li>`;
+                    });
+                    html += `</ul>`;
+                    $('.regions').append(html);
+                }
+            });
+        }
+    }
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

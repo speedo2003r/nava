@@ -30,6 +30,7 @@ class Category extends Model implements Transformable
     protected $fillable = [
         'title',
         'icon',
+        'guarantee_days',
         'parent_id',
         'status',
     ];

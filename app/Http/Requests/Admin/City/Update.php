@@ -18,7 +18,7 @@ class Update extends FormRequest
         return [
             'title_ar' => 'required|max:191',
             'title_en'  => 'required|max:191',
-            'city_id'  => 'required|exists:cities,id,deleted_at,NULL',
+            'country_id'  => 'required|exists:countries,id,deleted_at,NULL',
         ];
     }
 }

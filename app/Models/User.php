@@ -2,19 +2,16 @@
 
 namespace App\Models;
 
-use App\Entities\Ad;
 use App\Entities\Category;
 use App\Entities\City;
+use App\Entities\Company;
 use App\Entities\Country;
-use App\Entities\Delegate;
 use App\Entities\Device;
 use App\Entities\Notification;
 use App\Entities\Order;
-use App\Entities\RatingUser;
 use App\Entities\ReviewRate;
 use App\Entities\Service;
 use App\Entities\Technician;
-use App\Entities\UserAddress;
 use App\Models\Role;
 use App\Traits\UploadTrait;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -38,38 +35,31 @@ class User extends Authenticatable implements JWTSubject
 
     protected $fillable= [
         'name',
-        'store_name',
+        'avatar',
+        'email',
         'wallet',
         'commission_status',
         'income',
         'balance',
         'commission',
         'phone',
+        'replace_phone',
+        'v_code',
+        'password',
+        'lang',
+        'active',
+        'banned',
         'accepted',
+        'notify',
+        'online',
+        'role_id',
+        'country_id',
+        'city_id',
+        'user_type',
         'address',
         'lat',
         'lng',
-        'email',
-        'email_verified_at',
-        'password',
-        'avatar',
-        'country_id',
-        'city_id',
-        'avatar',
-        'lang',
-        'active',
-        'banner',
-        'banned',
-        'avatar',
-        'online',
-        'notify',
-        'role_id',
-        'user_type',
-        'v_code',
-        'address_desc',
-        'service_desc',
-        'id_num',
-        'category_id',
+        'company_id',
     ];
     protected $hidden = [
         'password',
@@ -126,7 +116,11 @@ class User extends Authenticatable implements JWTSubject
     }
     public function technician()
     {
-        return $this->belongsTo(Technician::class);
+        return $this->hasOne(Technician::class,'user_id');
+    }
+    public function company()
+    {
+        return $this->hasOne(Company::class,'user_id');
     }
     public function notifications()
     {
@@ -139,10 +133,6 @@ class User extends Authenticatable implements JWTSubject
     public function scopeExist($value)
     {
         return $value->where('active',1)->where('banned',0);
-    }
-    public function ratingUser()
-    {
-        return $this->morphOne(RatingUser::class,'ratable','rateable_type','rateable_id');
     }
     public function ordersAsUser(){
         return $this->hasMany(Order::class,'user_id','id')->withTrashed();
@@ -184,11 +174,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(City::class);
     }
 
-
-    public function ads()
-    {
-        return $this->hasMany(Ad::class,'user_id');
-    }
     public function services()
     {
         return $this->hasMany(Service::class,'user_id');

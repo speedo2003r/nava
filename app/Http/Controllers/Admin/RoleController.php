@@ -57,6 +57,10 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         $role = Role::find($id);
+        $role->update([
+            'name_ar' => $request['name_ar'],
+            'name_en' => $request['name_en'],
+        ]);
         $role->permissions()->delete();
         $permissions = [];
         foreach ($request->permissions ?? [] as $permission)

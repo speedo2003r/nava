@@ -12,6 +12,10 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\CategoryRepositoryEloquent;
 use App\Repositories\CityRepository;
 use App\Repositories\CityRepositoryEloquent;
+use App\Repositories\CompanyRepository;
+use App\Repositories\CompanyRepositoryEloquent;
+use App\Repositories\ComplaintRepository;
+use App\Repositories\ComplaintRepositoryEloquent;
 use App\Repositories\ContactUsRepository;
 use App\Repositories\ContactUsRepositoryEloquent;
 use App\Repositories\CountryRepository;
@@ -78,7 +82,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(BranchRepository::class           , BranchRepositoryEloquent::class);
         $this->app->bind(RegionRepository::class           , RegionRepositoryEloquent::class);
         $this->app->bind(CouponRepository::class           , CouponRepositoryEloquent::class);
-        $this->app->bind(CreditRepository::class           , CreditRepositoryEloquent::class);
+        $this->app->bind(CompanyRepository::class           , CompanyRepositoryEloquent::class);
+        $this->app->bind(ComplaintRepository::class           , ComplaintRepositoryEloquent::class);
 
     }
 

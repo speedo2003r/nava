@@ -124,7 +124,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label>{{__('name')}}</label>
                                 <input type="text" name="name" id="name" class="form-control">
@@ -155,11 +155,21 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
+                                <label>{{awtTrans('الاشراف الوظيفي')}}</label>
+                                <select name="user_type" class="form-control" id="user_type" required>
+                                    <option value="" selected hidden disabled>{{__('choose_role')}}</option>
+                                    <option value="admin">{{awtTrans('مشرف عام')}}</option>
+                                    <option value="operation">{{awtTrans('مشرف اداري')}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
                                 <label>{{__('role')}}</label>
                                 <select name="role_id" class="form-control" id="role_id" required>
                                     <option value="" selected hidden disabled>{{__('choose_role')}}</option>
                                     @foreach($roles as $role)
-                                        <option value="{{$role->id}}">{{$role->name}}</option>
+                                        <option value="{{$role->id}}">{{$role->name_ar}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -200,6 +210,7 @@
             $('#phone')         .val(ob.phone);
             $('#email')         .val(ob.email);
             $('#role_id')         .val(ob.role_id).change;
+            $('#user_type')         .val(ob.user_type).change;
 
             if ( ob.banned == 1 )
                 $( "#banned" ).attr( 'checked', '' );

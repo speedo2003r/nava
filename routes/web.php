@@ -94,6 +94,9 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
                 'admins.index', 'admins.store', 'admins.update', 'admins.delete',
                 'clients.index', 'clients.store', 'clients.update', 'clients.delete',
                 'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete',
+                'companies.index', 'companies.store', 'companies.update', 'companies.delete', 'companies.images','companies.storeImages',
+                'companies.technicians','companies.storeTechnicians','companies.updateTechnicians','companies.deleteTechnicians',
+                'accountants.index', 'accountants.store', 'accountants.update', 'accountants.delete',
                 'sendnotifyuser', 'changeStatus', 'addToWallet'
             ]
         ]);
@@ -114,6 +117,25 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('technicians/store',['uses'=> 'TechnicianController@store','as'=> 'technicians.store','title'=> 'اضافة تقني']);
         Route::post('technicians/{id}',['uses'=> 'TechnicianController@update','as'=> 'technicians.update','title'=> 'تعديل تقني']);
         Route::delete('technicians/{id}',['uses'=> 'TechnicianController@destroy','as'=> 'technicians.delete','title'=> 'حذف تقني']);
+        # CompanyController
+        Route::get('companies',['uses'=> 'CompanyController@index','as'=> 'companies.index','title'=> ' الشركات','icon'=> '<i class="nav-icon fa fa-users"></i>']);
+        Route::post('companies/store',['uses'=> 'CompanyController@store','as'=> 'companies.store','title'=> 'اضافة شركه']);
+        Route::post('companies/{id}',['uses'=> 'CompanyController@update','as'=> 'companies.update','title'=> 'تعديل شركه']);
+        Route::delete('companies/{id}',['uses'=> 'CompanyController@destroy','as'=> 'companies.delete','title'=> 'حذف شركه']);
+
+        Route::get('companies/images/{id}', ['uses' => 'CompanyController@images','as' => 'companies.images','title' => 'معرض الصور للشركه']);
+        Route::post('companies/images/{id}', ['uses' => 'CompanyController@storeImages','as' => 'companies.storeImages','title' => 'حفظ معرض الصور للشركه']);
+
+        Route::get('companies/technicians/{id}', ['uses' => 'TechnicianCompanyController@index','as' => 'companies.technicians','title' => 'التقنيين التابعين للشركه']);
+        Route::post('companies/storeTechnicians/{id}', ['uses' => 'TechnicianCompanyController@store','as' => 'companies.storeTechnicians','title' => 'حفظ التقنيين التابعين للشركه']);
+        Route::post('companies/updateTechnicians/{id}', ['uses' => 'TechnicianCompanyController@update','as' => 'companies.updateTechnicians','title' => 'تعديل التقنيين التابعين للشركه']);
+        Route::delete('companies/deleteTechnicians', ['uses' => 'TechnicianCompanyController@delete','as' => 'companies.deleteTechnicians','title' => 'حذف التقنيين التابعين للشركه']);
+
+        # AccountController
+        Route::get('accountants',['uses'=> 'AccountantController@index','as'=> 'accountants.index','title'=> ' المحاسبين','icon'=> '<i class="nav-icon fa fa-users"></i>']);
+        Route::post('accountants/store',['uses'=> 'AccountantController@store','as'=> 'accountants.store','title'=> 'اضافة محاسب']);
+        Route::post('accountants/{id}',['uses'=> 'AccountantController@update','as'=> 'accountants.update','title'=> 'تعديل محاسب']);
+        Route::delete('accountants/{id}',['uses'=> 'AccountantController@destroy','as'=> 'accountants.delete','title'=> 'حذف محاسب']);
 
         Route::post('send-notify-user',['uses'=> 'ClientController@sendnotifyuser','as'=> 'sendnotifyuser','title'=> 'ارسال اشعارات']);
         Route::post('change-status',['uses'=> 'ClientController@changeStatus','as'=> 'changeStatus','title'=> 'تغيير الحاله']);
@@ -131,7 +153,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
                 'countries.index','countries.store', 'countries.update', 'countries.destroy',
                 'cities.index', 'cities.store', 'cities.update', 'cities.destroy',
                 'regions.index', 'regions.store', 'regions.update', 'regions.destroy',
-                'branches.index','branches.create', 'branches.store', 'branches.update', 'branches.destroy',
+                'branches.index','branches.create', 'branches.store','branches.edit', 'branches.update', 'branches.destroy',
             ]
         ]);
 
@@ -169,13 +191,14 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('branches', [
             'uses'      => 'BranchController@index',
             'as'        => 'branches.index',
-            'title'     => ' الفروع',
+            'title'     => 'المواقع',
             'icon'      => '<i class="nav-icon fa fa-flag"></i>',
         ]);
-        Route::get('branches/create',['uses'=> 'BranchController@create','as'=> 'branches.create','title'=> 'صفحة اضافة فرع']);
-        Route::post('branches/store',['uses'=> 'BranchController@store','as'=> 'branches.store','title'=> 'اضافة فرع']);
-        Route::post('branches/{id}',['uses'=> 'BranchController@update','as'=> 'branches.update','title'=> 'تعديل فرع']);
-        Route::delete('branches/{id}',['uses'=> 'BranchController@destroy','as'=> 'branches.destroy','title'=> 'حذف فرع']);
+        Route::get('branches/create',['uses'=> 'BranchController@create','as'=> 'branches.create','title'=> 'صفحة اضافة موقع']);
+        Route::post('branches/store',['uses'=> 'BranchController@store','as'=> 'branches.store','title'=> 'اضافة موقع']);
+        Route::get('branches/{id}',['uses'=> 'BranchController@edit','as'=> 'branches.edit','title'=> 'صفحة تعديل موقع']);
+        Route::post('branches/{id}',['uses'=> 'BranchController@update','as'=> 'branches.update','title'=> 'تعديل موقع']);
+        Route::delete('branches/{id}',['uses'=> 'BranchController@destroy','as'=> 'branches.destroy','title'=> 'حذف موقع']);
         /********************************* RegionController end *********************************/
 
         /********************************* CategoryController start *********************************/
@@ -187,7 +210,8 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'type'      => 'parent',
             'sub_route' => false,
             'child'     => [
-                'categories.index', 'categories.view', 'categories.store', 'categories.update', 'categories.destroy','categories.changeCategoryAppear'
+                'categories.index', 'categories.view', 'categories.store', 'categories.update', 'categories.destroy',
+                'subcategories.index', 'subcategories.store', 'subcategories.update', 'subcategories.destroy','categories.changeCategoryAppear'
             ]
         ]);
         Route::get('categories/view',['uses'=> 'CategoryController@view','as'=> 'categories.view','title'=> 'عرض شجري للاقسام']);
@@ -197,12 +221,10 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('categories/changeCategory/Appear',['uses'=> 'CategoryController@changeCategoryAppear','as'=> 'categories.changeCategoryAppear','title'=> 'تنشيط القسم']);
 
         /********************************* SubCategoryController start *********************************/
-//        Route::get('subcategories/{id}',['uses'=> 'SubCategoryController@index','as'=> 'subcategories.index','title'=> 'الأقسام الفرعيه']);
-//        Route::post('subcategories/store/{id}',['uses'=> 'SubCategoryController@store','as'=> 'subcategories.store','title'=> 'اضافة قسم فرعي']);
-//        Route::post('subcategories/{id}',['uses'=> 'SubCategoryController@update','as'=> 'subcategories.update','title'=> 'تعديل قسم فرعي']);
-//        Route::delete('subcategories/{id}',['uses'=> 'SubCategoryController@destroy','as'=> 'subcategories.destroy','title'=> 'حذف قسم فرعي']);
-//        Route::get('subcategories/uploadFile/{id}',['uses'=> 'SubCategoryController@getuploadFile','as'=> 'subcategories.uploadFile','title'=> 'العقد']);
-//        Route::post('subcategories/uploadFile/{id}',['uses'=> 'SubCategoryController@storeUploadFile','as'=> 'subcategories.storeUploadFile','title'=> 'حفظ العقد']);
+        Route::get('subcategories/{id}',['uses'=> 'SubCategoryController@index','as'=> 'subcategories.index','title'=> 'الأقسام الفرعيه']);
+        Route::post('subcategories/store/{id}',['uses'=> 'SubCategoryController@store','as'=> 'subcategories.store','title'=> 'اضافة قسم فرعي']);
+        Route::post('subcategories/{id}',['uses'=> 'SubCategoryController@update','as'=> 'subcategories.update','title'=> 'تعديل قسم فرعي']);
+        Route::delete('subcategories/{id}',['uses'=> 'SubCategoryController@destroy','as'=> 'subcategories.destroy','title'=> 'حذف قسم فرعي']);
         /********************************* SubCategoryController end *********************************/
 
         /*------------ start Of services Controller ----------*/
@@ -263,6 +285,37 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::delete('orders/{id}',['uses'=> 'OrderController@destroy','as'=> 'orders.destroy','title'=> 'حذف طلب']);
         /********************************* OrderController end *********************************/
 
+        /*------------ start Of chat----------*/
+        Route::get('chats', [
+            'uses'      => 'ChatController@index',
+            'as'        => 'chats.index',
+            'title'     => 'المحادثه',
+            'icon'      => asset('assets/media/menuicon/chat.svg'),
+            'type'      => 'parent',
+            'sub_route' => false,
+            'child'     => ['chats.index','chats.store','chats.users','chats.privateRoom']
+        ]);
+
+
+        #store chats
+        Route::post('chats/store', [
+            'uses'      => 'ChatController@SaveMessage',
+            'as'        => 'chats.store',
+            'title'     => 'حفظ المحادثه'
+        ]);
+
+        #store chats
+        Route::get('chats/users', [
+            'uses'      => 'ChatController@OtherUsers',
+            'as'        => 'chats.users',
+            'title'     => 'المستخدمين'
+        ]);
+        #store private chat
+        Route::get('create-private-room/{user}', [
+            'uses'      => 'ChatController@NewPrivateRoom',
+            'as'        => 'chats.privateRoom',
+            'title'     => 'اضافة غرفة دردشه'
+        ]);
         /********************************* PageController start *********************************/
         Route::get('pages', [
             'uses'      => 'PageController@index',
@@ -275,6 +328,20 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         ]);
         Route::post('pages/{id}',['uses'=> 'PageController@update','as'=> 'pages.update','title'=> 'تعديل صفحه']);
         /********************************* PageController end *********************************/
+
+        /********************************* ContactController start *********************************/
+        Route::get('complaints', [
+            'uses'      => 'ComplaintController@index',
+            'as'        => 'complaints.index',
+            'title'     => ' الشكاوي والمقترحات',
+            'icon'      => asset('assets/media/menuicon/document.svg'),
+            'type'      => 'parent',
+            'sub_route' => false,
+            'child'     => ['complaints.index','complaints.update', 'complaints.destroy']
+        ]);
+        Route::post('complaints/{id}',['uses'=> 'ComplaintController@update','as'=> 'complaints.update','title'=> 'تعديل شكوي']);
+        Route::delete('complaints/{id}',['uses'=> 'ComplaintController@destroy','as'=> 'complaints.destroy','title'=> 'حذف شكوي']);
+        /********************************* ContactController end *********************************/
 
         /********************************* ContactController start *********************************/
         Route::get('contacts', [
@@ -347,6 +414,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
 });
 //    ajax helper
 Route::post('/admin/cities','AjaxController@getCities')->name('admin.ajax.getCities');
+Route::post('/admin/regions','AjaxController@getRegions')->name('admin.ajax.getRegions');
 Route::post('/admin/getCategories','AjaxController@getCategories')->name('admin.ajax.getCategories');
 Route::any('/admin/changeAccepted','AjaxController@changeAccepted')->name('ajax.changeAccepted');
 Route::any('/admin/getItems','AjaxController@getItems')->name('admin.ajax.getItems');

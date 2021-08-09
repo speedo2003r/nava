@@ -45,7 +45,7 @@ class BranchDatatable extends DataTable
             ->addColumn('data',function ($query){
                 return $query;
             })
-            ->addColumn('control','admin.partial.ControlEditDel')
+            ->addColumn('control','admin.partial.ControlPag')
             ->rawColumns(['status','control','id']);
     }
 
@@ -58,11 +58,10 @@ class BranchDatatable extends DataTable
     public function query(Branch $model)
     {
         return $model->query()
-            ->select('branches.id as id','branches.title->'.app()->getLocale().' as branch_title','users.name as name','branch_regions.region_id','branches.title',DB::raw('SUM(orders.id) as count'),'branches.created_at')
-            ->leftJoin('orders','orders.branch_id','=','branches.id')
-            ->leftJoin('users','users.id','=','branches.user_id')
+            ->select('branches.id as id','branches.title->'.app()->getLocale().' as branch_title','cities.title->'.app()->getLocale().' as city_title',DB::raw('SUM(branch_regions.id) as regions_count'),'branches.created_at')
+            ->leftJoin('cities','cities.id','=','branches.city_id')
             ->leftJoin('branch_regions','branch_regions.branch_id','=','branches.id')
-            ->groupBy('branches.id','branches.title->'.app()->getLocale(),'branches.created_at')
+            ->groupBy('branches.id','branches.title->'.app()->getLocale(),'cities.title->'.app()->getLocale(),'branches.created_at')
             ->latest();
     }
 
@@ -101,8 +100,8 @@ class BranchDatatable extends DataTable
         return [
             Column::make('id')->title('')->orderable(false),
             Column::make('branch_title')->title('اسم الفرع'),
-            Column::make('name')->title('المدير'),
-            Column::make('count')->title('عدد الطلبات'),
+            Column::make('city_title')->title('المدينه'),
+            Column::make('regions_count')->title('عدد المناطق'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];
     }

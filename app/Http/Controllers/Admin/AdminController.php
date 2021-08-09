@@ -40,7 +40,6 @@ class AdminController extends Controller
     public function store(Create $request)
     {
         $data = array_filter($request->except('image'));
-        $data['user_type']  = 'admin';
         if($request->has('image')){
             $data['avatar'] = $this->uploadFile($request['image'],'users');
         }

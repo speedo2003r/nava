@@ -24,7 +24,7 @@ class CreateServicesTable extends Migration
             $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
             $table->double('price',8,2)->default(0);
             $table->string('image')->nullable();
-            $table->enum('type', ['fixed', 'hourly', 'subscription', 'pricing'])->default('fixed');
+            $table->enum('type', ['fixed', 'hourly', 'pricing'])->default('fixed');
             $table->boolean('active')->default(true);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

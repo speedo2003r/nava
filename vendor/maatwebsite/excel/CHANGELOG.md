@@ -3,7 +3,42 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [3.1.28] - 2020-03-10
+## [3.1.32] - 2021-07-08
+
+### Added
+
+- Add assertExportedInRaw assertion (#3255)
+
+### Fixed
+
+- Make commands detect model directory now (#3213)
+
+## [3.1.31] - 2021-06-02
+
+### Added
+
+- Custom heading row formatter can use column index (#3166)
+- Added WithFormatData concern (#3154)
+
+### Fixed
+
+- Create failures of rows than didn't exists but where requested in row validation
+- Fix Bug Formulas are not calculated when import implements WithCalculatedFormulas with SkipsEmptyRows #3127
+- PhpSpreadsheet 1.18 support
+
+## [3.1.30] - 2021-04-06
+
+### Added
+
+- Octane compatibility
+
+## [3.1.29] - 2021-03-16
+
+### Fixed
+
+- Fix AfterImport Event not being called (#3085)
+
+## [3.1.28] - 2021-03-10
 
 ### Added
 
@@ -16,7 +51,7 @@ All notable changes to this project will be documented in this file.
 - Fixed issue with not autosizing columns (#3055)
 - Fix selecting worksheets by name with chunk reading (#3052)
 
-## [3.1.27] - 2020-02-22
+## [3.1.27] - 2021-02-22
 
 ### Added
 
@@ -111,7 +146,11 @@ All notable changes to this project will be documented in this file.
 - Raw() method now also available on Exportable.
 - Fix for breaking changes in PhpSpreadsheet with empty enclosures.
 
-[Unreleased]: https://github.com/Maatwebsite/Laravel-Excel/compare/3.1.28...HEAD
+[Unreleased]: https://github.com/Maatwebsite/Laravel-Excel/compare/3.1.32...HEAD
+[3.1.32]: https://github.com/Maatwebsite/Laravel-Excel/compare/3.1.31...3.1.32
+[3.1.31]: https://github.com/Maatwebsite/Laravel-Excel/compare/3.1.30...3.1.31
+[3.1.30]: https://github.com/Maatwebsite/Laravel-Excel/compare/3.1.29...3.1.30
+[3.1.29]: https://github.com/Maatwebsite/Laravel-Excel/compare/3.1.28...3.1.29
 [3.1.28]: https://github.com/Maatwebsite/Laravel-Excel/compare/3.1.27...3.1.28
 [3.1.27]: https://github.com/Maatwebsite/Laravel-Excel/compare/3.1.26...3.1.27
 [3.1.26]: https://github.com/Maatwebsite/Laravel-Excel/compare/3.1.25...3.1.26

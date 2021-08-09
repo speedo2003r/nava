@@ -141,8 +141,8 @@
                                     <label>تحديد النوع</label>
                                     <select name="kind" class="form-control kind">
                                         <option value="">اختر</option>
-                                        <option value="percent">نسبه من قيمة المشتريات</option>
-                                        <option value="fixed">قيمه ثابته من  قيمة الفاتورة شامل قيمة التوصيل</option>
+                                        <option value="percent">نسبه</option>
+                                        <option value="fixed">قيمه ثابته</option>
                                     </select>
                                 </div>
                             </div>
@@ -224,8 +224,8 @@
                                     <label>تحديد النوع</label>
                                     <select name="kind" class="form-control kind" id="kind">
                                         <option value="">اختر</option>
-                                        <option value="percent">نسبه من قيمة المشتريات</option>
-                                        <option value="fixed">قيمه ثابته من  قيمة الفاتورة شامل قيمة التوصيل</option>
+                                        <option value="percent">نسبه</option>
+                                        <option value="fixed">قيمه ثابته</option>
                                     </select>
                                 </div>
                             </div>
