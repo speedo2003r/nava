@@ -93,7 +93,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'child'     => [
                 'admins.index', 'admins.store', 'admins.update', 'admins.delete',
                 'clients.index', 'clients.store', 'clients.update', 'clients.delete',
-                'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete',
+                'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete', 'technicians.selectCategories',
                 'companies.index', 'companies.store', 'companies.update', 'companies.delete', 'companies.images','companies.storeImages',
                 'companies.technicians','companies.storeTechnicians','companies.updateTechnicians','companies.deleteTechnicians',
                 'accountants.index', 'accountants.store', 'accountants.update', 'accountants.delete',
@@ -117,6 +117,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('technicians/store',['uses'=> 'TechnicianController@store','as'=> 'technicians.store','title'=> 'اضافة تقني']);
         Route::post('technicians/{id}',['uses'=> 'TechnicianController@update','as'=> 'technicians.update','title'=> 'تعديل تقني']);
         Route::delete('technicians/{id}',['uses'=> 'TechnicianController@destroy','as'=> 'technicians.delete','title'=> 'حذف تقني']);
+        Route::post('technicians/select/categories',['uses'=> 'TechnicianController@selectCategories','as'=> 'technicians.selectCategories','title'=> 'اختيار التخصصات']);
         # CompanyController
         Route::get('companies',['uses'=> 'CompanyController@index','as'=> 'companies.index','title'=> ' الشركات','icon'=> '<i class="nav-icon fa fa-users"></i>']);
         Route::post('companies/store',['uses'=> 'CompanyController@store','as'=> 'companies.store','title'=> 'اضافة شركه']);
@@ -242,6 +243,10 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
                 'services.update',
                 'services.destroy',
                 'services.changeStatus',
+                'parts.index',
+                'parts.store',
+                'parts.update',
+                'parts.destroy',
             ]
         ]);
         Route::get('services/getFilterData', [
@@ -269,6 +274,26 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'as' => 'services.destroy',
             'title' => 'حذف خدمه من الجدول',
         ]);
+        Route::get('parts/{id}', [
+            'uses' => 'PartsController@index',
+            'as' => 'parts.index',
+            'title' => 'قطع الغيار',
+        ]);
+        Route::post('parts/store', [
+            'uses' => 'PartsController@store',
+            'as' => 'parts.store',
+            'title' => 'اضافة قطعة الغيار',
+        ]);
+        Route::post('parts/update/{id}', [
+            'uses' => 'PartsController@update',
+            'as' => 'parts.update',
+            'title' => 'تحديث قطعة الغيار',
+        ]);
+        Route::delete('parts/delete/{id}', [
+            'uses' => 'PartsController@destroy',
+            'as' => 'parts.destroy',
+            'title' => 'حذف قطعة الغيار',
+        ]);
 
         /********************************* OrderController start *********************************/
         Route::get('orders', [
@@ -278,11 +303,15 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'icon'      => asset('assets/media/menuicon/gear.svg'),
             'type'      => 'parent',
             'sub_route' => false,
-            'child'     => ['orders.show', 'orders.destroy']
+            'child'     => ['orders.show', 'orders.assignTech', 'orders.servicesUpdate','orders.partsDestroy', 'orders.rejectOrder', 'orders.destroy']
         ]);
 
         Route::get('orders/{id}',['uses'=> 'OrderController@show','as'=> 'orders.show','title'=> 'مشاهدة طلب']);
+        Route::post('orders/rejectOrder',['uses'=> 'OrderController@rejectOrder','as'=> 'orders.rejectOrder','title'=> 'رفض الطلب']);
+        Route::post('orders/services/update',['uses'=> 'OrderController@servicesUpdate','as'=> 'orders.servicesUpdate','title'=> 'تعديل خدمه بالطلب']);
+        Route::post('orders/assignTech',['uses'=> 'OrderController@assignTech','as'=> 'orders.assignTech','title'=> 'اختيار تقني']);
         Route::delete('orders/{id}',['uses'=> 'OrderController@destroy','as'=> 'orders.destroy','title'=> 'حذف طلب']);
+        Route::delete('orders/parts/{id}',['uses'=> 'OrderController@partsDestroy','as'=> 'orders.partsDestroy','title'=> 'حذف قطعة الغيار']);
         /********************************* OrderController end *********************************/
 
         /*------------ start Of chat----------*/
@@ -416,6 +445,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
 Route::post('/admin/cities','AjaxController@getCities')->name('admin.ajax.getCities');
 Route::post('/admin/regions','AjaxController@getRegions')->name('admin.ajax.getRegions');
 Route::post('/admin/getCategories','AjaxController@getCategories')->name('admin.ajax.getCategories');
+Route::post('/admin/getTechs','AjaxController@getTechs')->name('admin.ajax.getTechs');
 Route::any('/admin/changeAccepted','AjaxController@changeAccepted')->name('ajax.changeAccepted');
 Route::any('/admin/getItems','AjaxController@getItems')->name('admin.ajax.getItems');
 Route::any('/admin/getAds','AjaxController@getAds')->name('admin.ajax.getAds');

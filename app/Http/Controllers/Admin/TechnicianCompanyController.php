@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Technician\Create;
 use App\Http\Requests\Admin\Technician\Update;
 use App\Repositories\BranchRepository;
+use App\Repositories\CategoryRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\TechnicianRepository;
@@ -25,31 +26,35 @@ class TechnicianCompanyController extends Controller
     use NotifyTrait;
     use ResponseTrait;
     use UploadTrait;
-    protected $user, $country,$city,$technician,$branch;
+    protected $category,$user, $country,$city,$technician,$branch;
 
-    public function __construct(BranchRepository $branch,TechnicianRepository $technician,UserRepository $user,CountryRepository $country,CityRepository $city)
+    public function __construct(CategoryRepository $category,BranchRepository $branch,TechnicianRepository $technician,UserRepository $user,CountryRepository $country,CityRepository $city)
     {
         $this->user = $user;
         $this->country = $country;
         $this->city = $city;
         $this->technician = $technician;
         $this->branch = $branch;
+        $this->category = $category;
     }
 
     /***************************  get all providers  **************************/
-    public function index(TechnicianCompanyDatatable $clientDatatable)
+    public function index(TechnicianCompanyDatatable $clientDatatable,$id)
     {
+        $categories = $this->category->where('parent_id',null)->get();
         $countries = $this->country->all();
         $cities = $this->city->all();
-        return $clientDatatable->render('admin.companies.technicians.index', compact('cities','countries'));
+        return $clientDatatable->with('id',$id)->render('admin.companies.technicians.index', compact('categories','id','cities','countries'));
     }
 
 
     /***************************  store provider **************************/
-    public function store(Create $request)
+    public function store(Create $request,$id)
     {
+        $company = $this->user->find($id);
         $data = array_filter($request->except('image'));
         $data['user_type']  = 'technician';
+        $data['company_id']  = $company['id'];
         if($request->has('image')){
             $data['avatar'] = $this->uploadFile($request['image'],'users');
         }

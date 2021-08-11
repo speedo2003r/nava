@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Models\User;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,6 +34,10 @@ class City extends Model implements Transformable
     public function Regions()
     {
         return $this->hasMany(Region::class);
+    }
+    public function technicians()
+    {
+        return $this->hasMany(User::class)->whereIn('user_type',['company','technician'])->whereDoesntHave('company');
     }
 
 }

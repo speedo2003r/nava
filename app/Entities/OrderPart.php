@@ -14,7 +14,7 @@ use Spatie\Translatable\HasTranslations;
  *
  * @package namespace App\Entities;
  */
-class OrderService extends Model implements Transformable
+class OrderPart extends Model implements Transformable
 {
     use TransformableTrait;
     use SoftDeletes;
@@ -23,31 +23,22 @@ class OrderService extends Model implements Transformable
     protected $fillable = [
         'title',
         'order_id',
-        'service_id',
+        'part_id',
         'count',
         'price',
-        'status',
-        'type',
     ];
 
-    public static function serviceType($value = null)
-    {
-        $arr = [
-            'hourly' => 'بالساعه',
-            'fixed' => 'ثابت',
-            'pricing' => 'تقديري',
-        ];
-        if($value != null){
-            return $arr[$value];
-        }
-        return $arr;
-    }
     public function order()
     {
         return $this->belongsTo(Order::class,'order_id');
     }
-    public function service()
+    public function part()
     {
-        return $this->belongsTo(Service::class,'service_id');
+        return $this->belongsTo(Part::class,'part_id');
+    }
+
+    public function _price()
+    {
+        return $this->price * $this->count;
     }
 }

@@ -45,10 +45,71 @@
         <!-- end:: Content -->
     </div>
 
+    <!-- send-noti modal-->
+    <div class="modal fade" id="assign-tech"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('تعيين تقني')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.orders.assignTech')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="order_id" id="order_id">
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('التقني')}}
+                            </label>
+                            <select name="technician_id" class="form-control" id="technician_id">
+                                <option value="" selected hidden>اختر</option>
+                            </select>
+                        </div>
 
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success">{{awtTrans('إرسال')}}</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-danger" id="deleteModal-reject" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><h4 class="modal-title">رفض الطلب</h4></div>
+
+                <form action="{{route('admin.orders.rejectOrder')}}" method="post">
+                    @csrf()
+                    <input type="hidden" name="order_id" id="reject_id">
+                    <div class="modal-body">
+                        <p>هل أنت متأكد من عملية الرفض ؟</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary">نعم</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{__('close')}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 <!-- end edit model -->
 
 @endsection
 @push('js')
     {!! $dataTable->scripts() !!}
+    <script>
+        $(document).on('click','.child',function (){
+            var order = $(this).data('id');
+            $('#technician_id').empty();
+            $('#order_id').val(order);
+            getTechs(order);
+        });
+        $(document).on('click','.reject',function (){
+            var order = $(this).data('id');
+            $('#reject_id').val(order);
+        });
+    </script>
 @endpush

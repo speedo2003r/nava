@@ -1,4 +1,14 @@
-<a href="{{route($show,$id)}}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('مشاهده')}}" data-toggle="modal" data-target="#contact-profile"><i class="fas fa-eye"></i></a>
+@if($technician_id == null)
+    <button data-id="{{$id}}" data-toggle="modal" data-target="#assign-tech" title="" data-placement="top" data-original-title="تعيين" class="child btn btn-sm btn-clean btn-icon btn-icon-md">
+        <i class="fa fa-check"></i>
+    </button>
+@endif
+@if($status != 'rejected' && $status != 'canceled' && $technician_id == null)
+<a data-id="{{$id}}" data-toggle="kt-tooltip" title="" data-placement="top" data-original-title="رفض" class="btn btn-sm btn-clean btn-icon btn-icon-md reject" style="cursor: pointer;">
+    <i data-toggle="modal" data-target="#deleteModal-reject" class="la la-close"></i>
+</a>
+@endif
+<a href="{{route($show,$id)}}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('مشاهده')}}"><i class="fas fa-eye"></i></a>
 <button type="button"  onclick="confirmDelete('{{route($url,$id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
     <i class="la la-trash"></i>
 </button>

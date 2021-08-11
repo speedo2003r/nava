@@ -15,9 +15,10 @@ class CreatePartsTable extends Migration
     {
         Schema::create('parts', function (Blueprint $table) {
             $table->id();
+            $table->text('title')->nullable();
+            $table->text('description')->nullable();
             $table->foreignId('service_id')->constrained('services');
-            $table->double('price_from',8,2)->default(0);
-            $table->double('price_to',8,2)->default(0);
+            $table->double('price',8,2)->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();

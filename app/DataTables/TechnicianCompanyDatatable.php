@@ -37,14 +37,17 @@ class TechnicianCompanyDatatable extends DataTable
             ->addColumn('url',function ($query){
                 return 'admin.technicians.delete';
             })
+            ->addColumn('categories',function ($query){
+                return '<button type="button" data-user_id="'.$query['id'].'" data-perms='.$query->categories.'  data-toggle="modal" data-target="#categories-modal"  data-placement="top" data-original-title="التخصصات"  class="btn btn-sm btn-clean btn-icon btn-icon-md subs"><i class="fa fa-bars"></i></button>';
+            })
             ->addColumn('target',function ($query){
                 return 'editModel';
             })
             ->addColumn('data',function ($query){
                 return $query;
             })
-            ->addColumn('control','admin.partial.Control')
-            ->rawColumns(['status','control','id']);
+            ->addColumn('control','admin.partial.ControlNotify')
+            ->rawColumns(['categories','status','control','id']);
     }
 
     /**
@@ -55,7 +58,7 @@ class TechnicianCompanyDatatable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->query()->with('Technician')->where('company_id','!=',null)->where('user_type','technician')->latest();
+        return $model->query()->where('company_id',$this->id)->with('Technician')->where('company_id','!=',null)->where('user_type','technician')->latest();
     }
 
     /**
@@ -96,6 +99,7 @@ class TechnicianCompanyDatatable extends DataTable
             Column::make('status')->title('الحاله')->searchable(false),
             Column::make('balance')->title('المديونيه'),
             Column::make('email')->title('البريد الالكتروني'),
+            Column::make('categories')->title('التخصصات'),
             Column::make('wallet')->title('المحفظه'),
             Column::make('phone')->title('الهاتف'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),

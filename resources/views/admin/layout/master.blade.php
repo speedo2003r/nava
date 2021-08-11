@@ -531,11 +531,34 @@
                     if(type != ''){
                         city_id = type;
                     }
-                    html += `<option value="">${placeholder}</option>`;
+                    html += `<option value="" hidden selected>${placeholder}</option>`;
                     $.each(res.data,function (index,value) {
                         html += `<option value="${value.id}" ${city_id == value.id ? 'selected':'' }>${value.title.ar}</option>`;
                     });
                     $('[name=city_id]').append(html);
+                }
+            });
+        }
+    }
+    function getTechs(order_id,type = '',placeholder = 'اختر'){
+        var html = '';
+        var technician_id = '';
+        $('[name=technician_id]').empty();
+        if(order_id){
+            $.ajax({
+                url: `{{route('admin.ajax.getTechs')}}`,
+                type: 'post',
+                dataType: 'json',
+                data:{id: order_id},
+                success: function (res) {
+                    if(type != ''){
+                        technician_id = type;
+                    }
+                    html += `<option value="" hidden selected>${placeholder}</option>`;
+                    $.each(res.data,function (index,value) {
+                        html += `<option value="${value.id}" ${technician_id == value.id ? 'selected':'' }>${value.name}</option>`;
+                    });
+                    $('[name=technician_id]').append(html);
                 }
             });
         }

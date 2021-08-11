@@ -20,6 +20,7 @@ class Image extends Model implements Transformable
     public $fillable = [
         'image_id',
         'image_type',
+        'media_type',
         'image'
     ];
     public function imageable()

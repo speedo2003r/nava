@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Entities\Branch;
 use App\Entities\Category;
+use App\Entities\Order;
 use App\Http\Controllers\Controller;
 use App\Repositories\CityRepository;
+use App\Repositories\CountryRepository;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,11 +16,12 @@ use App\Models\User;
 class AjaxController extends Controller
 {
     use ResponseTrait;
-    protected $governorate,$city;
+    protected  $city;
 
-    public function __construct(CityRepository $city)
+    public function __construct(CountryRepository $country,CityRepository $city)
     {
         $this->city = $city;
+        $this->country = $country;
     }
 
     public function getCategories(Request $request)
@@ -41,9 +44,9 @@ class AjaxController extends Controller
     public function getCities(Request $request)
     {
         if($request->ajax()){
-            $governorate_id = $request['id'];
-            $governorate = $this->governorate->find($governorate_id);
-            $cities = $governorate->cities;
+            $country_id = $request['id'];
+            $country = $this->country->find($country_id);
+            $cities = $country->cities;
             return $this->successResponse($cities);
         }
     }
@@ -54,6 +57,16 @@ class AjaxController extends Controller
             $city = $this->city->find($city_id);
             $regions = $city->Regions;
             return $this->successResponse($regions);
+        }
+    }
+    public function getTechs(Request $request)
+    {
+        if($request->ajax()){
+            $order = Order::find($request['id']);
+            $city_id = $order['city_id'];
+            $city = $this->city->find($city_id);
+            $technicians = $city->technicians;
+            return $this->successResponse($technicians);
         }
     }
 

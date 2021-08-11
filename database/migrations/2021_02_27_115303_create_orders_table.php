@@ -25,7 +25,7 @@ class CreateOrdersTable extends Migration
 
             $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('cascade');
             $table->foreignId('region_id')->nullable()->constrained('regions')->onDelete('cascade');
-            $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('cascade');
+//            $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('cascade');
 
             $table->integer('total_services')->default(0);
             $table->foreignId('coupon_id')->nullable()->constrained('coupons');
@@ -76,9 +76,12 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('order_id')->nullable()->constrained('orders');
             $table->foreignId('service_id')->nullable()->constrained('services');
+            $table->text('title')->nullable();
             $table->integer('count')->default(1);
             $table->double('price',8,2)->nullable();
             $table->tinyInteger('status')->default(0);
+            $table->enum('type',['hourly','fixed','pricing'])->nullable();
+            $table->tinyInteger('type')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
             $table->softDeletes();
@@ -87,6 +90,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('order_id')->nullable()->constrained('orders');
             $table->foreignId('part_id')->nullable()->constrained('parts');
+            $table->text('title')->nullable();
             $table->integer('count')->default(0);
             $table->double('price',8,2)->default(0);
             $table->timestamp('created_at')->useCurrent();

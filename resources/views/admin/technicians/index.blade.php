@@ -114,6 +114,35 @@
         </div>
     </div>
     <!--end send-noti modal-->
+
+
+    <!-- send-noti modal-->
+    <div class="modal fade" id="categories-modal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('التخصصات')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.technicians.selectCategories')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="user_id" id="user_id_perms" value="">
+                        <div class="form-group">
+                            <div class="children-groups">
+
+                            </div>
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success save">إرسال</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">اغلاق</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- edit model -->
     <div class="modal fade" id="editModel">
         <div class="modal-dialog modal-lg">
@@ -174,7 +203,7 @@
                                 <div class="form-group">
                                     <label>الدوله</label>
                                     <select name="country_id" id="country_id" class="form-control">
-                                        <option value="">اختر</option>
+                                        <option value="" hidden selected>اختر</option>
                                         @foreach($countries as $country)
                                             <option value="{{$country['id']}}">{{$country->title}}</option>
                                         @endforeach
@@ -185,10 +214,7 @@
                                 <div class="form-group">
                                     <label>المدينه</label>
                                     <select name="city_id" id="city" class="form-control">
-                                        <option value="">اختر</option>
-                                        @foreach($cities as $city)
-                                            <option value="{{$city['id']}}">{{$city->title}}</option>
-                                        @endforeach
+                                        <option value="" hidden selected>اختر</option>
                                     </select>
                                 </div>
                             </div>
@@ -247,6 +273,10 @@
                                 <span class="material-control-indicator"></span>
                             </label>`);
         });
+        $('body').on('change','#country_id',function (){
+            var country = $(this).val();
+            getCities(country)
+        })
         $('.add-user').on('click',function () {
             $('#editModel .modal-title').text(`{{awtTrans('اضافة تقني')}}`);
             $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
@@ -296,5 +326,40 @@
                 }
             });
         }
+
+        $(function () {
+            'use strict'
+            $('body').on('click','.subs',function () {
+                var user = $(this).data('user_id');
+                var perms = $(this).data('perms');
+                $('#user_id_perms').val(user);
+                var subperms = {!! json_encode($categories) !!};
+                $('.children-groups').empty();
+                var html = '';
+                var subcat = '';
+                $.each(subperms,(indexperm,value)=>{
+                    $.each(perms,(index,catvalue)=>{
+                        if(value.id == catvalue.id){
+                            subcat = value.id;
+                        }
+                    });
+                    console.log(value.title.ar);
+                    html += `
+                    <table class="table">
+                        <tr>
+                            <th>
+                                ${value.title.ar}
+                            </th>
+                            <td>
+                                <input type="checkbox" name="perms[]" ${subcat == value.id ? 'checked' : ''} value="${value.id}">
+                            </td>
+                        </tr>
+                    </table>
+                    `;
+                });
+
+                $('.children-groups').append(html);
+            })
+        })
     </script>
 @endpush

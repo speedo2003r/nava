@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Technician\Create;
 use App\Http\Requests\Admin\Technician\Update;
 use App\Repositories\BranchRepository;
+use App\Repositories\CategoryRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\TechnicianRepository;
@@ -24,23 +25,25 @@ class TechnicianController extends Controller
     use NotifyTrait;
     use ResponseTrait;
     use UploadTrait;
-    protected $user, $country,$city,$technician,$branch;
+    protected $category,$user, $country,$city,$technician,$branch;
 
-    public function __construct(BranchRepository $branch,TechnicianRepository $technician,UserRepository $user,CountryRepository $country,CityRepository $city)
+    public function __construct(CategoryRepository $category,BranchRepository $branch,TechnicianRepository $technician,UserRepository $user,CountryRepository $country,CityRepository $city)
     {
         $this->user = $user;
         $this->country = $country;
         $this->city = $city;
         $this->technician = $technician;
         $this->branch = $branch;
+        $this->category = $category;
     }
 
     /***************************  get all providers  **************************/
     public function index(TechnicianDatatable $clientDatatable)
     {
         $countries = $this->country->all();
+        $categories = $this->category->where('parent_id',null)->get();
         $cities = $this->city->all();
-        return $clientDatatable->render('admin.technicians.index', compact('cities','countries'));
+        return $clientDatatable->render('admin.technicians.index', compact('categories','cities','countries'));
     }
 
 
@@ -90,5 +93,12 @@ class TechnicianController extends Controller
             $this->user->delete($role['id']);
         }
         return redirect()->back()->with('success', 'تم الحذف بنجاح');
+    }
+
+    public function selectCategories(Request $request)
+    {
+        $user = $this->user->find($request->user_id);
+        $user->categories()->sync($request['perms']);
+        return back()->with('success',awtTrans('تم الحفظ بنجاح'));
     }
 }

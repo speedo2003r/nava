@@ -70,19 +70,38 @@ class Order extends Model implements Transformable
     {
         return $this->hasMany(OrderService::class,'order_id');
     }
+    public function orderParts()
+    {
+        return $this->hasMany(OrderPart::class,'order_id');
+    }
+    public function reviews()
+    {
+        return $this->hasMany(ReviewRate::class,'order_id');
+    }
+    public function files()
+    {
+        return $this->morphMany(Image::class,'imageable','image_type','image_id');
+    }
     public function _price()
     {
-        $total = ( (string) round($this->vat_amount,2) + $this->final_total);
+        $orderServices = $this->orderServices()->where('status',1)->sum('price');
+        $orderParts = $this->orderParts()->sum('price');
+
+        $total = ($orderServices + $orderParts);
         return (string) round($total,2);
     }
 
     public static function userStatus($index = null)
     {
         $arr = [
-            'confirmed' => app()->getLocale() == 'ar' ? 'وضع الانتظار' : 'standby mode',
-            'approved' => app()->getLocale() == 'ar' ? 'مقبول' : 'approved',
-            'under_work' => app()->getLocale() == 'ar' ? 'تحت التنفيذ' : 'Under implementation',
-            'done' => app()->getLocale() == 'ar' ? 'تم التنفيذ' : 'done',
+            'created' => app()->getLocale() == 'ar' ? 'قيد الفحص' : 'under examination',
+            'accepted' => app()->getLocale() == 'ar' ? 'تم القبول' : 'approved',
+            'on-way' => app()->getLocale() == 'ar' ? 'في الطريق' : 'on way',
+            'arrived' => app()->getLocale() == 'ar' ? 'تم الوصول' : 'arrived',
+            'in-progress' => app()->getLocale() == 'ar' ? 'قيد التنفيذ' : 'in progress',
+            'finished' => app()->getLocale() == 'ar' ? 'تم الانتهاء' : 'finished',
+            'canceled' => app()->getLocale() == 'ar' ? 'تم الالغاء' : 'canceled',
+            'rejected' => app()->getLocale() == 'ar' ? 'تم الرفض' : 'rejected',
         ];
         if($index != null){
             return $arr[$index];
@@ -106,6 +125,10 @@ class Order extends Model implements Transformable
     public function user()
     {
         return $this->belongsTo(User::class,'user_id');
+    }
+    public function technician()
+    {
+        return $this->belongsTo(User::class,'technician_id');
     }
     public function category()
     {

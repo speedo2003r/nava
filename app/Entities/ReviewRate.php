@@ -17,11 +17,11 @@ class ReviewRate extends Model implements Transformable
     use TransformableTrait;
     public $fillable = [
         'user_id',
+        'order_id',
         'rateable_id',
         'rateable_type',
         'rate',
         'comment',
-        'accepted',
         'status',
     ];
 

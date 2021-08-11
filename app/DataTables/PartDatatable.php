@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Entities\Part;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Html\Button;
@@ -10,7 +11,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class TechnicianDatatable extends DataTable
+class PartDatatable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -28,17 +29,8 @@ class TechnicianDatatable extends DataTable
                             <span class="material-control-indicator"></span>
                         </label>';
             })
-            ->addColumn('status',function ($query){
-                return '<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" style="direction: ltr">
-                            <input type="checkbox" onchange="changeUserStatus('.$query->id.')" '.($query->banned == 0 ? 'checked' : '') .' class="custom-control-input" id="customSwitch'.$query->id.'">
-                            <label class="custom-control-label" id="status_label'.$query->id.'" for="customSwitch'.$query->id.'"></label>
-                        </div>';
-            })
-            ->addColumn('categories',function ($query){
-                return '<button type="button" data-user_id="'.$query['id'].'" data-perms='.$query->categories.'  data-toggle="modal" data-target="#categories-modal"  data-placement="top" data-original-title="التخصصات"  class="btn btn-sm btn-clean btn-icon btn-icon-md subs"><i class="fa fa-bars"></i></button>';
-            })
             ->addColumn('url',function ($query){
-                return 'admin.technicians.delete';
+                return 'admin.parts.destroy';
             })
             ->addColumn('target',function ($query){
                 return 'editModel';
@@ -46,8 +38,8 @@ class TechnicianDatatable extends DataTable
             ->addColumn('data',function ($query){
                 return $query;
             })
-            ->addColumn('control','admin.partial.Control')
-            ->rawColumns(['categories','status','control','id']);
+            ->addColumn('control','admin.partial.ControlEditDel')
+            ->rawColumns(['status','control','id']);
     }
 
     /**
@@ -56,9 +48,12 @@ class TechnicianDatatable extends DataTable
      * @param \App\Models\ClientDatatable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(User $model)
+    public function query(Part $model)
     {
-        return $model->query()->with('categories')->with('Technician')->where('company_id',null)->where('user_type','technician')->latest();
+        return $model->query()
+            ->select('parts.id as id','parts.title','parts.title->'.app()->getLocale().' as part_title','parts.description','parts.description->'.app()->getLocale().' as part_description','parts.price','parts.created_at')
+            ->where('service_id',$this->id)
+            ->latest();
     }
 
     /**
@@ -69,7 +64,7 @@ class TechnicianDatatable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('clientdatatable-table')
+            ->setTableId('partdatatable-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Blfrtip')
@@ -95,13 +90,9 @@ class TechnicianDatatable extends DataTable
     {
         return [
             Column::make('id')->title('')->orderable(false),
-            Column::make('name')->title('الاسم'),
-            Column::make('status')->title('الحاله')->searchable(false),
-            Column::make('balance')->title('المديونيه'),
-            Column::make('email')->title('البريد الالكتروني'),
-            Column::make('categories')->title('التخصصات'),
-            Column::make('wallet')->title('المحفظه'),
-            Column::make('phone')->title('الهاتف'),
+            Column::make('part_title')->title('اسم القطعه'),
+            Column::make('part_description')->title('وصف القطعه'),
+            Column::make('price')->title('السعر'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];
     }

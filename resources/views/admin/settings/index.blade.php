@@ -79,6 +79,18 @@
                         <input type="number" name="keys[tax]" value="{{settings('tax')}}" class="form-control" id="exampleInputTax1" placeholder="">
                       </div>
                       <div class="form-group">
+                        <label for="exampleInputTax1">أقل قيمه للطلب</label>
+                        <input type="number" name="keys[mini_order_charge]" value="{{settings('mini_order_charge')}}" class="form-control" id="exampleInputTax1" placeholder="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputTax1">المدفوع لأقل قيمه للطلب</label>
+                        <input type="number" name="keys[mini_order_charge_paid]" value="{{settings('mini_order_charge_paid')}}" class="form-control" id="exampleInputTax1" placeholder="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputTax1"> قيمه المعاينه</label>
+                        <input type="number" name="keys[preview_value]" value="{{settings('preview_value')}}" class="form-control" id="exampleInputTax1" placeholder="">
+                      </div>
+                      <div class="form-group">
                         <label for="exampleInputPassword1">واتساب</label>
                         <input type="number" name="keys[whatsapp]" value="{{settings('whatsapp')}}" class="form-control" id="exampleInputPhone1" placeholder="">
                       </div>

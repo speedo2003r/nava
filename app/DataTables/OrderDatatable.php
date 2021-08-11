@@ -35,11 +35,21 @@ class OrderDatatable extends DataTable
             ->addColumn('show',function ($query){
                 return 'admin.orders.show';
             })
+            ->addColumn('services',function ($query){
+                $data = '';
+                foreach ($query->orderServices as $orderService){
+                    $data .= $orderService['title'] ? $orderService['title'] : $orderService->service['title'];
+                }
+                return $data;
+            })
             ->addColumn('data',function ($query){
                 return $query;
             })
+            ->editColumn('final_total',function ($query){
+                return $query->_price();
+            })
             ->addColumn('control','admin.partial.ControlOrder')
-            ->rawColumns(['status','control','id']);
+            ->rawColumns(['services','status','control','id']);
     }
 
     /**
@@ -50,7 +60,13 @@ class OrderDatatable extends DataTable
      */
     public function query(Order $model)
     {
-        return $model->query()->latest();
+        return $model->query()
+            ->select('orders.*','users.name','cities.title->ar as city_title','regions.title->ar as region_title')
+            ->leftJoin('users','users.id','=','orders.user_id')
+            ->leftJoin('cities','cities.id','=','orders.city_id')
+            ->leftJoin('regions','regions.id','=','orders.region_id')
+            ->with('orderServices')
+            ->latest();
     }
 
     /**
@@ -88,8 +104,11 @@ class OrderDatatable extends DataTable
         return [
             Column::make('id')->title('')->orderable(false),
             Column::make('order_num')->title('رقم الطلب'),
-            Column::make('shipping_price')->title('سعر الشحن'),
-            Column::make('total')->title('الاجمالي'),
+            Column::make('name')->name('users.name')->title('اسم العميل'),
+            Column::make('city_title')->name('city_title')->title('المدينه'),
+            Column::make('region_title')->name('region_title')->title('المنطقه'),
+            Column::make('services')->title('الخدمات'),
+            Column::make('final_total')->title('الاجمالي بدون الضريبه'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];
     }

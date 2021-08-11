@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\PartDatatable;
 use App\Entities\Category;
 use App\Entities\Service;
 use App\Http\Controllers\Controller;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\File;
 use Nwidart\Modules\FileRepository;
 use Yajra\DataTables\Facades\DataTables;
 
-class ServiceController extends Controller
+class PartsController extends Controller
 {
     use UploadTrait;
     protected $serviceRepo,$branch,$serviceType,$categoryRepo,$userRepo,$fileRepo,$langs;
@@ -30,15 +31,11 @@ class ServiceController extends Controller
         $this->categoryRepo = $category;
         $this->userRepo = $user;
         $this->fileRepo = $file;
-        $this->langs = [
-            'ar' => 'arabic',
-            'en' => 'english',
-        ];
     }
-    public function index()
+    public function index(PartDatatable $datatable,$id)
     {
-        $categories = $this->categoryRepo->where('parent_id','!=',null)->get();
-        return view('admin.service.index',compact('categories'));
+        $service = $this->serviceRepo->where('id',$id)->first();
+        return $datatable->with(['id'=>$id])->render('admin.parts.index',compact('service'));
     }
 
     public function delete(Request $request)

@@ -19,8 +19,10 @@ class CreateReviewRatesTable extends Migration
 		Schema::create('review_rates', function(Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->morphs('rateable');
             $table->unsignedTinyInteger('rate');
+            $table->text('comment')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
