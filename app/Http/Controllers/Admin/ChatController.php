@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\Room;
 use App\Repositories\Interfaces\IRole;
 use App\Repositories\Interfaces\IUser;
+use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
@@ -19,12 +20,13 @@ use Illuminate\Support\Facades\Validator;
 class ChatController extends Controller
 {
     use UploadTrait;
-    protected $userRepo, $roleRepo;
+    protected $order,$userRepo, $roleRepo;
 
-    public function __construct(UserRepository $user,Role $role)
+    public function __construct(OrderRepository $order,UserRepository $user,Role $role)
     {
         $this->userRepo = $user;
         $this->roleRepo = $role;
+        $this->order = $order;
     }
 
     /***************************  get all admins  **************************/
@@ -74,6 +76,10 @@ class ChatController extends Controller
         $room = creatPrivateRoom($currentUser->id,$otherUser->id);
         $messages  = getRoomMessages($room->id, $currentUser->id);
         return response()->json(['status'=>1,'message' => 'success','room' =>$room,'messages'=>$messages ]);
+    }
+    public function ViewMessages($id){
+        $order = $this->order->find($id);
+        return view('admin.orders.chat',compact('order'));
     }
     ############################# END CHAT WORK #############################
 

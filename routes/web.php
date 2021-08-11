@@ -318,11 +318,11 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('chats', [
             'uses'      => 'ChatController@index',
             'as'        => 'chats.index',
-            'title'     => 'المحادثه',
+            'title'     => ' سجل المحادثات',
             'icon'      => asset('assets/media/menuicon/chat.svg'),
             'type'      => 'parent',
             'sub_route' => false,
-            'child'     => ['chats.index','chats.store','chats.users','chats.privateRoom']
+            'child'     => ['chats.index','chats.store','chats.users','chats.room','chats.privateRoom']
         ]);
 
 
@@ -331,6 +331,13 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'uses'      => 'ChatController@SaveMessage',
             'as'        => 'chats.store',
             'title'     => 'حفظ المحادثه'
+        ]);
+
+        #store chats
+        Route::get('chats/room/{id}', [
+            'uses'      => 'ChatController@ViewMessages',
+            'as'        => 'chats.room',
+            'title'     => 'مشاهدة المحادثه'
         ]);
 
         #store chats
@@ -345,6 +352,24 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'as'        => 'chats.privateRoom',
             'title'     => 'اضافة غرفة دردشه'
         ]);
+
+        /********************************* SliderController start *********************************/
+        Route::get('sliders', [
+            'uses'      => 'SliderController@index',
+            'as'        => 'sliders.index',
+            'title'     => ' البنرات المتحركه',
+            'icon'      => asset('assets/media/menuicon/services.svg'),
+            'type'      => 'parent',
+            'sub_route' => false,
+            'child'     => ['sliders.index', 'sliders.store', 'sliders.update', 'sliders.destroy','sliders.changeActive']
+        ]);
+
+        Route::post('sliders/store',['uses'=> 'SliderController@store','as'=> 'sliders.store','title'=> 'اضافة بنر']);
+        Route::post('sliders/{id}',['uses'=> 'SliderController@update','as'=> 'sliders.update','title'=> 'تعديل بنر']);
+        Route::delete('sliders/{id}',['uses'=> 'SliderController@destroy','as'=> 'sliders.destroy','title'=> 'حذف بنر']);
+        Route::post('sliders/active/change',['uses'=> 'SliderController@changeActive','as'=> 'sliders.changeActive','title'=> 'تنشيط']);
+        /********************************* SliderController end *********************************/
+
         /********************************* PageController start *********************************/
         Route::get('pages', [
             'uses'      => 'PageController@index',

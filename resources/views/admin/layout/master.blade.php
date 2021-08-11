@@ -540,7 +540,7 @@
             });
         }
     }
-    function getTechs(order_id,type = '',placeholder = 'اختر'){
+    function getTechs(order_id,category_id,type = '',placeholder = 'اختر'){
         var html = '';
         var technician_id = '';
         $('[name=technician_id]').empty();
@@ -549,7 +549,7 @@
                 url: `{{route('admin.ajax.getTechs')}}`,
                 type: 'post',
                 dataType: 'json',
-                data:{id: order_id},
+                data:{id: order_id,category_id: category_id},
                 success: function (res) {
                     if(type != ''){
                         technician_id = type;

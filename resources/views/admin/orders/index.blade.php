@@ -97,15 +97,46 @@
     </div>
 <!-- end edit model -->
 
+    <!-- send-noti modal-->
+    <div class="modal fade" id="send-noti"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('إرسال أشعار')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="sendnotifyuserForm" method="POST">
+                        @csrf
+                        <input type="hidden" name="type" id="notify_type" value="client">
+                        <input type="hidden" name="id" id="notify_id">
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('الرسالة')}}
+                            </label>
+                            <textarea name="message" id="notifyMessage" cols="30" rows="4" class="form-control"
+                                      placeholder="{{awtTrans('اكتب رسالتك')}} ..."></textarea>
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success save" onclick="sendnotifyuser()">إرسال</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">اغلاق</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('js')
     {!! $dataTable->scripts() !!}
     <script>
         $(document).on('click','.child',function (){
             var order = $(this).data('id');
+            var category_id = $(this).data('category');
             $('#technician_id').empty();
             $('#order_id').val(order);
-            getTechs(order);
+            getTechs(order,category_id);
         });
         $(document).on('click','.reject',function (){
             var order = $(this).data('id');

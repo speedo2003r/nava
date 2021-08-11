@@ -172,12 +172,14 @@
                                                 <td>{{$orderService['status'] == 1 ? 'مقبول' : ($orderService['status'] == 2 ? 'مرفوض' : ($orderService['status'] == 0 ? 'تحت المراجعه' : '-'))}}</td>
                                                 <td>{{\App\Entities\OrderService::serviceType($orderService['type'])}}</td>
                                                 <td>
-                                                    @if($orderService->type == 'pricing' && $orderService->order['status'] == 'created')
+                                                    @if($orderService->type == 'pricing' && $orderService['status'] != 2 && $orderService->order['status'] == 'created' && $orderService->order['status'] != 'finished' && $orderService->order['status'] != 'rejected')
                                                         <a id="child" data-service_id="{{$orderService['id']}}" data-price="{{$orderService['price']}}" data-toggle="kt-tooltip" title="" data-placement="top" data-original-title="إرسال سعر تقديرى" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;" aria-describedby="tooltip579256">
                                                             <i data-toggle="modal" data-target="#set-price" class="la la-dollar"></i>
                                                         </a>
+                                                    @else
+                                                        ---
                                                     @endif
-                                                    @if(($orderService->order['status'] != 'finished' || $orderService->order['status'] != 'rejected') && $orderService['status'] != 2)
+                                                    @if(($orderService->order['status'] != 'finished' && $orderService->order['status'] != 'rejected') && $orderService['status'] != 2)
                                                         <a id="reject" data-service_id="{{$orderService['id']}}" data-toggle="kt-tooltip" title="" data-placement="top" data-original-title="رفض" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
                                                             <i data-toggle="modal" data-target="#deleteModal-reject" class="la la-close"></i>
                                                         </a>

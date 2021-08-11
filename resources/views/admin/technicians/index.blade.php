@@ -65,7 +65,7 @@
                 <div class="modal-body">
                     <form action="" id="sendnotifyuserForm" method="POST">
                         @csrf
-                        <input type="hidden" name="type" id="notify_type" value="client">
+                        <input type="hidden" name="type" id="notify_type" value="technician">
                         <input type="hidden" name="id" id="notify_id">
                         <div class="form-group">
                             <label for="">

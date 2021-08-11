@@ -31,7 +31,7 @@
                                 {{awtTrans('اضافه')}}
                             </button>
 
-                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.roles.delete',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
+                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.admins.delete',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
                                 <i class="la la-trash"></i>
                                 {{awtTrans('حذف')}}
                             </button>
@@ -81,7 +81,7 @@
                                     <i class="la la-cog"></i>
                                 </button>
                                 @if(\App\Models\User::where('user_type','admin')->first()['id'] != $ob['id'])
-                                <button type="button"  onclick="confirmDelete('{{route('admin.roles.delete',$ob->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
+                                <button type="button"  onclick="confirmDelete('{{route('admin.admins.delete',$ob->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
                                     <i    class="la la-trash"></i>
                                 </button>
                                 @endif

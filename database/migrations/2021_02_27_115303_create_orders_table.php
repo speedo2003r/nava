@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
 
             $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('cascade');
             $table->foreignId('region_id')->nullable()->constrained('regions')->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
 //            $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('cascade');
 
             $table->integer('total_services')->default(0);

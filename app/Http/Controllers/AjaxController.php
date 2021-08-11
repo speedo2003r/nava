@@ -63,9 +63,12 @@ class AjaxController extends Controller
     {
         if($request->ajax()){
             $order = Order::find($request['id']);
+            $category_id = $request['category_id'];
             $city_id = $order['city_id'];
             $city = $this->city->find($city_id);
-            $technicians = $city->technicians;
+            $technicians = $city->technicians()->whereHas('categories',function ($query) use ($category_id){
+                $query->where('user_categories.category_id',$category_id);
+            })->get();
             return $this->successResponse($technicians);
         }
     }

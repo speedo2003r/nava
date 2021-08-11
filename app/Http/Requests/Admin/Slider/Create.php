@@ -24,8 +24,7 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            'title_ar' => 'required|max:191',
-            'title_en'  => 'required|max:191',
+            'title' => 'required|max:191',
             'image'  => 'required|mimes:jpg,jpeg,png',
         ];
     }
