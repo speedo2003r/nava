@@ -85,6 +85,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CompanyRepository::class           , CompanyRepositoryEloquent::class);
         $this->app->bind(ComplaintRepository::class           , ComplaintRepositoryEloquent::class);
         $this->app->bind(SliderRepository::class           , SliderRepositoryEloquent::class);
+        $this->app->bind(QuestionRepository::class           , QuestionRepositoryEloquent::class);
 
     }
 

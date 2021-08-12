@@ -383,6 +383,22 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('pages/{id}',['uses'=> 'PageController@update','as'=> 'pages.update','title'=> 'تعديل صفحه']);
         /********************************* PageController end *********************************/
 
+        /********************************* QuestionController start *********************************/
+        Route::get('questions', [
+            'uses'      => 'QuestionController@index',
+            'as'        => 'questions.index',
+            'title'     => ' الأسئله والأجوبه',
+            'icon'      => asset('assets/media/menuicon/document.svg'),
+            'type'      => 'parent',
+            'sub_route' => false,
+            'child'     => ['questions.index', 'questions.store', 'questions.update', 'questions.destroy']
+        ]);
+
+        Route::post('questions/store',['uses'=> 'QuestionController@store','as'=> 'questions.store','title'=> 'اضافة سؤال']);
+        Route::post('questions/{id}',['uses'=> 'QuestionController@update','as'=> 'questions.update','title'=> 'تعديل سؤال']);
+        Route::delete('questions/{id}',['uses'=> 'QuestionController@destroy','as'=> 'questions.destroy','title'=> 'حذف سؤال']);
+        /********************************* QuestionController end *********************************/
+
         /********************************* ContactController start *********************************/
         Route::get('complaints', [
             'uses'      => 'ComplaintController@index',
