@@ -44,6 +44,10 @@
         .chat .color-2{
             background-color:rgba(10, 187, 135, 0.1);
         }
+        textarea.input-custom-size{
+            resize: none;
+            margin: 15px 0;
+        }
         .chat .color-3{
             background-color: rgba(255, 184, 34, 0.1);
         }
@@ -82,6 +86,10 @@
             position: static !important;
             z-index: auto !important;
         }
+        .font_12{
+            clear:both;
+            margin: 10px 0;
+        }
         .chat-head ul li{
             margin-bottom: 15px;
             font-size: 14px;
@@ -99,6 +107,18 @@
         }
         .chat .text-right button{
             width: 100px;
+        }
+        .direct-chat-text {
+            border-radius: 0.3rem;
+            background: #d2d6de;
+            border: 1px solid #d2d6de;
+            color: #444;
+            margin: 5px 0 0 50px;
+            padding: 5px 10px;
+            position: relative;
+        }
+        .sent_chat{
+            margin: 15px;
         }
     </style>
 
@@ -132,30 +152,31 @@
                                                                             <div class="kt-chat__left">
                                                                                 <div class="kt-chat__label">
                                                                                     <div class="chat-head">
-                                                                                        <div class="requist-info">
+                                                                                        <div class="requist-info" id="app">
                                                                                             <div class="row">
-                                                                                                <div class="col-lg-8">
+                                                                                                <div class="col-lg-3">
                                                                                                     <ul class="list-unstyled">
                                                                                                         <li> <span style="width: 90px;"> رقم الطلب  : </span> {{$order->order_num}} </li>
-                                                                                                        <li> <span style="width: 90px;"> وقت تنفيذ الطلب : </span> {{$order->time}} / {{$order->date}} </li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                                <div class="col-lg-3">
+                                                                                                    <ul class="list-unstyled">
                                                                                                         <li> <span style="width: 90px;"> اسم العميل : </span> {{$order->user->name}} </li>
                                                                                                     </ul>
                                                                                                 </div>
+                                                                                                <div class="col-lg-3">
+                                                                                                    <ul class="list-unstyled">
+                                                                                                        <li> <span style="width: 90px;"> اسم التقني : </span> {{$order->technician_id ? $order->technician->name : '---'}} </li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                                <div class="col-lg-3">
+                                                                                                    <ul class="list-unstyled">
+                                                                                                        <li> <span style="width: 90px;"> تاريخ الطلب : </span> {{$order->time}} / {{$order->date}} </li>                                                                                                    </ul>
+                                                                                                </div>
                                                                                             </div>
-{{--                                                                                            <form method="post" id="formReply" action="{{action('Admin\MsgController@sendMsg')}}" style="display:none;">--}}
 
-{{--                                                                                                <div class="row" style="border-top: 1px solid #EBEDF2;padding-top: 15px; text-align:right; position:relative">--}}
-
-{{--                                                                                                    <textarea class="form-control" placeholder="{{__('admin/messages.message_placeholder')}}" name="message" id="exampleTextarea" rows="3" required></textarea>--}}
-{{--                                                                                                    <div class="text-right mt-3 w-100">--}}
-{{--                                                                                                        {{ csrf_field() }}--}}
-{{--                                                                                                        <input type="hidden" name="chat_id" value="{{$chat->id}}">--}}
-{{--                                                                                                        <button type="submit" class="btn btn-primary"> <i class="flaticon2-send-1"></i>{{__('admin/messages.send')}} </button>--}}
-{{--                                                                                                        <a href="javascript:void(0)" id="closeForm"><i class="fa fa-close" style="position: absolute;top: 20px;left: 10px;"></i></a>--}}
-{{--                                                                                                    </div>--}}
-
-{{--                                                                                                </div>--}}
-{{--                                                                                            </form>--}}
+                                                                                            <chat-order-component order='{{ $order['id'] }}'></chat-order-component>
+{{--                                                                                        </div>--}}
 
 
 
@@ -167,15 +188,7 @@
                                                                         </div>
 
                                                                     </div>
-                                                                    <div class="kt-portlet__body">
-                                                                        <div class="kt-scroll kt-scroll--pull ps ps--active-y" data-height="350px" data-mobile-height="300" style="height: 410px; overflow: hidden;">
-                                                                            <div class="kt-chat__messages kt-chat__messages--solid">
-                                                                                <div class="row">
 
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -208,7 +221,9 @@
 @endsection
 @push('js')
 
+    <script src="{{ asset('js/app.js') }}" defer async></script>
     <script type="text/javascript">
+
         $('#reply-message-chat').on('click',function(){
 
             $('#formReply').show();

@@ -10,8 +10,8 @@ class CreateRoomUsersTable extends Migration
     {
         Schema::create('room_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('room_id')->nullable()->constrained('rooms');
-            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('room_id')->nullable()->constrained('rooms')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

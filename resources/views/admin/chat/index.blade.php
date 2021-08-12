@@ -31,7 +31,10 @@
                         <div class="kt-portlet__body kt-portlet__body--fit  margin-15 ">
                             <!--begin: Datatable -->
                             <div class="table-responsive">
-
+                                {!! $dataTable->table([
+                                 'class' => "table table-striped table-bordered dt-responsive nowrap",
+                                 'id' => "roomdatatable-table",
+                                 ],true) !!}
                             </div>
                             <!--end: Datatable -->
                         </div>
@@ -47,7 +50,11 @@
     <!-- end:: Page -->
 
 @endsection
+@push('js')
+    {!! $dataTable->scripts() !!}
 
+
+@endpush
 
 {{--    @push('css')--}}
 

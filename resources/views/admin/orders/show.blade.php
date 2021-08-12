@@ -80,18 +80,31 @@
                                                 <span>:</span>
                                                 <span>{{$order['map_desc']}}</span>
                                             </li>
+                                            <li>
+                                                <span>المنزل</span>
+                                                <span>:</span>
+                                                <span>{{$order['residence']}}</span>
+                                            </li>
+                                            <li>
+                                                <span>الشارع</span>
+                                                <span>:</span>
+                                                <span>{{$order['street']}}</span>
+                                            </li>
+                                            <li>
+                                                <span>الدور</span>
+                                                <span>:</span>
+                                                <span>{{$order['floor']}}</span>
+                                            </li>
+                                            <li>
+                                                <span>ملاحظات العنوان</span>
+                                                <span>:</span>
+                                                <span>{{$order['address_notes']}}</span>
+                                            </li>
                                             <li class="text-bold">
                                                 <span>طريقة الدفع</span>
                                                 <span>:</span>
                                                 <span>@if($order->payment_method == 'transfer') تحويل بنكي @elseif($order->payment_method == 'online') اون لاين @else كاش @endif</span>
                                             </li>
-                                            @if(count($order->orderParts) > 0)
-                                            <li class="text-bold">
-                                                <span>سعر قطع الغيار</span>
-                                                <span>:</span>
-                                                <span>{{$order->orderParts()->sum('price')}}</span>
-                                            </li>
-                                            @endif
                                             <li class="text-bold">
                                                 <span>وصف المشكلة</span>
                                                 <span>:</span>
@@ -192,36 +205,6 @@
                             </div>
                         </div>
                         <!-- timeline item -->
-                        @if(count($order->orderParts) > 0)
-                        <div>
-                            <i class="fas fa-list bg-yellow"></i>
-                            <div class="timeline-item">
-                                <h3 class="timeline-header">قطع الغيار</h3>
-                                <div class="timeline-body">
-                                    <table class="table table-striped table-bordered dt-responsive nowrap">
-                                        <tr>
-                                            <td>اسم القطعه</td>
-                                            <td>العدد</td>
-                                            <td>السعر</td>
-                                            <td>التحكم</td>
-                                        </tr>
-                                        @foreach($order->orderParts as $orderPart)
-                                            <tr>
-                                                <td>{{$orderPart['title'] != null ? $orderPart['title'] : $orderPart->part['title']}}</td>
-                                                <td>{{$orderPart['count']}}</td>
-                                                <td>{{$orderPart->_price()}}</td>
-                                                <td>
-                                                    <button type="button"  onclick="confirmDelete('{{route('admin.orders.partsDestroy',$orderPart->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
-                                                        <i class="la la-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
                         <div>
 
                             @if($order->reviews)

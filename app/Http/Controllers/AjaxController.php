@@ -24,6 +24,14 @@ class AjaxController extends Controller
         $this->country = $country;
     }
 
+    public function getUser($id,Request $request)
+    {
+        if($request->ajax()){
+            $user = User::find($id);
+
+            return $this->ApiResponse('success','',$user);
+        }
+    }
     public function getCategories(Request $request)
     {
         if($request->ajax()){

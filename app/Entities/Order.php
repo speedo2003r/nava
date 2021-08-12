@@ -46,6 +46,10 @@ class Order extends Model implements Transformable
         'lat',
         'lng',
         'map_desc',
+        'street',
+        'residence',
+        'floor',
+        'address_notes',
         'time',
         'date',
         'notes',
@@ -86,9 +90,8 @@ class Order extends Model implements Transformable
     public function _price()
     {
         $orderServices = $this->orderServices()->where('status',1)->sum('price');
-        $orderParts = $this->orderParts()->sum('price');
 
-        $total = ($orderServices + $orderParts);
+        $total = ($orderServices);
         return (string) round($total,2);
     }
 

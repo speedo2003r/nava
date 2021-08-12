@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\RoomDatatable;
+use App\Entities\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Admin\Create;
 use App\Http\Requests\Admin\Admin\UpdateProfile;
@@ -30,10 +32,10 @@ class ChatController extends Controller
     }
 
     /***************************  get all admins  **************************/
-    public function index()
+    public function index(RoomDatatable $datatable)
     {
         $admins = $this->userRepo->findWhere(['user_type'=>'client']);
-        return view('admin.chat.index', compact('admins'));
+        return $datatable->render('admin.chat.index', compact('admins'));
     }
 
 
@@ -70,17 +72,43 @@ class ChatController extends Controller
         }
         return response()->json(['status' => 1, 'message' => 'success', 'data' => $lastMessage]);
     }
-    public function NewPrivateRoom(User $user){
+    public function NewPrivateRoom($id){
         $currentUser = Auth::user();
-        $otherUser = $user;
-        $room = creatPrivateRoom($currentUser->id,$otherUser->id);
+        $order = Order::find($id);
+        $otherUser = $order->user;
+        $room = Room::where('order_id',$id)->first();
+        if(!$room) {
+            $room = creatPrivateRoom($currentUser->id, $otherUser->id);
+        }
         $messages  = getRoomMessages($room->id, $currentUser->id);
         return response()->json(['status'=>1,'message' => 'success','room' =>$room,'messages'=>$messages ]);
     }
     public function ViewMessages($id){
         $order = $this->order->find($id);
-        return view('admin.orders.chat',compact('order'));
+        $existRoom = Room::where('order_id',$id)->exists();
+        if(!$existRoom){
+            creatPrivateRoom(auth()->id(),$order['user_id'],$order['id']);
+        }
+        $user = $order->user;
+        return view('admin.orders.chat',compact('order','user'));
     }
+    public function destroy(Request $request,$id)
+    {
+        if(isset($request['data_ids'])){
+            $data = explode(',', $request['data_ids']);
+            foreach ($data as $d){
+                if($d != ""){
+                    $room = Room::find($d);
+                    $room->delete();
+                }
+            }
+        }else {
+            $room = Room::find($id);
+            $room->delete();
+        }
+        return redirect()->back()->with('success', 'تم الحذف بنجاح');
+    }
+
     ############################# END CHAT WORK #############################
 
 

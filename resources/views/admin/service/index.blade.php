@@ -131,7 +131,6 @@
                                         <select name="type" id="type" class="form-control">
                                             <option value="" hidden selected>{{awtTrans('اختر')}}</option>
                                             <option value="fixed">{{awtTrans('ثابت')}}</option>
-                                            <option value="hourly">{{awtTrans('بالساعه')}}</option>
                                             <option value="pricing">{{awtTrans('تقديري')}}</option>
                                         </select>
                                     </div>

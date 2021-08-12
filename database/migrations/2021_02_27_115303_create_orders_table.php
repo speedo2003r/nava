@@ -50,6 +50,10 @@ class CreateOrdersTable extends Migration
             $table->double('lat', 15, 8)->default(24.68773);
             $table->double('lng', 15, 8)->default(46.72185);
             $table->string('map_desc', 255)->default('الرياض');
+            $table->string('street', 255)->nullable();
+            $table->string('residence', 255)->nullable();
+            $table->string('floor', 255)->nullable();
+            $table->text('address_notes')->nullable();
 
             $table->time('time')->nullable();
             $table->date('date')->nullable();

@@ -13,7 +13,9 @@
 
 
         <!-- /.box-header -->
-      <div :id="'chatbox-' + otherUser.id" class="chat-content over_scroll_chat height_chat">
+      <div :id="'chatboxscroll-' + otherUser.id"
+          v-chat-scroll="{always: false, smooth: true, scrollonremoved:true, smoothonremoved: false}"
+          class="chat-content over_scroll_chat height_chat" style="height: 300px;overflow: auto">
           <div class="sent_chat"
                v-for="messagePacket in allMsgs"
                :key="messagePacket.id"
@@ -21,29 +23,30 @@
               <div class="receive"
                    :class="{ 'sent' : (messagePacket.is_sender == 1), 'receive' : (messagePacket.is_sender != 1) }">
                   <p v-if="messagePacket.message.type == 'text'"
-                  :class="{ 'pull-left' : (messagePacket.is_sender == 1), 'pull-right' : (messagePacket.is_sender != 1) }"
+                  :class="{ 'pull-right direct-chat-text' : (messagePacket.is_sender == 1), 'pull-left direct-chat-text' : (messagePacket.is_sender != 1) }"
                   style="display: inline-block;margin-left: 1px;margin-left: 1px;word-break: break-all;padding: 3px 10px;">{{messagePacket.message.body}}</p>
                   <div
                       v-if="messagePacket.message.type == 'file'"
                       :class="{ 'pull-left' : (messagePacket.is_sender == 1), 'pull-left' : (messagePacket.is_sender != 1) }"
-                      class="direct-chat-text clearfix"
+                      class="clearfix"
                       style="display: inline-block;margin-left: 1px;margin-left: 1px;word-break: break-all;padding: 3px 3px;"
                   >
                       <a
                           v-if="messagePacket.message.body.split('.').pop() != 'pdf'"
-                          :href="origin + messagePacket.message.body"
+                          :href="origin+'/storage/images/rooms/'+room.id+'/' + messagePacket.message.body"
                           download
                           title="image"
                           target="_new"
                       >
-                          <img height="110px;" width="110px;" :src="origin + messagePacket.message.body" />
+                          <img height="110px;" width="110px;" :src="origin+'/storage/images/rooms/'+room.id+'/' + messagePacket.message.body" />
                       </a>
                       <a
                           v-else
-                          :href="origin + messagePacket.message.body"
+                          :href="origin+'/storage/images/rooms/'+room.id+'/' + messagePacket.message.body"
                           download
                           title="pdf"
                           target="_new"
+                          class="direct-chat-text"
                       >
                   <span class="info-box-icon" style="color: white;background:none;">
                     <i class="fa fa-paperclip"></i>
@@ -51,33 +54,58 @@
                       </a>
                   </div>
               </div>
-              <span class="font_12">{{messagePacket.message.created_at | moment("calendar")}}</span>
+              <div class="direct-chat-info clearfix">
+                  <small class="font_12 pull-right">{{messagePacket.message.created_at | moment("calendar")}}</small>
+              </div>
           </div>
       </div>
 
       <div class="writ_massage d-flex">
           <form class="form d-flex flex-grow-1">
-              <div class="po_R flex-grow-1">
-                  <textarea :id="'msginput-'"
-                            placeholder="اكتب رسالتك هـنا"
-                            v-model="message"
-                            @keypress="startTyping"
-                            @keyup.enter.exact="addMessage"
-                            @keydown.enter.shift.exact="newline"
-                            :readonly="fileChosen != ''" class="form-control input-custom-size" type="text"></textarea>
-                  <div class="send_img_chat">
-                      <input type="file" id="file"
-                             ref="file"
-                             @change="handleFileUpload()"
-                             accept="image/jpeg, image/gif, image/png, application/pdf, image/jpg">
-                      <i class="fa fa-paperclip" v-show="fileChosen != ''"
-                         @click="clearInput" aria-hidden="true"></i>
-                  </div>
+              <div class="input-group">
+                  <!-- <input
+                    name="message"
+                    :id="'msginput-' + otherUser.id"
+                    v-model.trim="message"
+                    placeholder="Type Message And Hit Enter"
+                    class="form-control"
+                    type="text"
+                    v-on:keydown="sendMessage($event)"
+                  />-->
+                  <textarea
+                      class="form-control"
+                      :id="'msginput-' + otherUser.id"
+                      placeholder="اكتب رسالتك هـنا"
+                      v-model="message"
+                      @keypress="startTyping"
+                      @keyup.enter.exact="addMessage"
+                      @keydown.enter.shift.exact="newline"
+                      :readonly="fileChosen != ''"
+                  ></textarea>
+                  <i
+                      class="fa fa-times fa-3"
+                      style="color:red;margin:0 20px"
+                      v-show="fileChosen != ''"
+                      @click="clearInput"
+                  ></i>
+                  <span class="input-group-btn">
+              <div class="btn btn-default btn-file">
+                <i class="fa fa-paperclip"></i>
+                  <!-- <input name="attachment" type="file" v-on:change="file($event)" /> -->
+                <input
+                    type="file"
+                    id="file"
+                    ref="file"
+                    @change="handleFileUpload()"
+                    accept="image/jpeg, image/gif, image/png, application/pdf, image/jpg"
+                />
               </div>
-              <button class="" @click="addMessage" type="button">
-                  <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-                  ارسال
-              </button>
+            </span>
+              </div>
+<!--              <button class="" @click="addMessage" type="button" style="height: 55px;margin-top: 17px;">-->
+<!--                  <i class="fas fa-paper-plane" aria-hidden="true"></i>-->
+<!--                  ارسال-->
+<!--              </button>-->
           </form>
       </div>
   </div>
@@ -85,6 +113,9 @@
 
 <script>
 export default {
+    props:[
+        'order',
+    ],
   data: function() {
     return {
       isLoading: false,
@@ -177,7 +208,7 @@ export default {
 
       // POST /someUrl
       this.$http
-        .post("/seller/chats/store", formData, {
+        .post("/chats/store", formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -227,7 +258,7 @@ export default {
 
       // POST /someUrl
       this.$http
-        .post("/seller/chats/store", {
+        .post("/chats/store", {
           message: $msg,
           room_id: this.room.id,
           user_id: this.user_id
@@ -270,7 +301,7 @@ export default {
   created() {
       var that = this;
     this.$http
-      .get("/seller/create-private-room/1")
+      .get(`/create-private-room/${that.order}`)
       .then(response => {
           that.room = response.body.room;
           that.allMsgs = response.body.messages;

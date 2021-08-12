@@ -243,10 +243,10 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
                 'services.update',
                 'services.destroy',
                 'services.changeStatus',
-                'parts.index',
-                'parts.store',
-                'parts.update',
-                'parts.destroy',
+//                'parts.index',
+//                'parts.store',
+//                'parts.update',
+//                'parts.destroy',
             ]
         ]);
         Route::get('services/getFilterData', [
@@ -274,26 +274,26 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'as' => 'services.destroy',
             'title' => 'حذف خدمه من الجدول',
         ]);
-        Route::get('parts/{id}', [
-            'uses' => 'PartsController@index',
-            'as' => 'parts.index',
-            'title' => 'قطع الغيار',
-        ]);
-        Route::post('parts/store', [
-            'uses' => 'PartsController@store',
-            'as' => 'parts.store',
-            'title' => 'اضافة قطعة الغيار',
-        ]);
-        Route::post('parts/update/{id}', [
-            'uses' => 'PartsController@update',
-            'as' => 'parts.update',
-            'title' => 'تحديث قطعة الغيار',
-        ]);
-        Route::delete('parts/delete/{id}', [
-            'uses' => 'PartsController@destroy',
-            'as' => 'parts.destroy',
-            'title' => 'حذف قطعة الغيار',
-        ]);
+//        Route::get('parts/{id}', [
+//            'uses' => 'PartsController@index',
+//            'as' => 'parts.index',
+//            'title' => 'قطع الغيار',
+//        ]);
+//        Route::post('parts/store', [
+//            'uses' => 'PartsController@store',
+//            'as' => 'parts.store',
+//            'title' => 'اضافة قطعة الغيار',
+//        ]);
+//        Route::post('parts/update/{id}', [
+//            'uses' => 'PartsController@update',
+//            'as' => 'parts.update',
+//            'title' => 'تحديث قطعة الغيار',
+//        ]);
+//        Route::delete('parts/delete/{id}', [
+//            'uses' => 'PartsController@destroy',
+//            'as' => 'parts.destroy',
+//            'title' => 'حذف قطعة الغيار',
+//        ]);
 
         /********************************* OrderController start *********************************/
         Route::get('orders', [
@@ -322,7 +322,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'icon'      => asset('assets/media/menuicon/chat.svg'),
             'type'      => 'parent',
             'sub_route' => false,
-            'child'     => ['chats.index','chats.store','chats.users','chats.room','chats.privateRoom']
+            'child'     => ['chats.index','chats.store','chats.users','chats.room','chats.destroy','chats.privateRoom']
         ]);
 
 
@@ -331,6 +331,13 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'uses'      => 'ChatController@SaveMessage',
             'as'        => 'chats.store',
             'title'     => 'حفظ المحادثه'
+        ]);
+
+        #store chats
+        Route::delete('chats/{id}', [
+            'uses'      => 'ChatController@destroy',
+            'as'        => 'chats.destroy',
+            'title'     => 'حذف المحادثه'
         ]);
 
         #store chats
@@ -347,7 +354,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'title'     => 'المستخدمين'
         ]);
         #store private chat
-        Route::get('create-private-room/{user}', [
+        Route::get('create-private-room/{id}', [
             'uses'      => 'ChatController@NewPrivateRoom',
             'as'        => 'chats.privateRoom',
             'title'     => 'اضافة غرفة دردشه'
@@ -483,6 +490,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
 
 });
 //    ajax helper
+Route::post('/ajax/getUser/{id}','AjaxController@getUser')->name('admin.ajax.getUser');
 Route::post('/admin/cities','AjaxController@getCities')->name('admin.ajax.getCities');
 Route::post('/admin/regions','AjaxController@getRegions')->name('admin.ajax.getRegions');
 Route::post('/admin/getCategories','AjaxController@getCategories')->name('admin.ajax.getCategories');
