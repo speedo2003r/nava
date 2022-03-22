@@ -17,7 +17,7 @@ trait NotifyTrait
         $user = User::find($to_id);
         $notification = new Notification();
         $notification->to_id        = $to_id;
-        $notification->from_id        = auth()->check() ? auth()->id() : null;
+        $notification->from_id        = auth()->check() ? auth()->id() : $to_id;
         $notification->message_ar   = $message_ar;
         $notification->message_en   = $message_en;
         $notification->type         = is_null($order_id) ? 'notify' : ($type != null ? $type : 'order');
@@ -56,13 +56,11 @@ trait NotifyTrait
         $dataBuilder = new PayloadDataBuilder();
         $dataBuilder->addData($data);
         $data = $dataBuilder->build();
-
         if ($type == 'android') {
-            $downstreamResponse = FCM::sendTo($device_id, $option, null, $data);
+            $downstreamResponse = FCM::sendTo($device_id, $option, $notification, $data);
         } else {
             $downstreamResponse = FCM::sendTo($device_id, $option, $notification, $data);
         }
-
         $downstreamResponse->numberSuccess();
         $downstreamResponse->numberFailure();
         $downstreamResponse->numberModification();

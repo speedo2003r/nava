@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Entities\Branch;
 use App\Entities\Category;
 use App\Entities\City;
 use App\Entities\Company;
@@ -9,6 +10,7 @@ use App\Entities\Country;
 use App\Entities\Device;
 use App\Entities\Notification;
 use App\Entities\Order;
+use App\Entities\OrderGuarantee;
 use App\Entities\ReviewRate;
 use App\Entities\Service;
 use App\Entities\Technician;
@@ -59,6 +61,7 @@ class User extends Authenticatable implements JWTSubject
         'address',
         'lat',
         'lng',
+        'pdf',
         'company_id',
     ];
     protected $hidden = [
@@ -138,8 +141,21 @@ class User extends Authenticatable implements JWTSubject
     {
         return $value->where('active',1)->where('banned',0);
     }
+    public function branches(){
+        return $this->belongsToMany(Branch::class,'users_branches','user_id','branch_id');
+    }
     public function ordersAsUser(){
-        return $this->hasMany(Order::class,'user_id','id')->withTrashed();
+        return $this->hasMany(Order::class,'user_id','id');
+    }
+    public function ordersAsTech(){
+        return $this->hasMany(Order::class,'technician_id','id');
+    }
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class,'order_technicians','technician_id','order_id');
+    }
+    public function GuaranteeOrders(){
+        return $this->hasMany(OrderGuarantee::class,'technical_id','id');
     }
     public function getAvatarAttribute($value)
     {
@@ -190,5 +206,9 @@ class User extends Authenticatable implements JWTSubject
     public function categories()
     {
         return $this->belongsToMany(Category::class,'user_categories','user_id','category_id');
+    }
+    public function refuseOrders()
+    {
+        return $this->belongsToMany(Order::class,'refuse_orders','user_id','order_id');
     }
 }

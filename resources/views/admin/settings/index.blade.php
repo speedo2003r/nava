@@ -79,7 +79,7 @@
                         <input type="number" name="keys[tax]" value="{{settings('tax')}}" class="form-control" id="exampleInputTax1" placeholder="">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputTax1">أقل قيمه للطلب</label>
+                        <label for="exampleInputTax1">الحد الأدني للطلب</label>
                         <input type="number" name="keys[mini_order_charge]" value="{{settings('mini_order_charge')}}" class="form-control" id="exampleInputTax1" placeholder="">
                       </div>
                       <div class="form-group">
@@ -101,6 +101,18 @@
                       <div class="form-group">
                         <label for="exampleInputPassword2">الجوال 2</label>
                         <input type="number" name="keys[phone2]" value="{{settings('phone2')}}" class="form-control" id="exampleInputPhone2" placeholder="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword2">متجر جوجل</label>
+                        <input type="text" name="keys[googleStore]" value="{{settings('googleStore')}}" class="form-control" id="exampleInputPhone2" placeholder="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword2">متجر أبل</label>
+                        <input type="text" name="keys[appleStore]" value="{{settings('appleStore')}}" class="form-control" id="exampleInputPhone2" placeholder="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword2">الفيديو التعريفي</label>
+                        <input type="text" name="keys[into_video]" value="{{settings('into_video')}}" class="form-control" id="exampleInputPhone2" placeholder="">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputMapkey">مفتاح الخريطة</label>

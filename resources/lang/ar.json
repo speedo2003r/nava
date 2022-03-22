@@ -1,4 +1,12 @@
 {
+    "ID": "الرقم التعريفي",
+    "apple": "أبل",
+    "visa": "فيزا",
+    "master": "ماستر",
+    "stc": "stc",
+    "cash": "كاش",
+    "wallet": "محفظه",
+    "mada": "مدي",
     "dashboard": "لوحة الإدارة",
     "supervisors": "المشرفون",
     "add_supervisors": "إضافة مشرف",

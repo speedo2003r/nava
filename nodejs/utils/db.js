@@ -9,9 +9,9 @@ class Db {
 			connectionLimit: 100,
 			// host: "95.217.196.252",
 			host: "localhost",
-			user: "collecti_collection",
-			password: "JVs!k]dyRYE)",
-			database: "collecti_collection",
+			user: "root",
+			password: "NRa1&d!1G4~_",
+			database: "nava",
 			debug: false
 		});
 	}

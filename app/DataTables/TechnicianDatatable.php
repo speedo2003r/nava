@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -34,8 +35,15 @@ class TechnicianDatatable extends DataTable
                             <label class="custom-control-label" id="status_label'.$query->id.'" for="customSwitch'.$query->id.'"></label>
                         </div>';
             })
-            ->addColumn('categories',function ($query){
-                return '<button type="button" data-user_id="'.$query['id'].'" data-perms='.$query->categories.'  data-toggle="modal" data-target="#categories-modal"  data-placement="top" data-original-title="التخصصات"  class="btn btn-sm btn-clean btn-icon btn-icon-md subs"><i class="fa fa-bars"></i></button>';
+            ->addColumn('accounts',function ($query){
+                return '<a href="'.route('admin.technicians.accounts',$query['id']).'" data-placement="top" data-original-title="المديونيه"  class="btn btn-info subs">('.$query['debtor'].') مديونيه</a>';
+            })
+            ->addColumn('data',function ($query){
+                return $query;
+            })
+            ->addColumn('categories','admin.partial.ControlCats')
+            ->addColumn('deductions',function ($query){
+                return '<button type="button" data-user_id="'.$query['id'].'"  data-toggle="modal" data-target="#deductions"  data-placement="top" data-original-title="الخصومات"  class="btn btn-sm btn-clean btn-icon btn-icon-md dis"><i class="fa fa-percent"></i></button>';
             })
             ->addColumn('url',function ($query){
                 return 'admin.technicians.delete';
@@ -43,11 +51,8 @@ class TechnicianDatatable extends DataTable
             ->addColumn('target',function ($query){
                 return 'editModel';
             })
-            ->addColumn('data',function ($query){
-                return $query;
-            })
             ->addColumn('control','admin.partial.Control')
-            ->rawColumns(['categories','status','control','id']);
+            ->rawColumns(['data','accounts','deductions','categories','status','control','id']);
     }
 
     /**
@@ -58,7 +63,11 @@ class TechnicianDatatable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->query()->with('categories')->with('Technician')->where('company_id',null)->where('user_type','technician')->latest();
+        return $model->query()
+            ->select('users.*',DB::raw('SUM(incomes.income) as techIncome'),DB::raw('SUM(incomes.debtor) as debtor'))
+            ->leftJoin('incomes','incomes.user_id','users.id')
+            ->groupBy('users.id')
+            ->with('categories')->with('branches')->with('Technician')->where('company_id',null)->where('user_type','technician')->latest();
     }
 
     /**
@@ -99,8 +108,11 @@ class TechnicianDatatable extends DataTable
             Column::make('status')->title('الحاله')->searchable(false),
             Column::make('balance')->title('المديونيه'),
             Column::make('email')->title('البريد الالكتروني'),
+            Column::make('accounts')->title('كشف حساب'),
+            Column::make('deductions')->title('الخصومات'),
             Column::make('categories')->title('التخصصات'),
             Column::make('wallet')->title('المحفظه'),
+            Column::make('techIncome')->title('المدخول'),
             Column::make('phone')->title('الهاتف'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];

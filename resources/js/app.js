@@ -30,7 +30,7 @@ import VueChatScroll from "vue-chat-scroll";
 Vue.use(VueChatScroll);
 
 ///////////////////// socket /////////////////////////
-var WS_URL = $("meta[name=ws_url]").attr("content");
+var WS_URL = 'https://navaservices.net:4321';
 var USER_ID = Number($("meta[name=user_id]").attr("content"));
 window.USER_ID = USER_ID;
 import VueSocketIOExt from "vue-socket.io-extended";

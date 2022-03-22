@@ -1,7 +1,14 @@
 <?php
 
   return [
+      'notdoneyet'=>'not done yet',
+      'walletNot'=>'The wallet does not have enough balance to pay',
+      'rate'=>'rate',
+      'youhavefactora'=>'you have new invoice',
+      'coupon_expired'=>'coupon was expired',
+      'timemustbe'                    => 'The time must be later than the present time',
       'SAR'                    => 'SAR',
+      'finished' => 'finished',
     'notHaveMoney'                    => 'The required amount is greater than your total commission',
     'qyentityTaken'                   => 'Quentity is token by another marketer',
     'notHaveQuantity'                 => 'Not Avaliable quantity',

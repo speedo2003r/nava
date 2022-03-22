@@ -30,11 +30,8 @@ class UserRegisterRequest extends FormRequest
         return [
             'name'       => 'required|min:2|max:191',
             'phone'      => 'required|numeric|digits_between:9,13|unique:users,phone,NULL,id,deleted_at,NULL',
-            'email'      => 'required|email|max:191|unique:users,email,NULL,id,deleted_at,NULL',
+            'email'      => 'nullable|email|max:191|unique:users,email,NULL,id,deleted_at,NULL',
             'password'   => 'required|min:6|max:255',
-            'address'   => 'required|string',
-            'lat'   => 'required',
-            'lng'   => 'required',
             'v_code'     => 'nullable',
             'user_type'  => 'nullable',
             'lang'       => 'nullable',

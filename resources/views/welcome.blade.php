@@ -17,6 +17,8 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="landing-nafa/img/nafalogo.png">
+    <link rel="stylesheet" href="{{asset('admin/toastr/toastr.min.css')}}">
+
 
     <!--
         Google Font
@@ -111,12 +113,12 @@
 
                             </h4>
                             <div class="bttn-head">
-                                <a href="" class="bttn-appnova-gradient wow fadeInUp"
+                                <a href="{{settings('googleStore')}}" class="bttn-appnova-gradient wow fadeInUp"
                                    data-wow-delay="0.6s" data-wow-duration="1s">
                                     <i class="fa fa-android"></i>
                                     <span>{{awtTrans('جوجل')}}</span>
                                 </a>
-                                <a style="margin-right: 30px;" href="" class="bttn-appnova-gradient wow fadeInUp"
+                                <a style="margin-right: 30px;" href="{{settings('appleStore')}}" class="bttn-appnova-gradient wow fadeInUp"
                                    data-wow-delay="0.8s" data-wow-duration="1s">
                                     <i class="fa fa-apple"></i>
                                     <span> {{awtTrans('أبل')}} </span>
@@ -459,7 +461,7 @@
                     <div class="videoApp-place wow fadeInRight" data-wow-duration="1s">
                         <div class="videoApp-overlay">
                             <!-- Add Video Link Here -->
-                            <a href="https://www.youtube.com/watch?v=afj3WB44lko" data-lity=""><i
+                            <a href="{{settings('into_video')}}" data-lity=""><i
                                     class="fa fa-play"></i></a>
                         </div>
                     </div>
@@ -608,7 +610,7 @@
                             </div>
                             <div class="contact02-text">
                                 <h4>{{awtTrans('البريد الالكتروني')}}</h4>
-                                <p><a href="mailto: info@nafa.com">{{settings('email')}}</a></p>
+                                <p><a href="mailto: {{settings('email')}}">{{settings('email')}}</a></p>
                             </div>
                         </div>
                         <!-- End Single Item -->
@@ -619,7 +621,7 @@
                             </div>
                             <div class="contact02-text">
                                 <h4>{{awtTrans('الهاتف')}}</h4>
-                                <p> <a class="text-white" href="tel:+609-520-3502">{{settings('phone')}}</a></p>
+                                <p> <a class="text-white" href="tel:{{settings('phone')}}">{{settings('phone')}}</a></p>
                             </div>
                         </div>
                         <!-- End Single Item -->
@@ -630,7 +632,8 @@
                             </div>
                             <div class="contact02-text">
                                 <h4>{{awtTrans('الموقع')}}</h4>
-                                <p><a href="https://www.nava.sa/">nava.sa</a></p>
+                                <p><a href="https://navaservices.net/">nava.sa</a></p>
+                                <p><a href="https://navaservices.net/policy">{{awtTrans('الشروط والأحكام')}}</a></p>
                             </div>
                         </div>
                         <!-- End Single Item -->
@@ -639,43 +642,44 @@
                     <!-- Start Contact Form -->
                     <div class="col-md-8">
                         <div class="form-touch wow fadeInUp" data-wow-duration="1s">
-                            <form action="javascript:void(0)">
+                            <form action="{{route('front.contact')}}" method="post">
+                                @csrf()
                                 <div class="row">
                                     <!-- Start Single Input -->
                                     <div class="col-md-12">
                                         <div class="single-input">
-                                            <input type="text" placeholder="{{awtTrans('الإسم بالكامل')}}" required="">
+                                            <input type="text" name="name" placeholder="{{awtTrans('الإسم بالكامل')}}" >
                                         </div>
                                     </div>
                                     <!-- End Single Input -->
                                     <!-- Start Single Input -->
                                     <div class="col-md-12">
                                         <div class="single-input">
-                                            <input type="email" placeholder="{{awtTrans('البريد الألكتروني')}}" required="">
+                                            <input type="number" name="phone" placeholder="{{awtTrans('الجوال')}}" >
                                         </div>
                                     </div>
                                     <!-- End Single Input -->
                                     <!-- Start Single Input -->
                                     <div class="col-md-12">
                                         <div class="single-input">
-                                            <input type="text" placeholder="{{awtTrans('عنوان الرسالة')}}" required="">
+                                            <input type="email" name="email" placeholder="{{awtTrans('البريد الألكتروني')}}" >
                                         </div>
                                     </div>
                                     <!-- End Single Input -->
                                     <!-- Start Single Textarea -->
                                     <div class="col-md-12">
                                         <div class="single-input">
-                                            <textarea placeholder="{{awtTrans('محتوى الرسالة')}}" required=""></textarea>
+                                            <textarea name="message" placeholder="{{awtTrans('محتوى الرسالة')}}" ></textarea>
                                         </div>
                                     </div>
                                     <!-- End Single Textarea -->
                                     <!-- Start Send Button -->
                                     <div class="col-md-12">
                                         <div class="button-MSG" style="text-align:left">
-                                            <a href="javascript:void(0)" class="bttn-appnova-gradient">
+                                            <button type="submit" class="bttn-appnova-gradient">
                                                 <i class="fa fa-paper-plane"></i>
                                                 <span>{{awtTrans('إرسال')}}</span>
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                     <!-- End Send Button -->
@@ -791,12 +795,16 @@
 
 <!-- Plugins -->
 <script src="landing-nafa/js/plugins.js"></script>
-<script src="landing-nafa/js/map-conf.js"></script>
+<script src="{{dashboard_url('js/map.js')}}"></script>
 <!-- Google Map js -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAj9b_nyz33KEaocu6ZOXRgqwwUZkDVEAw"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{settings('map_key')}}"></script>
 
 <!-- Custom JS -->
 <script src="landing-nafa/js/custom_rtl.js"></script>
+<script src="{{dashboard_url('admin/toastr/toastr.min.js')}}"></script>
+
+@include('admin.partial.alert')
+@include('admin.partial.confirm_delete')
 </body>
 
 </html>

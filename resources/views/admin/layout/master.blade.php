@@ -6,6 +6,9 @@
     <meta charset="utf-8" />
     <title>{{ settings('site_name') }} | @yield('title','لوحة التحكم')</title>
     <meta name="description" content="Datatable HTML table">
+    @if(auth()->check())
+        <meta name="user_id" content="{{auth()->id()}}">
+    @endif
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--begin::Fonts -->
@@ -54,6 +57,14 @@
     }
     .dt-buttons{
         float: left;
+    }
+    .position-relative{
+        position: relative;
+    }
+    .span-menu{
+        position: absolute;
+        left: 25px;
+        margin-top: 8px;
     }
     div.dataTables_wrapper div.dataTables_filter{
         text-align: right;
@@ -118,6 +129,56 @@
     }
     .today-date {
         font-size: 13px;
+    }
+    .info-box {
+        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+        border-radius: 0.25rem;
+        background: #ffffff;
+        display: -ms-flexbox;
+        display: flex;
+        margin-bottom: 1rem;
+        min-height: 80px;
+        padding: .5rem;
+        position: relative;
+        width: 100%;
+    }
+    .info-box span i{
+        color:#fff;
+    }
+    .info-box .info-box-icon {
+        border-radius: 0.25rem;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -ms-flexbox;
+        display: flex;
+        font-size: 1.875rem;
+        -ms-flex-pack: center;
+        justify-content: center;
+        text-align: center;
+        width: 70px;
+    }
+    .info-box .info-box-content {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-pack: center;
+        justify-content: center;
+        line-height: 120%;
+        -ms-flex: 1;
+        flex: 1;
+        padding: 0 10px;
+    }
+    .info-box .progress-description, .info-box .info-box-text {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .info-box .info-box-number {
+        display: block;
+        margin-top: .25rem;
+        font-weight: 700;
     }
     .today-date #day-history{
         font-size: 12px;
@@ -248,13 +309,13 @@
                             <!--end: Head -->
                             <!--begin: Navigation -->
                             <div class="kt-notification">
-                                <a href="" class="kt-notification__item">
+                                <a href="{{route('admin.settings.index')}}" class="kt-notification__item">
                                     <div class="kt-notification__item-icon">
                                         <i class="flaticon2-calendar-3 kt-font-success"></i>
                                     </div>
                                     <div class="kt-notification__item-details">
                                         <div class="kt-notification__item-title kt-font-bold">
-                                            {{awtTrans('الملف الشخصي')}}
+                                            {{awtTrans('الاعدادات')}}
                                         </div>
                                     </div>
                                 </a>
@@ -338,9 +399,15 @@
 <script src="{{dashboard_url('admin/pdfmake/vfs_fonts.js')}}"></script>
 <script src="{{dashboard_url('admin/toastr/toastr.min.js')}}"></script>
 <script src="{{dashboard_url('admin/moment.min.js')}}"></script>
+<script src="{{dashboard_url('js/jschart/chart.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script src="{{dashboard_url('custom.js')}}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script>
+    var socket = io.connect('https://navaservices.net:4321',{
+        query: "id= " + `{{auth()->id()}}`
+    });
+</script>
 <script>
     var KTAppOptions = {
         "colors": {

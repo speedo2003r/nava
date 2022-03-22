@@ -35,6 +35,14 @@ class City extends Model implements Transformable
     {
         return $this->hasMany(Region::class);
     }
+    public function branches()
+    {
+        return $this->hasMany(Branch::class,'city_id');
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
     public function technicians()
     {
         return $this->hasMany(User::class)->whereIn('user_type',['company','technician'])->whereDoesntHave('company');

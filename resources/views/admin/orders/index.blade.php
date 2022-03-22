@@ -22,6 +22,13 @@
                             </span>
                                 <h3 class="kt-portlet__head-title">
                                     {{awtTrans('الطلبات')}}
+                                    @if(Route::currentRouteName() == 'admin.orders.index')
+                                        ({{\App\Entities\Order::where('status','created')->where('live',1)->count()}})
+                                    @elseif(Route::currentRouteName() == 'admin.orders.onWayOrders')
+                                        ({{\App\Entities\Order::whereNotIn('status',['created','finished'])->where('technician_id','!=',null)->whereHas('category')->where('live',1)->count()}})
+                                    @elseif(Route::currentRouteName() == 'admin.orders.finishedOrders')
+                                        ({{\App\Entities\Order::where('status','finished')->where('technician_id','!=',null)->whereHas('category')->where('live',1)->count()}})
+                                    @endif
                                 </h3>
                             </div>
                         </div>
@@ -75,6 +82,43 @@
             </div>
         </div>
     </div>
+
+    <!-- send-noti modal-->
+    <div class="modal fade" id="deductions"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('خصم')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.technicians.decreaseVal')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" id="dis_user_id">
+                        <input type="hidden" name="order_id" id="dis_order_id">
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('القيمه')}}
+                            </label>
+                            <input type="number" min="0" value="0" name="deduction" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('السبب')}}
+                            </label>
+                            <textarea name="notes" rows="5" class="form-control"></textarea>
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success">{{awtTrans('إرسال')}}</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end send-noti modal-->
 
     <div class="modal fade modal-danger" id="deleteModal-reject" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
         <div class="modal-dialog" role="document">
@@ -131,7 +175,7 @@
 @push('js')
     {!! $dataTable->scripts() !!}
     <script>
-        $(document).on('click','.child',function (){
+        $(document).on('click','.checkTech',function (){
             var order = $(this).data('id');
             var category_id = $(this).data('category');
             $('#technician_id').empty();
@@ -141,6 +185,15 @@
         $(document).on('click','.reject',function (){
             var order = $(this).data('id');
             $('#reject_id').val(order);
+        });
+        $(document).on('click','.add-deduction',function (){
+            var order = $(this).data('order_id');
+            var total = $(this).data('total');
+            var user = $(this).data('user_id');
+            $('#dis_user_id').val(user);
+            $('#dis_order_id').val(order);
+            $('[name=deduction]').attr('min',total)
+            $('[name=deduction]').attr('value',total)
         });
     </script>
 @endpush

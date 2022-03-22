@@ -85,9 +85,12 @@ class ChatController extends Controller
     }
     public function ViewMessages($id){
         $order = $this->order->find($id);
-        $existRoom = Room::where('order_id',$id)->exists();
+        $existRoom = Room::where('order_id',$id)->first();
         if(!$existRoom){
             creatPrivateRoom(auth()->id(),$order['user_id'],$order['id']);
+        }
+        if(!in_array(auth()->id(),$existRoom->users()->pluck('users.id')->toArray())){
+            joinRoom($existRoom['id'],auth()->id());
         }
         $user = $order->user;
         return view('admin.orders.chat',compact('order','user'));

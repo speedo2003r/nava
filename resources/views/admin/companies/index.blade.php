@@ -180,7 +180,7 @@
                                 <div class="form-group">
                                     <label>الدوله</label>
                                     <select name="country_id" id="country_id" class="form-control">
-                                        <option value="">اختر</option>
+                                        <option value="" hidden selected>اختر</option>
                                         @foreach($countries as $country)
                                             <option value="{{$country['id']}}">{{$country->title}}</option>
                                         @endforeach
@@ -191,10 +191,7 @@
                                 <div class="form-group">
                                     <label>المدينه</label>
                                     <select name="city_id" id="city" class="form-control">
-                                        <option value="">اختر</option>
-                                        @foreach($cities as $city)
-                                            <option value="{{$city['id']}}">{{$city->title}}</option>
-                                        @endforeach
+                                        <option value="" hidden selected>اختر</option>
                                     </select>
                                 </div>
                             </div>
@@ -245,6 +242,10 @@
             src="https://maps.googleapis.com/maps/api/js?key={{settings('map_key')}}&libraries=places&callback=initMap"
             async defer></script>
     <script>
+        $('body').on('change','#country_id',function (){
+            var country = $(this).val();
+            getCities(country)
+        })
         $(function () {
             'use strict'
             $('.table thead tr:first th:first').html(`
@@ -254,12 +255,13 @@
                             </label>`);
         });
         $('.add-user').on('click',function () {
-            $('#editModel .modal-title').text(`{{awtTrans('اضافة تقني')}}`);
+            $('#editModel .modal-title').text(`{{awtTrans('اضافة شركه')}}`);
             $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
             $( '#upload_area_img' ).empty();
             $('#editForm')      .attr("action","{{route('admin.companies.store')}}");
         });
         function edit(ob){
+            $('#editModel .modal-title').text(`{{awtTrans('تعديل شركه')}}`);
             $('#password')         .val('');
             $('#editForm')      .attr("action","{{route('admin.companies.update','obId')}}".replace('obId',ob.id));
             $('#name')    .val(ob.name);

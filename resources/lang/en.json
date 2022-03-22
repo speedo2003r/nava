@@ -1,4 +1,11 @@
 {
+    "apple": "apple",
+    "visa": "visa",
+    "master": "master",
+    "stc": "stc",
+    "cash": "cash",
+    "wallet": "wallet",
+    "mada": "mada",
     "dashboard": "Admin area",
     "supervisors": "Supervisors",
     "add_supervisors": "Add supervisors",

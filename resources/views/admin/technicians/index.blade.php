@@ -115,6 +115,42 @@
     </div>
     <!--end send-noti modal-->
 
+    <!-- send-noti modal-->
+    <div class="modal fade" id="deductions"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('خصم')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.technicians.decreaseVal')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" id="dis_user_id">
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('القيمه')}}
+                            </label>
+                            <input type="number" min="0" value="0" name="deduction" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('السبب')}}
+                            </label>
+                            <textarea name="notes" rows="5" class="form-control"></textarea>
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success">{{awtTrans('إرسال')}}</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end send-noti modal-->
+
 
     <!-- send-noti modal-->
     <div class="modal fade" id="categories-modal"
@@ -218,6 +254,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-sm-12 subcat">
+                                <div class="form-group" style="display: none">
+                                    <label>الفروع</label>
+                                    <div class="form-group branches"></div>
+                                </div>
+                            </div>
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
                                     <label>العنوان</label>
@@ -277,12 +319,52 @@
             var country = $(this).val();
             getCities(country)
         })
+        $('body').on('change','#city_id',function () {
+            var tokenv  = "{{csrf_token()}}";
+            var city = $(this).val();
+            getBranches(city,tokenv)
+        });
         $('.add-user').on('click',function () {
             $('#editModel .modal-title').text(`{{awtTrans('اضافة تقني')}}`);
             $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
             $( '#upload_area_img' ).empty();
             $('#editForm')      .attr("action","{{route('admin.technicians.store')}}");
+            $('.subcat').css({display:'none'});
         });
+        function getBranches(city,tokenv,branches = []){
+            $('.branches').empty();
+            $.ajax({
+                type        : 'POST',
+                url         : '{{ route('admin.ajax.getBranches') }}' ,
+                datatype    : 'json' ,
+                data        : {city: city,'_token':tokenv},
+                success     : function(data){
+                    if(data.value == 0){
+                        $('.branches').parent().css({'display':'none'});
+                    }else{
+                        var html = ``;
+                        if(data.data.length > 0){
+                            $('.branches').parent().css({'display':'block'});
+                        }else{
+                            $('.branches').parent().css({'display':'none'});
+                        }
+                        $.each(data.data,(index,value)=>{
+                            html += `<label class="control-label mx-2">
+                                        <input type="checkbox" name="branches[]" class="subs" value="${value.id}">
+                                        ${value.title.ar}
+                                    </label>`;
+                        });
+                        $('.branches').append(html);
+                        if(branches.length > 0){
+                            $(".subs").prop("checked", false);
+                            branches.forEach(function(value) {
+                                $('.subs:checkbox[value="' + value.id + '"]').prop('checked', true);
+                            });
+                        }
+                    }
+                }
+            });
+        }
         function edit(ob){
             $('#password')         .val('');
             $('#editForm')      .attr("action","{{route('admin.technicians.update','obId')}}".replace('obId',ob.id));
@@ -298,6 +380,8 @@
             $('#country_id')         .val(ob.country_id).change;
             getCities(ob.country_id,ob.city_id);
 
+            var tokenv  = "{{csrf_token()}}";
+            getBranches(ob.city_id,tokenv,ob.branches);
             initMap();
 
             let image = $( '#upload_area_img' );
@@ -359,6 +443,13 @@
                 });
 
                 $('.children-groups').append(html);
+            })
+        })
+        $(function () {
+            'use strict'
+            $('body').on('click','.dis',function () {
+                var user = $(this).data('user_id');
+                $('#dis_user_id').val(user);
             })
         })
     </script>

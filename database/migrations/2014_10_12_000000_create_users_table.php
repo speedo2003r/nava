@@ -43,6 +43,8 @@ class CreateUsersTable extends Migration
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
 
+            $table->string('pdf')->nullable();
+
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamp('created_at')->useCurrent();
@@ -55,6 +57,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users');
             $table->foreignId('admin_id')->nullable()->constrained('users');
+            $table->foreignId('order_id')->nullable()->constrained('orders');
             $table->double('balance')->default(0);
             $table->text('notes')->nullable();
             $table->timestamp('created_at')->useCurrent();

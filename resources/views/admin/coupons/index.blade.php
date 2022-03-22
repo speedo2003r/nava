@@ -27,7 +27,7 @@
                         </div>
 
                         <div class="kt-portlet__head-label mt-3">
-                            <button type="button" data-toggle="modal" data-target="#editModel" class="btn btn-brand btn-elevate btn-icon-sm add-user">
+                            <button type="button" data-toggle="modal" data-target="#addModel" class="btn btn-brand btn-elevate btn-icon-sm add-user">
                                 <i class="la la-plus"></i>
                                 {{awtTrans('اضافه')}}
                             </button>
@@ -81,16 +81,6 @@
                                         </tr>
                                     @endforeach
                                     </tbody>
-                                    @if(count($coupons) > 0)
-                                    <tr>
-                                        <td colspan="30">
-                                            <button class="btn btn-danger confirmDel" disabled onclick="deleteAllData('more','{{route('admin.coupons.destroy',$ob->id)}}')" data-toggle="modal" data-target="#confirm-all-del">
-                                                <i class="fas fa-trash"></i>
-                                                حذف المحدد
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    @endif
                                 </table>
                             </div>
                         </div>
@@ -112,23 +102,8 @@
             <form action="{{route('admin.coupons.store')}}" method="post" role="form" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                @include('components.lang_taps')
                 <!--begin::Portlet-->
                         <div class="kt-portlet" style="padding-top:15px">
-                            <div class="nav-tabs-custom nav-tabs-lang-inputs">
-                                <div class="tab-content">
-                                    @foreach(\App\Entities\Lang::all() as $key => $locale)
-                                        <div class="tab-pane @if(\App\Entities\Lang::first() == $locale)  fade show active @endif" id="locale-tab-{{$locale['lang']}}">
-                                            <div class="form-group">
-                                                <input type="text" value="{{old('title_'.$locale['lang'])}}" name="title_{{$locale['lang']}}" class="form-control" placeholder="{{__('enter')}} ..." >
-                                            </div>
-                                            <div class="form-group">
-                                                <textarea rows="6" name="content_{{$locale['lang']}}" class="form-control" placeholder="{{awtTrans('الوصف')}} ..." >{{old('content_'.$locale['lang'])}}</textarea>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -198,20 +173,6 @@
                 @include('components.lang_taps')
                 <!--begin::Portlet-->
                     <div class="kt-portlet" style="padding-top:15px">
-                        <div class="nav-tabs-custom nav-tabs-lang-inputs">
-                            <div class="tab-content">
-                                @foreach(\App\Entities\Lang::all() as $key => $locale)
-                                    <div class="tab-pane @if(\App\Entities\Lang::first() == $locale)  fade show active @endif" id="locale-tab-{{$locale['lang']}}">
-                                        <div class="form-group">
-                                            <input type="text" value="{{old('title_'.$locale['lang'])}}" name="title_{{$locale['lang']}}" id="title_{{$locale['lang']}}" class="form-control" placeholder="{{__('enter')}} ..." >
-                                        </div>
-                                        <div class="form-group">
-                                            <textarea rows="6" name="content_{{$locale['lang']}}" id="content_{{$locale['lang']}}" class="form-control" placeholder="{{awtTrans('الوصف')}} ..." >{{old('content_'.$locale['lang'])}}</textarea>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -286,10 +247,10 @@
         function edit(ob){
 
             $('#editForm')      .attr("action","{{route('admin.coupons.update','obId')}}".replace('obId',ob.id));
-            @foreach(\App\Entities\Lang::all() as $key => $locale)
-            $('#title_{{$locale['lang']}}')    .val(ob.title.{{$locale['lang']}});
-            $('#content_{{$locale['lang']}}')    .val(ob.content.{{$locale['lang']}});
-            @endforeach
+{{--            @foreach(\App\Entities\Lang::all() as $key => $locale)--}}
+{{--            $('#title_{{$locale['lang']}}')    .val(ob.title.{{$locale['lang']}});--}}
+{{--            $('#content_{{$locale['lang']}}')    .val(ob.content.{{$locale['lang']}});--}}
+{{--            @endforeach--}}
             $('#code')    .val(ob.code);
             $('#value')    .val(ob.value);
             $('#count')     .val(ob.count);

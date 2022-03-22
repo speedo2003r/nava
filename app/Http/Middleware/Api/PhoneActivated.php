@@ -11,7 +11,7 @@ class PhoneActivated
     public function handle($request, Closure $next)
     {
         if (auth('api')->check() && auth('api')->user()->active != 1) {
-            return $this->respond(null, 'success', 'برجاء تفعيل الهاتف');
+            return $this->ApiResponse('success', 'برجاء تفعيل الهاتف');
         }
         if(auth('api')->check() && auth('api')->user()->active == 1){
             $user = auth()->user();

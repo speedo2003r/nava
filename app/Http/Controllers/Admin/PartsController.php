@@ -46,6 +46,10 @@ class PartsController extends Controller
     }
     public function destroy(Request $request)
     {
+        $user = auth()->user();
+        if($user['user_type'] == 'operation'){
+            return back()->with('danger','ليس لديك الصلاحيه للحذف');
+        }
         if(isset($request['data_ids'])){
             $data = explode(',', $request['data_ids']);
             foreach ($data as $d){

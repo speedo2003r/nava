@@ -20,7 +20,7 @@
                             <img style="width: 25px" alt="icon" src="{{asset('assets/media/menuicon/document.svg')}}" />
                             </span>
                                 <h3 class="kt-portlet__head-title">
-                                    {{awtTrans('المدن')}}
+                                    {{awtTrans('الأسئله والأجوبه')}}
                                 </h3>
                             </div>
                         </div>

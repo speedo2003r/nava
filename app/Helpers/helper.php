@@ -23,6 +23,26 @@ function Home()
     ];
     return $blocks[] = $home;
 }
+function hoursRange( $lower = 0, $upper = 86400, $step = 3600, $format = '' ) {
+    $times = array();
+
+    if ( empty( $format ) ) {
+        $format = 'g:i a';
+    }
+    if($lower + $step >= $upper){
+        return;
+    }
+    foreach ( range( $lower, $upper, $step ) as $increment ) {
+        $increment = gmdate( 'H:i', $increment );
+
+        list( $hour, $minutes ) = explode( ':', $increment );
+
+        $date = new DateTime( $hour . ':' . $minutes );
+
+        $times[] = $date->format( $format );
+    }
+    return $times;
+}
 function lastWord($string){
     $pieces = explode('.', $string);
     $last_word = array_pop($pieces);
@@ -30,6 +50,27 @@ function lastWord($string){
     return $last_word;
 }
 
+function is_success( $code )
+{
+
+    $arr = [
+        '000.000.000',
+        '000.000.100',
+        '000.100.110',
+        '000.100.111',
+        '000.100.112',
+        '000.300.000',
+        '000.300.100',
+        '000.300.101',
+        '000.300.102',
+        '000.600.000',
+//        '800.400.200', // delete ofter product
+//        '800.400.201', // delete ofter product
+        '000.200.100'
+    ];
+
+    return in_array( $code, $arr ) ? true : false;
+}
 function distance( $lat1, $lng1, $lat2, $lng2, $unit='K' )
 {
     if ( ( $lat1 == $lat2 ) && ( $lng1 == $lng2 ) ) {
@@ -128,7 +169,7 @@ if (!function_exists('convert_to_english')) {
 if(!function_exists('generateCode')){
     function generateCode()
     {
-        return '12345';
+        return '1234';
         $token = rand(11111,99999);
         return $token;
     }
@@ -319,6 +360,33 @@ if(!function_exists('saveMessage')){
         $lastMessage['other_users'] = $users;
         return $lastMessage;
     }
+}
+
+function sendSMS($numbers, $msg,$viewResult = 1)
+{
+    global $arraySendMsg;
+    $url = "www.4jawaly.net/api/sendsms.php";
+    $text = urlencode($msg);
+    $user = 'navaservices';
+    $password = 'ASD123asd';
+    $sendername = 'NAVA';
+    $stringToPost = "username=".$user."&password=".$password."&message=".$text."&numbers=".$numbers."&sender=".$sendername."&unicode=E&return=full";
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_ENCODING, "UTF-8");
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $stringToPost);
+    $data = curl_exec($ch);
+    if (curl_errno($ch)) {
+        print "Error: " . curl_error($ch);
+    } else {
+        curl_close($ch);
+        return $data;
+    }
+
 }
 if(!function_exists('deleteMessage')){
     function deleteMessage($message_id,$user_id){

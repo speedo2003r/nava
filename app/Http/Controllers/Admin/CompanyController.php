@@ -55,6 +55,7 @@ class CompanyController extends Controller
         if($request->has('image')){
             $data['avatar'] = $this->uploadFile($request['image'],'users');
         }
+        $data['active'] = 1;
         $user = $this->user->create($data);
         $fillable = $user->getFillable();
         $request->request->add(['user_id'=>$user['id']]);
@@ -81,6 +82,10 @@ class CompanyController extends Controller
     /***************************  delete provider  **************************/
     public function destroy(Request $request,$id)
     {
+        $user = auth()->user();
+        if($user['user_type'] == 'operation'){
+            return back()->with('danger','ليس لديك الصلاحيه للحذف');
+        }
         if(isset($request['data_ids'])){
             $data = explode(',', $request['data_ids']);
             foreach ($data as $d){
@@ -109,39 +114,19 @@ class CompanyController extends Controller
     public function storeImages(Request $request,$id)
     {
         $user = $this->user->find($id);
-        if($request->has('_logo')){
-            $this->deleteFile($user['logo'],'providers');
-            $logo = $this->uploadFile($request['_logo'],'providers');
-            $request->request->add(['logo'=>$logo]);
-        }
-        if($request->has('_banner')){
-            $this->deleteFile($user['banner'],'providers');
-            $logo = $this->uploadFile($request['_banner'],'providers');
-            $request->request->add(['banner'=>$logo]);
-        }
-        if($request->has('_id_avatar')){
-            $this->deleteFile($user['id_avatar'],'providers');
-            $logo = $this->uploadFile($request['_id_avatar'],'providers');
-            $request->request->add(['id_avatar'=>$logo]);
-        }
         if($request->has('_tax_certificate')){
-            $this->deleteFile($user['tax_certificate'],'providers');
-            $logo = $this->uploadFile($request['_tax_certificate'],'providers');
+            $this->deleteFile($user['tax_certificate'],'companies');
+            $logo = $this->uploadFile($request['_tax_certificate'],'companies');
             $request->request->add(['tax_certificate'=>$logo]);
         }
         if($request->has('_commercial_image')){
-            $this->deleteFile($user['commercial_image'],'providers');
-            $logo = $this->uploadFile($request['_commercial_image'],'providers');
+            $this->deleteFile($user['commercial_image'],'companies');
+            $logo = $this->uploadFile($request['_commercial_image'],'companies');
             $request->request->add(['commercial_image'=>$logo]);
         }
-        if($request->has('_municipal_license')){
-            $this->deleteFile($user['municipal_license'],'providers');
-            $logo = $this->uploadFile($request['_municipal_license'],'providers');
-            $request->request->add(['municipal_license'=>$logo]);
-        }
         $sellerRequests = $request->all();
-        $provider = $user->provider;
-        $this->company->update($sellerRequests,$provider['id']);
+        $company = $user->company;
+        $this->company->update($sellerRequests,$company['id']);
         return redirect()->back()->with('success', 'تم التحديث بنجاح');
     }
 

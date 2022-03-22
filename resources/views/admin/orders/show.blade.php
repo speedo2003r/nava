@@ -6,7 +6,14 @@
 @endsection
 @section('content')
     <!-- Main content -->
+@push('css')
+    <style>
+        .image.item{
+            display: inline-block;
+        }
+    </style>
 
+@endpush
     <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
         <!-- begin:: Content -->
         <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
@@ -45,6 +52,12 @@
                                                 <span>حالة الطلب</span>
                                                 <span>:</span>
                                                 <span>{{\App\Entities\Order::userStatus($order->status)}}</span>
+                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#changeStatus">تغيير الحاله</button>
+                                            </li>
+                                            <li class="text-bold">
+                                                <span>تاريخ ووقت الطلب</span>
+                                                <span>:</span>
+                                                <span>{{date('Y-m-d h:i a',strtotime($order->created_date))}}</span>
                                             </li>
                                             <li>
                                                 <span>أسم العميل</span>
@@ -58,27 +71,31 @@
                                             </li>
                                             @if(!is_null($order->date))
                                                 <li>
-                                                    <span>تاريخ الطلب</span>
+                                                    <span>تاريخ تنفيذ الطلب</span>
                                                     <span>:</span>
                                                     <span>{{date('Y-m-d' , strtotime($order->date))}}</span>
+                                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#changeDate">تغيير تاريخ الطلب</button>
                                                 </li>
                                             @endif
                                             @if(!is_null($order->time))
                                                 <li>
-                                                    <span>وقت الطلب</span>
+                                                    <span>وقت تنفيذ الطلب</span>
                                                     <span>:</span>
-                                                    <span>{{$order->time}}</span>
+                                                    <span>{{date('h:i a',strtotime($order->time))}}</span>
+                                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#changeTime">تغيير وقت الطلب</button>
                                                 </li>
                                             @endif
                                             <li>
                                                 <span>الفني</span>
                                                 <span>:</span>
                                                 <span>{{$order->technician ? $order->technician['name'] : '---'}}</span>
+                                                <button type="button" class="btn btn-success btn-sm checkTech" data-toggle="modal" data-target="#changeTechnician">تغيير الفني</button>
                                             </li>
                                             <li>
                                                 <span>العنوان</span>
                                                 <span>:</span>
                                                 <span>{{$order['map_desc']}}</span>
+                                                <button type="button" data-order="{{$order}}" class="btn btn-success btn-sm addressInfo" data-toggle="modal" data-target="#changeAddress">تغيير العنوان بالكامل</button>
                                             </li>
                                             <li>
                                                 <span>المنزل</span>
@@ -103,7 +120,13 @@
                                             <li class="text-bold">
                                                 <span>طريقة الدفع</span>
                                                 <span>:</span>
-                                                <span>@if($order->payment_method == 'transfer') تحويل بنكي @elseif($order->payment_method == 'online') اون لاين @else كاش @endif</span>
+                                                <span>{{\App\Entities\Order::orderMethods($order['pay_type'])}}</span>
+                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#changePay">تغيير طريقة الدفع</button>
+                                            </li>
+                                            <li>
+                                                <span>اجمالي الطلب</span>
+                                                <span>:</span>
+                                                <span>{{$order->price()}} {{awtTrans('ريال')}}</span>
                                             </li>
                                             <li class="text-bold">
                                                 <span>وصف المشكلة</span>
@@ -111,6 +134,16 @@
                                                 <span>{{$order->notes}}</span>
                                             </li>
                                         </ul>
+                                    </div>
+                                    <div>
+                                        <form action="{{route('admin.orders.operationNotes')}}" method="post">
+                                            @csrf()
+                                            <input type="hidden" name="order_id" id="order_id" value="{{$order['id']}}">
+                                            <label for="">ملاحظات الابوريشن</label>
+                                            <textarea name="oper_notes" class="form-control" cols="30" rows="10">{{$order['oper_notes']}}</textarea>
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                {{awtTrans('ارسال')}}</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -129,9 +162,9 @@
                                     </div>
                                         @foreach($order->files()->where('media_type','video')->get() as $file)
                                             <div class="problem-dec">
-                                                <video style="width: 100%" controls="controls" class="video-stream"
+                                                <video style="width: 250px" controls="controls" class="video-stream"
                                                        x-webkit-airplay="allow"
-                                                       src="{{ $file->image }}"></video>
+                                                       src="{{ dashboard_url('storage/images/orders/'.$file->image) }}"></video>
                                             </div>
                                         @endforeach
                                     @endif
@@ -140,7 +173,7 @@
                                         <h5 class="font-weight-bold">وصف بالصوت : </h5>
                                     </div>
                                         @foreach($order->files()->where('media_type','audio')->get() as $file)
-                                                <audio controls src="{{ $order->image }}">
+                                                <audio controls src="{{ dashboard_url('storage/images/orders/'.$file->image) }}">
                                                     Your browser does not support the
                                                     <code>audio</code> element.
                                                 </audio>
@@ -152,8 +185,8 @@
                                     </div>
                                         @foreach($order->files()->where('media_type','image')->get() as $file)
                                                 <div class="image item">
-                                                    <a href="{{ $file->image }}" data-lightbox="photos">
-                                                        <img class="img-fluid" src="{{ $file->image }}">
+                                                    <a href="{{ dashboard_url('storage/images/orders/'.$file->image) }}" data-lightbox="photos">
+                                                        <img class="img-fluid" style="width: 150px" src="{{ dashboard_url('storage/images/orders/'. $file->image) }}">
                                                     </a>
                                                 </div>
                                         @endforeach
@@ -161,6 +194,20 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
+                        @if($order->OrderBills && $order->OrderBills()->where('order_bills.status',1)->where('order_bills.type','service')->count() > 0)
+                        @foreach($order->OrderBills()->where('order_bills.status',1)->where('order_bills.type','service')->get() as $key => $bill)
+                                <div>
+                                    <i class="fas fa-list bg-yellow"></i>
+                                    <div class="timeline-item">
+                                        <h3 class="timeline-header">فاتوره ({{$key + 1}})</h3>
+                                        <div class="timeline-body">
+                                            {!! $bill['text'] !!}
+                                            <div>{{$bill['price']}} {{awtTrans('ر.س')}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                        @endforeach
                         @endif
                         <!-- timeline item -->
                         <div>
@@ -204,6 +251,31 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- timeline item -->
+                        @if($order->orderParts()->whereHas('orderBills',function($query){$query->where('status',1);})->count() > 0)
+                        <div>
+                            <i class="fas fa-list bg-yellow"></i>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header">قطع الغيار</h3>
+                                <div class="timeline-body">
+                                    <table class="table table-striped table-bordered dt-responsive nowrap">
+                                        <tr>
+                                            <td>اسم قطعة الغيار</td>
+                                            <td>العدد</td>
+                                            <td>السعر</td>
+                                        </tr>
+                                        @foreach($order->orderParts()->whereHas('orderBills',function($query){$query->where('status',1);})->get() as $orderPart)
+                                            <tr>
+                                                <td>{{$orderPart['title'] != null ? $orderPart['title'] : '---'}}</td>
+                                                <td>{{$orderPart['count']}}</td>
+                                                <td>{{$orderPart['price']}}</td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                         <!-- timeline item -->
                         <div>
 
@@ -262,6 +334,28 @@
                             @endif
                         </div>
                         <!-- END timeline item -->
+                        <div>
+                            <i class="fas fa-list bg-yellow"></i>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header">العنوان</h3>
+                                <div class="timeline-body">
+                                    <form action="{{route('admin.orders.changeAddress')}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="order_id" value="{{$order['id']}}">
+                                        <div class="col-sm-12 mb-3">
+                                            <div class="form-group">
+                                                <input type="hidden" name="lat" id="lat" value="{{$order['lat']}}">
+                                                <input type="hidden" name="lng" id="lng" value="{{$order['lng']}}">
+                                                <input type="text" name="address" id="address" value="{{$order['map_desc']}}" class="form-control" placeholder="{{awtTrans('قم بادخال ...')}}">
+                                            </div>
+                                            <div id="map" style="height: 300px"></div>
+                                            <button type="submit" class="btn btn-sm btn-success">{{awtTrans('إرسال')}}</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -272,6 +366,216 @@
 
     </div>
 
+    <!-- send-noti modal-->
+    <div class="modal fade" id="changeAddress"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('تغيير العنوان')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.orders.changeAllAddress')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="order_id" id="order_id" value="{{$order['id']}}">
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('العنوان')}}
+                            </label>
+                            <input type="text" name="map_desc" class="form-control">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">
+                                        {{awtTrans('المنزل')}}
+                                    </label>
+                                    <input type="text" name="residence" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">
+                                        {{awtTrans('الشارع')}}
+                                    </label>
+                                    <input type="text" name="street" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">
+                                        {{awtTrans('الدور')}}
+                                    </label>
+                                    <input type="text" name="floor" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('ملاحظات العنوان')}}
+                            </label>
+                            <input type="text" name="address_notes" class="form-control">
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success">{{awtTrans('إرسال')}}</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- send-noti modal-->
+    <div class="modal fade" id="changeStatus"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('تغيير الحاله')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.orders.changeStatus')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="order_id" id="order_id" value="{{$order['id']}}">
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('الحاله')}}
+                            </label>
+                            <select name="status" class="form-control">
+                                <option value="" selected hidden>اختر</option>
+                                @foreach(\App\Entities\Order::userStatus() as $key => $value)
+                                    <option value="{{$key}}" @if($order['status'] == $key) selected @endif>{{$value}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success">{{awtTrans('إرسال')}}</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- send-noti modal-->
+    <div class="modal fade" id="changeTime"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('تغيير وقت الطلب')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.orders.changeTime')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="order_id" id="order_id" value="{{$order['id']}}">
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('الوقت')}}
+                            </label>
+                            <input type="time" class="form-control" name="time" value="{{$order['time']}}">
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success">{{awtTrans('إرسال')}}</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="changeDate"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('تغيير تاريخ الطلب')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.orders.changeDate')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="order_id" id="order_id" value="{{$order['id']}}">
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('التاريخ')}}
+                            </label>
+                            <input type="date" class="form-control" name="date" value="{{$order['date']}}">
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success">{{awtTrans('إرسال')}}</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- send-noti modal-->
+    <div class="modal fade" id="changeTechnician"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('تعيين تقني')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.orders.assignTech')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="order_id" id="order_id" value="{{$order['id']}}">
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('التقني')}}
+                            </label>
+                            <select name="technician_id" class="form-control" id="technician_id">
+                                <option value="" selected hidden>اختر</option>
+                            </select>
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success">{{awtTrans('إرسال')}}</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- send-noti modal-->
+    <div class="modal fade" id="changePay"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('تعيين طريقة الدفع')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.orders.changePayType')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="order_id" id="order_id" value="{{$order['id']}}">
+                        <div class="form-group">
+                            <label for="">
+                                {{awtTrans('طرق الدفع')}}
+                            </label>
+                            <select name="pay_type" class="form-control" id="pay_type">
+                                <option value="" selected hidden>اختر</option>
+                                @foreach(\App\Entities\Order::orderMethods() as $key => $value)
+                                    <option value="{{$key}}">{{$value}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-sm btn-success">{{awtTrans('إرسال')}}</button>
+                            <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade modal-danger" id="set-price" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -336,11 +640,23 @@
     <!-- /.content -->
 @endsection
 @push('js')
+    <script src="{{dashboard_url('js/map.js')}}"></script>
+    <script
+            src="https://maps.googleapis.com/maps/api/js?key={{settings('map_key')}}&libraries=places&callback=initMap"
+            async defer></script>
     <script>
         function showNotes(notes) {
             if(notes == '') notes = 'لا يوجد ملاحظات';
             $('#notes').html(notes);
         }
+        $('body').on('click','.addressInfo',function (){
+            var order = $(this).data('order');
+            $('[name=map_desc]').val(order.map_desc);
+            $('[name=residence]').val(order.residence);
+            $('[name=street]').val(order.street);
+            $('[name=floor]').val(order.floor);
+            $('[name=address_notes]').val(order.address_notes);
+        });
         $('body').on('click','#child',function (){
             var service = $(this).data('service_id');
             var price = $(this).data('price');
@@ -350,6 +666,14 @@
         $('body').on('click','#reject',function (){
             var service = $(this).data('service_id');
             $('[name=order_service_id]').val(service);
+        });
+
+        $(document).on('click','.checkTech',function (){
+            var order = `{{$order['id']}}`;
+            var category_id = `{{$order['category_id']}}`;
+            $('#technician_id').empty();
+            $('#order_id').val(order);
+            getTechs(order,category_id);
         });
     </script>
 @endpush

@@ -43,7 +43,12 @@ class BranchController extends Controller
     /***************************  get all providers  **************************/
     public function edit($id)
     {
-        $cities = $this->city->all();
+        $user = auth()->user();
+        if($user['user_type'] == 'operation'){
+            $cities = $this->city->where('id',$user['city_id'])->get();
+        }else{
+            $cities = $this->city->all();
+        }
         $branch = $this->branch->find($id);
         return view('admin.branches.edit',compact('cities','id','branch'));
     }
@@ -109,7 +114,10 @@ class BranchController extends Controller
     /***************************  delete provider  **************************/
     public function destroy(Request $request,$id)
     {
-
+        $user = auth()->user();
+        if($user['user_type'] == 'operation'){
+            return back()->with('danger','ليس لديك الصلاحيه للحذف');
+        }
         if(isset($request['data_ids'])){
             $data = explode(',', $request['data_ids']);
             foreach ($data as $d){

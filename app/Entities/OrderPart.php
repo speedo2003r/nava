@@ -23,7 +23,6 @@ class OrderPart extends Model implements Transformable
     protected $fillable = [
         'title',
         'order_id',
-        'part_id',
         'count',
         'price',
     ];
@@ -37,6 +36,10 @@ class OrderPart extends Model implements Transformable
         return $this->belongsTo(Part::class,'part_id');
     }
 
+    public function orderBills()
+    {
+        return $this->belongsToMany(OrderBill::class,'order_parts_bills','order_part_id','order_bill_id');
+    }
     public function _price()
     {
         return $this->price * $this->count;

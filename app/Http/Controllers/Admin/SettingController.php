@@ -28,6 +28,10 @@ class SettingController extends Controller
     /***************************  update setting  **************************/
     public function update(Request $request)
     {
+        $user = auth()->user();
+        if($user['user_type'] == 'operation'){
+            return back()->with('danger','ليس لديك الصلاحيه للتحديث');
+        }
         $data = $request['keys'];
         if($request->has('logo')) {
             if ($request['logo'] == 'remove'){

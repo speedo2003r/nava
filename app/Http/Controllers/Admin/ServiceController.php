@@ -49,6 +49,10 @@ class ServiceController extends Controller
     }
     public function destroy(Request $request)
     {
+        $user = auth()->user();
+        if($user['user_type'] == 'operation'){
+            return back()->with('danger','ليس لديك الصلاحيه للحذف');
+        }
         if(isset($request['data_ids'])){
             $data = explode(',', $request['data_ids']);
             foreach ($data as $d){
@@ -79,6 +83,9 @@ class ServiceController extends Controller
         }
         $data['title'] = $translations;
         $data['description'] = $desctranslations;
+        if($request['price'] == null){
+            $data['price'] = 0;
+        }
         $service = $this->serviceRepo->create($data);
 
         return redirect()->back()->with('success', 'تم الاضافه بنجاح');
@@ -100,6 +107,9 @@ class ServiceController extends Controller
         }
         $data['title'] = $translations;
         $data['description'] = $desctranslations;
+        if($request['price'] == null){
+            $data['price'] = 0;
+        }
         $this->serviceRepo->update($data,$service['id']);
 
         return redirect()->back()->with('success', 'تم التحديث بنجاح');
@@ -124,12 +134,6 @@ class ServiceController extends Controller
             ->leftJoin('categories','categories.id','=','services.category_id')
             ->latest();
         return DataTables::of($items)
-            ->editColumn('id',function ($query){
-                return '<label class="custom-control material-checkbox" style="margin: auto">
-                            <input type="checkbox" class="material-control-input checkSingle" id="'.$query->id.'">
-                            <span class="material-control-indicator"></span>
-                        </label>';
-            })
             ->addColumn('active',function ($query){
                 return '<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" style="direction: ltr">
                             <input type="checkbox" onchange="changeServiceActive('.$query->id.')" '.($query->active == 1 ? 'checked' : '') .' class="custom-control-input" id="customSwitch'.$query->id.'">
@@ -171,6 +175,6 @@ class ServiceController extends Controller
                 return $query;
             })
             ->addColumn('control','admin.partial.ControlEditDelService')
-            ->rawColumns(['active','control','id'])->make(true);
+            ->rawColumns(['active','control'])->make(true);
     }
 }

@@ -24,8 +24,8 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            //'email'       => 'required',
-            'phone'       => 'required',
+            'uuid'       => 'required',
+            'phone'       => 'required|exists:users,phone,deleted_at,NULL',
             'password'    => 'required|string|max:100',
             'device_id'   => 'required|max:200',
             'device_type' => 'required|in:android,ios,web',

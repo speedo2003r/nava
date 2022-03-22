@@ -41,4 +41,25 @@ class Company extends Model implements Transformable
     {
         return $this->belongsTo(User::class,'user_id');
     }
+    public function getCommercialImageAttribute($value)
+    {
+        if($value == null){
+            return  dashboard_url('images/placeholder.png');
+        }
+        return  dashboard_url('storage/images/companies/'. $value);
+    }
+    public function getTaxCertificateAttribute($value)
+    {
+        if($value == null){
+            return  dashboard_url('images/placeholder.png');
+        }
+        return  dashboard_url('storage/images/companies/'. $value);
+    }
+    public function getIdAvatarAttribute($value)
+    {
+        if($value == null){
+            return  dashboard_url('images/placeholder.png');
+        }
+        return  dashboard_url('storage/images/companies/'. $value);
+    }
 }

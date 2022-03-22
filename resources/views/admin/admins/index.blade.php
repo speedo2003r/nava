@@ -153,7 +153,7 @@
                         </div>
 
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 admin">
                             <div class="form-group">
                                 <label>{{awtTrans('الاشراف الوظيفي')}}</label>
                                 <select name="user_type" class="form-control" id="user_type" required>
@@ -163,7 +163,18 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4 operation d-none">
+                            <div class="form-group">
+                                <label>{{awtTrans('المدينه')}}</label>
+                                <select name="city_id" class="form-control" id="city_id">
+                                    <option value="" selected hidden disabled>{{awtTrans('اختر')}}</option>
+                                    @foreach($cities as $city)
+                                    <option value="{{$city['id']}}">{{$city['title']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 admin">
                             <div class="form-group">
                                 <label>{{__('role')}}</label>
                                 <select name="role_id" class="form-control" id="role_id" required>
@@ -202,6 +213,16 @@
             var country = $(this).val();
             getCities(country);
         });
+        $('body').on('change','#user_type',function (){
+           var type = $(this).val();
+           if(type == 'operation'){
+                $('.operation').removeClass('d-none');
+                $('.admin').removeClass('col-sm-6').addClass('col-sm-4');
+           }else{
+               $('.operation').addClass('d-none');
+               $('.admin').removeClass('col-sm-4').addClass('col-sm-6');
+           }
+        });
         function edit(ob){
 
             $('#editModel .modal-title').text('تعديل مشرف');
@@ -221,7 +242,14 @@
                 if ( $( this ).val() == ob.role_id )
                     $( this ).attr( 'selected', '' )
             } );
-
+            if(ob.user_type == 'operation'){
+                $('.operation').removeClass('d-none');
+                $('#city_id').val(ob.city_id).change
+                $('.admin').removeClass('col-sm-6').addClass('col-sm-4');
+            }else{
+                $('.operation').addClass('d-none');
+                $('.admin').removeClass('col-sm-4').addClass('col-sm-6');
+            }
             let image = $( '#upload_area_img' );
             image.empty();
             image.append( '<div class="uploaded-block" data-count-order="1"><a href="' + ob.avatar + '"  data-fancybox data-caption="' + ob.avatar + '" ><img src="' + ob.avatar + '"></a><button class="close">&times;</button></div>' );

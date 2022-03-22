@@ -24,8 +24,11 @@ class OrderService extends Model implements Transformable
         'title',
         'order_id',
         'service_id',
+        'category_id',
         'count',
+        'preview_request',
         'price',
+        'tax',
         'status',
         'type',
     ];
@@ -33,7 +36,6 @@ class OrderService extends Model implements Transformable
     public static function serviceType($value = null)
     {
         $arr = [
-            'hourly' => 'بالساعه',
             'fixed' => 'ثابت',
             'pricing' => 'تقديري',
         ];
@@ -45,6 +47,10 @@ class OrderService extends Model implements Transformable
     public function order()
     {
         return $this->belongsTo(Order::class,'order_id');
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'category_id');
     }
     public function service()
     {

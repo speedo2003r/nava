@@ -44,20 +44,14 @@ class Coupon extends Model implements Transformable
     public function couponValue($value,$seller_id = null,$orderProducts = [])
     {
         $price = 0;
-        if($this->type === 'public' && $this->start_date <= Carbon::now()->format('Y-m-d') && $this->end_date >= Carbon::now()->format('Y-m-d')){
+        if($this->start_date <= Carbon::now()->format('Y-m-d') && $this->end_date >= Carbon::now()->format('Y-m-d')){
             if($this->kind == 'percent'){
                 $price = ($value * $this->value) / 100;
             }elseif ($this->kind == 'fixed'){
                 $price = $this->value;
             }
-        }elseif ($this->type == 'private'){
-            if (count($orderProducts) > 0){
-                if(in_array($this->item_id,$orderProducts)){
-                    $item = Item::whereIn('id',$orderProducts)->first();
-                    $price = ($item->groups()->first()->price() * $this->value) / 100;
-                }
-            }
         }
+
         return (string) round($price,2);
     }
 }

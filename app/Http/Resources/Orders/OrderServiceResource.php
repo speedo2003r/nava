@@ -15,8 +15,6 @@ class OrderServiceResource extends JsonResource
             'image'             => $this->service['image'],
             'title'                => $this->service['title'],
             'price'                => $this->price,
-            'currency'                => trans('api.SAR'),
-            'rate'      => $this->ratingService ? $this->ratingService['rate'] : 0,
         ];
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Role extends Model
 {
 
-    protected $fillable = ['name_ar','name_en'];
+    protected $fillable = ['name_ar','name_en','name_ur'];
 
     protected $appends = ['name'];
 

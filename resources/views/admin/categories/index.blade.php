@@ -32,10 +32,10 @@
                                 {{awtTrans('اضافه')}}
                             </button>
 
-                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.categories.destroy',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
-                                <i class="la la-trash"></i>
-                                {{awtTrans('حذف')}}
-                            </button>
+{{--                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.categories.destroy',0)}}')" data-toggle="modal" data-target="#confirm-all-del">--}}
+{{--                                <i class="la la-trash"></i>--}}
+{{--                                {{awtTrans('حذف')}}--}}
+{{--                            </button>--}}
                         </div>
 
 
@@ -45,10 +45,7 @@
                                     <thead>
                                     <tr>
                                         <th>
-                                            <label class="custom-control material-checkbox" style="margin: auto">
-                                                <input type="checkbox" class="material-control-input" id="checkedAll">
-                                                <span class="material-control-indicator"></span>
-                                            </label>
+                                            {{__('ID')}}
                                         </th>
                                         <th>{{__('name')}}</th>
                                         <th>{{awtTrans('الأقسام الفرعيه')}}</th>
@@ -61,10 +58,7 @@
                                     @foreach($categories as $ob)
                                         <tr>
                                             <td>
-                                                <label class="custom-control material-checkbox" style="margin: auto">
-                                                    <input type="checkbox" class="material-control-input checkSingle" id="{{$ob->id}}">
-                                                    <span class="material-control-indicator"></span>
-                                                </label>
+                                                {{$ob->id}}
                                             </td>
                                             <td>{{$ob->title}}</td>
                                             <td>
@@ -83,9 +77,9 @@
                                                 <button onclick="edit({{$ob}})" data-toggle="modal" data-target="#editModel" data-placement="top" data-original-title="{{awtTrans('تعديل')}}"  class="btn btn-sm btn-clean btn-icon btn-icon-md">
                                                     <i class="la la-cog"></i>
                                                 </button>
-                                                <button type="button"  onclick="confirmDelete('{{route('admin.categories.destroy',$ob->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
-                                                    <i    class="la la-trash"></i>
-                                                </button>
+{{--                                                <button type="button"  onclick="confirmDelete('{{route('admin.categories.destroy',$ob->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">--}}
+{{--                                                    <i    class="la la-trash"></i>--}}
+{{--                                                </button>--}}
                                             </td>
                                         </tr>
                                     @endforeach

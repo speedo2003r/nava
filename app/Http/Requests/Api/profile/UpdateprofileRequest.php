@@ -30,11 +30,9 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
+            'name'      => 'required',
             'phone'      => 'required|numeric|unique:users,phone,'. $this->user['id'].',id,deleted_at,NULL',
             'email'      => 'required|email|max:191|unique:users,email,'. $this->user['id'].',id,deleted_at,NULL',
-            'lat'        => 'required',
-            'lng'        => 'required',
-            'address'    => 'required|string',
         ];
     }
 

@@ -6,6 +6,7 @@ use App\DataTables\ClientDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Client\Create;
 use App\Http\Requests\Admin\Client\Update;
+use App\Jobs\NotifyFcm;
 use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\UserRepository;
@@ -35,8 +36,7 @@ class ClientController extends Controller
     public function index(ClientDatatable $clientDatatable)
     {
         $countries = $this->country->all();
-        $cities = $this->city->all();
-        return $clientDatatable->render('admin.clients.index', compact('cities','countries'));
+        return $clientDatatable->render('admin.clients.index', compact('countries'));
     }
 
 
@@ -48,6 +48,7 @@ class ClientController extends Controller
         if($request->has('image')){
             $data['avatar'] = $this->uploadFile($request['image'],'users');
         }
+        $data['active'] = 1;
         $this->user->create($data);
         return redirect()->back()->with('success', 'تم الاضافه بنجاح');
     }
@@ -70,6 +71,10 @@ class ClientController extends Controller
     /***************************  delete provider  **************************/
     public function destroy(Request $request,$id)
     {
+        $user = auth()->user();
+        if($user['user_type'] == 'operation'){
+            return back()->with('danger','ليس لديك الصلاحيه للحذف');
+        }
         if(isset($request['data_ids'])){
             $data = explode(',', $request['data_ids']);
             foreach ($data as $d){
@@ -93,13 +98,29 @@ class ClientController extends Controller
         if ($validator->fails())
             return response()->json(['value' => 0, 'msg' => $validator->errors()->first()]);
 
-        if ($request->type == 'all') $users = User::where('user_type', $request['notify_type'])->get();
-        else $users = User::whereId($request->id)->get();
-
+        if ($request->id == 0) {
+            $users = User::where('notify', 1)->where('user_type', 'client')->get();
+        }else {
+            $users = User::where('notify', 1)->whereId($request->id)->get();
+        }
         foreach ($users as $user) {
             $message = $request->message;
             #send FCM
-            $this->send_notify($user->id, $message, $message);
+            $job = (new NotifyFcm(auth()->user(),$user,$message,$message));
+            if($user){
+                $data['title'] = app()->getLocale() == 'ar' ? $message: $message;
+                $data['body'] = app()->getLocale() == 'ar' ? $message: $message;
+                $data['type'] = null;
+                if($user->Devices){
+                    foreach ($user->Devices as $device) {
+                        if($device->device_id){
+                            $this->send_fcm($device->device_id, $data, $device->device_type);
+                        }
+                    }
+                }
+
+            }
+            dispatch($job);
         }
         return $this->ApiResponse('success', 'تم الارسال بنجاح');
     }
@@ -116,8 +137,18 @@ class ClientController extends Controller
     public function addToWallet(Request $request)
     {
         $provider = $this->user->find($request['id']);
-        $provider['wallet'] += $request['wallet'];
-        $provider->save();
+        if($provider['balance'] == 0){
+            $provider->wallet += $request['wallet'];
+            $provider->save();
+        }elseif($provider['balance'] > 0 && $provider['balance'] < $request['wallet']){
+            $value = $request['wallet'] - $provider['balance'];
+            $provider['balance'] = 0;
+            $provider['wallet'] += $value;
+            $provider->save();
+        }else{
+            $provider['balance'] = $provider['balance'] - $request['wallet'];
+            $provider->save();
+        }
         return back()->with('success','تم الاضافه بنجاح');
     }
 }

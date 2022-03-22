@@ -32,5 +32,9 @@ class Region extends Model implements Transformable
     {
         return $this->hasMany(Order::class);
     }
+    public function branches()
+    {
+        return $this->belongsToMany(Region::class,'branch_regions','region_id','branch_id');
+    }
 
 }

@@ -32,10 +32,10 @@
                                 {{awtTrans('اضافه')}}
                             </button>
 
-                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.services.destroy',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
-                                <i class="la la-trash"></i>
-                                {{awtTrans('حذف')}}
-                            </button>
+{{--                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.services.destroy',0)}}')" data-toggle="modal" data-target="#confirm-all-del">--}}
+{{--                                <i class="la la-trash"></i>--}}
+{{--                                {{awtTrans('حذف')}}--}}
+{{--                            </button>--}}
                         </div>
 
 
@@ -45,7 +45,7 @@
                                     <thead>
                                     <tr>
 
-                                        <th>  </th>
+                                        <th> {{__('ID')}} </th>
                                         <th> القسم </th>
                                         <th> اسم الخدمه </th>
                                         <th> السعر </th>

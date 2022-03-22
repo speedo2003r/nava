@@ -1,0 +1,6 @@
+[2021-09-26 14:01:15][1] Processing: App\Jobs\NotifyFcm
+[2021-09-26 14:01:15][1] Processed:  App\Jobs\NotifyFcm
+[2021-09-26 14:01:39][2] Processing: App\Jobs\NotifyFcm
+[2021-09-26 14:01:39][2] Processed:  App\Jobs\NotifyFcm
+[2021-09-26 14:04:36][3] Processing: App\Jobs\NotifyFcm
+[2021-09-26 14:04:36][3] Processed:  App\Jobs\NotifyFcm

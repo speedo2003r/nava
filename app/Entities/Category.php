@@ -46,6 +46,15 @@ class Category extends Model implements Transformable
     {
         return $this->hasMany(Service::class,'category_id','id');
     }
+
+    public function ScopeExist($query)
+    {
+        return $query->whereHas('children',function($query){
+            $query->whereHas('services',function ($query){
+                $query->where('status',1);
+            });
+        });
+    }
     public function providers()
     {
         return $this->hasMany(User::class,'category_id','id');

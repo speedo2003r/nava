@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Entities\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -23,7 +24,8 @@ class OrderDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('id',function ($query){
+            ->addIndexColumn()
+            ->editColumn('sid',function ($query){
                 return '<label class="custom-control material-checkbox" style="margin: auto">
                             <input type="checkbox" class="material-control-input checkSingle" id="'.$query->id.'">
                             <span class="material-control-indicator"></span>
@@ -38,7 +40,7 @@ class OrderDatatable extends DataTable
             ->addColumn('services',function ($query){
                 $data = '';
                 foreach ($query->orderServices as $orderService){
-                    $data .= $orderService['title'] ? $orderService['title'] : $orderService->service['title'];
+                    $data .= $orderService['title'] ? ' - '.$orderService['title'] : ' - '.$orderService->service['title'];
                 }
                 return $data;
             })
@@ -46,10 +48,10 @@ class OrderDatatable extends DataTable
                 return $query;
             })
             ->editColumn('final_total',function ($query){
-                return $query->_price();
+                return $query->price();
             })
             ->addColumn('control','admin.partial.ControlOrder')
-            ->rawColumns(['services','status','control','id']);
+            ->rawColumns(['services','status','control','sid']);
     }
 
     /**
@@ -60,13 +62,39 @@ class OrderDatatable extends DataTable
      */
     public function query(Order $model)
     {
-        return $model->query()
-            ->select('orders.*','users.name','cities.title->ar as city_title','regions.title->ar as region_title')
-            ->leftJoin('users','users.id','=','orders.user_id')
-            ->leftJoin('cities','cities.id','=','orders.city_id')
-            ->leftJoin('regions','regions.id','=','orders.region_id')
-            ->with('orderServices')
-            ->latest();
+        if(Route::currentRouteName() == 'admin.orders.index'){
+            return $model->query()
+                ->whereHas('category')
+                ->where('status','created')
+                ->where('technician_id',null)
+                ->with(['orderServices','region','city','category','user'])
+                ->where('live',1)
+                ->orderBy('created_date','desc');
+        }elseif (Route::currentRouteName() == 'admin.orders.onWayOrders'){
+            return $model->query()
+                ->whereHas('category')
+                ->whereNotIn('status',['created','finished'])
+                ->where('technician_id','!=',null)
+                ->with(['orderServices','region','city','category','user'])
+                ->where('live',1)
+                ->orderBy('created_date','desc');
+        }elseif (Route::currentRouteName() == 'admin.orders.finishedOrders'){
+            return $model->query()
+                ->whereHas('category')
+                ->where('status','finished')
+                ->where('technician_id','!=',null)
+                ->with(['orderServices','region','city','category','user'])
+                ->where('live',1)
+                ->orderBy('created_date','desc');
+        }elseif (Route::currentRouteName() == 'admin.orders.canceledOrders'){
+            return $model->query()
+                ->whereHas('category')
+                ->where('status','user_cancel')
+                ->with(['orderServices','region','city','category','user'])
+                ->where('live',1)
+                ->orderBy('created_date','desc');
+        }
+
     }
 
     /**
@@ -102,13 +130,15 @@ class OrderDatatable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id')->title('')->orderable(false),
+//            Column::make('sid')->title('')->orderable(false),
+            Column::make('DT_RowIndex')->name('DT_RowIndex')->title('')->orderable(false),
             Column::make('order_num')->title('رقم الطلب'),
-            Column::make('name')->name('users.name')->title('اسم العميل'),
-            Column::make('city_title')->name('city_title')->title('المدينه'),
-            Column::make('region_title')->name('region_title')->title('المنطقه'),
+            Column::make('user.name')->title('اسم العميل'),
+            Column::make('category.title.ar')->name('category.title->ar')->title('القسم'),
+            Column::make('city.title.ar')->name('city.title->ar')->title('المدينه'),
+            Column::make('region.title.ar')->name('region.title->ar')->title('المنطقه'),
             Column::make('services')->title('الخدمات'),
-            Column::make('final_total')->title('الاجمالي بدون الضريبه'),
+            Column::make('final_total')->title('الاجمالي بالضريبه'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];
     }

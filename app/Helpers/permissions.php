@@ -47,7 +47,7 @@ function sidebar()
                         }
 
                         echo '<li class="kt-menu__item kt-menu__item--submenu ' . $opend . '" >
-                                <a href="#" class="kt-menu__link kt-menu__toggle" aria-haspopup="false" data-ktmenu-submenu-toggle="hover"><span class="kt-menu__link-icon"><div class="kt-demo-icon__preview kt-menu__link-text"><img src="' . $value->getAction()['icon'] . '"  width="23px" alt="" srcset=""/></div></span> <span class="kt-menu__link-text"> ' . $value->getAction()['title'] . ' </span> <i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                <a href="#" class="kt-menu__link kt-menu__toggle" aria-haspopup="false" data-ktmenu-submenu-toggle="hover"><span class="kt-menu__link-icon"><div class="kt-demo-icon__preview kt-menu__link-text"><img src="' . $value->getAction()['icon'] . '"  width="23px" alt="" srcset=""/></div></span> <span class="kt-menu__link-text"> ' . awtTrans($value->getAction()['title']) . ' </span> <i class="kt-menu__ver-arrow la la-angle-right"></i></a>
                                 <div class="kt-menu__submenu " kt-hidden-height="120" style=""><span class="kt-menu__arrow"></span>
                                 <ul class="kt-menu__subnav">';
 
@@ -55,9 +55,9 @@ function sidebar()
                         // display child sub directories
                         foreach ($value->getAction()['child'] as $child){
                             if (isset($routes_data['"admin.' . $child . '"']) && $routes_data['"admin.' . $child . '"']['title'] && $routes_data['"admin.' . $child . '"']['icon'] && Permission::where('permission',"admin.$child")->exists())
-                                echo '<li aria-haspopup="true" data-ktmenu-submenu-toggle="hover" class="kt-menu__item  kt-menu__item--submenu ">
-                                    <a href="' . route('admin.'.$child) . '" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i> <span class="kt-menu__link-text"> ' . $routes_data['"admin.' . $child . '"']['title'] . ' </span>
-                                    </a></li>';
+                                echo '<li aria-haspopup="true" data-ktmenu-submenu-toggle="hover" class="kt-menu__item  kt-menu__item--submenu position-relative">
+                                    <a href="' . route('admin.'.$child) . '" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i> <span class="kt-menu__link-text"> ' . awtTrans($routes_data['"admin.' . $child . '"']['title']) . ' </span>
+                                    </a>'.($child == 'orders.index' ? '<span class="span-menu">'.\App\Entities\Order::where('status','created')->whereHas('category')->where('live',1)->count().'</span>' : ($child == 'orders.onWayOrders' ? '<span class="span-menu">'.\App\Entities\Order::whereNotIn('status',['created','finished'])->where('technician_id','!=',null)->whereHas('category')->where('live',1)->count().'</span>' : '')).'</li>';
 
                         }
 
@@ -69,7 +69,7 @@ function sidebar()
                     if (in_array($value->getName(), $my_routes)) {
                         $active = $value->getName() == Route::currentRouteName() ? 'kt-menu__item--active' : '';
 
-                        echo '<li class="kt-menu__item  kt-menu__item--submenu ' . $active . '" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="' . route($value->getName()) . '" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><div class="kt-demo-icon__preview kt-menu__link-text"><img src="' . $value->getAction()['icon'] . '"  width="23px" alt="" srcset=""/></div></span> <span class="kt-menu__link-text"> ' . $value->getAction()['title'] . ' </span> </a></li>';
+                        echo '<li class="kt-menu__item  kt-menu__item--submenu ' . $active . '" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="' . route($value->getName()) . '" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><div class="kt-demo-icon__preview kt-menu__link-text"><img src="' . $value->getAction()['icon'] . '"  width="23px" alt="" srcset=""/></div></span> <span class="kt-menu__link-text"> ' . awtTrans($value->getAction()['title']) . ' </span> </a></li>';
                     }
                 }
             }
@@ -104,7 +104,7 @@ function addRole()
                                         <input type="checkbox" name="permissions[]" value="' . $value->getName() . '" id="' . $parent_class . '" class="roles-parent">
                                         <label for="' . $parent_class . '" dir="ltr"></label>
                                     </div>
-                                    <label for="' . $parent_class . '">' . $value->getAction()["title"] . '</label>
+                                    <label for="' . $parent_class . '">' . awtTrans($value->getAction()["title"]) . '</label>
                                 </div>
                             </div>';
 
@@ -122,7 +122,7 @@ function addRole()
                                     <input type="checkbox"  name="permissions[]" value="admin.' . $child . '"  id="' . $value->getName() . $key . '" class="' . $parent_class . '">
                                     <label for="' . $value->getName() . $key . '" dir="ltr"></label>
                                 </div>
-                                <label for="' . $value->getName() . $key . '"> ' . $routes_data['"admin.' . $child . '"']['title'] . '</label>
+                                <label for="' . $value->getName() . $key . '"> ' . awtTrans($routes_data['"admin.' . $child . '"']['title']) . '</label>
                             </div>
 
                         </li>';
@@ -163,7 +163,7 @@ function editRole($id)
                                             <input type="checkbox" name="permissions[]" value="' . $value->getName() . '" id="' . $parent_class . '" class="roles-parent" ' . $select . '>
                                             <label for="' . $parent_class . '" dir="ltr"></label>
                                     </div>
-                                    <label for="' . $parent_class . '">' . $value->getAction()["title"] . '</label>
+                                    <label for="' . $parent_class . '">' . awtTrans($value->getAction()["title"]) . '</label>
                                 </div>
                             </div>';
 
@@ -181,7 +181,7 @@ function editRole($id)
                                     <input type="checkbox"  name="permissions[]" value="admin.' . $child . '"  id="' . $value->getName() . $key . '" class="' . $parent_class . '" ' . $select . '>
                                     <label for="' . $value->getName() . $key . '" dir="ltr"></label>
                                 </div>
-                                 <label for="' . $value->getName() . $key . '"> ' . $routes_data['"admin.' . $child . '"']['title'] . '</label>
+                                 <label for="' . $value->getName() . $key . '"> ' . awtTrans($routes_data['"admin.' . $child . '"']['title']) . '</label>
                             </div>
 
                         </li>';

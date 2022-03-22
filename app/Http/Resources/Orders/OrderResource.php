@@ -13,11 +13,9 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'order_num' => $this->order_num,
-            'address'   => $this['map_desc'] ?? '',
-            'lat'   => $this['lat'] ?? '',
-            'lng'   => $this['lng'] ?? '',
-            'date' => Carbon::parse($this->date)->format('Y/m/d'),
-            'time' => Carbon::parse($this->time)->locale(app()->getLocale())->format('h:i a'),
+            'category_title'   => $this->category ? $this->category['title'] : '',
+            'price'   => $this->price(),
+            'status'   => ($this['status'] != 'finished' && $this['status'] != 'canceled') ? ($this->bills()->where('order_bills.status',0)->exists() ? trans('api.youhavefactora') : '') : trans('api.rate'),
         ];
     }
 

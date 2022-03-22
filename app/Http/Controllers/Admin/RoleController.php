@@ -33,8 +33,10 @@ class RoleController extends Controller
     /***************************  get all roles  **************************/
     public function store(Create $request)
     {
-
-
+        $user = auth()->user();
+        if($user['user_type'] == 'operation'){
+            return back()->with('danger','ليس لديك الصلاحيه للاضافه');
+        }
         $role = $this->roleRepo->create($request->all());
 
         $permissions = [];
@@ -56,10 +58,15 @@ class RoleController extends Controller
     /***************************  get all roles  **************************/
     public function update(Request $request, $id)
     {
+        $user = auth()->user();
+        if($user['user_type'] == 'operation'){
+            return back()->with('danger','ليس لديك الصلاحيه للتحديث');
+        }
         $role = Role::find($id);
         $role->update([
             'name_ar' => $request['name_ar'],
             'name_en' => $request['name_en'],
+            'name_ur' => $request['name_ur'],
         ]);
         $role->permissions()->delete();
         $permissions = [];
@@ -74,6 +81,10 @@ class RoleController extends Controller
     /***************************  destroy  **************************/
     public function destroy($id)
     {
+        $user = auth()->user();
+        if($user['user_type'] == 'operation'){
+            return back()->with('danger','ليس لديك الصلاحيه للحذف');
+        }
         $role = Role::find($id);
         $role->delete($role['id']);
         return redirect(route('admin.roles.index'))->with('success', 'تم الحذف بنجاح');

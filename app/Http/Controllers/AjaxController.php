@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\Branch;
 use App\Entities\Category;
+use App\Entities\City;
 use App\Entities\Order;
 use App\Http\Controllers\Controller;
 use App\Repositories\CityRepository;
@@ -49,13 +50,40 @@ class AjaxController extends Controller
 
         }
     }
+    public function getservices(Request $request)
+    {
+        if($request->ajax()){
+            $category = Category::find($request['category_id']);
+            if($category){
+                return response()->json([
+                    'data'=>$category->services,
+                    'value'=>1,
+                ]);
+            }
+
+        }
+    }
     public function getCities(Request $request)
     {
         if($request->ajax()){
             $country_id = $request['id'];
             $country = $this->country->find($country_id);
-            $cities = $country->cities;
+            $user = auth()->user();
+            if($user['user_type'] == 'operation'){
+                $cities = City::where('id',$user['city_id'])->get();
+            }else{
+                $cities = $country->cities;
+            }
             return $this->successResponse($cities);
+        }
+    }
+    public function getBranches(Request $request)
+    {
+        if($request->ajax()){
+            $city_id = $request['city'];
+            $city = City::find($city_id);
+            $branches = $city->branches;
+            return $this->successResponse($branches);
         }
     }
     public function getRegions(Request $request)
@@ -74,7 +102,11 @@ class AjaxController extends Controller
             $category_id = $request['category_id'];
             $city_id = $order['city_id'];
             $city = $this->city->find($city_id);
-            $technicians = $city->technicians()->whereHas('categories',function ($query) use ($category_id){
+            $region = $order->region;
+            $branches = $region->branches()->pluck('branch_regions.branch_id')->toArray();
+            $technicians = $city->technicians()->whereHas('branches',function ($branch) use ($branches){
+                $branch->whereIn('branches.id',$branches);
+            })->whereHas('categories',function ($query) use ($category_id){
                 $query->where('user_categories.category_id',$category_id);
             })->get();
             return $this->successResponse($technicians);
@@ -88,15 +120,6 @@ class AjaxController extends Controller
             $user = User::find($id);
             $services = $user->services;
             return response()->json($services);
-        }
-    }
-    public function getAds(Request $request)
-    {
-        if($request->ajax()){
-            $id = $request->id;
-            $user = User::find($id);
-            $ads = $user->ads()->exist()->get();
-            return response()->json($ads);
         }
     }
     public function getSellers(Request $request)

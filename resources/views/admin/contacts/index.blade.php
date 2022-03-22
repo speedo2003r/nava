@@ -5,7 +5,60 @@
         {{ awtTrans('تواصل معنا') }}</a>
 @endsection
 @section('content')
-
+@push('css')
+    <style>
+        .show-profile .modal-body {
+            padding: 0;
+            box-sizing: unset;
+            border-radius: 4px 4px 0 0;
+            overflow: hidden;
+        }
+        .show-profile .img-div {
+            display: flex;
+            padding: 15px;
+            align-items: flex-end;
+            position: relative;
+        }
+        .show-profile img {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto -50px;
+            border-radius: 50%;
+            border: 2px solid #ffff;
+            background: #fff;
+        }
+        .show-profile .user-d {
+            padding-top: 50px;
+        }
+        .show-profile .user-d p.name {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+        .show-profile .user-d ul {
+            list-style: none;
+            padding: 10px 15px;
+        }
+        .show-profile .user-d ul li {
+            display: flex;
+            align-items: center;
+        }
+        .show-profile .user-d ul li i {
+            background: #000;
+            color: #fff;
+            text-align: center;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            display: block;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+        .show-profile .user-d ul a {
+            color: #000;
+        }
+    </style>
+@endpush
 
     <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
         <!-- begin:: Content -->
@@ -65,12 +118,12 @@
                     <div class="user-d text-center">
                         <p class="name" id="show_name"></p>
                         <ul>
-                            <li>
-                                <i class="fa fa-phone"></i>
-                                <a id="show_phone" href="">
+{{--                            <li>--}}
+{{--                                <i class="fa fa-phone"></i>--}}
+{{--                                <a id="show_phone" href="">--}}
 
-                                </a>
-                            </li>
+{{--                                </a>--}}
+{{--                            </li>--}}
                             <li>
                                 <i class="fa fa-envelope"></i>
                                 <a id="show_email" href="">

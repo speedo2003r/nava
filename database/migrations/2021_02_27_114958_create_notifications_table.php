@@ -23,6 +23,8 @@ class CreateNotificationsTable extends Migration
             $table->string('message_en', 255);
             $table->string('type', 191)->nullable();
             $table->integer('type_id')->nullable();
+            $table->foreignId('order_id')->nullable()->constrained('orders');
+            $table->string('order_status')->nullable();
             $table->boolean('seen')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

@@ -22,11 +22,8 @@ class TransController extends Controller
             'en' => 'english',
         ];
         $files = [
-            'awt',
             'api',
             'auth',
-            'pagination',
-            'passwords',
             'validation',
         ];
         return view('admin.translation.index', compact('langs','files'));
@@ -59,7 +56,7 @@ class TransController extends Controller
     {
         if ($this->lang == '') $this->lang = app()->getLocale();
         $this->path = base_path().'/resources/lang/'.$this->lang.'/'.$this->file.'.php';
-        $this->arrayLang = Lang::get($this->file);
+        $this->arrayLang = Lang::get($this->file,[],$this->lang);
         if (gettype($this->arrayLang) == 'string') $this->arrayLang = array();
     }
     private function save()

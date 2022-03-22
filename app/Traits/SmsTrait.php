@@ -4,15 +4,14 @@ namespace App\Traits;
 
 trait SmsTrait
 {
-  public function sendSms($phone, $msg, $package = 'yammah')
+  public function sendSms($phone, $msg, $package = '4jawaly')
   {
     # test mode - for live comment next line
-    return false;
 
     $data = [
-      'username' => '',
-      'password' => '',
-      'sender'   => '',
+      'username' => 'navaservices',
+      'password' => 'ASD123asd',
+      'sender'   => 'NAVA',
     ];
 
     switch ($package) {
@@ -21,6 +20,9 @@ trait SmsTrait
         break;
       case 'zain':
         $this->send_sms_zain($phone, $msg, $data);
+        break;
+      case '4jawaly':
+        $this->send_4jawaly($phone, $msg, $data);
         break;
       case 'mobily':
         $this->send_sms_mobily($phone, $msg, $data);
@@ -90,6 +92,50 @@ trait SmsTrait
       @curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
       @curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
       @curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+      $source = @curl_exec($curl);
+      @curl_close($curl);
+      if ($source) {
+        return $source;
+      } else {
+        return @file_get_contents($link);
+      }
+    } else {
+      return @file_get_contents($link);
+    }
+  }
+
+  private function send_4jawaly($phone, $msg, $data)
+  {
+//      sleep(1);
+    $username   = $data['username'];
+    $password   = $data['password'];
+    $sender     = $data['sender'];
+    $to         = $phone; // Should be like 966530007039
+    $text       = urlencode($msg . '   ');
+
+    $link = "www.4jawaly.net/api/sendsms.php";
+    $stringToPost = "username=".$username."&password=".$password."&message=".$text."&numbers=".$to."&sender=".$sender."&unicode=E&return=full";
+
+    /*
+          *  return  para      can be     [ json , xml , text ]
+          *  username  :  your username on safa-sms
+          *  passwpord :  your password on safa-sms
+          *  sender    :  your sender name
+          *  numbers   :  list numbers delimited by ,     like    966530007039,966530007039,966530007039
+          *  message   :  your message text
+          */
+
+    /*
+          * 100   Success Number
+          */
+    if (function_exists('curl_init')) {
+      $curl = @curl_init($link);
+      @curl_setopt($curl, CURLOPT_URL, $link);
+      @curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+      @curl_setopt($curl, CURLOPT_ENCODING, "UTF-8");
+      @curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+      @curl_setopt($curl, CURLOPT_POST, 1);
+      @curl_setopt($curl, CURLOPT_POSTFIELDS, $stringToPost);
       $source = @curl_exec($curl);
       @curl_close($curl);
       if ($source) {

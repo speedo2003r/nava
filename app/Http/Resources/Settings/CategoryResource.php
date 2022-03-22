@@ -13,8 +13,6 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'image' => $this->icon ?? '',
-            'childExist' => count($this->children) > 0 ? true : false,
-            'hasPledge' => $this->pledge == 1 ? true : false,
         ];
     }
 }
