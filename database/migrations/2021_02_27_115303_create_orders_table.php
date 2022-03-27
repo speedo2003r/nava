@@ -69,10 +69,14 @@ class CreateOrdersTable extends Migration
             $table->enum('progress_type', ['progress', 'finish'])->default('progress');
 
             $table->integer('live')->default(0);
+            $table->text('oper_notes')->nullable();
 
             $table->boolean('user_delete')->default(0);
             $table->boolean('provider_delete')->default(0);
             $table->boolean('admin_delete')->default(0);
+
+            $table->double('increased_price',8,2)->default(0);
+            $table->double('increase_tax',8,2)->default(0);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
@@ -111,8 +115,11 @@ class CreateOrdersTable extends Migration
         Schema::create('order_guarantees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->nullable()->constrained('orders');
+            $table->foreignId('technical_id')->nullable()->constrained('users');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('solved')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
             $table->softDeletes();

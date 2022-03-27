@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Class CreateSocialsTable.
  */
-class CreateOrderTechniciansTable extends Migration
+class CreateUserDeductionsTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -17,13 +17,17 @@ class CreateOrderTechniciansTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('order_technicians', function(Blueprint $table) {
+        Schema::create('user_deductions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('technician_id')->constrained('users');
-            $table->foreignId('order_id')->constrained('orders');
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('admin_id')->nullable()->constrained('users');
+            $table->foreignId('order_id')->nullable()->constrained('orders');
+            $table->double('balance')->default(0);
+            $table->text('notes')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-		});
+            $table->softDeletes();
+        });
 	}
 
 	/**

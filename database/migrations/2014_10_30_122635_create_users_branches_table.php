@@ -30,6 +30,6 @@ class CreateUsersBranchesTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::drop('cities');
+		Schema::drop('users_branches');
 	}
 }

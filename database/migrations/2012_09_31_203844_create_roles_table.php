@@ -19,6 +19,7 @@ class CreateRolesTable extends Migration
             $table -> id();
             $table -> string( 'name_ar');
             $table -> string( 'name_en');
+            $table -> string( 'name_ur');
             $table -> softDeletes();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));

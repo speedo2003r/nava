@@ -44,6 +44,7 @@ class CreateUsersTable extends Migration
             $table->string('lng')->nullable();
 
             $table->string('pdf')->nullable();
+            $table->bigInteger('socket_id')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
@@ -51,18 +52,6 @@ class CreateUsersTable extends Migration
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();
             $table->foreignId('company_id')->nullable()->constrained('users');
-        });
-//        الخصم من الموظف
-        Schema::create('user_deductions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->foreignId('admin_id')->nullable()->constrained('users');
-            $table->foreignId('order_id')->nullable()->constrained('orders');
-            $table->double('balance')->default(0);
-            $table->text('notes')->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->softDeletes();
         });
         $user = new \App\Models\User();
         $user->name = 'المدير العام';

@@ -35,6 +35,7 @@ class CreateOrderBillsTable extends Migration
             $table->json('pay_data')->nullable();
             $table->enum('type',['service','parts'])->nullable();
             $table->tinyInteger('status')->nullable();
+            $table->text('refuse_reason')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 		});
