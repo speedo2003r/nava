@@ -137,6 +137,8 @@ class OrderDatatable extends DataTable
             Column::make('category.title.ar')->name('category.title->ar')->title('القسم'),
             Column::make('city.title.ar')->name('city.title->ar')->title('المدينه'),
             Column::make('region.title.ar')->name('region.title->ar')->title('المنطقه'),
+            Column::make('date')->title('التاريخ'),
+            Column::make('time')->title('الوقت'),
             Column::make('services')->title('الخدمات'),
             Column::make('final_total')->title('الاجمالي بالضريبه'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
