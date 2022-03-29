@@ -65,7 +65,10 @@ class TechnicianDatatable extends DataTable
     {
         return $model->query()
             ->select('users.*',DB::raw('SUM(incomes.income) as techIncome'),DB::raw('SUM(incomes.debtor) as debtor'))
-            ->leftJoin('incomes','incomes.user_id','users.id')
+            ->leftJoin('incomes',function ($in){
+                $in->on('incomes.user_id','=','users.id');
+                $in->where('incomes.status',0);
+            })
             ->groupBy('users.id')
             ->with('categories')->with('branches')->with('Technician')->where('company_id',null)->where('user_type','technician')->latest();
     }
@@ -106,14 +109,14 @@ class TechnicianDatatable extends DataTable
             Column::make('id')->title('')->orderable(false),
             Column::make('name')->title('الاسم'),
             Column::make('status')->title('الحاله')->searchable(false),
-            Column::make('balance')->title('المديونيه'),
+            Column::make('balance')->searchable(false)->title('المديونيه'),
             Column::make('v_code')->title('OTP'),
             Column::make('email')->title('البريد الالكتروني'),
             Column::make('accounts')->title('كشف حساب'),
             Column::make('deductions')->title('الخصومات'),
             Column::make('categories')->title('التخصصات'),
             Column::make('wallet')->title('المحفظه'),
-            Column::make('techIncome')->title('المدخول'),
+            Column::make('techIncome')->searchable(false)->title('المدخول'),
             Column::make('phone')->title('الهاتف'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];
