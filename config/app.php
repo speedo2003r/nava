@@ -167,9 +167,9 @@ return [
          */
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        Berkayk\OneSignal\OneSignalServiceProvider::class,
         LaravelFCM\FCMServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -178,6 +178,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
 
     ],
@@ -231,7 +232,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'OneSignal'    => Berkayk\OneSignal\OneSignalFacade::class,
         'FCM'          => LaravelFCM\Facades\FCM::class,
         'FCMGroup'     => LaravelFCM\Facades\FCMGroup::class,
         'Debugbar'     => Barryvdh\Debugbar\Facade::class,
