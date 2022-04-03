@@ -4,6 +4,8 @@ namespace App\Enum;
 class OrderStatus{
     const CREATED = 'created';
     const ACCEPTED = 'accepted';
+    const PENDING = 'pending';
+    const DAILY = 'daily';
     const ONWAY = 'on-way';
     const ARRIVED = 'arrived';
     const INPROGRESS = 'in-progress';

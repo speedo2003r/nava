@@ -96,7 +96,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'child'     => [
                 'admins.index', 'admins.store', 'admins.update', 'admins.delete',
                 'clients.index', 'clients.store', 'clients.update', 'clients.delete',
-                'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete', 'technicians.decreaseVal', 'technicians.selectCategories','technicians.accounts','technicians.accountsDelete','technicians.settlement',
+                'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete','technicians.orders', 'technicians.decreaseVal', 'technicians.selectCategories','technicians.accounts','technicians.accountsDelete','technicians.settlement',
                 'companies.index', 'companies.store', 'companies.update', 'companies.delete', 'companies.images','companies.storeImages',
                 'companies.technicians','companies.storeTechnicians','companies.updateTechnicians','companies.deleteTechnicians',
 //                'accountants.index', 'accountants.store', 'accountants.update', 'accountants.delete',
@@ -121,6 +121,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('technicians/{id}',['uses'=> 'TechnicianController@update','as'=> 'technicians.update','title'=> awtTrans('تعديل تقني')]);
         Route::delete('technicians/{id}',['uses'=> 'TechnicianController@destroy','as'=> 'technicians.delete','title'=> awtTrans('حذف تقني')]);
         Route::get('technicians/accounts/{id}',['uses'=> 'TechnicianController@accounts','as'=> 'technicians.accounts','title'=> awtTrans('كشف حساب تقني')]);
+        Route::get('technicians/orders/{id}',['uses'=> 'TechnicianController@orders','as'=> 'technicians.orders','title'=> awtTrans('الطلبات')]);
         Route::post('technicians/accounts/settlement',['uses'=> 'TechnicianController@settlement','as'=> 'technicians.settlement','title'=> awtTrans('تسوية حساب تقني')]);
         Route::delete('technicians/accounts/delete',['uses'=> 'TechnicianController@accountsDelete','as'=> 'technicians.accountsDelete','title'=> awtTrans('حذف كشف حساب تقني')]);
         Route::post('decreaseVal',['uses'=> 'TechnicianController@decreaseVal','as'=> 'technicians.decreaseVal','title'=> awtTrans('خصم')]);

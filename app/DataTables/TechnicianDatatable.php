@@ -36,7 +36,7 @@ class TechnicianDatatable extends DataTable
                         </div>';
             })
             ->addColumn('accounts',function ($query){
-                return '<a href="'.route('admin.technicians.accounts',$query['id']).'" data-placement="top" data-original-title="المديونيه"  class="btn btn-info subs">('.$query['debtor'].') مديونيه</a>';
+                return '<a href="'.route('admin.technicians.accounts',$query['id']).'" data-placement="top" data-original-title="المديونيه"  class="btn btn-info subs">('.($query['debtor'] ?? 0).') مديونيه</a>';
             })
             ->addColumn('data',function ($query){
                 return $query;
@@ -45,6 +45,9 @@ class TechnicianDatatable extends DataTable
             ->addColumn('deductions',function ($query){
                 return '<button type="button" data-user_id="'.$query['id'].'"  data-toggle="modal" data-target="#deductions"  data-placement="top" data-original-title="الخصومات"  class="btn btn-sm btn-clean btn-icon btn-icon-md dis"><i class="fa fa-percent"></i></button>';
             })
+            ->addColumn('orders',function ($query){
+                return '<a href="'.route("admin.technicians.orders",$query['id']).'"  class="btn btn-info" data-placement="top" data-original-title="الطلبات"  class="btn btn-sm btn-clean btn-icon btn-icon-md dis">الطلبات</a>';
+            })
             ->addColumn('url',function ($query){
                 return 'admin.technicians.delete';
             })
@@ -52,7 +55,7 @@ class TechnicianDatatable extends DataTable
                 return 'editModel';
             })
             ->addColumn('control','admin.partial.Control')
-            ->rawColumns(['data','accounts','deductions','categories','status','control','id']);
+            ->rawColumns(['data','orders','accounts','deductions','categories','status','control','id']);
     }
 
     /**
@@ -112,6 +115,7 @@ class TechnicianDatatable extends DataTable
             Column::make('balance')->searchable(false)->title('المديونيه'),
             Column::make('v_code')->title('OTP'),
             Column::make('email')->title('البريد الالكتروني'),
+            Column::make('orders')->title('الطلبات'),
             Column::make('accounts')->title('كشف حساب'),
             Column::make('deductions')->title('الخصومات'),
             Column::make('categories')->title('التخصصات'),

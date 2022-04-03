@@ -3,11 +3,12 @@
 /public/storage
 /storage/*.key
 /vendor
+.env
 .env.backup
 composer.lock
 .phpunit.result.cache
 vendor.zip
-.env
+.env.backup
 docker-compose.override.yml
 Homestead.json
 Homestead.yaml
