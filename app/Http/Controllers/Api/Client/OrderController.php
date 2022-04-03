@@ -7,6 +7,7 @@ use App\Entities\OrderBill;
 use App\Entities\OrderGuarantee;
 use App\Entities\OrderService;
 use App\Entities\ReviewRate;
+use App\Enum\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LangRequest;
 use App\Http\Resources\Orders\CartDetailResource;
@@ -94,6 +95,7 @@ class OrderController extends Controller
         $this->orderRepo->update([
             'live' => $live,
             'pay_type' => $request['pay_type'],
+            'status' => OrderStatus::CREATED,
             'created_date' => Carbon::now()->format('Y-m-d H:i:s'),
             'final_total' => $order['final_total'],
             'increased_price' => ($order['final_total'] < $mini_order_charge) ? $mini_order_charge - $order['final_total'] : 0,

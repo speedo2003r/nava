@@ -335,7 +335,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'icon'      => asset('assets/media/menuicon/gear.svg'),
             'type'      => 'parent',
             'sub_route' => true,
-            'child'     => ['orders.index','orders.onWayOrders','orders.finishedOrders','orders.canceledOrders','orders.guaranteeOrders','orders.guaranteeShow','orders.guaranteeDestroy','orders.show','orders.operationNotes', 'orders.changeStatus', 'orders.changeAddress', 'orders.changePayType', 'orders.changeAllAddress','orders.changeTime','orders.changeDate','orders.assignTech', 'orders.servicesUpdate','orders.partsDestroy', 'orders.rejectOrder', 'orders.destroy']
+            'child'     => ['orders.index','orders.onWayOrders','orders.finishedOrders','orders.canceledOrders','orders.guaranteeOrders','orders.delayedOrders','orders.timeOutOrders','orders.guaranteeShow','orders.guaranteeDestroy','orders.show','orders.operationNotes', 'orders.changeStatus', 'orders.changeAddress', 'orders.changePayType', 'orders.changeAllAddress','orders.changeTime','orders.changeDate','orders.assignTech', 'orders.servicesUpdate','orders.partsDestroy', 'orders.rejectOrder', 'orders.destroy']
         ]);
 
         Route::get('orders',['uses'=> 'OrderController@index','as'=> 'orders.index','title'=> awtTrans('الطلبات الجديده'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
@@ -343,6 +343,8 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('finishedOrders',['uses'=> 'OrderController@index','as'=> 'orders.finishedOrders','title'=> awtTrans('الطلبات المنتهيه'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
         Route::get('canceledOrders',['uses'=> 'OrderController@index','as'=> 'orders.canceledOrders','title'=> awtTrans('الطلبات الملغيه'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
         Route::get('guaranteeOrders',['uses'=> 'OrderController@guarantees','as'=> 'orders.guaranteeOrders','title'=> awtTrans('طلبات الضمان'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
+        Route::get('delayedOrders',['uses'=> 'OrderController@index','as'=> 'orders.delayedOrders','title'=> awtTrans('طلبات المتأخره'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
+        Route::get('timeOutOrders',['uses'=> 'OrderController@index','as'=> 'orders.timeOutOrders','title'=> awtTrans('طلبات نفذ وقتها'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
         Route::get('guaranteeOrders/show/{id}',['uses'=> 'OrderController@guaranteeShow','as'=> 'orders.guaranteeShow','title'=> awtTrans('مشاهدة طلب الضمان')]);
         Route::delete('guaranteeOrders/destroy/{id}',['uses'=> 'OrderController@guaranteeDestroy','as'=> 'orders.guaranteeDestroy','title'=> awtTrans('حذف طلب الضمان')]);
         Route::get('orders/{id}',['uses'=> 'OrderController@show','as'=> 'orders.show','title'=> awtTrans('مشاهدة طلب')]);
