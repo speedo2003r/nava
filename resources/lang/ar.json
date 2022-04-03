@@ -35,5 +35,8 @@
     "home": "الرئيسية",
     "edit_role": "تعديل صلاحية",
     "first_name": "الإسم الأول",
-    "last_name": "الإسم الأخير"
+    "last_name": "الإسم الأخير",
+    "client": "عميل",
+    "technician": "تقني",
+    "company": "شركه"
 }

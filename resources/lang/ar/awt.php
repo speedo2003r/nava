@@ -464,6 +464,11 @@ return [
 "تسويه"=>"tscript.",
 "تسويه"=>"tscript.",
 "الشروط والأحكام"=>"الشروط والأحكام",
+"OTP"=>"OTP.",
+"OTP."=>"OTP.",
+"otp"=>"OTP.",
+"otp"=>"OTP.",
+"otp"=>"OTP.",
     #AWTLINEHELPER
     #don`t Remove the up line at all
 

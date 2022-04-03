@@ -99,6 +99,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
                 'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete','technicians.orders', 'technicians.decreaseVal', 'technicians.selectCategories','technicians.accounts','technicians.accountsDelete','technicians.settlement',
                 'companies.index', 'companies.store', 'companies.update', 'companies.delete', 'companies.images','companies.storeImages',
                 'companies.technicians','companies.storeTechnicians','companies.updateTechnicians','companies.deleteTechnicians',
+                'otp',
 //                'accountants.index', 'accountants.store', 'accountants.update', 'accountants.delete',
                 'sendnotifyuser', 'changeStatus', 'addToWallet'
             ]
@@ -140,6 +141,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('companies/updateTechnicians/{id}', ['uses' => 'TechnicianCompanyController@update','as' => 'companies.updateTechnicians','title' => awtTrans('تعديل التقنيين التابعين للشركه')]);
         Route::delete('companies/deleteTechnicians', ['uses' => 'TechnicianCompanyController@delete','as' => 'companies.deleteTechnicians','title' => awtTrans('حذف التقنيين التابعين للشركه')]);
 
+        Route::get('otp', ['uses' => 'OtpController@index','as' => 'otp','title' => awtTrans('OTP'),'icon'=> '<i class="nav-icon fa fa-users"></i>']);
         # AccountController
         Route::get('accountants',['uses'=> 'AccountantController@index','as'=> 'accountants.index','title'=> ' المحاسبين','icon'=> '<i class="nav-icon fa fa-users"></i>']);
         Route::post('accountants/store',['uses'=> 'AccountantController@store','as'=> 'accountants.store','title'=> 'اضافة محاسب']);
