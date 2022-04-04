@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecea1d47-5e40-41fa-b83c-417b126f9b38" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/database/migrations/2021_10_29_120712_add_new_col_to_sliders.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/OrderDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/OrderDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/ar/awt.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar/awt.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Entities/Slider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Slider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/SliderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/SliderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Slider/Create.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Slider/Create.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Slider/Update.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Slider/Update.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/Settings/SliderResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/Settings/SliderResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/sliders/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/sliders/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,7 +235,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/database/migrations" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -245,10 +248,10 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/database/migrations" />
       <recent name="$PROJECT_DIR$/resources/views/admin" />
       <recent name="$PROJECT_DIR$/app/DataTables" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Admin" />
-      <recent name="$PROJECT_DIR$/database/migrations" />
       <recent name="$PROJECT_DIR$/resources/views/admin/technicians" />
     </key>
   </component>
@@ -293,7 +296,9 @@
       <workItem from="1648892009922" duration="5199000" />
       <workItem from="1648925507324" duration="2944000" />
       <workItem from="1649012911538" duration="309000" />
-      <workItem from="1649014068903" duration="5561000" />
+      <workItem from="1649014068903" duration="5984000" />
+      <workItem from="1649061969020" duration="89000" />
+      <workItem from="1649070520458" duration="2039000" />
     </task>
     <servers />
   </component>
