@@ -2,26 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecea1d47-5e40-41fa-b83c-417b126f9b38" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Enum/NotifyType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Notifications/FireBaseChannel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2021_10_29_120713_drop_notification_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Commands/FcmToTech.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/FcmToTech.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Notification.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/FcmToTech.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/TechnicianDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/TechnicianDatatable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ClientController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/Api/JwtMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/Api/JwtMiddleware.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/Notifications/NotificationResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/Notifications/NotificationResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/NotifyFcm.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/NotifyFcm.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/SendToDelegate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendToDelegate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AjaxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AjaxController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/NotificationRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/NotificationRepositoryEloquent.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Traits/NotifyTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/NotifyTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_02_27_115958_create_notifications_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ar/awt.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar/awt.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/layout/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/layout/master.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/orders/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/orders/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -319,7 +311,7 @@
       <workItem from="1649014068903" duration="5984000" />
       <workItem from="1649061969020" duration="89000" />
       <workItem from="1649070520458" duration="5415000" />
-      <workItem from="1649150194038" duration="4896000" />
+      <workItem from="1649150194038" duration="9184000" />
     </task>
     <servers />
   </component>

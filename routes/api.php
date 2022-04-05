@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
         Route::any('fake-notifications/{id}', 'AuthController@Fakenotifications');
 //        # notifications
         Route::any('notifications', 'AuthController@Notifications');
+        Route::any('notification-status', 'AuthController@NotificationStatus');
         Route::post('delete-notification', 'AuthController@deleteNotification');
 //        # wallet
         Route::any('wallet', 'AuthController@Wallet');

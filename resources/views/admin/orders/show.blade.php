@@ -120,7 +120,7 @@
                                             <li class="text-bold">
                                                 <span>طريقة الدفع</span>
                                                 <span>:</span>
-                                                <span>{{\App\Entities\Order::orderMethods($order['pay_type'])}}</span>
+                                                <span>{{$order['pay_type'] ? \App\Entities\Order::orderMethods($order['pay_type']) : ''}}</span>
                                                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#changePay">تغيير طريقة الدفع</button>
                                             </li>
                                             <li>

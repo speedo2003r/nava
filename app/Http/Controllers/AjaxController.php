@@ -104,12 +104,18 @@ class AjaxController extends Controller
             $city = $this->city->find($city_id);
             $region = $order->region;
             $branches = $region->branches()->pluck('branch_regions.branch_id')->toArray();
-            $technicians = $city->technicians()->whereHas('branches',function ($branch) use ($branches){
+            $technicians = $city->technicians()->exist()->whereHas('branches',function ($branch) use ($branches){
                 $branch->whereIn('branches.id',$branches);
             })->whereHas('categories',function ($query) use ($category_id){
                 $query->where('user_categories.category_id',$category_id);
             })->get();
-            return $this->successResponse($technicians);
+            $arr = [];
+            foreach ($technicians as $technician){
+                if($technician->progress_orders_count < settings('techOrderCount')){
+                    $arr[] = $technician;
+                }
+            }
+            return $this->successResponse($arr);
         }
     }
 

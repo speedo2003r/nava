@@ -13,6 +13,7 @@ use App\Entities\OrderGuarantee;
 use App\Entities\ReviewRate;
 use App\Entities\Service;
 use App\Entities\Technician;
+use App\Enum\OrderStatus;
 use App\Models\Role;
 use App\Traits\UploadTrait;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -144,6 +145,11 @@ class User extends Authenticatable implements JWTSubject
     }
     public function ordersAsTech(){
         return $this->hasMany(Order::class,'technician_id','id');
+    }
+
+    public function getProgressOrdersCountAttribute($value)
+    {
+        return $this->ordersAsTech()->whereIn('status',[OrderStatus::ACCEPTED,OrderStatus::ARRIVED,OrderStatus::INPROGRESS,OrderStatus::ONWAY])->count();
     }
     public function orders()
     {

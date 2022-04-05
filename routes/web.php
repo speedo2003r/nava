@@ -101,7 +101,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
                 'companies.technicians','companies.storeTechnicians','companies.updateTechnicians','companies.deleteTechnicians',
                 'otp',
 //                'accountants.index', 'accountants.store', 'accountants.update', 'accountants.delete',
-                'sendnotifyuser', 'changeStatus', 'addToWallet'
+                'sendnotifyuser', 'changeStatus','changeNotify', 'addToWallet'
             ]
         ]);
 
@@ -150,6 +150,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
 
         Route::post('send-notify-user',['uses'=> 'ClientController@sendnotifyuser','as'=> 'sendnotifyuser','title'=> awtTrans('ارسال اشعارات')]);
         Route::post('change-status',['uses'=> 'ClientController@changeStatus','as'=> 'changeStatus','title'=> awtTrans('تغيير الحاله')]);
+        Route::post('change-notify',['uses'=> 'ClientController@changeNotify','as'=> 'changeNotify','title'=> awtTrans('تغيير حالة استقبال الطلبات')]);
         /********************************* all users controllers end *********************************/
 
         #statistics routes

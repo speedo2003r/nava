@@ -121,6 +121,15 @@ class ClientController extends Controller
             return $this->ApiResponse('success','',$provider['banned']);
         }
     }
+    public function changeNotify(Request $request)
+    {
+        if($request->ajax()){
+            $provider = $this->user->find($request['id']);
+            $provider['notify'] = !$provider['notify'];
+            $provider->save();
+            return $this->ApiResponse('success','',$provider['notify']);
+        }
+    }
     public function addToWallet(Request $request)
     {
         $provider = $this->user->find($request['id']);
