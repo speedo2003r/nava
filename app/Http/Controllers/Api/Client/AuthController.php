@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\profile\UpdateprofileRequest;
 use App\Http\Requests\Api\login\LoginRequest;
 use App\Http\Resources\Users\UserResource;
-use App\Entities\Notification;
 use App\Models\User;
 use App\Entities\ReviewRate;
 use App\Traits\NotifyTrait;
@@ -22,11 +21,11 @@ use Illuminate\Validation\Rule;
 use App\Rules\watchOldPassword;
 use App\Repositories\UserRepository;
 use App\Repositories\DeviceRepository;
-use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
 use App\Traits\SmsTrait;
 use App\Traits\UploadTrait;
 use App\Http\Requests\Api\LangRequest;
+use App\Notifications\Api\DelegateRate;
 
 /** import */
 
@@ -36,13 +35,12 @@ class AuthController extends Controller
     use SmsTrait;
     use ResponseTrait;
     use UploadTrait;
-    public $userRepo,$deviceRepo,$notifyRepo,$order;
-    public function __construct(OrderRepository $order,UserRepository $user,DeviceRepository $device,NotificationRepository $notify)
+    public $userRepo,$deviceRepo,$order;
+    public function __construct(OrderRepository $order,UserRepository $user,DeviceRepository $device)
     {
         $this->order     = $order;
         $this->userRepo     = $user;
         $this->deviceRepo   = $device;
-        $this->notifyRepo   = $notify;
     }
     /************************* Start Register ************************/
     public function UserRegister(UserRegisterRequest $request)
@@ -445,9 +443,9 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         # make all notifications seen = 1
-        $UnreadNotifications = $user->Notifications->where('seen', 0);
+        $UnreadNotifications = $user->notifications->where('read_at', null);
         foreach ($UnreadNotifications as $UnreadNotification){
-            $this->notifyRepo->update(['seen'=>1],$UnreadNotification['id']);
+            $UnreadNotification->markAsRead();
         }
         $data = new NotificationCollection($user->Notifications()->orderBy('notifications.id','desc')->paginate(20));
         return $this->successResponse($data);
@@ -520,8 +518,12 @@ class AuthController extends Controller
             'comment' => $request['delegate_notes'],
             'accept' => 1,
         ]);
+        $title_ar = 'تم تقييمك للطلب رقم ' . $order['id'];
+        $title_en = 'you rated from client in order num '. $order['id'];
+        $message_ar = ' تم تقييمك للطلب رقم ' . $order['id'] . ' من قبل العميل ';
+        $message_en = 'You have been rated from client in order num '. $order['id'] ;
         $order = App\Entities\Order::find($request['order_id']);
-        $this->send_notify($order['delegate_id'], ' تم تقييمك للطلب رقم ' . $order['id'] . ' من قبل العميل ', 'You have been rated from client in order num ' . $order['id'] . '', $order['id'], $order['status']);
+        $user->notify(new DelegateRate($title_ar,$title_en,$message_ar,$message_en,$order));
         return $this->ApiResponse('success', app()->getLocale() == 'ar' ? 'تم تقييم هذا الطلب بنجاح' : 'this order is success rated');
     }
     /*********************** Start user wallet ***********************/

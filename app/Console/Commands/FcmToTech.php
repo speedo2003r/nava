@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Entities\Notification;
-use App\Entities\Provider;
 use App\Traits\NotifyTrait;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;

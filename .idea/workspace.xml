@@ -2,8 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecea1d47-5e40-41fa-b83c-417b126f9b38" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Enum/NotifyType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Notifications/FireBaseChannel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2021_10_29_120713_drop_notification_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/settings/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/settings/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/FcmToTech.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/FcmToTech.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Entities/Notification.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Entities/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ClientController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/Api/JwtMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/Api/JwtMiddleware.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/Notifications/NotificationResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/Notifications/NotificationResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/NotifyFcm.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/NotifyFcm.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/SendToDelegate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendToDelegate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/NotificationRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/NotificationRepositoryEloquent.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Traits/NotifyTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Traits/NotifyTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_02_27_115958_create_notifications_table.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +34,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -229,7 +255,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/database/migrations" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Enum" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -242,11 +268,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/Enum" />
+      <recent name="$PROJECT_DIR$/app/Notifications" />
       <recent name="$PROJECT_DIR$/database/migrations" />
       <recent name="$PROJECT_DIR$/resources/views/admin" />
       <recent name="$PROJECT_DIR$/app/DataTables" />
-      <recent name="$PROJECT_DIR$/app/Http/Controllers/Admin" />
-      <recent name="$PROJECT_DIR$/resources/views/admin/technicians" />
     </key>
   </component>
   <component name="RunManager">
@@ -292,7 +318,8 @@
       <workItem from="1649012911538" duration="309000" />
       <workItem from="1649014068903" duration="5984000" />
       <workItem from="1649061969020" duration="89000" />
-      <workItem from="1649070520458" duration="2579000" />
+      <workItem from="1649070520458" duration="5415000" />
+      <workItem from="1649150194038" duration="4896000" />
     </task>
     <servers />
   </component>

@@ -2,17 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Entities\Notification;
-use App\Entities\QrPrintedBy;
-use App\Models\User;
+use App\Notifications\Notify;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use LaravelFCM\Message\OptionsBuilder;
-use LaravelFCM\Message\PayloadDataBuilder;
-use LaravelFCM\Message\PayloadNotificationBuilder;
 
 class NotifyFcm implements ShouldQueue
 {
@@ -22,21 +18,14 @@ class NotifyFcm implements ShouldQueue
      *
      * @return void
      */
-    private $from;
-    private $to;
-    private $message_ar;
-    private $message_en;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($from,$to,$message_ar,$message_en)
+    public function __construct(protected $users,protected $title,protected $message)
     {
-        $this->from = $from;
-        $this->to = $to;
-        $this->message_ar = $message_ar;
-        $this->message_en = $message_en;
+
     }
 
     /**
@@ -46,17 +35,6 @@ class NotifyFcm implements ShouldQueue
      */
     public function handle()
     {
-        $user = User::find($this->to['id']);
-        if($user){
-            $notification = new Notification();
-            $notification->to_id        = $this->to['id'];
-            $notification->from_id        = $this->from['id'];
-            $notification->message_ar   = $this->message_ar;
-            $notification->message_en   = $this->message_en;
-            $notification->type         = 'notify';
-            $notification->seen         = 0;
-            $notification->save();
-        }
-
+        Notification::send($this->users, new Notify($this->title,$this->title,$this->message,$this->message));
     }
 }

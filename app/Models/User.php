@@ -8,7 +8,6 @@ use App\Entities\City;
 use App\Entities\Company;
 use App\Entities\Country;
 use App\Entities\Device;
-use App\Entities\Notification;
 use App\Entities\Order;
 use App\Entities\OrderGuarantee;
 use App\Entities\ReviewRate;
@@ -128,10 +127,6 @@ class User extends Authenticatable implements JWTSubject
     public function company()
     {
         return $this->hasOne(Company::class,'user_id');
-    }
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class,'to_id')->orderByDesc('id');
     }
     public function reviews()
     {

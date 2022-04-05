@@ -21,6 +21,7 @@ class Order extends Model implements Transformable
     protected $cascadeDeletes = ['orderServices'];
     protected $fillable = [
         'uuid',
+        'order_num',
         'user_id',
         'technician_id',
         'city_id',

@@ -15,6 +15,7 @@ use App\Traits\ResponseTrait;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
@@ -103,25 +104,11 @@ class ClientController extends Controller
         }else {
             $users = User::where('notify', 1)->whereId($request->id)->get();
         }
-        foreach ($users as $user) {
-            $message = $request->message;
-            #send FCM
-            $job = (new NotifyFcm(auth()->user(),$user,$message,$message));
-            if($user){
-                $data['title'] = app()->getLocale() == 'ar' ? $message: $message;
-                $data['body'] = app()->getLocale() == 'ar' ? $message: $message;
-                $data['type'] = null;
-                if($user->Devices){
-                    foreach ($user->Devices as $device) {
-                        if($device->device_id){
-                            $this->send_fcm($device->device_id, $data, $device->device_type);
-                        }
-                    }
-                }
+        $title = app()->getLocale() == 'ar' ? 'لديك اشعار من تطبيق نافا للخدمات' : 'you have a new notification from navaservices app';
+        $message = $request->message;
+        $job = (new NotifyFcm($users,$title,$message));
+        dispatch($job);
 
-            }
-            dispatch($job);
-        }
         return $this->ApiResponse('success', 'تم الارسال بنجاح');
     }
 
