@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\IOrder;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderServiceRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -66,7 +67,8 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = $this->orderRepo->find($id);
-        return view('admin.orders.show', compact('order','id'));
+        $timeLineStatus = $order->timeLineStatus;
+        return view('admin.orders.show', compact('order','id','timeLineStatus'));
     }
 
     /***************************  update provider  **************************/

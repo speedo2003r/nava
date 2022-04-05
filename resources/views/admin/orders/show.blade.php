@@ -31,6 +31,8 @@
                                     {{awtTrans('الطلبات')}}
                                 </h3>
                             </div>
+
+                            <button type="button" style="margin: 10px" class="btn btn-info" data-toggle="modal" data-target="#timeLine">الجدول الزمني للطلب</button>
                         </div>
                     <!-- The time line -->
                     <div class="timeline">
@@ -421,6 +423,41 @@
                             <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- send-noti modal-->
+    <div class="modal fade" id="timeLine"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{awtTrans('الجدول الزمني للطلب')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        @foreach($timeLineStatus as $timeLine)
+                            @if($timeLine['order_bill_id'] != null)
+                                <li>
+                                    <span>{{__($timeLine['status'])}}</span>
+
+                                    <span>(فاتوره رقم {{__($timeLine->orderBill['id'])}})</span>
+                                    <span>:</span>
+                                    <span>{{$timeLine['created_at']}}</span>
+                                </li>
+                            @else
+                                <li>
+                                    <span>{{__($timeLine['status'])}}</span>
+                                    <span>:</span>
+                                    <span>{{$timeLine['created_at']}}</span>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ class OrderStatus{
     const PENDING = 'pending';
     const DAILY = 'daily';
     const ONWAY = 'on-way';
+    const NEWINVOICE = 'new-invoice';
     const ARRIVED = 'arrived';
     const INPROGRESS = 'in-progress';
     const FINISHED = 'finished';

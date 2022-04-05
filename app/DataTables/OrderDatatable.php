@@ -85,13 +85,13 @@ class OrderDatatable extends DataTable
             })
             ->when(Route::currentRouteName() == 'admin.orders.delayedOrders',function($q){
                 $q->where(function ($query) {
-                    $query->whereRaw('MINUTE(created_date) > 45')->whereRaw('MINUTE(created_date) < 120');
+                    $query->where('created_date', '<', Carbon::now()->subMinutes(45)->toDateTimeString())->where('created_date', '>', Carbon::now()->subMinutes(120)->toDateTimeString());
                 });
                 $q->where('technician_id',null);
             })
             ->when(Route::currentRouteName() == 'admin.orders.timeOutOrders',function($q){
                 $q->where(function ($query) {
-                    $query->whereRaw('MINUTE(created_date) > 120');
+                    $query->where('created_date', '<', Carbon::now()->subMinutes(120)->toDateTimeString());
                 });
                 $q->where('technician_id',null);
             })

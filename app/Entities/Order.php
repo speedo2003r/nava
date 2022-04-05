@@ -219,6 +219,11 @@ class Order extends Model implements Transformable
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function timeLineStatus()
+    {
+        return $this->hasMany(OrdersStatus::class);
+    }
     public function userDeductions()
     {
         return $this->hasMany(UserDeduction::class,'order_id');
