@@ -38,6 +38,25 @@ class PaymentController extends Controller
         $checkout = $this->pre_checkout(number_format($price,2, '.', ','));
         return view('onlinePayment',compact('checkout','order'));
     }
+
+    public function payApple(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
+        ]);
+        if($validator->fails()){
+            return $this->ApiResponse('fail',$validator->errors()->first());
+        }
+        $order = Order::find($request['order_id']);
+        $price = $order->price();
+        $checkout = $this->pre_checkout(number_format($price,2, '.', ','));
+        return view('applePayPayment',compact('checkout','order'));
+    }
+
+    public function hyperApplePayResult(Request $request)
+    {
+        dd($request->all());
+    }
     public function payInvoiceVisa(Request $request)
     {
         $validator = Validator::make($request->all(),[
