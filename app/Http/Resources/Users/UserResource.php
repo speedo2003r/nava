@@ -18,6 +18,7 @@ class UserResource extends JsonResource
             'phone'                     => $this->phone,
             'lang'                      => $this->lang,
             'online'                    => $this->online ?? 0,
+            'notify'                    => $this->notify,
             'active'                    => $this->active,
             'user_type'                    => $this->user_type ?? '',
         ];
