@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
 //
 //        # contact us
     Route::any('contact-us', 'PageController@ContactMessage');
+    Route::any('pay-apple', 'PaymentController@payApple');
     Route::any('pay-visa', 'PaymentController@payVisa');
     Route::any('pay-cash', 'PaymentController@payCash');
     Route::any('pay-invoice-visa', 'PaymentController@payInvoiceVisa');
@@ -66,6 +67,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
     Route::any('pay-invoice-mada', 'PaymentController@payInvoiceMada');
     Route::any('pay-wallet-mada', 'PaymentController@payWalletMada');
     Route::any('hyperResult', 'PaymentController@hyperResult')->name('hyperResult');
+    Route::any('hyperApplePayResult', 'PaymentController@hyperApplePayResult')->name('hyperApplePayResult');
     Route::any('hyperInvoiceResult', 'PaymentController@hyperInvoiceResult')->name('hyperInvoiceResult');
     Route::any('hyperWalletResult', 'PaymentController@hyperWalletResult')->name('hyperWalletResult');
     Route::any('madaHyperResult', 'PaymentController@madaHyperResult')->name('madaHyperResult');
