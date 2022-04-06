@@ -8,12 +8,12 @@ use App\Entities\City;
 use App\Entities\Company;
 use App\Entities\Country;
 use App\Entities\Device;
-use App\Entities\Notification;
 use App\Entities\Order;
 use App\Entities\OrderGuarantee;
 use App\Entities\ReviewRate;
 use App\Entities\Service;
 use App\Entities\Technician;
+use App\Enum\OrderStatus;
 use App\Models\Role;
 use App\Traits\UploadTrait;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -129,10 +129,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Company::class,'user_id');
     }
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class,'to_id')->orderByDesc('id');
-    }
     public function reviews()
     {
         return $this->morphMany(ReviewRate::class,'rateable','rateable_type','rateable_id');
@@ -149,6 +145,11 @@ class User extends Authenticatable implements JWTSubject
     }
     public function ordersAsTech(){
         return $this->hasMany(Order::class,'technician_id','id');
+    }
+
+    public function getProgressOrdersCountAttribute($value)
+    {
+        return $this->ordersAsTech()->whereIn('status',[OrderStatus::ACCEPTED,OrderStatus::ARRIVED,OrderStatus::INPROGRESS,OrderStatus::ONWAY])->count();
     }
     public function orders()
     {

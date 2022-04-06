@@ -96,11 +96,12 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'child'     => [
                 'admins.index', 'admins.store', 'admins.update', 'admins.delete',
                 'clients.index', 'clients.store', 'clients.update', 'clients.delete',
-                'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete', 'technicians.decreaseVal', 'technicians.selectCategories','technicians.accounts','technicians.accountsDelete','technicians.settlement',
+                'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete','technicians.orders', 'technicians.decreaseVal', 'technicians.selectCategories','technicians.accounts','technicians.accountsDelete','technicians.settlement',
                 'companies.index', 'companies.store', 'companies.update', 'companies.delete', 'companies.images','companies.storeImages',
                 'companies.technicians','companies.storeTechnicians','companies.updateTechnicians','companies.deleteTechnicians',
+                'otp',
 //                'accountants.index', 'accountants.store', 'accountants.update', 'accountants.delete',
-                'sendnotifyuser', 'changeStatus', 'addToWallet'
+                'sendnotifyuser', 'changeStatus','changeNotify', 'addToWallet'
             ]
         ]);
 
@@ -121,6 +122,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('technicians/{id}',['uses'=> 'TechnicianController@update','as'=> 'technicians.update','title'=> awtTrans('تعديل تقني')]);
         Route::delete('technicians/{id}',['uses'=> 'TechnicianController@destroy','as'=> 'technicians.delete','title'=> awtTrans('حذف تقني')]);
         Route::get('technicians/accounts/{id}',['uses'=> 'TechnicianController@accounts','as'=> 'technicians.accounts','title'=> awtTrans('كشف حساب تقني')]);
+        Route::get('technicians/orders/{id}',['uses'=> 'TechnicianController@orders','as'=> 'technicians.orders','title'=> awtTrans('الطلبات')]);
         Route::post('technicians/accounts/settlement',['uses'=> 'TechnicianController@settlement','as'=> 'technicians.settlement','title'=> awtTrans('تسوية حساب تقني')]);
         Route::delete('technicians/accounts/delete',['uses'=> 'TechnicianController@accountsDelete','as'=> 'technicians.accountsDelete','title'=> awtTrans('حذف كشف حساب تقني')]);
         Route::post('decreaseVal',['uses'=> 'TechnicianController@decreaseVal','as'=> 'technicians.decreaseVal','title'=> awtTrans('خصم')]);
@@ -139,6 +141,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('companies/updateTechnicians/{id}', ['uses' => 'TechnicianCompanyController@update','as' => 'companies.updateTechnicians','title' => awtTrans('تعديل التقنيين التابعين للشركه')]);
         Route::delete('companies/deleteTechnicians', ['uses' => 'TechnicianCompanyController@delete','as' => 'companies.deleteTechnicians','title' => awtTrans('حذف التقنيين التابعين للشركه')]);
 
+        Route::get('otp', ['uses' => 'OtpController@index','as' => 'otp','title' => awtTrans('OTP'),'icon'=> '<i class="nav-icon fa fa-users"></i>']);
         # AccountController
         Route::get('accountants',['uses'=> 'AccountantController@index','as'=> 'accountants.index','title'=> ' المحاسبين','icon'=> '<i class="nav-icon fa fa-users"></i>']);
         Route::post('accountants/store',['uses'=> 'AccountantController@store','as'=> 'accountants.store','title'=> 'اضافة محاسب']);
@@ -147,6 +150,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
 
         Route::post('send-notify-user',['uses'=> 'ClientController@sendnotifyuser','as'=> 'sendnotifyuser','title'=> awtTrans('ارسال اشعارات')]);
         Route::post('change-status',['uses'=> 'ClientController@changeStatus','as'=> 'changeStatus','title'=> awtTrans('تغيير الحاله')]);
+        Route::post('change-notify',['uses'=> 'ClientController@changeNotify','as'=> 'changeNotify','title'=> awtTrans('تغيير حالة استقبال الطلبات')]);
         /********************************* all users controllers end *********************************/
 
         #statistics routes
@@ -332,7 +336,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'icon'      => asset('assets/media/menuicon/gear.svg'),
             'type'      => 'parent',
             'sub_route' => true,
-            'child'     => ['orders.index','orders.onWayOrders','orders.finishedOrders','orders.canceledOrders','orders.guaranteeOrders','orders.guaranteeShow','orders.guaranteeDestroy','orders.show','orders.operationNotes', 'orders.changeStatus', 'orders.changeAddress', 'orders.changePayType', 'orders.changeAllAddress','orders.changeTime','orders.changeDate','orders.assignTech', 'orders.servicesUpdate','orders.partsDestroy', 'orders.rejectOrder', 'orders.destroy']
+            'child'     => ['orders.index','orders.onWayOrders','orders.finishedOrders','orders.canceledOrders','orders.guaranteeOrders','orders.delayedOrders','orders.timeOutOrders','orders.guaranteeShow','orders.guaranteeDestroy','orders.show','orders.operationNotes','orders.billCreate','orders.billUpdate', 'orders.changeStatus', 'orders.changeAddress', 'orders.changePayType', 'orders.changeAllAddress','orders.changeTime','orders.changeDate','orders.assignTech', 'orders.servicesUpdate','orders.servicesDelete','orders.partsDestroy', 'orders.rejectOrder', 'orders.destroy']
         ]);
 
         Route::get('orders',['uses'=> 'OrderController@index','as'=> 'orders.index','title'=> awtTrans('الطلبات الجديده'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
@@ -340,6 +344,8 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('finishedOrders',['uses'=> 'OrderController@index','as'=> 'orders.finishedOrders','title'=> awtTrans('الطلبات المنتهيه'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
         Route::get('canceledOrders',['uses'=> 'OrderController@index','as'=> 'orders.canceledOrders','title'=> awtTrans('الطلبات الملغيه'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
         Route::get('guaranteeOrders',['uses'=> 'OrderController@guarantees','as'=> 'orders.guaranteeOrders','title'=> awtTrans('طلبات الضمان'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
+        Route::get('delayedOrders',['uses'=> 'OrderController@index','as'=> 'orders.delayedOrders','title'=> awtTrans('طلبات المتأخره'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
+        Route::get('timeOutOrders',['uses'=> 'OrderController@index','as'=> 'orders.timeOutOrders','title'=> awtTrans('طلبات نفذ وقتها'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
         Route::get('guaranteeOrders/show/{id}',['uses'=> 'OrderController@guaranteeShow','as'=> 'orders.guaranteeShow','title'=> awtTrans('مشاهدة طلب الضمان')]);
         Route::delete('guaranteeOrders/destroy/{id}',['uses'=> 'OrderController@guaranteeDestroy','as'=> 'orders.guaranteeDestroy','title'=> awtTrans('حذف طلب الضمان')]);
         Route::get('orders/{id}',['uses'=> 'OrderController@show','as'=> 'orders.show','title'=> awtTrans('مشاهدة طلب')]);
@@ -348,7 +354,10 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('orders/change/allAddress',['uses'=> 'OrderController@changeAllAddress','as'=> 'orders.changeAllAddress','title'=> awtTrans('تغيير عنوان الطلب بالكامل')]);
         Route::post('orders/change/payType',['uses'=> 'OrderController@changePayType','as'=> 'orders.changePayType','title'=> awtTrans('تغيير طريقة الدفع')]);
         Route::post('orders/change/operationNotes',['uses'=> 'OrderController@operationNotes','as'=> 'orders.operationNotes','title'=> awtTrans('ملاحظات الأبوريشن')]);
+        Route::post('orders/bill/create',['uses'=> 'OrderController@billCreate','as'=> 'orders.billCreate','title'=> awtTrans('اضافة فاتوره')]);
+        Route::post('orders/bill/update/{id}',['uses'=> 'OrderController@billUpdate','as'=> 'orders.billUpdate','title'=> awtTrans('تعديل فاتوره')]);
         Route::post('orders/services/update',['uses'=> 'OrderController@servicesUpdate','as'=> 'orders.servicesUpdate','title'=> awtTrans('تعديل خدمه بالطلب')]);
+        Route::post('orders/services/delete',['uses'=> 'OrderController@servicesDelete','as'=> 'orders.servicesDelete','title'=> awtTrans('حذف خدمه بالطلب')]);
         Route::post('orders/assignTech',['uses'=> 'OrderController@assignTech','as'=> 'orders.assignTech','title'=> awtTrans('اختيار تقني')]);
         Route::post('orders/changeStatus',['uses'=> 'OrderController@changeStatus','as'=> 'orders.changeStatus','title'=> awtTrans('تغيير الحاله')]);
         Route::post('orders/changeDate',['uses'=> 'OrderController@changeDate','as'=> 'orders.changeDate','title'=> awtTrans('تغيير تاريخ الطلب')]);

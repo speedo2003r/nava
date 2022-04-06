@@ -10,11 +10,11 @@ class NotificationResource extends JsonResource
     {
         return [
             'id'         => $this->id,
-            'to_id'      => $this->to_id,
-            'message'    => $this->message,
-            'seen'       => $this->seen == 1 ? true : false,
-            'type'       => $this->type??'',
-            'order_id'    => $this->order_id??0,
+            'to_id'      => $this->notifiable_id,
+            'message'    => $this->data['body'][app()->getLocale()],
+            'seen'       => $this->read_at != null ? true : false,
+            'type'       => $this->data['type']??'',
+            'order_id'    => $this->data['order_id']??0,
             'created_at' => $this->created_at->diffForHumans(),
         ];
 

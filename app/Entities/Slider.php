@@ -23,6 +23,8 @@ class Slider extends Model implements Transformable
         'title',
         'city_id',
         'image',
+        'category_id',
+        'sub_category_id',
         'active',
     ];
     public function getImageAttribute()
@@ -33,6 +35,14 @@ class Slider extends Model implements Transformable
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'category_id');
+    }
+    public function subcategory()
+    {
+        return $this->belongsTo(Category::class,'sub_category_id');
     }
 
 }

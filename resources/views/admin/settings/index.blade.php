@@ -115,6 +115,10 @@
                         <input type="text" name="keys[into_video]" value="{{settings('into_video')}}" class="form-control" id="exampleInputPhone2" placeholder="">
                       </div>
                       <div class="form-group">
+                        <label for="exampleInputPassword2">عدد الطلبات التي يمكن تعيينها للتقني</label>
+                        <input type="text" name="keys[techOrderCount]" value="{{settings('techOrderCount')}}" class="form-control" id="exampleInputPhone222" placeholder="">
+                      </div>
+                      <div class="form-group">
                         <label for="exampleInputMapkey">مفتاح الخريطة</label>
                         <input type="text" name="keys[map_key]" value="{{settings('map_key')}}" class="form-control" id="exampleInputMapkey" placeholder="">
                       </div>

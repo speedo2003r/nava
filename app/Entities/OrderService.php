@@ -56,4 +56,9 @@ class OrderService extends Model implements Transformable
     {
         return $this->belongsTo(Service::class,'service_id');
     }
+
+    public function bills()
+    {
+        return $this->belongsToMany(OrderBill::class,'order_services_bills','order_service_id','order_bill_id');
+    }
 }

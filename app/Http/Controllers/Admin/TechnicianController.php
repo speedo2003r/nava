@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ClientDatatable;
 use App\DataTables\TechnicianDatatable;
+use App\DataTables\TechnicianOrderDatatable;
 use App\Entities\Income;
 use App\Entities\Order;
 use App\Entities\UserDeduction;
+use App\Enum\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Technician\Create;
 use App\Http\Requests\Admin\Technician\Update;
@@ -19,6 +21,7 @@ use App\Repositories\UserRepository;
 use App\Traits\NotifyTrait;
 use App\Traits\ResponseTrait;
 use App\Traits\UploadTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -106,6 +109,21 @@ class TechnicianController extends Controller
         return redirect()->back()->with('success', 'تم الحذف بنجاح');
     }
 
+    public function orders(TechnicianOrderDatatable $datatable,$id,Request $request)
+    {
+        $orderCount = Order::where('technician_id',$id)
+            ->when($request->has('status') && $request['status'] == OrderStatus::PENDING ,function ($q){
+                $q->where('status',OrderStatus::PENDING);
+            })
+            ->when($request->has('status') && $request['status'] == OrderStatus::DAILY,function ($q){
+                $q->whereDate('created_date',Carbon::now()->format('Y-m-d'));
+            })
+            ->when($request->has('status') && $request['status'] == OrderStatus::FINISHED,function ($q){
+                $q->where('status',OrderStatus::FINISHED);
+            })
+            ->count();
+        return $datatable->with(['id'=>$id])->render('admin.technicians.order',compact('id','orderCount'));
+    }
     public function decreaseVal(Request $request)
     {
         $this->validate($request,[

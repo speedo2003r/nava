@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="73908daa-cf57-4b35-9928-fb5307b0e3b6" name="nava">
-        <fileTransfer rootFolder="/var/www/html" accessType="SFTP" host="168.119.235.236" port="22" sshConfigId="cf83281a-eafc-4700-88a4-2557f4ca733b" sshConfig="root@168.119.235.236:22 password">
+        <fileTransfer rootFolder="/var/www/html/demo" accessType="SFTP" host="168.119.235.236" port="22" sshConfigId="cf83281a-eafc-4700-88a4-2557f4ca733b" sshConfig="root@168.119.235.236:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

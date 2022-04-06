@@ -5,8 +5,8 @@ namespace App\Http\Middleware\Api;
 use App\Traits\ResponseTrait;
 use Closure;
 use Exception;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use PHPOpenSourceSaver\JWTAuth\Http\Middleware\BaseMiddleware;
 
 class JwtMiddleware extends BaseMiddleware
 {
@@ -15,7 +15,7 @@ class JwtMiddleware extends BaseMiddleware
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            
+
             # If user ban from admin
             if ($user->banned == true) {
                 $msg  = trans('api.blocked');

@@ -7,6 +7,7 @@ use App\Entities\OrderBill;
 use App\Entities\OrderGuarantee;
 use App\Entities\OrderService;
 use App\Entities\ReviewRate;
+use App\Enum\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LangRequest;
 use App\Http\Resources\Orders\CartDetailResource;
@@ -14,10 +15,12 @@ use App\Http\Resources\Orders\CartResource;
 use App\Http\Resources\Orders\OrderBillResource;
 use App\Http\Resources\Orders\OrderDetailResource;
 use App\Http\Resources\Orders\OrderResource;
-use App\Http\Resources\Orders\SingleCartResource;
-use App\Jobs\NotifyFcm;
 use App\Jobs\SendToDelegate;
 use App\Models\User;
+use App\Notifications\Api\AcceptInvoice;
+use App\Notifications\Api\FinishOrder;
+use App\Notifications\Api\NewOrder;
+use App\Notifications\Api\RefuseInvoice;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderServiceRepository;
@@ -94,6 +97,7 @@ class OrderController extends Controller
         $this->orderRepo->update([
             'live' => $live,
             'pay_type' => $request['pay_type'],
+            'status' => OrderStatus::CREATED,
             'created_date' => Carbon::now()->format('Y-m-d H:i:s'),
             'final_total' => $order['final_total'],
             'increased_price' => ($order['final_total'] < $mini_order_charge) ? $mini_order_charge - $order['final_total'] : 0,
@@ -107,9 +111,7 @@ class OrderController extends Controller
                     $query->where('users_branches.branch_id',$branch['id']);
                 })->get();
                 foreach($users as $user) {
-                    $order_id = $order['id'];
-                    $user_id = $user['id'];
-                    $job = new SendToDelegate($order_id,$user_id);
+                    $job = new SendToDelegate($order,$user);
                     if($branch['assign_deadline'] > 0){
                         dispatch($job)->delay($on);
                     }else{
@@ -117,9 +119,12 @@ class OrderController extends Controller
                     }
                 }
             }
+            $title_ar = 'هناك طلب جديد';
+            $title_en = 'there are a new order';
             $msg_ar = 'هناك طلب جديد رقم '.$order['order_num'];
             $msg_en = 'there is new order no.'.$order['order_num'];
-            $this->send_notify($order['user_id'],$msg_ar,$msg_en,$order['id'],$order['status']);
+            $user = $order->user;
+            $user->notify(new NewOrder($title_ar,$title_en,$msg_ar,$msg_en,$order));
 //        }
         return $this->successResponse();
     }
@@ -197,9 +202,10 @@ class OrderController extends Controller
         $orderBill->refuse_reason = $request['refuse_reason'];
         $orderBill->save();
         $order = $orderBill->order;
+        $technician = $order->technician;
         $msg_ar = 'تم رفض الفاتوره في الطلب رقم '.$order['order_num'];
         $msg_en = 'invoice has been refused in order No '.$order['order_num'];
-        $this->send_notify($order['technician_id'],$msg_ar,$msg_en,$order['id'],$order['status']);
+        $technician->notify(new RefuseInvoice($msg_ar,$msg_en,$msg_ar,$msg_en));
         return $this->successResponse();
     }
 
@@ -222,6 +228,7 @@ class OrderController extends Controller
             }
         }
         $order = $orderBill->order;
+        $technician = $order->technician;
         $order->vat_amount = $order->tax() - $order['increase_tax'];
         $order->final_total = $order->price() - $order['increased_price'];
         $order->total_services = $order->orderServices('order_services.status',1)->count();
@@ -229,7 +236,7 @@ class OrderController extends Controller
 
         $msg_ar = 'تم الموافقه علي الفاتوره في الطلب رقم '.$order['order_num'];
         $msg_en = 'invoice has been accepted in order No '.$order['order_num'];
-        $this->send_notify($order['technician_id'],$msg_ar,$msg_en,$order['id'],$order['status']);
+        $technician->notify(new AcceptInvoice($msg_ar,$msg_en,$msg_ar,$msg_en));
         return $this->successResponse();
     }
 
@@ -367,9 +374,12 @@ class OrderController extends Controller
         $this->orderRepo->update([
             'status' => 'done'
         ],$order['id']);
+        $user = $order->user;
+        $title_ar = 'تم انهاء الطلب';
+        $title_en = 'there is order has been completed';
         $msg_ar = 'تم انهاء الطلب رقم '.$order['order_num'];
         $msg_en = 'Order No. has been completed'.$order['order_num'];
-        $this->send_notify($order['provider_id'],$msg_ar,$msg_en,$order['id'],$order['status']);
+        $user->notify(new FinishOrder($title_ar,$title_en,$msg_ar,$msg_en,$order));
         return $this->successResponse();
     }
     public function downloadPdf(LangRequest $request)

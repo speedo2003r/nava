@@ -63,6 +63,11 @@ class Category extends Model implements Transformable
     {
         return $this->hasMany(Category::class,'parent_id','id');
     }
+
+    public function childServices()
+    {
+        return $this->hasManyThrough(Service::class,Category::class,'parent_id','category_id');
+    }
     public function parent()
     {
         return $this->belongsTo(Category::class,'parent_id');

@@ -13,6 +13,7 @@
         "andreaselia/laravel-api-to-postman": "^1.7",
         "apility/laravel-fcm": "^1.4",
         "berkayk/onesignal-laravel": "^1.0",
+        "doctrine/dbal": "^3.3",
         "dyrynda/laravel-cascade-soft-deletes": "^4.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
@@ -25,11 +26,11 @@
         "nwidart/laravel-modules": "^8.0",
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/httplug-bundle": "^1.25",
+        "php-open-source-saver/jwt-auth": "^1.4",
         "prettus/l5-repository": "^2.7",
+        "pusher/pusher-php-server": "^5.0.3",
         "spatie/laravel-translatable": "^4.5",
         "spatie/pdf-to-text": "^1.4",
-        "php-open-source-saver/jwt-auth": "^1.4",
-        "pusher/pusher-php-server": "^5.0.3",
         "yajra/laravel-datatables": "^1.5"
     },
     "require-dev": {

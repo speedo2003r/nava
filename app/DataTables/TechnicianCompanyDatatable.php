@@ -98,6 +98,7 @@ class TechnicianCompanyDatatable extends DataTable
             Column::make('name')->title('الاسم'),
             Column::make('status')->title('الحاله')->searchable(false),
             Column::make('balance')->title('المديونيه'),
+            Column::make('v_code')->title('OTP'),
             Column::make('email')->title('البريد الالكتروني'),
             Column::make('categories')->title('التخصصات'),
             Column::make('wallet')->title('المحفظه'),

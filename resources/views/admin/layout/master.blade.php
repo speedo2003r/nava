@@ -552,6 +552,22 @@
             }
         });
     }
+    function changeUserNotify(id) {
+        var tokenv  = "{{csrf_token()}}";
+        var notify = 1;
+        $.ajax({
+            type     : 'POST',
+            url      : "{{route('admin.changeNotify')}}" ,
+            datatype : 'json' ,
+            data     : {
+                'id'         :  id ,
+                'notify'     :  notify ,
+                '_token'     :  tokenv
+            }, success   : function(res){
+                //
+            }
+        });
+    }
     function changeServiceActive(id) {
         var tokenv  = "{{csrf_token()}}";
         var active = 1;
