@@ -99,20 +99,26 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
         Route::any('cart-details', 'CartController@cartDetails');
         Route::any('delete-cart-item', 'CartController@deleteCartItem');
         Route::any('add-coupon', 'CartController@addCoupon');
-        Route::any('place-order', 'OrderController@placeOrder');
 
 
         Route::any('my-orders/{type}', 'OrderController@MyOrders');
-        Route::any('order-cancel', 'OrderController@cancelOrder');
-        Route::any('order-guarantee', 'OrderController@orderGuarantee');
+        Route::group(['namespace'=>'Order'],function (){
+            Route::any('order-cancel', CancelOrder::class);
+            Route::any('order-guarantee', OrderGuarantee::class);
+            Route::any('rate-order-tech', RateOrderTech::class);
+            Route::any('place-order', PlaceOrder::class);
+        });
+        Route::group(['namespace'=>'Invoice'],function (){
+            Route::any('invoice', Invoice::class);
+        });
         Route::any('order-details', 'OrderController@OrderDetails');
-        Route::any('invoice', 'OrderController@invoice');
+
+
         Route::any('accept-invoice', 'OrderController@acceptInvoice');
         Route::any('refuse-invoice', 'OrderController@refuseInvoice');
-        Route::any('wallet-pay', 'OrderController@walletPay');
-        Route::any('wallet-bill-pay', 'OrderController@walletBillPay');
-        Route::any('cash-bill-pay', 'OrderController@cashBillPay');
-        Route::any('rate-order-tech', 'OrderController@rateOrderTech');
+
+
+        Route::any('wallet-pay', 'PaymentController@walletPay');
 //        # chat
         Route::any('chat', 'ChatController@chat');
         Route::any('sendMessage', 'ChatController@sendMessage');
@@ -147,7 +153,6 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Te
 
         Route::any('statistics', 'StatisticController@statistics');
         Route::any('tech-wallet', 'StatisticController@techWallet');
-        Route::any('download-pdf', 'StatisticController@downloadPdf');
 
 //        companies
         Route::any('technicals', 'CompanyController@technicals');

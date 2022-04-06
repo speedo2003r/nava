@@ -101,6 +101,29 @@ class PaymentController extends Controller
         $checkout = $this->mada_pre_checkout(number_format($price,2, '.', ','));
         return view('MadaPayment',compact('checkout','order'));
     }
+
+    public function walletPay(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => 'required|exists:orders,id,deleted_at,NULL',
+        ]);
+        if ($validator->fails())
+            return $this->ApiResponse('fail', $validator->errors()->first());
+
+        $user = auth()->user();
+        $order = $this->orderRepo->find($request['order_id']);
+        $wallet = $user['wallet'];
+        if($order->price() > $wallet){
+            return $this->ApiResponse('fail',trans('api.walletNot'));
+        }
+        $user['wallet'] -= $order->price();
+        $user->save();
+
+        $order->pay_type = 'wallet';
+        $order->pay_status = 'done';
+        $order->save();
+        return $this->successResponse();
+    }
     public function payCash(Request $request)
     {
         $validator = Validator::make($request->all(),[

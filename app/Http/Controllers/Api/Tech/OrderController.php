@@ -13,6 +13,7 @@ use App\Http\Resources\Orders\TechnicalGuaranteeOrderCollection;
 use App\Http\Resources\Orders\TechnicalOrderDetailsResource;
 use App\Http\Resources\Orders\TechnicalOrderCollection;
 use App\Models\Room;
+use App\Notifications\Api\FinishOrder;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderServiceRepository;
@@ -161,7 +162,7 @@ class OrderController extends Controller
             return $this->ApiResponse('fail',$msg);
         }
         if($order['status'] != 'finished'){
-            
+
             $order->update([
                 'status' => 'finished',
                 'progress_end' => Carbon::now()->format('Y-m-d H:i'),
@@ -175,7 +176,12 @@ class OrderController extends Controller
                 ]);
             }
 
-            $this->send_notify($order['user_id'],'تم انهاء العمل','Work has finished',$order['id'],$order['status'],'finished');
+            $user = $order->user;
+            $title_ar = 'تم انهاء الطلب';
+            $title_en = 'there is order has been completed';
+            $msg_ar = 'تم انهاء الطلب رقم '.$order['order_num'];
+            $msg_en = 'Order No. has been completed'.$order['order_num'];
+            $user->notify(new FinishOrder($title_ar,$title_en,$msg_ar,$msg_en,$order));
         }
         return $this->successResponse();
     }
