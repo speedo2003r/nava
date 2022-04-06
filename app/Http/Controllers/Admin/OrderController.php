@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\GuaranteeDatatable;
 use App\DataTables\OrderDatatable;
+use App\Entities\OrderBill;
 use App\Entities\OrderGuarantee;
 use App\Entities\OrderPart;
+use App\Entities\OrderService;
 use App\Http\Controllers\Controller;
-use App\Repositories\Interfaces\IOrder;
+use App\Notifications\Admin\AddInvoice;
+use App\Notifications\Admin\UpdateInvoice;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderServiceRepository;
+use App\Repositories\ServiceRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,10 +22,11 @@ class OrderController extends Controller
 {
     protected $orderRepo,$orderService;
 
-    public function __construct(OrderServiceRepository $orderService,OrderRepository $order)
+    public function __construct(protected ServiceRepository $service,OrderServiceRepository $orderService,OrderRepository $order)
     {
         $this->orderRepo = $order;
         $this->orderService = $orderService;
+        $this->service = $service;
     }
 
     /***************************  get all providers  **************************/
@@ -68,7 +73,9 @@ class OrderController extends Controller
     {
         $order = $this->orderRepo->find($id);
         $timeLineStatus = $order->timeLineStatus;
-        return view('admin.orders.show', compact('order','id','timeLineStatus'));
+        $category = $order->category;
+        $services = $category->childServices;
+        return view('admin.orders.show', compact('services','order','id','timeLineStatus'));
     }
 
     /***************************  update provider  **************************/
@@ -81,6 +88,109 @@ class OrderController extends Controller
         return back()->with('success','تم الرفض بنجاح');
     }
 
+    public function billCreate(Request $request)
+    {
+        $this->validate($request,[
+            'order_id' => 'required|exists:orders,id,deleted_at,NULL',
+            'service_id' => 'required|exists:services,id,deleted_at,NULL',
+            'count' => 'required|numeric',
+        ]);
+        $order = $this->orderRepo->find($request['order_id']);
+        if($order['pay_status'] == 'done'){
+            $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+            return back()->with('danger',$msg);
+        }
+
+        $service = $this->service->find($request['service_id']);
+        $tax = ($service['price'] * settings('tax')) / 100;
+        $orderBill = OrderBill::create([
+            'order_id'=>$order['id'],
+            'vat_amount' => $tax,
+            'price' => $service['price'],
+            'type'=>'service',
+            'status'=>0,
+        ]);
+        $orderBill->orderServices()->create([
+            'title' => $service['title'],
+            'type' => $service['type'],
+            'status' => 0,
+            'order_id' => $order['id'],
+            'category_id' => $service['category_id'],
+            'count' => $request['count'],
+            'service_id' => $service['id'],
+            'price' => $service['price'],
+            'tax' => ($service['price'] * settings('tax') ?? 0) / 100,
+        ]);
+        $title_ar = 'تم اضافة فاتوره جديده';
+        $title_en = 'A new bill has been added';
+        $msg_ar = 'تم اضافة فاتوره جديده رقم '.$orderBill['id'].' في انتظار قبولها من طرفكم';
+        $msg_en = 'A new bill has been added No. '.$orderBill['id'].' Waiting for your acceptance';
+        $user = $order->user;
+        $user->notify(new AddInvoice($title_ar,$title_en,$msg_ar,$msg_en,$order));
+        $msg = app()->getLocale() == 'ar' ? 'تم الاضافه بنجاح' : 'successfully add';
+        return back()->with('success',$msg);
+    }
+    public function billUpdate(Request $request,$id)
+    {
+        $this->validate($request,[
+            'order_id' => 'required|exists:orders,id,deleted_at,NULL',
+            'service_id' => 'required|exists:services,id,deleted_at,NULL',
+            'count' => 'required|numeric',
+        ]);
+        $order = $this->orderRepo->find($request['order_id']);
+        if($order['pay_status'] == 'done'){
+            $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+            return back()->with('danger',$msg);
+        }
+        $service = $this->service->find($request['service_id']);
+        $orderService = OrderService::find($id);
+        $orderService->update([
+            'title' => $service['title'],
+            'type' => $service['type'],
+            'count' => $request['count'],
+            'order_id' => $order['id'],
+            'category_id' => $service['category_id'],
+            'service_id' => $service['id'],
+            'price' => $service['price'],
+            'tax' => ($service['price'] * settings('tax') ?? 0) / 100,
+        ]);
+
+        $orderBill = OrderBill::where('order_id',$request['order_id'])->whereHas('orderServices')->first();
+        if($orderBill) {
+            $tax = 0;
+            $amount = 0;
+            foreach ($orderBill->orderServices as $orderService){
+                $tax += $orderService['tax'] * $orderService['count'];
+                $amount += $orderService['price'] * $orderService['count'];
+            }
+            $orderBill->update([
+                'vat_amount' => $tax,
+                'price' => $amount,
+            ]);
+        }
+        $title_ar = 'تم تعديل فاتوره';
+        $title_en = 'A bill has been updated';
+        $msg_ar = 'تم تعديل الفاتوره رقم '.$orderBill['id'];
+        $msg_en = 'A bill has been updated No. '.$orderBill['id'];
+        $user = $order->user;
+        $user->notify(new UpdateInvoice($title_ar,$title_en,$msg_ar,$msg_en,$order));
+        $msg = app()->getLocale() == 'ar' ? 'تم التعديل بنجاح' : 'successfully edit';
+        return back()->with('success',$msg);
+    }
+    /***************************  update provider  **************************/
+    public function servicesDelete(Request $request)
+    {
+        $orderService = $this->orderService->find($request['order_service_id']);
+        if(count($orderService->bills) > 0){
+            foreach ($orderService->bills as $bill){
+                $bill->price -= ($orderService['price'] * $orderService['count']);
+                $bill->vat_amount -= (($orderService['price'] * $orderService['count']) * settings('tax')) / 100;
+                $bill->save();
+            }
+        }
+        $orderService->delete();
+        return back()->with('success','تم الحذف بنجاح');
+    }
     /***************************  update provider  **************************/
     public function servicesUpdate(Request $request)
     {

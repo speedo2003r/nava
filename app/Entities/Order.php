@@ -27,7 +27,6 @@ class Order extends Model implements Transformable
         'city_id',
         'region_id',
         'category_id',
-        'subcategory_id',
         'total_services',
         'coupon_id',
         'coupon_num',
@@ -247,10 +246,6 @@ class Order extends Model implements Transformable
     public function category()
     {
         return $this->belongsTo(Category::class,'category_id');
-    }
-    public function subcategory()
-    {
-        return $this->belongsTo(Category::class,'subcategory_id','id');
     }
 
     public function provider()

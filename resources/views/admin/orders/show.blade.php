@@ -212,11 +212,18 @@
                         @endforeach
                         @endif
                         <!-- timeline item -->
+                        <hr>
                         <div>
                             <i class="fas fa-list bg-yellow"></i>
                             <div class="timeline-item">
                                 <h3 class="timeline-header">الخدمات</h3>
                                 <div class="timeline-body">
+                                    <button type="button" data-toggle="modal" data-target="#addInvoiceModel" class="btn btn-brand btn-elevate btn-icon-sm add-user">
+                                        <i class="la la-plus"></i>
+                                        {{awtTrans('اضافه فاتوره')}}
+                                    </button>
+                                    <br>
+                                    <br>
                                     <table class="table table-striped table-bordered dt-responsive nowrap">
                                         <tr>
                                             <td>اسم الخدمه</td>
@@ -231,7 +238,7 @@
                                                 <td>{{$orderService['title'] != null ? $orderService['title'] : $orderService->service['title']}}</td>
                                                 <td>{{$orderService['count']}}</td>
                                                 <td>{{$orderService['price']}}</td>
-                                                <td>{{$orderService['status'] == 1 ? 'مقبول' : ($orderService['status'] == 2 ? 'مرفوض' : ($orderService['status'] == 0 ? 'تحت المراجعه' : '-'))}}</td>
+                                                <td>{{$orderService['status'] == 1 ? 'مقبول' : ($orderService['status'] == 2 ? 'مرفوض' : ($orderService['status'] == 0 ? 'تحت المراجعه من قبل العميل' : '-'))}}</td>
                                                 <td>{{\App\Entities\OrderService::serviceType($orderService['type'])}}</td>
                                                 <td>
                                                     @if($orderService->type == 'pricing' && $orderService['status'] != 2 && $orderService->order['status'] == 'created' && $orderService->order['status'] != 'finished' && $orderService->order['status'] != 'rejected')
@@ -242,8 +249,11 @@
                                                         ---
                                                     @endif
                                                     @if(($orderService->order['status'] != 'finished' && $orderService->order['status'] != 'rejected') && $orderService['status'] != 2)
-                                                        <a id="reject" data-service_id="{{$orderService['id']}}" data-toggle="kt-tooltip" title="" data-placement="top" data-original-title="رفض" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
+                                                        <a id="reject" data-service_id="{{$orderService['id']}}" data-toggle="kt-tooltip" title="" data-placement="top" data-original-title="حذف" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
                                                             <i data-toggle="modal" data-target="#deleteModal-reject" class="la la-close"></i>
+                                                        </a>
+                                                        <a id="edit" Onclick="edit({{$orderService}})" data-toggle="modal" data-target="#addInvoiceModel" data-service_id="{{$orderService['id']}}" title="" data-placement="top" data-original-title="تعديل" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
+                                                            <i class="fas fa-pen-alt"></i>
                                                         </a>
                                                     @endif
                                                 </td>
@@ -253,6 +263,7 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
                         <!-- timeline item -->
                         @if($order->orderParts()->whereHas('orderBills',function($query){$query->where('status',1);})->count() > 0)
                         <div>
@@ -368,6 +379,45 @@
 
     </div>
 
+    <div class="modal fade" id="addInvoiceModel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header"><h4 class="modal-title">{{awtTrans('اضافة فاتوره')}}</h4></div>
+                <form action="{{route('admin.orders.billCreate')}}"  id="editForm" method="post" role="form" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" value="{{$order['id']}}" name="order_id">
+                    <div class="modal-body">
+
+                    <!--begin::Portlet-->
+                        <div class="kt-portlet" style="padding-top:15px">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{awtTrans('الخدمات')}}</label>
+                                        <select name="service_id" id="service_id" class="form-control">
+                                            <option value="" hidden selected>{{awtTrans('اختر')}}</option>
+                                            @foreach($services as $service)
+                                                <option value="{{$service['id']}}">{{$service['title']}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>{{awtTrans('العدد')}}</label>
+                                    <input type="text" id="count" name="count" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary">{{__('save')}}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{__('close')}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- send-noti modal-->
     <div class="modal fade" id="changeAddress"
          aria-hidden="true">
@@ -453,6 +503,7 @@
                                     <span>{{$timeLine['created_at']}}</span>
                                 </li>
                             @endif
+                                <br>
                         @endforeach
                     </ul>
                     <div class="modal-footer justify-content-between">
@@ -637,14 +688,13 @@
     <div class="modal fade modal-danger" id="deleteModal-reject" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header"><h4 class="modal-title">رفض خدمه</h4></div>
+                <div class="modal-header"><h4 class="modal-title">حذف خدمه</h4></div>
 
-                <form action="{{route('admin.orders.servicesUpdate')}}" method="post">
+                <form action="{{route('admin.orders.servicesDelete')}}" method="post">
                     @csrf()
                     <input type="hidden" name="order_service_id">
-                    <input type="hidden" value="2" name="status">
                 <div class="modal-body">
-                    <p>هل أنت متأكد من عملية الرفض ؟</p>
+                    <p>هل أنت متأكد من عملية الحذف ؟</p>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="submit" class="btn btn-primary">نعم</button>
@@ -712,6 +762,12 @@
             $('#order_id').val(order);
             getTechs(order,category_id);
         });
+        function edit(ob){
+            $('#addInvoiceModel .modal-title').text(`{{awtTrans('تعديل الفاتوره')}}`);
+            $('#editForm')      .attr("action","{{route('admin.orders.billUpdate','obId')}}".replace('obId',ob.id));
+            $('#service_id').val(ob.service_id).change;
+            $('#count').val(ob.count);
+        }
     </script>
 @endpush
 

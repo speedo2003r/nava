@@ -2,15 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecea1d47-5e40-41fa-b83c-417b126f9b38" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Entities/OrdersStatus.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Notifications/Admin/AddInvoice.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Notifications/Admin/UpdateInvoice.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/OrderDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/OrderDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Entities/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Category.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Entities/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Order.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Enum/OrderStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enum/OrderStatus.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Entities/OrderService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/OrderService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Enum/NotifyType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enum/NotifyType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/ar.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/ar/awt.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar/awt.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/orders/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/orders/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,7 +246,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Entities" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Notifications/ِAdmin" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -257,11 +259,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/Notifications/ِAdmin" />
       <recent name="$PROJECT_DIR$/app/Entities" />
       <recent name="$PROJECT_DIR$/app/Enum" />
       <recent name="$PROJECT_DIR$/app/Notifications" />
       <recent name="$PROJECT_DIR$/database/migrations" />
-      <recent name="$PROJECT_DIR$/resources/views/admin" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/Notifications/Admin" />
     </key>
   </component>
   <component name="RunManager">
@@ -309,6 +314,7 @@
       <workItem from="1649061969020" duration="89000" />
       <workItem from="1649070520458" duration="5415000" />
       <workItem from="1649150194038" duration="13227000" />
+      <workItem from="1649237346978" duration="10433000" />
     </task>
     <servers />
   </component>
