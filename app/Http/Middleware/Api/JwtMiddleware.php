@@ -8,7 +8,7 @@ use Exception;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use PHPOpenSourceSaver\JWTAuth\Http\Middleware\BaseMiddleware;
 
-class JwtMiddleware extends BaseMiddleware
+class JwtMiddleware
 {
     use ResponseTrait;
     public function handle($request, Closure $next)
