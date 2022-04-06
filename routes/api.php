@@ -88,6 +88,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
 //        # notifications
         Route::any('notifications', 'AuthController@Notifications');
         Route::any('notification-status', 'AuthController@NotificationStatus');
+        Route::any('notification-toggle', 'AuthController@NotificationToggle');
         Route::post('delete-notification', 'AuthController@deleteNotification');
 //        # wallet
         Route::any('wallet', 'AuthController@Wallet');

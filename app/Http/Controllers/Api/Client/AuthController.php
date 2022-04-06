@@ -395,6 +395,13 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         # update user
+        return $this->successResponse(['notify' => $user->notify]);
+    }
+    # switch notification status for receive fcm or not
+    public function NotificationToggle(Request $request)
+    {
+        $user = auth()->user();
+        # update user
         $this->userRepo->update(['notify'  => !$user->notify],$user['id']);
         $user = $this->userRepo->find($user['id']);
         return $this->successResponse(['notify' => $user->notify]);
