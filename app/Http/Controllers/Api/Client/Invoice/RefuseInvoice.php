@@ -31,6 +31,13 @@ class RefuseInvoice extends Controller
         $orderBill->status = 2;
         $orderBill->refuse_reason = $request['refuse_reason'];
         $orderBill->save();
+        $orderServices = $orderBill->orderServices;
+        if(count($orderServices) > 0){
+            foreach ($orderServices as $orderService){
+                $orderService->status = 2;
+                $orderService->save();
+            }
+        }
         $order = $orderBill->order;
         $technician = $order->technician;
         $msg_ar = 'تم رفض الفاتوره في الطلب رقم '.$order['order_num'];

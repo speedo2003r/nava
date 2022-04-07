@@ -169,8 +169,8 @@ class CartController extends Controller
             $orderService->delete();
         }
         $order->update([
-            'vat_amount' => ($order->orderServices()->sum('price') * $order['vat_per'] ?? 0) / 100,
-            'final_total' => $order->orderServices()->sum('price'),
+            'vat_amount' => ($order->price() * $order['vat_per'] ?? 0) / 100,
+            'final_total' => $order->price(),
         ]);
         return $this->successResponse(['total'=>$order->_price(),'tax'=>$order['vat_amount']]);
     }

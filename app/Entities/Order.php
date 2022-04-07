@@ -184,6 +184,22 @@ class Order extends Model implements Transformable
         }
         return $arr;
     }
+    public static function AdminUserStatus($index = null)
+    {
+        $arr = [
+            'pending' => app()->getLocale() == 'ar' ? 'معلق' : 'pending',
+            'created' => app()->getLocale() == 'ar' ? 'قيد الفحص' : 'under examination',
+            'accepted' => app()->getLocale() == 'ar' ? 'تم قبول الطلب' : 'approved',
+            'arrived' => app()->getLocale() == 'ar' ? 'تم الوصول للموقع' : 'arrived',
+            'in-progress' => app()->getLocale() == 'ar' ? 'الطلب قيد التنفيذ' : 'in progress',
+            'finished' => app()->getLocale() == 'ar' ? 'تم انهاء الطلب' : 'finished',
+            'user_cancel' => app()->getLocale() == 'ar' ? 'الطلب ملغي' : 'user cancel order',
+        ];
+        if($index != null){
+            return $arr[$index];
+        }
+        return $arr;
+    }
     public static function userStatusWithBill($index = null)
     {
         $arr = [
