@@ -336,7 +336,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'icon'      => asset('assets/media/menuicon/gear.svg'),
             'type'      => 'parent',
             'sub_route' => true,
-            'child'     => ['orders.index','orders.onWayOrders','orders.finishedOrders','orders.canceledOrders','orders.guaranteeOrders','orders.delayedOrders','orders.timeOutOrders','orders.guaranteeShow','orders.guaranteeDestroy','orders.show','orders.operationNotes','orders.billCreate','orders.billUpdate', 'orders.changeStatus', 'orders.changeAddress', 'orders.changePayType', 'orders.changeAllAddress','orders.changeTime','orders.changeDate','orders.assignTech', 'orders.servicesUpdate','orders.servicesDelete','orders.partsDestroy', 'orders.rejectOrder', 'orders.destroy']
+            'child'     => ['orders.index','orders.onWayOrders','orders.finishedOrders','orders.canceledOrders','orders.guaranteeOrders','orders.delayedOrders','orders.timeOutOrders','orders.guaranteeShow','orders.guaranteeDestroy','orders.show','orders.operationNotes','orders.billCreate','orders.billUpdate', 'orders.changeStatus', 'orders.changeAddress', 'orders.changePayType', 'orders.changeAllAddress','orders.changeTime','orders.changeDate','orders.assignTech', 'orders.servicesUpdate','orders.acceptBill','orders.rejectBill','orders.servicesDelete','orders.partsDestroy', 'orders.rejectOrder', 'orders.destroy']
         ]);
 
         Route::get('orders',['uses'=> 'OrderController@index','as'=> 'orders.index','title'=> awtTrans('الطلبات الجديده'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
@@ -356,6 +356,8 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('orders/change/operationNotes',['uses'=> 'OrderController@operationNotes','as'=> 'orders.operationNotes','title'=> awtTrans('ملاحظات الأبوريشن')]);
         Route::post('orders/bill/create',['uses'=> 'OrderController@billCreate','as'=> 'orders.billCreate','title'=> awtTrans('اضافة فاتوره')]);
         Route::post('orders/bill/update/{id}',['uses'=> 'OrderController@billUpdate','as'=> 'orders.billUpdate','title'=> awtTrans('تعديل فاتوره')]);
+        Route::post('orders/bill/accept',['uses'=> 'OrderController@billAccept','as'=> 'orders.acceptBill','title'=> awtTrans('الموافقه علي الفاتوره')]);
+        Route::post('orders/bill/reject',['uses'=> 'OrderController@billReject','as'=> 'orders.rejectBill','title'=> awtTrans('رفض الفاتوره')]);
         Route::post('orders/services/update',['uses'=> 'OrderController@servicesUpdate','as'=> 'orders.servicesUpdate','title'=> awtTrans('تعديل خدمه بالطلب')]);
         Route::post('orders/services/delete',['uses'=> 'OrderController@servicesDelete','as'=> 'orders.servicesDelete','title'=> awtTrans('حذف خدمه بالطلب')]);
         Route::post('orders/assignTech',['uses'=> 'OrderController@assignTech','as'=> 'orders.assignTech','title'=> awtTrans('اختيار تقني')]);

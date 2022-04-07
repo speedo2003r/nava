@@ -249,12 +249,20 @@
                                                         ---
                                                     @endif
                                                     @if(($orderService->order['status'] != 'finished' && $orderService->order['status'] != 'rejected') && $orderService['status'] != 2)
-                                                        <a id="reject" data-service_id="{{$orderService['id']}}" data-toggle="kt-tooltip" title="" data-placement="top" data-original-title="حذف" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
-                                                            <i data-toggle="modal" data-target="#deleteModal-reject" class="la la-close"></i>
+                                                        <a id="reject" data-toggle="modal" data-target="#deleteModal-reject" data-service_id="{{$orderService['id']}}" title="" data-placement="top" data-original-title="حذف" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
+                                                            <i class="fa fa-trash"></i>
                                                         </a>
                                                         <a id="edit" Onclick="edit({{$orderService}})" data-toggle="modal" data-target="#addInvoiceModel" data-service_id="{{$orderService['id']}}" title="" data-placement="top" data-original-title="تعديل" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
                                                             <i class="fas fa-pen-alt"></i>
                                                         </a>
+                                                        @if($orderService['status'] == 0)
+                                                            <button data-id="{{$id}}" data-service_id="{{$orderService['id']}}" data-toggle="modal" data-target="#acceptBill" title="" data-placement="top" data-original-title="قبول" class="child btn btn-sm btn-clean btn-icon btn-icon-md reject">
+                                                                <i class="fa fa-check"></i>
+                                                            </button>
+                                                            <a data-id="{{$id}}" data-service_id="{{$orderService['id']}}" data-toggle="modal" data-target="#rejectBill" title="" data-placement="top" data-original-title="رفض" class="btn btn-sm btn-clean btn-icon btn-icon-md reject" style="cursor: pointer;">
+                                                                <i class="la la-close"></i>
+                                                            </a>
+                                                        @endif
                                                     @endif
                                                 </td>
                                             </tr>
@@ -531,7 +539,7 @@
                             </label>
                             <select name="status" class="form-control">
                                 <option value="" selected hidden>اختر</option>
-                                @foreach(\App\Entities\Order::userStatus() as $key => $value)
+                                @foreach(\App\Entities\Order::AdminUserStatus() as $key => $value)
                                     <option value="{{$key}}" @if($order['status'] == $key) selected @endif>{{$value}}</option>
                                 @endforeach
                             </select>
@@ -704,6 +712,44 @@
             </div>
         </div>
     </div>
+    <div class="modal fade modal-danger" id="acceptBill" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><h4 class="modal-title">الموافقه علي الخدمه</h4></div>
+
+                <form action="{{route('admin.orders.acceptBill')}}" method="post">
+                    @csrf()
+                    <input type="hidden" name="order_service_id">
+                <div class="modal-body">
+                    <p>هل أنت متأكد من عملية الموافقه علي الخدمه ؟</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="submit" class="btn btn-primary">نعم</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{__('close')}}</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal-danger" id="rejectBill" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><h4 class="modal-title">رفض الخدمه</h4></div>
+
+                <form action="{{route('admin.orders.rejectBill')}}" method="post">
+                    @csrf()
+                    <input type="hidden" name="order_service_id">
+                    <div class="modal-body">
+                        <p>هل أنت متأكد من عملية رفض الخدمه ؟</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary">نعم</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{__('close')}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- confirm-del modal-->
     <div class="modal fade" id="notes-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
@@ -751,6 +797,10 @@
             $('#price').val(price);
         });
         $('body').on('click','#reject',function (){
+            var service = $(this).data('service_id');
+            $('[name=order_service_id]').val(service);
+        });
+        $('body').on('click','.reject',function (){
             var service = $(this).data('service_id');
             $('[name=order_service_id]').val(service);
         });

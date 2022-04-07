@@ -155,25 +155,36 @@ class OrderController extends Controller
             'tax' => ($service['price'] * settings('tax') ?? 0) / 100,
         ]);
 
-        $orderBill = OrderBill::where('order_id',$request['order_id'])->whereHas('orderServices')->first();
+        $orderBill = OrderBill::where('status',0)->where('order_id',$request['order_id'])->whereHas('orderServices',function ($q) use ($orderService){
+            $q->where('order_services.id',$orderService['id']);
+        })->first();
         if($orderBill) {
             $tax = 0;
             $amount = 0;
-            foreach ($orderBill->orderServices as $orderService){
-                $tax += $orderService['tax'] * $orderService['count'];
-                $amount += $orderService['price'] * $orderService['count'];
+            foreach ($orderBill->orderServices()->where('order_services.status',0)->get() as $servs){
+                $tax += $servs['tax'] * $servs['count'];
+                $amount += $servs['price'] * $servs['count'];
             }
-            $orderBill->update([
-                'vat_amount' => $tax,
-                'price' => $amount,
-            ]);
+            if($amount > 0){
+                if($orderBill['price'] != $amount){
+                    $title_ar = 'تم تعديل فاتوره';
+                    $title_en = 'A bill has been updated';
+                    $msg_ar = 'تم تعديل الفاتوره رقم '.$orderBill['id'];
+                    $msg_en = 'A bill has been updated No. '.$orderBill['id'];
+                    $user = $order->user;
+                    $user->notify(new UpdateInvoice($title_ar,$title_en,$msg_ar,$msg_en,$order));
+                }
+                $orderBill->update([
+                    'vat_amount' => $tax,
+                    'price' => $amount,
+                ]);
+            }else{
+                $orderBill->update([
+                    'status' => 1,
+                ]);
+            }
+
         }
-        $title_ar = 'تم تعديل فاتوره';
-        $title_en = 'A bill has been updated';
-        $msg_ar = 'تم تعديل الفاتوره رقم '.$orderBill['id'];
-        $msg_en = 'A bill has been updated No. '.$orderBill['id'];
-        $user = $order->user;
-        $user->notify(new UpdateInvoice($title_ar,$title_en,$msg_ar,$msg_en,$order));
         $msg = app()->getLocale() == 'ar' ? 'تم التعديل بنجاح' : 'successfully edit';
         return back()->with('success',$msg);
     }
@@ -327,6 +338,72 @@ class OrderController extends Controller
         $role = OrderPart::find($id);
         $role->delete();
         return redirect()->back()->with('success', 'تم الحذف بنجاح');
+    }
+
+    public function billAccept(Request $request)
+    {
+        $orderService = OrderService::find($request['order_service_id']);
+        $order = $orderService->order;
+        if($order['pay_status'] == 'done'){
+            $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+            return back()->with('danger',$msg);
+        }
+        $orderService->update([
+            'status' => 1
+        ]);
+        $orderBill = OrderBill::where('status',0)->where('order_id',$order['id'])->whereHas('orderServices',function ($q) use ($orderService){
+            $q->where('order_services.id',$orderService['id']);
+        })->first();
+        if($orderBill) {
+            $tax = 0;
+            $amount = 0;
+            foreach ($orderBill->orderServices()->where('order_services.status',0)->get() as $servs){
+                $tax += $servs['tax'] * $servs['count'];
+                $amount += $servs['price'] * $servs['count'];
+            }
+            $orderBill->update([
+                'vat_amount' => $tax,
+                'price' => $amount,
+            ]);
+            if($orderBill['price'] == 0){
+                $orderBill['status'] = 1;
+                $orderBill->save();
+            }
+        }
+        return back()->with('success','تم الموافقه علي الخدمه بنجاح');
+
+    }
+    public function billReject(Request $request)
+    {
+        $orderService = OrderService::find($request['order_service_id']);
+        $order = $orderService->order;
+        if($order['pay_status'] == 'done'){
+            $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+            return back()->with('danger',$msg);
+        }
+        $orderService->update([
+            'status' => 2
+        ]);
+        $orderBill = OrderBill::where('status',0)->where('order_id',$order['id'])->whereHas('orderServices',function ($q) use ($orderService){
+            $q->where('order_services.id',$orderService['id']);
+        })->first();
+        if($orderBill) {
+            $tax = 0;
+            $amount = 0;
+            foreach ($orderBill->orderServices()->where('order_services.status',0)->get() as $servs){
+                $tax += $servs['tax'] * $servs['count'];
+                $amount += $servs['price'] * $servs['count'];
+            }
+            $orderBill->update([
+                'vat_amount' => $tax,
+                'price' => $amount,
+            ]);
+            if($orderBill['price'] == 0){
+                $orderBill['status'] = 2;
+                $orderBill->save();
+            }
+        }
+        return back()->with('success','تم رفض الخدمه بنجاح');
     }
 
 }
