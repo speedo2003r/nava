@@ -96,12 +96,18 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
         Route::any('wallet', 'AuthController@Wallet');
 //        # cart
         Route::any('cart', 'CartController@Cart');
-        Route::any('addNotesAndImage', 'CartController@addNotesAndImage');
-        Route::any('addDateAndAddress', 'CartController@addDateAndAddress');
+
+        Route::group(['namespace'=>'Cart'],function (){
+            Route::any('addDateAndAddress', addDateAndAddress::class);
+            Route::any('addNotesAndImage', addNotesAndImage::class);
+        });
         Route::any('cart-details', 'CartController@cartDetails');
         Route::any('delete-cart-item', 'CartController@deleteCartItem');
-        Route::any('add-coupon', 'CartController@addCoupon');
 
+
+        Route::group(['namespace'=>'Coupon'],function (){
+            Route::any('add-coupon', addCoupon::class);
+        });
 
         Route::any('my-orders/{type}', 'OrderController@MyOrders');
         Route::group(['namespace'=>'Order'],function (){
