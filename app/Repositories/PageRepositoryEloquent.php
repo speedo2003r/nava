@@ -24,6 +24,15 @@ class PageRepositoryEloquent extends BaseRepository implements PageRepository
         return Page::class;
     }
 
+    public function about()
+    {
+        return $this->model->find(1);
+    }
+
+    public function policy()
+    {
+        return $this->model->find(2);
+    }
 
 
     /**

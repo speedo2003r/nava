@@ -2,20 +2,9 @@
 
 namespace App\Http\Controllers\Api\Client;
 
-use App\Entities\CarType;
-use App\Entities\Category;
-use App\Entities\Coupon;
-use App\Entities\Item;
-use App\Entities\Order;
-use App\Entities\OrderService;
-use App\Entities\Region;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\LangRequest;
 use App\Http\Resources\Orders\CartDetailResource;
 use App\Http\Resources\Orders\CartResource;
-use App\Http\Resources\Orders\OrderProductResource;
-use App\Http\Resources\Orders\OrderResource;
-use App\Http\Resources\Orders\SingleCartResource;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\OrderRepository;
@@ -24,10 +13,7 @@ use App\Repositories\ServiceRepository;
 use App\Repositories\UserRepository;
 use App\Traits\ResponseTrait;
 use App\Traits\UploadTrait;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
