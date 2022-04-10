@@ -11,5 +11,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface OrderRepository extends RepositoryInterface
 {
-    //
+    public function storeOrder($request);
+    public function updateOrder($data,$request);
+    public function orderProductStore($data, $request);
 }

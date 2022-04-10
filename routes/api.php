@@ -31,7 +31,9 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
 
     Route::any('questions', 'PageController@questions');
 //   cart
-    Route::any('add-to-cart', 'CartController@AddToCart');
+    Route::group(['namespace'=>'Cart'],function (){
+        Route::any('add-to-cart', AddToCart::class);
+    });
     Route::any('hours-range', 'SettingController@hoursRange');
 //
 //
