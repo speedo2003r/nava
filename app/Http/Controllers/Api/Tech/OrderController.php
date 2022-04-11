@@ -98,24 +98,6 @@ class OrderController extends Controller
         return $this->successResponse(TechnicalGuaranteeOrderCollection::make($orders));
     }
 
-    public function acceptOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $user = auth()->user();
-        $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'technician_id' => $user['id'],
-            'status' => 'accepted',
-        ]);
-        creatPrivateRoom($user['id'],$order['user_id'],$order['id']);
-        $this->send_notify($order['user_id'],'تم الموافقه علي طلبك وجاري تنفيذه الأن التقني في الطريق اليك','Your request has been approved and is being implemented. The technician is on the way to you',$order['id'],$order['status'],'accepted');
-        return $this->successResponse();
-    }
     public function arriveToOrder(Request $request)
     {
         $validator = Validator::make($request->all(),[
