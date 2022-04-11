@@ -7,6 +7,7 @@ class NotifyType{
     const NEWORDER = 'newOrder';
     const ACCEPTORDER = 'acceptOrder';
     const ASSIGNORDER = 'assignOrder';
+    const ARRIVETOORDER = 'arriveToOrder';
     const ADDINVOICE = 'addInvoice';
     const ADDINVOICENOTES = 'addInvoiceNotes';
     const UPDATEINVOICE = 'updateInvoice';

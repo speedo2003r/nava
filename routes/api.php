@@ -143,10 +143,11 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Te
         Route::any('guarantee-orders', 'OrderController@GuaranteeOrders');
 
         Route::group(['namespace'=>'Order'],function (){
-            Route::any('accept-order', acceptOrder::class);
+            Route::any('accept-order', AcceptOrder::class);
+            Route::any('arrive-to-order', ArriveToOrder::class);
         });
         Route::any('refuse-order', 'OrderController@refuseOrder');
-        Route::any('arrive-to-order', 'OrderController@arriveToOrder');
+        Route::any('', 'OrderController@arriveToOrder');
         Route::any('cancel-order', 'OrderController@cancelOrder');
         Route::any('start-in-order', 'OrderController@StartInOrder');
         Route::any('finish-order', 'OrderController@FinishOrder');
