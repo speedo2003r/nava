@@ -8,6 +8,7 @@ use App\Entities\OrderBill;
 use App\Entities\OrderGuarantee;
 use App\Entities\OrderPart;
 use App\Entities\OrderService;
+use App\Enum\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Notifications\Admin\AddInvoice;
 use App\Notifications\Admin\UpdateInvoice;
@@ -83,8 +84,9 @@ class OrderController extends Controller
     {
         $order = $this->orderRepo->find($request['order_id']);
         $this->orderRepo->update([
-            'status' => 'rejected'
+            'status' => OrderStatus::REJECTED
         ],$order['id']);
+        $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::REJECTED);
         return back()->with('success','تم الرفض بنجاح');
     }
 
@@ -121,6 +123,7 @@ class OrderController extends Controller
             'price' => $service['price'],
             'tax' => ($service['price'] * settings('tax') ?? 0) / 100,
         ]);
+        $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::NEWINVOICE);
         $title_ar = 'تم اضافة فاتوره جديده';
         $title_en = 'A new bill has been added';
         $msg_ar = 'تم اضافة فاتوره جديده رقم '.$orderBill['id'].' في انتظار قبولها من طرفكم';
@@ -178,6 +181,8 @@ class OrderController extends Controller
                     'vat_amount' => $tax,
                     'price' => $amount,
                 ]);
+
+                $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::UPDATEINVOICE);
             }else{
                 $orderBill->update([
                     'status' => 1,
@@ -218,8 +223,9 @@ class OrderController extends Controller
         if($order['technician_id'] == null){
             $this->orderRepo->update([
                 'technician_id' => $request['technician_id'],
-                'status' => 'accepted',
+                'status' => OrderStatus::ACCEPTED,
             ],$order['id']);
+            $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::ACCEPTED);
             creatPrivateRoom($request['technician_id'],$order['user_id'],$order['id']);
         }else{
             $this->orderRepo->update([
@@ -241,6 +247,8 @@ class OrderController extends Controller
         $this->orderRepo->update([
             'status' => $request['status'],
         ],$order['id']);
+
+        $this->orderRepo->addStatusTimeLine($order['id'],$request['status']);
         return back()->with('success','تم تغيير حالة الطلب');
     }
 
@@ -369,6 +377,8 @@ class OrderController extends Controller
                 $orderBill['status'] = 1;
                 $orderBill->save();
             }
+
+            $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::ACCEPTINVOICE);
         }
         return back()->with('success','تم الموافقه علي الخدمه بنجاح');
 
@@ -402,6 +412,7 @@ class OrderController extends Controller
                 $orderBill['status'] = 2;
                 $orderBill->save();
             }
+            $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::REFUSEINVOICE);
         }
         return back()->with('success','تم رفض الخدمه بنجاح');
     }

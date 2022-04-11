@@ -48,5 +48,9 @@
     "arrived": "تم الوصول للعميل",
     "in-progress":"قيد العمل",
     "finished": "تم الالنتهاء",
+    "rejected": "رفض الطلب",
+    "update-invoice":"تعديل الفاتوره",
+    "accept-invoice": "قبول الفاتوره",
+    "refuse-invoice":"رفض الفاتوره",
     "user_cancel":"ملغي"
 }
