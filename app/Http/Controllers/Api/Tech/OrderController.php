@@ -100,23 +100,6 @@ class OrderController extends Controller
         return $this->successResponse(TechnicalGuaranteeOrderCollection::make($orders));
     }
 
-    public function StartInOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'status' => 'in-progress',
-            'progress_start' => Carbon::now()->format('Y-m-d H:i'),
-            'progress_type' => 'progress',
-        ]);
-        $this->send_notify($order['user_id'],'تم بدء العمل','Work has begun',$order['id'],$order['status'],'inProgress');
-        return $this->successResponse();
-    }
     public function FinishOrder(Request $request)
     {
         $validator = Validator::make($request->all(),[

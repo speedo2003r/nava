@@ -145,11 +145,10 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Te
         Route::group(['namespace'=>'Order'],function (){
             Route::any('accept-order', AcceptOrder::class);
             Route::any('arrive-to-order', ArriveToOrder::class);
+            Route::any('start-in-order', StartInOrder::class);
         });
         Route::any('refuse-order', 'OrderController@refuseOrder');
-        Route::any('', 'OrderController@arriveToOrder');
         Route::any('cancel-order', 'OrderController@cancelOrder');
-        Route::any('start-in-order', 'OrderController@StartInOrder');
         Route::any('finish-order', 'OrderController@FinishOrder');
 
         Route::any('add-bill-notes', 'BillController@addBillNotes');
