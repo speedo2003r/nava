@@ -67,6 +67,7 @@ class OrderDatatable extends DataTable
         $late45 = Carbon::now()->addMinute(45)->format('Y-m-d H:i');
         $late120 = Carbon::now()->addMinute(120)->format('Y-m-d H:i');
         return $model->query()
+            ->where('status','!=',OrderStatus::REJECTED)
             ->whereHas('category')
             ->when(Route::currentRouteName() == 'admin.orders.index',function($q){
                 $q->where('status',OrderStatus::CREATED);
