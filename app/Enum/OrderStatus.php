@@ -8,6 +8,7 @@ class OrderStatus{
     const REJECTED = 'rejected';
     const DAILY = 'daily';
     const ONWAY = 'on-way';
+    const NEWINVOICENOTES = 'new-invoice-notes';
     const NEWINVOICE = 'new-invoice';
     const UPDATEINVOICE = 'update-invoice';
     const ACCEPTINVOICE = 'accept-invoice';
