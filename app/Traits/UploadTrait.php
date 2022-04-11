@@ -19,13 +19,22 @@ trait UploadTrait
 
     public function uploadFile($file, $directory = 'unknown') : string
     {
+        $path = storage_path('app/public/images/' . $directory);
+        if (!\File::isDirectory($path)) {
+            \File::makeDirectory($path, 0777, true, true);
+        }
         $name = time() . rand(1000000, 9999999) . '.' . $file->getClientOriginalExtension();
         $file->storeAs('/images/' . $directory, $name);
         return $name;
     }
 
-    public static function uploadBase64($base64, $path) : string
+    public static function uploadBase64($base64, $directory) : string
     {
+
+        $path = storage_path('app/public/images/' . $directory);
+        if (!\File::isDirectory($path)) {
+            \File::makeDirectory($path, 0777, true, true);
+        }
         $imgName   = uniqid() . '-' . time() . '-' . rand(1111,9999) . '.jpg';
         file_put_contents(base_path().'/storage/app/public/images/' . $path . '/' . $imgName, base64_decode($base64));
         return (string) $imgName;

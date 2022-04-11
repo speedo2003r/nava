@@ -31,12 +31,12 @@ class PageController extends Controller{
 
     public function About(Request $request)
     {
-        return $this->successResponse(new pageResource($this->pageRepo->find(1)));
+        return $this->successResponse(new pageResource($this->pageRepo->about()));
     }
 
     public function Policy(Request $request)
     {
-        return $this->successResponse(new pageResource($this->pageRepo->find(2)));
+        return $this->successResponse(new pageResource($this->pageRepo->policy()));
     }
     public function ContactMessage(ContactRequest $request)
     {
