@@ -7,6 +7,8 @@ use App\Entities\Order;
 use App\Entities\OrderBill;
 use App\Entities\OrderGuarantee;
 use App\Entities\OrderService;
+use App\Enum\GuaranteeSolved;
+use App\Enum\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Orders\ServiceResource;
 use App\Http\Resources\Orders\TechnicalGuaranteeOrderCollection;
@@ -45,7 +47,7 @@ class OrderController extends Controller
     public function NewOrders(Request $request)
     {
         $user = auth()->user();
-        $orders = $user->orders()->where('orders.status','created')->whereDoesntHave('refuseOrders',function ($query) use ($user){
+        $orders = $user->orders()->where('orders.status',OrderStatus::CREATED)->whereDoesntHave('refuseOrders',function ($query) use ($user){
             $query->where('refuse_orders.user_id',$user['id']);
         })->orderBy('created_date','desc')->paginate(10);
         return $this->successResponse(TechnicalOrderCollection::make($orders));
@@ -60,7 +62,7 @@ class OrderController extends Controller
                 ->orderBy('created_date','desc')
                 ->paginate(10);
         }else{
-            $orders = $user->ordersAsTech()->whereNotIn('orders.status', ['finished','created'])->whereDoesntHave('refuseOrders')->orderBy('created_date','desc')->paginate(10);
+            $orders = $user->ordersAsTech()->whereNotIn('orders.status', [OrderStatus::REJECTED,OrderStatus::FINISHED,OrderStatus::CREATED])->whereDoesntHave('refuseOrders')->orderBy('created_date','desc')->paginate(10);
         }
         return $this->successResponse(TechnicalOrderCollection::make($orders));
     }
@@ -71,11 +73,11 @@ class OrderController extends Controller
             $orders = Order::join('users','users.id','orders.technician_id')
                 ->whereDoesntHave('refuseOrders')
                 ->where('users.company_id',$user['id'])
-                ->where('orders.status', 'finished')
+                ->where('orders.status',OrderStatus::FINISHED)
                 ->orderBy('created_date','desc')
                 ->paginate(10);
         }else {
-            $orders = $user->ordersAsTech()->where('orders.status', 'finished')->orderBy('created_date','desc')->paginate(10);
+            $orders = $user->ordersAsTech()->where('orders.status', OrderStatus::FINISHED)->orderBy('created_date','desc')->paginate(10);
         }
         return $this->successResponse(TechnicalOrderCollection::make($orders));
     }
@@ -89,65 +91,15 @@ class OrderController extends Controller
                 ->whereDate('start_date', '<=', Carbon::now()->format('Y-m-d'))
                 ->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))
                 ->where('status', 1)
-                ->where('solved', 0)
+                ->where('solved', GuaranteeSolved::UNSOLVED)
                 ->latest()
                 ->paginate(10);
         }else {
-            $orders = $user->GuaranteeOrders()->whereDate('start_date', '<=', Carbon::now()->format('Y-m-d'))->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->where('status', 1)->where('solved', 0)->paginate(10);
+            $orders = $user->GuaranteeOrders()->whereDate('start_date', '<=', Carbon::now()->format('Y-m-d'))->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->where('status', 1)->where('solved', GuaranteeSolved::UNSOLVED)->paginate(10);
         }
         return $this->successResponse(TechnicalGuaranteeOrderCollection::make($orders));
     }
 
-    public function acceptOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $user = auth()->user();
-        $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'technician_id' => $user['id'],
-            'status' => 'accepted',
-        ]);
-        creatPrivateRoom($user['id'],$order['user_id'],$order['id']);
-        $this->send_notify($order['user_id'],'تم الموافقه علي طلبك وجاري تنفيذه الأن التقني في الطريق اليك','Your request has been approved and is being implemented. The technician is on the way to you',$order['id'],$order['status'],'accepted');
-        return $this->successResponse();
-    }
-    public function arriveToOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'status' => 'arrived',
-        ]);
-        $this->send_notify($order['user_id'],'تم وصول التقني اليك الأن','The technician has arrived for you now',$order['id'],$order['status'],'arrived');
-        return $this->successResponse();
-    }
-    public function StartInOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'status' => 'in-progress',
-            'progress_start' => Carbon::now()->format('Y-m-d H:i'),
-            'progress_type' => 'progress',
-        ]);
-        $this->send_notify($order['user_id'],'تم بدء العمل','Work has begun',$order['id'],$order['status'],'inProgress');
-        return $this->successResponse();
-    }
     public function FinishOrder(Request $request)
     {
         $validator = Validator::make($request->all(),[

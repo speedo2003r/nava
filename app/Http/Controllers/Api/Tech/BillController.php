@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Tech;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\Api\AddBillNotes;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderServiceRepository;
@@ -48,7 +49,12 @@ class BillController extends Controller
             'status' => 0,
             'payment_method' => 'cod',
         ]);
-        $this->send_notify($order['user_id'],'تم اصدار فاتوره لطلبك الحالي رقم '.$order['order_num'].' في انتظار موافقتك','An invoice has been issued for your current order No '.$order['order_num'].' is Waiting for your approval',$order['id'],$order['status'],'bills');
+        $title_ar = 'تم اصدار فاتوره جديده';
+        $title_en = 'there is a new invoice';
+        $body_ar = 'تم اصدار فاتوره لطلبك الحالي رقم '.$order['order_num'].' في انتظار موافقتك';
+        $body_en = 'An invoice has been issued for your current order No '.$order['order_num'].' is Waiting for your approval';
+        $user = $order->user;
+        $user->notify(new AddBillNotes($title_ar,$title_en,$body_ar,$body_en,$order));
         return $this->successResponse();
     }
 

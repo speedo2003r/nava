@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\Category;
+use App\Entities\OrderBill;
 use App\Entities\OrderService;
 use App\Entities\Service;
 use App\Repositories\OrderRepository;
@@ -154,6 +155,22 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 
     }
 
+    public function addStatusTimeLine($order_id,$status)
+    {
+        $order = $this->model->find($order_id);
+        $order->timeLineStatus()->create([
+            'status' => $status
+        ]);
+    }
+    public function addBillStatusTimeLine($order_bill_id,$status)
+    {
+        $orderBill = OrderBill::find($order_bill_id);
+        $order = $orderBill->order;
+        $order->timeLineStatus()->create([
+            'order_bill_id' => $order_bill_id,
+            'status' => $status
+        ]);
+    }
     /**
      * Boot up the repository, pushing criteria
      */

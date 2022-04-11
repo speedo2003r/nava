@@ -57,10 +57,11 @@ class PlaceOrder extends Controller
             'increased_price' => ($order['final_total'] < $mini_order_charge) ? $mini_order_charge - $order['final_total'] : 0,
             'increase_tax' => ($order['final_total'] < $mini_order_charge) ? (($mini_order_charge - $order['final_total']) * $order['vat_per']) / 100 : 0,
         ],$order['id']);
+        $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::CREATED);
         $branch = $order->region->branches()->first();
         if($branch){
             $on = now()->addMinutes((int) $branch['assign_deadline'] ?? 0);
-            $users = User::where('user_type','technician')->exist()->whereHas('branches',function ($query) use ($branch){
+            $users = User::where('user_type','technician')->where('notify',1)->exist()->whereHas('branches',function ($query) use ($branch){
                 $query->where('users_branches.branch_id',$branch['id']);
             })->get();
             foreach($users as $user) {

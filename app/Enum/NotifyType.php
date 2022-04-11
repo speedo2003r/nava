@@ -5,7 +5,12 @@ class NotifyType{
     const NOTIFY = 'notify';
     const DELEGATERATE = 'delegateRate';
     const NEWORDER = 'newOrder';
+    const ACCEPTORDER = 'acceptOrder';
+    const ASSIGNORDER = 'assignOrder';
+    const ARRIVETOORDER = 'arriveToOrder';
+    const STARTINORDER = 'startInOrder';
     const ADDINVOICE = 'addInvoice';
+    const ADDINVOICENOTES = 'addInvoiceNotes';
     const UPDATEINVOICE = 'updateInvoice';
     const REFUSEINVOICE = 'refuseInvoice';
     const ACCEPTINVOICE = 'acceptInvoice';
