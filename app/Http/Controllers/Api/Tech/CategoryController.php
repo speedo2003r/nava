@@ -1,28 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Api\Tech;
-use App\Entities\Category;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\LangRequest;
-use App\Http\Resources\services\ServiceCollection;
-use App\Http\Resources\services\ServiceResource;
-use App\Http\Resources\Settings\BannerResource;
 use App\Http\Resources\Settings\CategoryResource;
-use App\Http\Resources\Settings\SliderResource;
-use App\Http\Resources\Users\ProviderCollection;
-use App\Http\Resources\Users\ProviderResource;
-use App\Models\User;
-use App\Repositories\BannerRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\UserRepository;
 use App\Traits\ResponseTrait;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller{
 

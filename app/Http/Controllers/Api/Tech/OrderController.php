@@ -100,75 +100,6 @@ class OrderController extends Controller
         return $this->successResponse(TechnicalGuaranteeOrderCollection::make($orders));
     }
 
-    public function FinishOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $order = $this->orderRepo->find($request['order_id']);
-        if($order['status'] == 'finished'){
-            $msg = app()->getLocale() == 'ar' ? 'تم انهاء العمل بالفعل' : 'The work has already been completed';
-            return $this->ApiResponse('fail',$msg);
-        }
-        if($order['status'] != 'finished'){
-
-            $order->update([
-                'status' => 'finished',
-                'progress_end' => Carbon::now()->format('Y-m-d H:i'),
-            ]);
-            $category = $order->category;
-            if($category['guarantee_days'] > 0){
-                OrderGuarantee::create([
-                    'order_id' => $order['id'],
-                    'start_date' => Carbon::now()->format('Y-m-d'),
-                    'end_date' => Carbon::now()->addDay($category['guarantee_days']),
-                ]);
-            }
-
-            $user = $order->user;
-            $title_ar = 'تم انهاء الطلب';
-            $title_en = 'there is order has been completed';
-            $msg_ar = 'تم انهاء الطلب رقم '.$order['order_num'];
-            $msg_en = 'Order No. has been completed'.$order['order_num'];
-            $user->notify(new FinishOrder($title_ar,$title_en,$msg_ar,$msg_en,$order));
-        }
-        return $this->successResponse();
-    }
-    public function refuseOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL',
-            'notes' => 'required|string|max:2000',
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $user = auth()->user();
-        $order = $this->orderRepo->find($request['order_id']);
-        $user->refuseOrders()->syncWithOutDetaching([$order['id']=>['notes' => $request['notes']]]);
-        return $this->successResponse();
-    }
-    public function cancelOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL',
-            'notes' => 'required|string|max:2000',
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'status' => 'canceled',
-            'cancellation_reason' => $request['notes'],
-            'canceled_by' => auth()->id(),
-        ]);
-        $this->send_notify($order['user_id'],'تم الغاء الطلب من قبل التقني','The request was canceled by the technician',$order['id'],$order['status'],'canceled');
-        return $this->successResponse();
-    }
     public function orderDetails(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -267,6 +198,8 @@ class OrderController extends Controller
             ]);
         }
         $orderBill = OrderBill::find($orderBill['id']);
+
+        $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::NEWINVOICE);
         $msg = app()->getLocale() == 'ar' ? 'تم الاضافه بنجاح' : 'successfully add';
         return $this->ApiResponse('success',$msg,[
             'orderBill_id' => $orderBill != null ? $orderBill['id'] : 0,

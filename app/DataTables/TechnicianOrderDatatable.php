@@ -126,7 +126,6 @@ class TechnicianOrderDatatable extends DataTable
             Column::make('date')->title('التاريخ'),
             Column::make('time')->title('الوقت'),
             Column::make('services')->title('الخدمات'),
-            Column::make('final_total')->title('الاجمالي بالضريبه'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];
     }

@@ -6,6 +6,7 @@ class NotifyType{
     const DELEGATERATE = 'delegateRate';
     const NEWORDER = 'newOrder';
     const ACCEPTORDER = 'acceptOrder';
+    const CANCELORDER = 'cancelOrder';
     const ASSIGNORDER = 'assignOrder';
     const ARRIVETOORDER = 'arriveToOrder';
     const STARTINORDER = 'startInOrder';
