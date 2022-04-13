@@ -198,6 +198,8 @@ class OrderController extends Controller
             ]);
         }
         $orderBill = OrderBill::find($orderBill['id']);
+
+        $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::NEWINVOICE);
         $msg = app()->getLocale() == 'ar' ? 'تم الاضافه بنجاح' : 'successfully add';
         return $this->ApiResponse('success',$msg,[
             'orderBill_id' => $orderBill != null ? $orderBill['id'] : 0,
