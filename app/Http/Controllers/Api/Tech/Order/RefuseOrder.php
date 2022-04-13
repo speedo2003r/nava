@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Api\Tech\Order;
 
-use App\Enum\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Repositories\OrderRepository;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class ArriveToOrder extends Controller
+class RefuseOrder extends Controller
 {
     use ResponseTrait;
+
     public function __construct(protected OrderRepository $orderRepo)
     {
 
@@ -25,22 +25,15 @@ class ArriveToOrder extends Controller
     public function __invoke(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
+            'order_id' => 'required|exists:orders,id,deleted_at,NULL',
+            'notes' => 'required|string|max:2000',
         ]);
         if($validator->fails()){
             return $this->ApiResponse('fail',$validator->errors()->first());
         }
+        $user = auth()->user();
         $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'status' => OrderStatus::ARRIVED,
-        ]);
-
-        $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::ARRIVED);
-        $title_ar = 'تم وصول التقني اليك الأن';
-        $title_en = 'The technician has arrived for you now';
-        $body_ar = 'تم وصول التقني اليك الأن';
-        $body_en = 'The technician has arrived for you now';
-        $order->user->notify(new \App\Notifications\Api\ArriveToOrder($title_ar,$title_en,$body_ar,$body_en,$order));
+        $user->refuseOrders()->syncWithOutDetaching([$order['id']=>['notes' => $request['notes']]]);
         return $this->successResponse();
     }
 }
