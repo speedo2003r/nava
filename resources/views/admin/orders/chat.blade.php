@@ -175,7 +175,7 @@
                                                                                                 </div>
                                                                                             </div>
 
-                                                                                            <chat-order-component order='{{ $order['id'] }}'></chat-order-component>
+                                                                                            <chat-order-component order="{{ $order['id'] }}" room_id="{{$existRoom['id']}}" ></chat-order-component>
 {{--                                                                                        </div>--}}
 
 

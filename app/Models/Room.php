@@ -37,6 +37,14 @@ class Room extends Model
         return $this->hasMany('App\Models\Message');
     }
 
+    public function hasUser($user_id)
+    {
+        foreach ($this->Users as $user) {
+            if($user->id == $user_id) {
+                return true;
+            }
+        }
+    }
     // get from message_notification table - where copy message for every room user
     public function Messages()
     {
