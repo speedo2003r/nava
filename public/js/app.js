@@ -75935,9 +75935,13 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   key: "b8c5d31a4ef4c825f10a",
   cluster: "mt1",
   wsHost: window.location.hostname,
+  encrypted: false,
   wsPort: 6001,
-  forceTLS: false,
-  disableStats: true
+  wssPort: 6001,
+  disableStats: true,
+  forceTLS: true,
+  enabledTransports: ['ws'] // removed wss
+
 });
 
 /***/ }),
@@ -76653,8 +76657,8 @@ if (false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /opt/lampp/htdocs/nava/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/nava/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/html/demo/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/html/demo/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),
