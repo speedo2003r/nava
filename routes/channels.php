@@ -12,7 +12,23 @@ use Illuminate\Support\Facades\Broadcast;
 | used to check if an authenticated user can listen to the channel.
 |
 */
-
+//
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
+});
+//
+//Broadcast::channel('chat-message.{userId}', function ($user, $userId) {
+//    return (int) $user->id === (int) $userId;
+//});
+
+Broadcast::channel('users.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('ResTyping.{room}', function ($user, \App\Models\Room $room) {
+    return $room->hasUser($user->id);
+});
+
+Broadcast::channel('rooms.{room}', function ($user, \App\Models\Room $room) {
+    return $room->hasUser($user->id);
 });

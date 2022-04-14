@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\RoomDatatable;
 use App\Entities\Order;
+use App\Events\createOrJoinRoom;
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Admin\Create;
 use App\Http\Requests\Admin\Admin\UpdateProfile;
@@ -70,6 +72,8 @@ class ChatController extends Controller
         }elseif($request->message){
             $lastMessage    = saveMessage($request->room_id,$request->message,Auth::id());
         }
+        $user_id = auth()->id();
+        broadcast(new MessageSent($lastMessage,$user_id))->toOthers();
         return response()->json(['status' => 1, 'message' => 'success', 'data' => $lastMessage]);
     }
     public function NewPrivateRoom($id){
@@ -81,6 +85,7 @@ class ChatController extends Controller
             $room = creatPrivateRoom($currentUser->id, $otherUser->id);
         }
         $messages  = getRoomMessages($room->id, $currentUser->id);
+        broadcast(new createOrJoinRoom($room))->toOthers();
         return response()->json(['status'=>1,'message' => 'success','room' =>$room,'messages'=>$messages ]);
     }
     public function ViewMessages($id){
@@ -93,7 +98,7 @@ class ChatController extends Controller
             joinRoom($existRoom['id'],auth()->id());
         }
         $user = $order->user;
-        return view('admin.orders.chat',compact('order','user'));
+        return view('admin.orders.chat',compact('existRoom','order','user'));
     }
     public function destroy(Request $request,$id)
     {

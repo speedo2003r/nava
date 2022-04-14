@@ -5,6 +5,7 @@
 /storage
 /vendor
 /.idea
+/nodejs
 .env
 .env.backup
 composer.lock
