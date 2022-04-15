@@ -10,6 +10,7 @@ use App\Models\Room;
 use App\Repositories\UserRepository;
 use App\Traits\NotifyTrait;
 use App\Traits\ResponseTrait;
+use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 class ChatController extends Controller{
     use ResponseTrait;
     use NotifyTrait;
+    use UploadTrait;
     protected $userRepo;
     public function __construct(UserRepository $user)
     {
@@ -87,7 +89,7 @@ class ChatController extends Controller{
         $room = $user->Rooms()->where('rooms.id',$request['room_id'])->first();
 
         if($request->file){
-            $filename       = uploadImage($request->file, 'rooms/'. $room['id']);
+            $filename       = $this->uploadFile($request->file, 'rooms/'. $room['id']);
             $lastMessage    = saveMessage($room['id'],$filename,Auth::id(),'file');
         }elseif($request->message){
             $lastMessage    = saveMessage($room['id'],$request->message,Auth::id());
