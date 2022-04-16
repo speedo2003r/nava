@@ -5,20 +5,16 @@ use Illuminate\Support\Facades\Route;
 
 use Auth;
 use Closure;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthCheck
 {
-    protected $JWTAuth;
-    public function __construct(\PHPOpenSourceSaver\JWTAuth\JWTAuth $JWTAuth)
-    {
-        $this->JWTAuth = $JWTAuth;
-    }
 
     public function handle($request, Closure $next)
     {
-        $token = $this->JWTAuth->getToken();
+        $token = JWTAuth::getToken();
         if($token){
-            $user = $this->JWTAuth->toUser($token);
+            $user = JWTAuth::toUser($token);
         }
         return $next($request);
     }
