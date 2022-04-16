@@ -15,7 +15,7 @@ class OrderTableResource extends JsonResource
             'category' => $this->category ? $this->category['title'] : '',
             'added' => $this->income ? $this->income['income'] : 0,
             'deduction' => count($this->userDeductions) > 0 ? $this->userDeductions()->sum('balance') : 0,
-            'balance' => $this->income['income'] - $this->userDeductions()->sum('balance'),
+            'balance' => ($this->income['income'] ?? 0) - ($this->userDeductions()->sum('balance') ?? 0),
         ];
     }
 
