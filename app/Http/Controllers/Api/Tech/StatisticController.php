@@ -62,6 +62,7 @@ class StatisticController extends Controller
     }
     public function downloadPdf(Request $request)
     {
+
         $config = ['instanceConfigurator' => function($mpdf) {
             $mpdf->SetHTMLFooter('
                  <div dir="ltr" style="text-align: right">{DATE j-m-Y H:m}</div>
@@ -80,7 +81,5 @@ class StatisticController extends Controller
         $pdf = dashboard_url('pdf/'.$fileName);
         $user->pdf = $pdf;
         $user->save();
-
-        return $this->successResponse($pdf);
     }
 }

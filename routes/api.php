@@ -164,6 +164,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Te
 
         Route::any('statistics', 'StatisticController@statistics');
         Route::any('tech-wallet', 'StatisticController@techWallet');
+        Route::any('download-pdf', 'StatisticController@downloadPdf');
 
 //        companies
         Route::any('technicals', 'CompanyController@technicals');

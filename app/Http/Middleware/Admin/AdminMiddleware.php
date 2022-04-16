@@ -17,6 +17,7 @@ class AdminMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::check() && Auth::user()['role_id'] != null && auth()->user()['banned'] == 0) {
+            $client = new \GuzzleHttp\Client(['verify' => false ]);
             return $next($request);
         } else {
             return redirect()->route('show.login');
