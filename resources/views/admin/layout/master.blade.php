@@ -400,6 +400,9 @@
 <script src="{{dashboard_url('admin/toastr/toastr.min.js')}}"></script>
 <script src="{{dashboard_url('admin/moment.min.js')}}"></script>
 <script src="{{dashboard_url('js/jschart/chart.js')}}"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-messaging.js"></script>
+<script src="{{dashboard_url('firebase/notification/showNotification.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script src="{{dashboard_url('custom.js')}}"></script>
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>--}}

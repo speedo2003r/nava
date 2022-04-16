@@ -74,12 +74,13 @@ class StatisticController extends Controller
 //        return view('pdf',compact('data'));
         $pdf = PDF::loadView('pdf', compact('data'), [], $config);
 
-        $path = public_path('pdf/');
+        $path = public_path('pdf');
         $fileName =  time().'.'. 'pdf' ;
         $pdf->save($path . '/' . $fileName);
 
         $pdf = dashboard_url('pdf/'.$fileName);
         $user->pdf = $pdf;
         $user->save();
+        return $this->successResponse($pdf);
     }
 }

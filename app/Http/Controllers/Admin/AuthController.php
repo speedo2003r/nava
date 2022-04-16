@@ -16,11 +16,13 @@ class AuthController extends Controller
         $this->validate($request, [
             'email'     => 'required|email',
             'password'  => 'required|string',
+            'fcm_token'  => 'nullable',
         ]);
 
         $remember = true;
         if (auth()->guard()->attempt(['email' => $request->email, 'password' => $request->password], $remember))
         {
+            auth()->user()->devices()->create(['device_type'=>'web','device_id' => $request['fcm_token']]);
             return redirect()->route('admin.dashboard');
         }else{
             return redirect()->route('show.login')->withErrors('تحقق من صحة البيانات المدخلة');
