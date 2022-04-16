@@ -25,6 +25,7 @@
         "prettus/l5-repository": "^2.7",
         "pusher/pusher-php-server": "^7.0",
         "spatie/laravel-translatable": "^4.5",
+        "tymon/jwt-auth": "^1.0.0",
         "yajra/laravel-datatables": "^1.5"
     },
     "require-dev": {
