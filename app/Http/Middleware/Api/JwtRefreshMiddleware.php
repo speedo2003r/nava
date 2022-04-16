@@ -3,9 +3,9 @@
 namespace App\Http\Middleware\Api;
 
 use Closure;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Exception;
-use PHPOpenSourceSaver\JWTAuth\Http\Middleware\BaseMiddleware;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
 class JwtRefreshMiddleware extends BaseMiddleware
 {
