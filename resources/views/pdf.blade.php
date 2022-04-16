@@ -37,7 +37,7 @@
         <td>{{$d->category ? $d->category['title'] : ''}}</td>
         <td>{{$d->income ? $d->income['income'] : 0}} {{trans('api.SAR')}}</td>
         <td>{{count($d->userDeductions) > 0 ? $d->userDeductions()->sum('balance') : 0}} {{trans('api.SAR')}}</td>
-        <td>{{$d->income['income'] - $d->userDeductions()->sum('balance')}} {{trans('api.SAR')}}</td>
+        <td>{{($d->income['income'] ?? 0) - ($d->userDeductions()->sum('balance') ?? 0)}} {{trans('api.SAR')}}</td>
     </tr>
     @endforeach
     @endif
