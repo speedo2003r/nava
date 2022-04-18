@@ -40,11 +40,7 @@ class CancelOrder extends Controller
         ]);
 
         $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::USERCANCEL);
-        $title_ar = 'تم الغاء الطلب رقم '.$order['order_num'];
-        $title_en = 'The order NO. '.$order['order_num'].' was canceled';
-        $body_ar =  'تم الغاء الطلب رقم '.$order['order_num'].' من قبل التقني';
-        $body_en = 'The order NO. '.$order['order_num'].' was canceled by the technician';
-        $order->user->notify(new \App\Notifications\Api\CancelOrder($title_ar,$title_en,$body_ar,$body_en,$order));
+        $order->user->notify(new \App\Notifications\Api\CancelOrder($order));
         return $this->successResponse();
     }
 }

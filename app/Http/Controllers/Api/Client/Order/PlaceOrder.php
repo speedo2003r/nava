@@ -73,12 +73,8 @@ class PlaceOrder extends Controller
                 }
             }
         }
-        $title_ar = 'هناك طلب جديد';
-        $title_en = 'there are a new order';
-        $msg_ar = 'هناك طلب جديد رقم '.$order['order_num'];
-        $msg_en = 'there is new order no.'.$order['order_num'];
         $user = $order->user;
-        $user->notify(new NewOrder($title_ar,$title_en,$msg_ar,$msg_en,$order));
+        $user->notify(new NewOrder($order));
         return $this->successResponse();
     }
 }

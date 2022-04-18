@@ -21,19 +21,23 @@ class CancelOrder extends Notification
      * @return void
      */
     protected $data;
-    public function __construct(protected $title_ar,protected $title_en,protected $message_ar,protected $message_en,protected $order)
+    public function __construct(protected $order)
     {
+        $title_ar = 'تم الغاء الطلب رقم '.$this->order['order_num'];
+        $title_en = 'The order NO. '.$this->order['order_num'].' was canceled';
+        $message_ar =  'تم الغاء الطلب رقم '.$this->order['order_num'].' من قبل التقني';
+        $message_en = 'The order NO. '.$this->order['order_num'].' was canceled by the technician';
         $this->data = [
             'title' => [
-                'ar' => $this->title_ar,
-                'en' => $this->title_en,
+                'ar' => $title_ar,
+                'en' => $title_en,
             ],
             'body' => [
-                'ar' => $this->message_ar,
-                'en' => $this->message_en,
+                'ar' => $message_ar,
+                'en' => $message_en,
             ],
             'type'=> NotifyType::CANCELORDER,
-            'order_id'=> $order['id'],
+            'order_id'=> $this->order['id'],
         ];
     }
 
@@ -60,6 +64,8 @@ class CancelOrder extends Notification
     }
     public function toFireBase($notifiable)
     {
+        $this->data['title'] = $this->data['title'][$notifiable['lang']];
+        $this->data['body'] = $this->data['body'][$notifiable['lang']];
         if($notifiable->Devices) {
             foreach ($notifiable->Devices as $device) {
                 if ($device->device_id != null) {

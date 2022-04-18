@@ -23,7 +23,7 @@ class NotifyFcm implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(protected $users,protected $title,protected $message)
+    public function __construct(protected $users,protected $message)
     {
 
     }
@@ -35,6 +35,6 @@ class NotifyFcm implements ShouldQueue
      */
     public function handle()
     {
-        Notification::send($this->users, new Notify($this->title,$this->title,$this->message,$this->message));
+        Notification::send($this->users, new Notify($this->message,$this->message));
     }
 }

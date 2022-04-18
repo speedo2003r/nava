@@ -35,6 +35,11 @@ class AuthController extends Controller
     /**************** logout *****************/
     public function logout()
     {
+        if(count(auth()->user()->devices) > 0){
+            foreach (auth()->user()->devices as $device){
+                $device->delete();
+            }
+        }
         auth()->guard()->logout();
         session()->invalidate();
         session()->regenerateToken();

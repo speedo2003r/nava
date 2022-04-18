@@ -36,11 +36,7 @@ class ArriveToOrder extends Controller
         ]);
 
         $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::ARRIVED);
-        $title_ar = 'تم وصول التقني اليك الأن';
-        $title_en = 'The technician has arrived for you now';
-        $body_ar = 'تم وصول التقني اليك الأن';
-        $body_en = 'The technician has arrived for you now';
-        $order->user->notify(new \App\Notifications\Api\ArriveToOrder($title_ar,$title_en,$body_ar,$body_en,$order));
+        $order->user->notify(new \App\Notifications\Api\ArriveToOrder($order));
         return $this->successResponse();
     }
 }

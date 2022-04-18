@@ -21,20 +21,24 @@ class NewOrder extends Notification
      * @return void
      */
     protected $data;
-    public function __construct(protected $title_ar,protected $title_en,protected $message_ar,protected $message_en,protected $order)
+    public function __construct(protected $order)
     {
+        $title_ar = 'هناك طلب جديد';
+        $title_en = 'there are a new order';
+        $message_ar = 'هناك طلب جديد رقم '.$this->order['order_num'];
+        $message_en = 'there is new order no.'.$this->order['order_num'];
         $this->data = [
             'title' => [
-                'ar' => $this->title_ar,
-                'en' => $this->title_en,
+                'ar' => $title_ar,
+                'en' => $title_en,
             ],
             'body' => [
-                'ar' => $this->message_ar,
-                'en' => $this->message_en,
+                'ar' => $message_ar,
+                'en' => $message_en,
             ],
             'type'=> NotifyType::NEWORDER,
-            'order_id'=> $order['id'],
-            'status'=> $order['status'],
+            'order_id'=> $this->order['id'],
+            'status'=> $this->order['status'],
         ];
     }
 
@@ -61,6 +65,8 @@ class NewOrder extends Notification
     }
     public function toFireBase($notifiable)
     {
+        $this->data['title'] = $this->data['title'][$notifiable['lang']];
+        $this->data['body'] = $this->data['body'][$notifiable['lang']];
         if($notifiable->Devices) {
             foreach ($notifiable->Devices as $device) {
                 if ($device->device_id != null) {

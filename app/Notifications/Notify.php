@@ -20,15 +20,20 @@ class Notify extends Notification
      * @return void
      */
     protected $data;
-    public function __construct(protected $title_ar,protected $title_en,protected $message_ar,protected $message_en)
+    public function __construct(protected $message_ar,protected $message_en)
     {
+        $title_ar = 'لديك اشعار من تطبيق نافا للخدمات';
+        $title_ur = 'لديك اشعار من تطبيق نافا للخدمات';
+        $title_en = 'you have a new notification from navaservices app';
         $this->data = [
             'title' => [
-                'ar' => $this->title_ar,
-                'en' => $this->title_en,
+                'ar' => $title_ar,
+                'ur' => $title_ur,
+                'en' => $title_en,
             ],
             'body' => [
                 'ar' => $this->message_ar,
+                'ur' => $this->message_ar,
                 'en' => $this->message_en,
             ],
             'type'=>NotifyType::NOTIFY
@@ -65,6 +70,8 @@ class Notify extends Notification
 
     public function toFireBase($notifiable)
     {
+        $this->data['title'] = $this->data['title'][$notifiable['lang']];
+        $this->data['body'] = $this->data['body'][$notifiable['lang']];
         if($notifiable->Devices) {
             foreach ($notifiable->Devices as $device) {
                 if ($device->device_id != null) {

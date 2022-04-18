@@ -41,10 +41,6 @@ class SendToDelegate implements ShouldQueue
             'order_id' => $this->order['id'],
             'technician_id' => $this->user['id'],
         ]);
-        $title_ar = 'طلب جديد';
-        $title_en = 'new order';
-        $content_ar = 'هناك طلب جديد رقم '.$this->order['order_num'].' مناسب لك';
-        $content_en = 'A new order number '.$this->order['order_num'].' is right for you';
-        $this->user->notify(new NewOrderDelegate($title_ar,$title_en,$content_ar,$content_en,$this->order));
+        $this->user->notify(new NewOrderDelegate($this->order));
     }
 }

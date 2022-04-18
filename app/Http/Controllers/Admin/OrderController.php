@@ -124,12 +124,8 @@ class OrderController extends Controller
             'tax' => ($service['price'] * settings('tax') ?? 0) / 100,
         ]);
         $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::NEWINVOICE);
-        $title_ar = 'تم اضافة فاتوره جديده';
-        $title_en = 'A new bill has been added';
-        $msg_ar = 'تم اضافة فاتوره جديده رقم '.$orderBill['id'].' في انتظار قبولها من طرفكم';
-        $msg_en = 'A new bill has been added No. '.$orderBill['id'].' Waiting for your acceptance';
         $user = $order->user;
-        $user->notify(new AddInvoice($title_ar,$title_en,$msg_ar,$msg_en,$order));
+        $user->notify(new AddInvoice($order,$orderBill));
         $msg = app()->getLocale() == 'ar' ? 'تم الاضافه بنجاح' : 'successfully add';
         return back()->with('success',$msg);
     }
@@ -170,12 +166,8 @@ class OrderController extends Controller
             }
             if($amount > 0){
                 if($orderBill['price'] != $amount){
-                    $title_ar = 'تم تعديل فاتوره';
-                    $title_en = 'A bill has been updated';
-                    $msg_ar = 'تم تعديل الفاتوره رقم '.$orderBill['id'];
-                    $msg_en = 'A bill has been updated No. '.$orderBill['id'];
                     $user = $order->user;
-                    $user->notify(new UpdateInvoice($title_ar,$title_en,$msg_ar,$msg_en,$order));
+                    $user->notify(new UpdateInvoice($order,$orderBill));
                 }
                 $orderBill->update([
                     'vat_amount' => $tax,
