@@ -37,11 +37,7 @@ class StartInOrder extends Controller
             'progress_start' => Carbon::now()->format('Y-m-d H:i'),
             'progress_type' => 'progress',
         ]);
-        $title_ar = 'تم بدء العمل';
-        $title_en = 'Work has begun';
-        $body_ar = 'تم بدء العمل';
-        $body_en = 'Work has begun';
-        $order->user->notify(new \App\Notifications\Api\StartInOrder($title_ar,$title_en,$body_ar,$body_en,$order));
+        $order->user->notify(new \App\Notifications\Api\StartInOrder($order));
         return $this->successResponse();
     }
 }

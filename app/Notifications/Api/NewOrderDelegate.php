@@ -21,20 +21,28 @@ class NewOrderDelegate extends Notification
      * @return void
      */
     protected $data;
-    public function __construct(protected $title_ar,protected $title_en,protected $message_ar,protected $message_en,protected $order)
+    public function __construct(protected $order)
     {
+        $title_ar = 'طلب جديد';
+        $title_ur = 'طلب جديد';
+        $title_en = 'new order';
+        $message_ar = 'هناك طلب جديد رقم '.$this->order['order_num'].' مناسب لك';
+        $message_ur = 'هناك طلب جديد رقم '.$this->order['order_num'].' مناسب لك';
+        $message_en = 'A new order number '.$this->order['order_num'].' is right for you';
         $this->data = [
             'title' => [
-                'ar' => $this->title_ar,
-                'en' => $this->title_en,
+                'ar' => $title_ar,
+                'en' => $title_en,
+                'ur' => $title_ur,
             ],
             'body' => [
-                'ar' => $this->message_ar,
-                'en' => $this->message_en,
+                'ar' => $message_ar,
+                'en' => $message_en,
+                'ur' => $message_ur,
             ],
             'type'=> NotifyType::NEWORDERDELEGATE,
-            'order_id'=> $order['id'],
-            'status'=> $order['status'],
+            'order_id'=> $this->order['id'],
+            'status'=> $this->order['status'],
         ];
     }
 
@@ -61,6 +69,8 @@ class NewOrderDelegate extends Notification
     }
     public function toFireBase($notifiable)
     {
+        $this->data['title'] = $this->data['title'][$notifiable['lang']];
+        $this->data['body'] = $this->data['body'][$notifiable['lang']];
         if($notifiable->Devices) {
             foreach ($notifiable->Devices as $device) {
                 if ($device->device_id != null) {

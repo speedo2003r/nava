@@ -39,11 +39,7 @@ class AcceptOrder extends Controller
         ]);
         $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::ACCEPTED);
         creatPrivateRoom($user['id'],$order['user_id'],$order['id']);
-        $title_ar = 'تم الموافقه علي طلبك';
-        $title_en = 'Your request has been approved';
-        $body_ar = 'تم الموافقه علي طلبك وجاري تنفيذه الأن التقني في الطريق اليك';
-        $body_en = 'Your request has been approved and is being implemented. The technician is on the way to you';
-        $order->user->notify(new \App\Notifications\Api\AcceptOrder($title_ar,$title_en,$body_ar,$body_en,$order));
+        $order->user->notify(new \App\Notifications\Api\AcceptOrder($order));
         return $this->successResponse();
     }
 }

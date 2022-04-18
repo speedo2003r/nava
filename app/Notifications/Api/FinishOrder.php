@@ -21,20 +21,24 @@ class FinishOrder extends Notification
      * @return void
      */
     protected $data;
-    public function __construct(protected $title_ar,protected $title_en,protected $message_ar,protected $message_en,protected $order)
+    public function __construct(protected $order)
     {
+        $title_ar = 'تم انهاء الطلب';
+        $title_en = 'there is order has been completed';
+        $message_ar = 'تم انهاء الطلب رقم '.$this->order['order_num'];
+        $message_en = 'Order No. has been completed'.$this->order['order_num'];
         $this->data = [
             'title' => [
-                'ar' => $this->title_ar,
-                'en' => $this->title_en,
+                'ar' => $title_ar,
+                'en' => $title_en,
             ],
             'body' => [
-                'ar' => $this->message_ar,
-                'en' => $this->message_en,
+                'ar' => $message_ar,
+                'en' => $message_en,
             ],
             'type'=> NotifyType::FINISHORDER,
-            'order_id'=> $order['id'],
-            'status'=> $order['status'],
+            'order_id'=> $this->order['id'],
+            'status'=> $this->order['status'],
         ];
     }
 
@@ -61,6 +65,8 @@ class FinishOrder extends Notification
     }
     public function toFireBase($notifiable)
     {
+        $this->data['title'] = $this->data['title'][$notifiable['lang']];
+        $this->data['body'] = $this->data['body'][$notifiable['lang']];
         if($notifiable->Devices) {
             foreach ($notifiable->Devices as $device) {
                 if ($device->device_id != null) {

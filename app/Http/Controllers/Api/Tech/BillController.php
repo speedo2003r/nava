@@ -49,12 +49,8 @@ class BillController extends Controller
             'status' => 0,
             'payment_method' => 'cod',
         ]);
-        $title_ar = 'تم اصدار فاتوره جديده';
-        $title_en = 'there is a new invoice';
-        $body_ar = 'تم اصدار فاتوره لطلبك الحالي رقم '.$order['order_num'].' في انتظار موافقتك';
-        $body_en = 'An invoice has been issued for your current order No '.$order['order_num'].' is Waiting for your approval';
         $user = $order->user;
-        $user->notify(new AddBillNotes($title_ar,$title_en,$body_ar,$body_en,$order));
+        $user->notify(new AddBillNotes($order));
         return $this->successResponse();
     }
 

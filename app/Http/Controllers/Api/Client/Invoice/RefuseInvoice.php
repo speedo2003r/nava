@@ -40,9 +40,7 @@ class RefuseInvoice extends Controller
         }
         $order = $orderBill->order;
         $technician = $order->technician;
-        $msg_ar = 'تم رفض الفاتوره في الطلب رقم '.$order['order_num'];
-        $msg_en = 'invoice has been refused in order No '.$order['order_num'];
-        $technician->notify(new \App\Notifications\Api\RefuseInvoice($msg_ar,$msg_en,$msg_ar,$msg_en));
+        $technician->notify(new \App\Notifications\Api\RefuseInvoice($order));
         return $this->successResponse();
     }
 }

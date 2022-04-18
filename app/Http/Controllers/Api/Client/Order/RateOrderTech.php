@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Client\Order;
 
 use App\Entities\ReviewRate;
 use App\Http\Controllers\Controller;
+use App\Notifications\Api\DelegateRate;
 use App\Repositories\OrderRepository;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -46,6 +47,7 @@ class RateOrderTech extends Controller
                 'rateable_type' => get_class($technician),
                 'rate' => $request['rate'],
             ]);
+            $user->notify(new DelegateRate($order));
         }else{
             return $this->ApiResponse( 'fail', 'technician is undefined');
         }

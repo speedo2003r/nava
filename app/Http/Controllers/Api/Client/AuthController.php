@@ -525,12 +525,8 @@ class AuthController extends Controller
             'comment' => $request['delegate_notes'],
             'accept' => 1,
         ]);
-        $title_ar = 'تم تقييمك للطلب رقم ' . $order['id'];
-        $title_en = 'you rated from client in order num '. $order['id'];
-        $message_ar = ' تم تقييمك للطلب رقم ' . $order['id'] . ' من قبل العميل ';
-        $message_en = 'You have been rated from client in order num '. $order['id'] ;
         $order = App\Entities\Order::find($request['order_id']);
-        $user->notify(new DelegateRate($title_ar,$title_en,$message_ar,$message_en,$order));
+        $user->notify(new DelegateRate($order));
         return $this->ApiResponse('success', app()->getLocale() == 'ar' ? 'تم تقييم هذا الطلب بنجاح' : 'this order is success rated');
     }
     /*********************** Start user wallet ***********************/
