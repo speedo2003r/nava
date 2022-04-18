@@ -3,16 +3,25 @@
 namespace App\Http\Resources\Orders;
 
 use App\Entities\Category;
+use App\Entities\Coupon;
 use App\Entities\OrderProduct;
 use App\Entities\UserAddress;
 use App\Http\Resources\Users\AddressResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Cache;
 
 class CartDetailResource extends JsonResource
 {
     public function toArray($request)
     {
+        $couponValue = 0;
+        $coupon_id = Cache::get('coupon_'.$this->id);
+        if($coupon_id) {
+            $arrProducts = $this->orderServices()->pluck('service_id')->toArray();
+            $coupon = Coupon::where('id', $coupon_id)->first();
+            $couponValue = $coupon->couponValue($this['final_total'], $this['provider_id'], $arrProducts);
+        }
         $mini_order_charge = settings('mini_order_charge');
         return [
             'id'                => $this->id,
@@ -29,7 +38,7 @@ class CartDetailResource extends JsonResource
             'address_notes'                => $this['address_notes'] ?? '',
             'services'                => $this->services(),
             'tax'                => $this['vat_amount'],
-            'total'                => (string) ($this->_price() + $this['increased_price']),
+            'total'                => (string) (($this->_price() + $this['increased_price']) - $couponValue),
             'mini_order_charge'                => $mini_order_charge,
         ];
     }
