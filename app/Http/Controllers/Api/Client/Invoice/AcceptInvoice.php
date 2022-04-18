@@ -41,10 +41,7 @@ class AcceptInvoice extends Controller
         $order->final_total = $order->price() - $order['increased_price'];
         $order->total_services = $order->orderServices('order_services.status',1)->count();
         $order->save();
-
-        $msg_ar = 'تم الموافقه علي الفاتوره في الطلب رقم '.$order['order_num'];
-        $msg_en = 'invoice has been accepted in order No '.$order['order_num'];
-        $technician->notify(new \App\Notifications\Api\AcceptInvoice($msg_ar,$msg_en,$msg_ar,$msg_en));
+        $technician->notify(new \App\Notifications\Api\AcceptInvoice($order));
         return $this->successResponse();
     }
 }

@@ -21,16 +21,20 @@ class AddInvoice extends Notification
      * @return void
      */
     protected $data;
-    public function __construct(protected $title_ar,protected $title_en,protected $message_ar,protected $message_en,protected $order)
+    public function __construct(protected $order,protected $orderBill)
     {
+        $title_ar = 'تم اضافة فاتوره جديده';
+        $title_en = 'A new bill has been added';
+        $message_ar = 'تم اضافة فاتوره جديده رقم '.$this->orderBill['id'].' في انتظار قبولها من طرفكم';
+        $message_en = 'A new bill has been added No. '.$this->orderBill['id'].' Waiting for your acceptance';
         $this->data = [
             'title' => [
-                'ar' => $this->title_ar,
-                'en' => $this->title_en,
+                'ar' => $title_ar,
+                'en' => $title_en,
             ],
             'body' => [
-                'ar' => $this->message_ar,
-                'en' => $this->message_en,
+                'ar' => $message_ar,
+                'en' => $message_en,
             ],
             'type'=> NotifyType::ADDINVOICE,
             'order_id'=> $this->order['id'],
@@ -60,6 +64,8 @@ class AddInvoice extends Notification
     }
     public function toFireBase($notifiable)
     {
+        $this->data['title'] = $this->data['title'][$notifiable['lang']];
+        $this->data['body'] = $this->data['body'][$notifiable['lang']];
         if($notifiable->Devices) {
             foreach ($notifiable->Devices as $device) {
                 if ($device->device_id != null) {

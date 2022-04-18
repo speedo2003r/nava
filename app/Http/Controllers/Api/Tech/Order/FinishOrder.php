@@ -56,11 +56,7 @@ class FinishOrder extends Controller
 
             $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::FINISHED);
             $user = $order->user;
-            $title_ar = 'تم انهاء الطلب';
-            $title_en = 'there is order has been completed';
-            $msg_ar = 'تم انهاء الطلب رقم '.$order['order_num'];
-            $msg_en = 'Order No. has been completed'.$order['order_num'];
-            $user->notify(new \App\Notifications\Api\FinishOrder($title_ar,$title_en,$msg_ar,$msg_en,$order));
+            $user->notify(new \App\Notifications\Api\FinishOrder($order));
         }
         return $this->successResponse();
     }

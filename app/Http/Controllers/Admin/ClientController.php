@@ -104,9 +104,8 @@ class ClientController extends Controller
         }else {
             $users = User::where('notify', 1)->whereId($request->id)->get();
         }
-        $title = app()->getLocale() == 'ar' ? 'لديك اشعار من تطبيق نافا للخدمات' : 'you have a new notification from navaservices app';
         $message = $request->message;
-        $job = (new NotifyFcm($users,$title,$message));
+        $job = (new NotifyFcm($users,$message));
         dispatch($job);
 
         return $this->ApiResponse('success', 'تم الارسال بنجاح');

@@ -21,16 +21,20 @@ class UpdateInvoice extends Notification
      * @return void
      */
     protected $data;
-    public function __construct(protected $title_ar,protected $title_en,protected $message_ar,protected $message_en,protected $order)
+    public function __construct(protected $order,protected $orderBill)
     {
+        $title_ar = 'تم تعديل فاتوره';
+        $title_en = 'A bill has been updated';
+        $message_ar = 'تم تعديل الفاتوره رقم '.$this->orderBill['id'];
+        $message_en = 'A bill has been updated No. '.$this->orderBill['id'];
         $this->data = [
             'title' => [
-                'ar' => $this->title_ar,
-                'en' => $this->title_en,
+                'ar' => $title_ar,
+                'en' => $title_en,
             ],
             'body' => [
-                'ar' => $this->message_ar,
-                'en' => $this->message_en,
+                'ar' => $message_ar,
+                'en' => $message_en,
             ],
             'type'=> NotifyType::UPDATEINVOICE,
             'order_id'=> $this->order['id'],
@@ -60,6 +64,8 @@ class UpdateInvoice extends Notification
     }
     public function toFireBase($notifiable)
     {
+        $this->data['title'] = $this->data['title'][$notifiable['lang']];
+        $this->data['body'] = $this->data['body'][$notifiable['lang']];
         if($notifiable->Devices) {
             foreach ($notifiable->Devices as $device) {
                 if ($device->device_id != null) {
