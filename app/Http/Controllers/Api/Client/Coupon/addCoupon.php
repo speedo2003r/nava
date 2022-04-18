@@ -8,6 +8,7 @@ use App\Repositories\OrderRepository;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -43,15 +44,9 @@ class addCoupon extends Controller
             if($coupon['kind'] == 'fixed' && ((integer) $coupon['value'] >=  (integer) $total)){
                 return $this->ApiResponse('fail',app()->getLocale() == 'ar'? 'السعر أقل من قيمة الخصم لايمكن اتمام الخصم' : 'The price is less than the discount value, the discount cannot be completed');
             }
-            $this->orderRepo->update([
-                'coupon_id' => $coupon['id'],
-                'coupon_num' => $coupon['code'],
-                'coupon_amount' => $couponValue,
-            ],$order['id']);
-            $coupon->count = $coupon->count - 1;
-            $coupon->save();
+            Cache::put('coupon_'.$order['id'],$coupon['id'],now()->addMinutes(10));
             $order = $this->orderRepo->find($request['order_id']);
-            $total = (string) round($order->_price() ,2);
+            $total = (string) round($order->_price() ,2) - $couponValue;
             return $this->successResponse(['total'=> $total,'value'=>$couponValue]);
         }else{
             return $this->ApiResponse('fail',trans('api.coupon_expired'));

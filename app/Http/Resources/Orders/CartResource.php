@@ -3,18 +3,27 @@
 namespace App\Http\Resources\Orders;
 
 use App\Entities\Category;
+use App\Entities\Coupon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Cache;
 
 class CartResource extends JsonResource
 {
     public function toArray($request)
     {
+        $couponValue = 0;
+        $coupon_id = Cache::get('coupon_'.$this->id);
+        if($coupon_id) {
+            $arrProducts = $this->orderServices()->pluck('service_id')->toArray();
+            $coupon = Coupon::where('id', $coupon_id)->first();
+            $couponValue = $coupon->couponValue($this['final_total'], $this['provider_id'], $arrProducts);
+        }
         return [
             'id' => $this->id,
             'order_num' => $this->order_num ?? '',
             'services' => $this->services(),
             'tax' => (string) $this->vat_amount,
-            'total' => (string) $this->_price(),
+            'total' => (string) ($this->_price() - $couponValue),
         ];
     }
     private function services(){

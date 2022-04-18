@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api\Client\Cart\pipline;
 
 use App\Entities\Category;
 use App\Repositories\OrderRepository;
+use Illuminate\Support\Facades\Cache;
 
 class StoreCart{
 
@@ -25,6 +26,10 @@ class StoreCart{
                             'final_total' => $order['final_total'] - $price,
                             'vat_amount' => $order['vat_amount'] - $tax,
                         ]);
+                        $coupon_id = Cache::get('coupon_'.$order['id']);
+                        if($coupon_id){
+                            Cache::forget('coupon_'.$order['id']);
+                        }
                         $order->orderServices()->where('service_id', $request['service_id'])->delete();
                     }
                 }
@@ -34,6 +39,10 @@ class StoreCart{
                 $order = $this->orderRepo->storeOrder(array_filter($request));
             }else{
                 $category = Category::find($request['category_id']);
+                $coupon_id = Cache::get('coupon_'.$order['id']);
+                if($coupon_id){
+                    Cache::forget('coupon_'.$order['id']);
+                }
                 if($order['category_id'] == $category['parent_id']){
                     $this->orderRepo->updateOrder($order,array_filter($request));
                 }else{

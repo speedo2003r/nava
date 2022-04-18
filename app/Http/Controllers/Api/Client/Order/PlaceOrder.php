@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Client\Order;
 
+use App\Entities\Coupon;
 use App\Enum\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendToDelegate;
@@ -11,6 +12,7 @@ use App\Repositories\OrderRepository;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class PlaceOrder extends Controller
@@ -47,6 +49,20 @@ class PlaceOrder extends Controller
             $mini_order_charge = settings('mini_order_charge');
         }else{
             $mini_order_charge = 0;
+        }
+
+        $coupon_id = Cache::get('coupon_'.$order['id']);
+        if($coupon_id){
+            $arrProducts = $order->orderServices()->pluck('service_id')->toArray();
+            $coupon = Coupon::where('id',$coupon_id)->first();
+            $couponValue = $coupon->couponValue($order['final_total'],$order['provider_id'],$arrProducts);
+            $this->orderRepo->update([
+                'coupon_id' => $coupon['id'],
+                'coupon_num' => $coupon['code'],
+                'coupon_amount' => $couponValue,
+            ],$order['id']);
+            $coupon->count = $coupon->count - 1;
+            $coupon->save();
         }
         $this->orderRepo->update([
             'live' => $live,

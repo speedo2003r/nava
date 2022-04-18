@@ -170,7 +170,6 @@
             <form action=""  id="editForm" method="post" role="form" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                @include('components.lang_taps')
                 <!--begin::Portlet-->
                     <div class="kt-portlet" style="padding-top:15px">
                         <div class="row">
