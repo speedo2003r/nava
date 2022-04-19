@@ -12,6 +12,26 @@ use Spatie\Translatable\HasTranslations;
  * Class Question.
  *
  * @package namespace App\Entities;
+ * @property int $id
+ * @property array|null $key
+ * @property array|null $value
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read array $translations
+ * @method static \Illuminate\Database\Eloquent\Builder|Question newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Question newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Question onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Question query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereValue($value)
+ * @method static \Illuminate\Database\Query\Builder|Question withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Question withoutTrashed()
+ * @mixin \Eloquent
  */
 class Question extends Model implements Transformable
 {

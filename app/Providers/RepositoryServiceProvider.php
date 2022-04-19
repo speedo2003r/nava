@@ -67,7 +67,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ServiceRepository::class           , ServiceRepositoryEloquent::class);
         $this->app->bind(ImageRepository::class           , ImageRepositoryEloquent::class);
         $this->app->bind(DeviceRepository::class           , DeviceRepositoryEloquent::class);
-        $this->app->bind(ProviderRepository::class           , ProviderRepositoryEloquent::class);
         $this->app->bind(OrderServiceRepository::class           , OrderServiceRepositoryEloquent::class);
         $this->app->bind(TechnicianRepository::class           , TechnicianRepositoryEloquent::class);
         $this->app->bind(BranchRepository::class           , BranchRepositoryEloquent::class);

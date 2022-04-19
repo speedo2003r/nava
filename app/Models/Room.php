@@ -5,6 +5,42 @@ namespace App\Models;
 use App\Entities\Order;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Room
+ *
+ * @property int $id
+ * @property int $private
+ * @property string $type
+ * @property int|null $order_id
+ * @property int $user_id
+ * @property int|null $other_user_id
+ * @property int $last_message_id
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $DirectMessages
+ * @property-read int|null $direct_messages_count
+ * @property-read \App\Models\Message|null $LastMessage
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message_notification[] $Messages
+ * @property-read int|null $messages_count
+ * @property-read \App\Models\User $Owner
+ * @property-read \App\Models\User|null $User
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $Users
+ * @property-read int|null $users_count
+ * @property-read Order|null $order
+ * @method static \Illuminate\Database\Eloquent\Builder|Room newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Room newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Room query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereLastMessageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereOtherUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room wherePrivate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Room extends Model
 {
     protected $fillable = [

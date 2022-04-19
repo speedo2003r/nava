@@ -13,6 +13,20 @@ use Spatie\Translatable\HasTranslations;
  * Class Order.
  *
  * @package namespace App\Entities;
+ * @property int $id
+ * @property int $technician_id
+ * @property int $order_id
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderTechnician newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderTechnician newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderTechnician query()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderTechnician whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderTechnician whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderTechnician whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderTechnician whereTechnicianId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderTechnician whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class OrderTechnician extends Model implements Transformable
 {

@@ -14,6 +14,24 @@ use Spatie\Translatable\HasTranslations;
  * Class City.
  *
  * @package namespace App\Entities;
+ * @property int $id
+ * @property int $order_id
+ * @property int|null $order_bill_id
+ * @property string $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Entities\Order $order
+ * @property-read \App\Entities\OrderBill|null $orderBill
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersStatus newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersStatus newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersStatus query()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersStatus whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersStatus whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersStatus whereOrderBillId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersStatus whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersStatus whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersStatus whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class OrdersStatus extends Model implements Transformable
 {
