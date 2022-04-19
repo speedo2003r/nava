@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Tech\Order;
 
 use App\Entities\OrderGuarantee;
 use App\Enum\OrderStatus;
+use App\Enum\PayStatus;
+use App\Enum\PayType;
 use App\Http\Controllers\Controller;
 use App\Repositories\OrderRepository;
 use App\Traits\ResponseTrait;
@@ -35,13 +37,31 @@ class FinishOrder extends Controller
             return $this->ApiResponse('fail',$validator->errors()->first());
         }
         $order = $this->orderRepo->find($request['order_id']);
-        if($order['status'] == 'finished'){
+        if($order['status'] == OrderStatus::FINISHED){
             $msg = app()->getLocale() == 'ar' ? 'تم انهاء العمل بالفعل' : 'The work has already been completed';
             return $this->ApiResponse('fail',$msg);
         }
-        if($order['status'] != 'finished'){
-
+        if($order['pay_status'] == PayStatus::PENDING){
+            $msg = app()->getLocale() == 'ar' ? 'يجب دفع الطلب أولا من العميل' : 'The order must be paid first by the customer';
+            return $this->ApiResponse('fail',$msg);
+        }
+        if($order['status'] != OrderStatus::FINISHED){
+//            if($order['pay_type'] == PayType::CASH){
+//                $user = $order->user;
+//                $wallet = $user['wallet'];
+//                if($order->price() > $wallet){
+//                    return $this->ApiResponse('fail',trans('api.walletNot'));
+//                }
+//                $user['wallet'] -= $order->price();
+//                $user->save();
+//
+//                $order->pay_type = PayType::WALLET;
+//                $order->pay_status = PayStatus::DONE;
+//                $order->save();
+//            }
             $order->update([
+                'vat_amount' => $order->tax(),
+                'final_total' => $order->price(),
                 'status' => OrderStatus::FINISHED,
                 'progress_end' => Carbon::now()->format('Y-m-d H:i'),
             ]);

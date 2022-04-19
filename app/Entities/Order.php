@@ -148,6 +148,10 @@ class Order extends Model implements Transformable
         } else {
             $total = ($finalTotal + $tax);
         }
+        $bills = $this->bills()->where('order_bills.status',1)->whereDoesntHave('orderServices')->get();
+        if(count($bills) > 0){
+            $total += ($bills->sum('price'));
+        }
         return (string) round($total, 2);
     }
     public function tax()
@@ -162,6 +166,11 @@ class Order extends Model implements Transformable
             $tax = $total * $this['vat_per'] / 100;
         }
         $tax = $this->increased_price > 0 ? $this->increase_tax + $tax : $tax;
+
+        $bills = $this->bills()->where('order_bills.status',1)->whereDoesntHave('orderServices')->get();
+        if(count($bills) > 0){
+            $tax += ($bills->sum('vat_amount'));
+        }
         return (string) round($tax, 2);
     }
 
@@ -220,6 +229,7 @@ class Order extends Model implements Transformable
         $arr = [
             'cash' => app()->getLocale() == 'ar' ? 'كاش' : 'cash',
             'visa' => app()->getLocale() == 'ar' ? 'فيزا كارد' : 'visa card',
+            'wallet' => app()->getLocale() == 'ar' ? 'محفظه' : 'wallet',
             'mada' => app()->getLocale() == 'ar' ? 'مدي' : 'mada',
             'master' => app()->getLocale() == 'ar' ? 'ماستر كارد' : 'master card',
             'apple' => app()->getLocale() == 'ar' ? 'أبل' : 'apple pay',

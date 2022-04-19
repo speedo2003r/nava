@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Tech;
 
 use App\Entities\Income;
 use App\Entities\Order;
+use App\Enum\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LangRequest;
 use App\Http\Resources\Orders\OrderTableCollection;
@@ -36,7 +37,7 @@ class StatisticController extends Controller
     public function statistics(Request $request)
     {
         $user = auth()->user();
-        $totalOrders = Income::where('user_id',$user['id'])->count();
+        $totalOrders = Order::where('technician_id',$user['id'])->where('status',OrderStatus::FINISHED)->count();
         $totalIncomes = Income::where('user_id',$user['id'])->sum('income');
         return $this->successResponse([
             'totalOrders' => $totalOrders,
