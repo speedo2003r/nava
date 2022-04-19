@@ -32,6 +32,10 @@ class CartResource extends JsonResource
         foreach ($categories as $value){
             $category = Category::find($value);
             $services = $this->orderServices()->where('order_services.category_id',$category['id'])->get();
+            $total = 0;
+            foreach ($services as $service){
+                $total += $service['price'] * $service['count'];
+            }
             $data[] = [
                 'id' => $category['id'],
                 'title' => $category['title'],
@@ -40,12 +44,12 @@ class CartResource extends JsonResource
                     return [
                         'id' => $q['id'],
                         'title' => $q['title'],
-                        'price' => $q['price'],
+                        'price' => $q['price'] * $q['count'],
                         'count' => $q['count'],
 //                        'image' => $q->service ? $q->service['image'] : '',
                     ];
                 }),
-                'total' => $services->sum('price')
+                'total' => $total
             ];
         }
         return $data;

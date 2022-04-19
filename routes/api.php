@@ -118,12 +118,11 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
         });
         Route::group(['namespace'=>'Invoice'],function (){
             Route::any('invoice', Invoice::class);
+            Route::any('accept-invoice', AcceptInvoice::class);
+            Route::any('refuse-invoice', RefuseInvoice::class);
         });
         Route::any('order-details', 'OrderController@OrderDetails');
 
-
-        Route::any('accept-invoice', 'OrderController@acceptInvoice');
-        Route::any('refuse-invoice', 'OrderController@refuseInvoice');
 
 
         Route::any('wallet-pay', 'PaymentController@walletPay');

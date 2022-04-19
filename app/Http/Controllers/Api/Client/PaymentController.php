@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Client;
 use App\Entities\Income;
 use App\Entities\Order;
 use App\Entities\OrderBill;
+use App\Enum\PayType;
+use App\Enum\PayStatus;
 use App\Jobs\SendDelegateOrder;
 use App\Jobs\SendToDelegate;
 use App\Models\User;
@@ -111,7 +113,7 @@ class PaymentController extends Controller
             return $this->ApiResponse('fail', $validator->errors()->first());
 
         $user = auth()->user();
-        $order = $this->orderRepo->find($request['order_id']);
+        $order = Order::find($request['order_id']);
         $wallet = $user['wallet'];
         if($order->price() > $wallet){
             return $this->ApiResponse('fail',trans('api.walletNot'));
@@ -119,8 +121,8 @@ class PaymentController extends Controller
         $user['wallet'] -= $order->price();
         $user->save();
 
-        $order->pay_type = 'wallet';
-        $order->pay_status = 'done';
+        $order->pay_type = PayType::WALLET;
+        $order->pay_status = PayStatus::DONE;
         $order->save();
         return $this->successResponse();
     }

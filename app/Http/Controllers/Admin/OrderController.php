@@ -9,6 +9,7 @@ use App\Entities\OrderGuarantee;
 use App\Entities\OrderPart;
 use App\Entities\OrderService;
 use App\Enum\OrderStatus;
+use App\Enum\PayStatus;
 use App\Http\Controllers\Controller;
 use App\Notifications\Admin\AddInvoice;
 use App\Notifications\Admin\UpdateInvoice;
@@ -98,8 +99,12 @@ class OrderController extends Controller
             'count' => 'required|numeric',
         ]);
         $order = $this->orderRepo->find($request['order_id']);
-        if($order['pay_status'] == 'done'){
+        if($order['pay_status'] == PayStatus::DONE){
             $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+            return back()->with('danger',$msg);
+        }
+        if($order['status'] == OrderStatus::FINISHED){
+            $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
             return back()->with('danger',$msg);
         }
 
@@ -137,8 +142,12 @@ class OrderController extends Controller
             'count' => 'required|numeric',
         ]);
         $order = $this->orderRepo->find($request['order_id']);
-        if($order['pay_status'] == 'done'){
+        if($order['pay_status'] == PayStatus::DONE){
             $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+            return back()->with('danger',$msg);
+        }
+        if($order['status'] == OrderStatus::FINISHED){
+            $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
             return back()->with('danger',$msg);
         }
         $service = $this->service->find($request['service_id']);
@@ -344,8 +353,12 @@ class OrderController extends Controller
     {
         $orderService = OrderService::find($request['order_service_id']);
         $order = $orderService->order;
-        if($order['pay_status'] == 'done'){
+        if($order['pay_status'] == PayStatus::DONE){
             $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+            return back()->with('danger',$msg);
+        }
+        if($order['status'] == OrderStatus::FINISHED){
+            $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
             return back()->with('danger',$msg);
         }
         $orderService->update([
@@ -379,8 +392,12 @@ class OrderController extends Controller
     {
         $orderService = OrderService::find($request['order_service_id']);
         $order = $orderService->order;
-        if($order['pay_status'] == 'done'){
+        if($order['pay_status'] == PayStatus::DONE){
             $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+            return back()->with('danger',$msg);
+        }
+        if($order['status'] == OrderStatus::FINISHED){
+            $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
             return back()->with('danger',$msg);
         }
         $orderService->update([

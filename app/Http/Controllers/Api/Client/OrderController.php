@@ -76,7 +76,7 @@ class OrderController extends Controller
             'status' => $status,
             'details' => new OrderDetailResource($order),
             'invoice' => $invoice,
-            'pay_type'                => $order['pay_type'] ? __($order['pay_type']) : '',
+            'pay_type'=> $order['pay_type'] ? __($order['pay_type']) : '',
             'bill_id' => $bill_id,
         ]);
     }
