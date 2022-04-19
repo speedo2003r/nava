@@ -27,6 +27,122 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Translatable\HasTranslations;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * App\Models\User
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $avatar
+ * @property string|null $email
+ * @property int $wallet
+ * @property int $commission_status
+ * @property float|null $income
+ * @property float|null $balance
+ * @property int|null $commission
+ * @property string $phone
+ * @property string|null $replace_phone
+ * @property string|null $v_code
+ * @property string $password
+ * @property string $lang
+ * @property int $active mobile activation
+ * @property int $banned
+ * @property int $accepted Admin approval
+ * @property int $notify
+ * @property int $online
+ * @property int|null $role_id
+ * @property int|null $country_id
+ * @property int|null $city_id
+ * @property string $user_type
+ * @property string|null $address
+ * @property string|null $lat
+ * @property string|null $lng
+ * @property string|null $pdf
+ * @property int|null $socket_id
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $company_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|OrderGuarantee[] $GuaranteeOrders
+ * @property-read int|null $guarantee_orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Branch[] $branches
+ * @property-read int|null $branches_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Category[] $categories
+ * @property-read int|null $categories_count
+ * @property-read Category $category
+ * @property-read City|null $city
+ * @property-read Company|null $company
+ * @property-read Country|null $country
+ * @property-read \Illuminate\Database\Eloquent\Collection|Device[] $devices
+ * @property-read int|null $devices_count
+ * @property-read mixed $banner
+ * @property-read mixed $full_phone
+ * @property-read mixed $progress_orders_count
+ * @property-read array $translations
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Order[] $orders
+ * @property-read int|null $orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Order[] $ordersAsTech
+ * @property-read int|null $orders_as_tech_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Order[] $ordersAsUser
+ * @property-read int|null $orders_as_user_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Order[] $refuseOrders
+ * @property-read int|null $refuse_orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|ReviewRate[] $reviews
+ * @property-read int|null $reviews_count
+ * @property-read Role|null $role
+ * @property-read \Illuminate\Database\Eloquent\Collection|Service[] $services
+ * @property-read int|null $services_count
+ * @property-read Technician|null $technician
+ * @property-read \Illuminate\Database\Eloquent\Collection|User[] $technicians
+ * @property-read int|null $technicians_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User exist()
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User olddistance($lat, $lng, $city_id, $unit = 'km')
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAccepted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereBanned($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCommission($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCommissionStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCountryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIncome($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLng($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereNotify($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereOnline($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePdf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereReplacePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereSocketId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUserType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereVCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereWallet($value)
+ * @method static \Illuminate\Database\Query\Builder|User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable,UploadTrait;

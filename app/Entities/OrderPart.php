@@ -13,6 +13,34 @@ use Spatie\Translatable\HasTranslations;
  * Class Order.
  *
  * @package namespace App\Entities;
+ * @property int $id
+ * @property int|null $order_id
+ * @property array|null $title
+ * @property int $count
+ * @property float $price
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read array $translations
+ * @property-read \App\Entities\Order|null $order
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\OrderBill[] $orderBills
+ * @property-read int|null $order_bills_count
+ * @property-read \App\Entities\Part|null $part
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart newQuery()
+ * @method static \Illuminate\Database\Query\Builder|OrderPart onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart query()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart whereCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderPart whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|OrderPart withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|OrderPart withoutTrashed()
+ * @mixin \Eloquent
  */
 class OrderPart extends Model implements Transformable
 {
