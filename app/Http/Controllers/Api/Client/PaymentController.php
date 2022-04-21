@@ -141,15 +141,14 @@ class PaymentController extends Controller
             return $this->ApiResponse('fail',$validator->errors()->first());
         }
         $order = Order::find($request['order_id']);
-        $order->pay_type = 'cash';
-        $order->pay_status = 'done';
-//        $order->status = 'finished';
+        $order->pay_type = PayType::CASH;
+        $order->pay_status = PayStatus::DONE;
         $order->save();
         $technician = $order->technician;
         if($technician->company != null){
             $company = $technician->company;
             $commission = ($order['final_total'] * $company['commission']) / 100;
-            if($order['pay_type'] == 'cash'){
+            if($order['pay_type'] == PayType::CASH){
                 Income::create([
                     'user_id' => $company['id'],
                     'order_id'=>$order['id'],
@@ -160,7 +159,7 @@ class PaymentController extends Controller
             }
         }else{
             $commission = ($order['final_total'] * $technician['commission']) / 100;
-            if($order['pay_type'] == 'cash'){
+            if($order['pay_type'] == PayType::CASH){
                 Income::create([
                     'user_id' => $order['technician_id'],
                     'order_id'=>$order['id'],

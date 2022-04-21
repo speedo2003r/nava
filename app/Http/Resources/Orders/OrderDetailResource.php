@@ -84,8 +84,8 @@ class OrderDetailResource extends JsonResource
                 return [
                     'id' => $q['id'],
                     'text' => $q['text'],
-                    'price' => $q['price'],
-                    'tax' => $q['vat_amount'],
+                    'price' => (string) round($q['price'],2),
+                    'tax' => (string) round($q['vat_amount'],2),
                 ];
             });
         }

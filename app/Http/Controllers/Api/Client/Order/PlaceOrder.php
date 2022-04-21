@@ -89,8 +89,6 @@ class PlaceOrder extends Controller
                 }
             }
         }
-        $user = $order->user;
-        $user->notify(new NewOrder($order));
         return $this->successResponse();
     }
 }

@@ -92,7 +92,7 @@ class AuthController extends Controller
                 'phone'  => 'required|exists:users,phone|unique:users,phone,'. $user['id'].',id,deleted_at,NULL',
                 'uuid'        => 'required',
                 'code'        => 'required|exists:users,v_code',
-                'device_id'   => 'required',
+                'device_id'   => 'required|string',
                 'device_type' => 'required:in,ios,android,web',
             ]);
             if ($validate->fails()) return $this->ApiResponse('fail', $validate->errors()->first());
@@ -102,14 +102,15 @@ class AuthController extends Controller
                 $user->online = 1;
                 $user->save();
                 //
-                $device = $this->deviceRepo->findWhere(['uuid'=>$request['uuid'],'user_id'=>$user['id']])->first();
-                if($device){
-                    $this->deviceRepo->delete($device['id']);
+                if($user['user_type'] != App\Enum\UserType::CLIENT){
+                    $device = $this->deviceRepo->findWhere(['uuid'=>$request['uuid'],'user_id'=>$user['id']])->first();
+                    if($device){
+                        $this->deviceRepo->delete($device['id']);
+                    }
+                    $this->deviceRepo->create(
+                        array_merge($request->only(['device_id', 'device_type','uuid']), ['user_id' => $user->id])
+                    );
                 }
-                $this->deviceRepo->create(
-                    array_merge($request->only(['device_id', 'device_type','uuid']), ['user_id' => $user->id])
-                );
-
                 if ((auth()->check() && $user->accepted == 0) || $user->accepted == 0) {
                     return response()->json([
                         'key' => 'not_accepted',

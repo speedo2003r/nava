@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Enum\UserType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Html\Button;
@@ -64,7 +65,7 @@ class CompanyDatatable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->query()->with('company')->where('user_type','company')->latest();
+        return $model->query()->with('company')->where('user_type',UserType::COMPANY)->latest();
     }
 
     /**
@@ -108,7 +109,7 @@ class CompanyDatatable extends DataTable
             Column::make('technicians')->title('التقنيين'),
             Column::make('images')->title('معرض الصور'),
             Column::make('email')->title('البريد الالكتروني'),
-            Column::make('wallet')->title('المحفظه'),
+            Column::make('wallet')->title('المحفظه')->searchable(false),
             Column::make('phone')->title('الهاتف'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];
