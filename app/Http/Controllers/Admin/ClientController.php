@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ClientDatatable;
+use App\Enum\WalletOperationType;
+use App\Enum\WalletType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Client\Create;
 use App\Http\Requests\Admin\Client\Update;
@@ -133,13 +135,21 @@ class ClientController extends Controller
     {
         $provider = $this->user->find($request['id']);
         if($provider['balance'] == 0){
-            $provider->wallet += $request['wallet'];
-            $provider->save();
+            $provider->wallets()->create([
+                'amount' => $request['wallet'],
+                'type' => WalletType::DEPOSIT,
+                'created_by'=>auth()->id(),
+                'operation_type'=>WalletOperationType::DEPOSIT,
+            ]);
         }elseif($provider['balance'] > 0 && $provider['balance'] < $request['wallet']){
             $value = $request['wallet'] - $provider['balance'];
             $provider['balance'] = 0;
-            $provider['wallet'] += $value;
-            $provider->save();
+            $provider->wallets()->create([
+                'amount' => $value,
+                'type' => WalletType::DEPOSIT,
+                'created_by'=>auth()->id(),
+                'operation_type'=>WalletOperationType::DEPOSIT,
+            ]);
         }else{
             $provider['balance'] = $provider['balance'] - $request['wallet'];
             $provider->save();
