@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b02366-1c1d-4bc0-bd9b-e3440db742a5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Entities/Wallet.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Enum/WalletOperationType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Enum/WalletType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ClientController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/companies/accounts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/CompanyDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/CompanyDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/TechnicianCompanyDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/TechnicianCompanyDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/TechnicianDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/TechnicianDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Enum/IncomeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enum/IncomeType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/CompanyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/CompanyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/TechnicianController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/TechnicianController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/PaymentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/PaymentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
