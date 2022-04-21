@@ -9,8 +9,7 @@ use App\Enum\PayType;
 use App\Enum\PayStatus;
 use App\Enum\WalletOperationType;
 use App\Enum\WalletType;
-use App\Jobs\SendDelegateOrder;
-use App\Jobs\SendToDelegate;
+use App\Enum\IncomeType;
 use App\Models\User;
 use App\Traits\HyperpayTrait;
 use App\Http\Controllers\Controller;
@@ -155,6 +154,7 @@ class PaymentController extends Controller
                     'debtor' => $order->_price() - $commission,
                     'creditor'=>0,
                     'income'=>$commission,
+                    'type'=>IncomeType::DEBTOR,
                 ]);
             }
         }else{
@@ -166,6 +166,7 @@ class PaymentController extends Controller
                     'debtor' => $order->_price() - $commission,
                     'creditor'=>0,
                     'income'=>$commission,
+                    'type'=>IncomeType::DEBTOR,
                 ]);
             }
         }
@@ -236,7 +237,6 @@ class PaymentController extends Controller
             $order->update([
                 'pay_type' => PayType::VISA,
                 'pay_status' => PayStatus::DONE,
-//                'status' => 'finished',
                 'pay_data' => json_encode($checkout),
             ]);
             $bills = $order->bills()->where('order_bills.status',1)->get();
@@ -250,25 +250,6 @@ class PaymentController extends Controller
                 }
             }
 
-            $branch = $order->region->branches()->first();
-            if($branch){
-                $on = \Carbon\Carbon::now()->addMinutes((int) $branch['assign_deadline'] ?? 0);
-                $users = User::where('user_type','technician')->exist()->whereHas('branches',function ($query) use ($branch){
-                    $query->where('users_branches.branch_id',$branch['id']);
-                })->get();
-                foreach($users as $user) {
-                    $job = (new SendToDelegate($order['id'],$user['id']));
-                    if($branch['assign_deadline'] > 0){
-                        dispatch($job)->delay($on);
-                    }else{
-                        dispatch($job);
-                    }
-                }
-            }
-            $msg_ar = 'هناك طلب جديد رقم '.$order['order_num'];
-            $msg_en = 'there is new order no.'.$order['order_num'];
-            $this->send_notify($order['user_id'],$msg_ar,$msg_en,$order['id'],$order['status']);
-//            return redirect()->route('hyperResult',['type'=>'success']);
             $technician = $order->technician;
             if($technician->company != null){
                 $company = $technician->company;
@@ -279,12 +260,14 @@ class PaymentController extends Controller
                     'debtor'=>0,
                     'creditor'=>$commission,
                     'income'=>$commission,
+                    'type'=>IncomeType::CREDITOR,
                 ]);
                 if($company['balance'] > 0 && $company['balance'] <= $commission){
                     $value = $commission - $company['balance'];
                     $company['balance'] = 0;
                     $company->wallets()->create([
                         'amount' => $value,
+                        'order_id' => $order['id'],
                         'type' => WalletType::DEPOSIT,
                         'created_by'=>$company['id'],
                         'operation_type'=>WalletOperationType::DEPOSIT,
@@ -296,6 +279,7 @@ class PaymentController extends Controller
                 }else{
                     $company->wallets()->create([
                         'amount' => $commission,
+                        'order_id' => $order['id'],
                         'type' => WalletType::DEPOSIT,
                         'created_by'=>$company['id'],
                         'operation_type'=>WalletOperationType::DEPOSIT,
@@ -309,12 +293,14 @@ class PaymentController extends Controller
                     'debtor'=>0,
                     'creditor'=>$commission,
                     'income'=>$commission,
+                    'type'=>IncomeType::CREDITOR,
                 ]);
                 if($technician['balance'] > 0 && $technician['balance'] <= $commission){
                     $value = $commission - $technician['balance'];
                     $technician['balance'] = 0;
                     $technician->wallets()->create([
                         'amount' => $value,
+                        'order_id' => $order['id'],
                         'type' => WalletType::DEPOSIT,
                         'created_by'=>$technician['id'],
                         'operation_type'=>WalletOperationType::DEPOSIT,
@@ -326,6 +312,7 @@ class PaymentController extends Controller
                 }else{
                     $technician->wallets()->create([
                         'amount' => $commission,
+                        'order_id' => $order['id'],
                         'type' => WalletType::DEPOSIT,
                         'created_by'=>$technician['id'],
                         'operation_type'=>WalletOperationType::DEPOSIT,
@@ -424,21 +411,6 @@ class PaymentController extends Controller
                     ]);
                 }
             }
-            $branch = $order->region->branches()->first();
-            if($branch){
-                $on = \Carbon\Carbon::now()->addMinutes((int) $branch['assign_deadline'] ?? 0);
-                $users = User::where('user_type','technician')->exist()->whereHas('branches',function ($query) use ($branch){
-                    $query->where('users_branches.branch_id',$branch['id']);
-                })->get();
-                foreach($users as $user) {
-                    $job = (new SendDelegateOrder($order,$user));
-                    dispatch($job)->delay($on);
-                }
-            }
-            $msg_ar = 'هناك طلب جديد رقم '.$order['order_num'];
-            $msg_en = 'there is new order no.'.$order['order_num'];
-            $this->send_notify($order['user_id'],$msg_ar,$msg_en,$order['id'],$order['status']);
-//            return redirect()->route('madaHyperResult',['type'=>'success']);
             $technician = $order->technician;
             if($technician->company != null){
                 $company = $technician->company;
@@ -449,6 +421,7 @@ class PaymentController extends Controller
                         'debtor'=>0,
                         'creditor'=>$commission,
                         'income'=>$commission,
+                        'type'=>IncomeType::CREDITOR,
                     ]);
                     if($company['balance'] > 0 && $company['balance'] <= $commission){
                         $value = $commission - $company['balance'];
@@ -456,6 +429,7 @@ class PaymentController extends Controller
 
                         $company->wallets()->create([
                             'amount' => $value,
+                            'order_id' => $order['id'],
                             'type' => WalletType::DEPOSIT,
                             'created_by'=>$company['id'],
                             'operation_type'=>WalletOperationType::DEPOSIT,
@@ -467,6 +441,7 @@ class PaymentController extends Controller
                     }else{
                         $company->wallets()->create([
                             'amount' => $commission,
+                            'order_id' => $order['id'],
                             'type' => WalletType::DEPOSIT,
                             'created_by'=>$company['id'],
                             'operation_type'=>WalletOperationType::DEPOSIT,
@@ -480,12 +455,14 @@ class PaymentController extends Controller
                         'debtor'=>0,
                         'creditor'=>$commission,
                         'income'=>$commission,
+                        'type'=>IncomeType::CREDITOR,
                     ]);
                     if($technician['balance'] > 0 && $technician['balance'] <= $commission){
                         $value = $commission - $technician['balance'];
                         $technician['balance'] = 0;
                         $technician->wallets()->create([
                             'amount' => $value,
+                            'order_id' => $order['id'],
                             'type' => WalletType::DEPOSIT,
                             'created_by'=>$technician['id'],
                             'operation_type'=>WalletOperationType::DEPOSIT,
@@ -497,6 +474,7 @@ class PaymentController extends Controller
                     }else{
                         $technician->wallets()->create([
                             'amount' => $commission,
+                            'order_id' => $order['id'],
                             'type' => WalletType::DEPOSIT,
                             'created_by'=>$technician['id'],
                             'operation_type'=>WalletOperationType::DEPOSIT,

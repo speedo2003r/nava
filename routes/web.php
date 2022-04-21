@@ -97,7 +97,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
                 'admins.index', 'admins.store', 'admins.update', 'admins.delete',
                 'clients.index', 'clients.store', 'clients.update', 'clients.delete',
                 'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete','technicians.orders', 'technicians.decreaseVal', 'technicians.selectCategories','technicians.accounts','technicians.accountsDelete','technicians.settlement',
-                'companies.index', 'companies.store', 'companies.update', 'companies.delete', 'companies.images','companies.storeImages',
+                'companies.index', 'companies.store', 'companies.update', 'companies.delete','companies.accounts', 'companies.images','companies.storeImages',
                 'companies.technicians','companies.storeTechnicians','companies.updateTechnicians','companies.deleteTechnicians',
                 'otp',
 //                'accountants.index', 'accountants.store', 'accountants.update', 'accountants.delete',
@@ -132,6 +132,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('companies/store',['uses'=> 'CompanyController@store','as'=> 'companies.store','title'=> awtTrans('اضافة شركه')]);
         Route::post('companies/{id}',['uses'=> 'CompanyController@update','as'=> 'companies.update','title'=> awtTrans('تعديل شركه')]);
         Route::delete('companies/{id}',['uses'=> 'CompanyController@destroy','as'=> 'companies.delete','title'=> awtTrans('حذف شركه')]);
+        Route::get('companies/accounts/{id}',['uses'=> 'CompanyController@accounts','as'=> 'companies.accounts','title'=> awtTrans('كشف حساب الشركه')]);
 
         Route::get('companies/images/{id}', ['uses' => 'CompanyController@images','as' => 'companies.images','title' => awtTrans('معرض الصور للشركه')]);
         Route::post('companies/images/{id}', ['uses' => 'CompanyController@storeImages','as' => 'companies.storeImages','title' => awtTrans('حفظ معرض الصور للشركه')]);

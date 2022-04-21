@@ -6,6 +6,8 @@ use App\DataTables\ClientDatatable;
 use App\DataTables\CompanyDatatable;
 use App\DataTables\TechnicianCompanyDatatable;
 use App\DataTables\TechnicianDatatable;
+use App\Entities\Income;
+use App\Enum\IncomeType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Company\Create;
 use App\Http\Requests\Admin\Company\Update;
@@ -128,6 +130,12 @@ class CompanyController extends Controller
         $company = $user->company;
         $this->company->update($sellerRequests,$company['id']);
         return redirect()->back()->with('success', 'تم التحديث بنجاح');
+    }
+    public function accounts($id)
+    {
+        $user = $this->user->find($id);
+        $incomes = Income::where('user_id',$user['id'])->whereIn('type',[IncomeType::DEBTOR,IncomeType::CREDITOR])->latest()->get();
+        return view('admin.companies.accounts',compact('incomes','user'));
     }
 
 }
