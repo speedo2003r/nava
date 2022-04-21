@@ -13,7 +13,9 @@ use App\Entities\OrderGuarantee;
 use App\Entities\ReviewRate;
 use App\Entities\Service;
 use App\Entities\Technician;
+use App\Entities\Wallet;
 use App\Enum\OrderStatus;
+use App\Enum\WalletOperationType;
 use App\Models\Role;
 use App\Traits\UploadTrait;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -34,7 +36,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $name
  * @property string $avatar
  * @property string|null $email
- * @property int $wallet
  * @property int $commission_status
  * @property float|null $income
  * @property float|null $balance
@@ -148,6 +149,7 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable,UploadTrait;
     use SoftDeletes,CascadeSoftDeletes;
     use HasTranslations;
+    protected $appends = ['wallet'];
     protected $cascadeDeletes = ['technician'];
     public $translatable = ['service_desc','store_name'];
 
@@ -155,7 +157,6 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'avatar',
         'email',
-        'wallet',
         'commission_status',
         'income',
         'balance',
@@ -199,6 +200,16 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function getWalletAttribute()
+    {
+        $deposit = $this->wallets()->where('operation_type',WalletOperationType::DEPOSIT)->sum('amount');
+        $withdrawal = $this->wallets()->where('operation_type',WalletOperationType::WITHDRAWAL)->sum('amount');
+        return $deposit - $withdrawal;
+    }
+    public function wallets()
+    {
+        return $this->hasMany(Wallet::class,'user_id');
+    }
     public static function getByDistance($lat, $lng)
     {
         $results = DB::select(DB::raw('SELECT users.id,users.user_type as user_type, ( 3959 * acos( cos( radians(' . $lat . ') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians(lat) ) ) ) AS distance FROM users WHERE `user_type` = "provider" ORDER BY distance ASC'));

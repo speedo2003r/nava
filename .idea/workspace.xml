@@ -2,51 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b02366-1c1d-4bc0-bd9b-e3440db742a5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Entities/Wallet.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Enum/WalletOperationType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Enum/WalletType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_ide_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/_ide_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Branch.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Branch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Category.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/City.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/City.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Company.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Company.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Complaint.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Complaint.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/ContactUs.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/ContactUs.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Country.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Country.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Coupon.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Coupon.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Device.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Device.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Image.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Image.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Income.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Income.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Order.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/OrderBill.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/OrderBill.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/OrderGuarantee.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/OrderGuarantee.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/OrderPart.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/OrderPart.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/OrderService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/OrderService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/OrderTechnician.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/OrderTechnician.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/OrdersStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/OrdersStatus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Page.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Page.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Part.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Part.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Question.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Question.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Region.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Region.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Report.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Report.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/ReviewRate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/ReviewRate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Service.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Service.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Setting.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Setting.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Slider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Slider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Social.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Social.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Technician.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Technician.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/UserDeduction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/UserDeduction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Visit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Visit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/orderPartsBill.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/orderPartsBill.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Message.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Message.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Message_notification.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Message_notification.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Permission.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Permission.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Role.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Room.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Room.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Room_user.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Room_user.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ClientController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/ProviderRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/ProviderRepositoryEloquent.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +20,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -232,6 +201,11 @@
       <path value="$PROJECT_DIR$/vendor/react/dns" />
       <path value="$PROJECT_DIR$/vendor/symfony/psr-http-message-bridge" />
       <path value="$PROJECT_DIR$/vendor/namshi/jose" />
+      <path value="$PROJECT_DIR$/vendor/laravel-lang/publisher" />
+      <path value="$PROJECT_DIR$/vendor/laravel-lang/lang" />
+      <path value="$PROJECT_DIR$/vendor/dragon-code/contracts" />
+      <path value="$PROJECT_DIR$/vendor/dragon-code/pretty-array" />
+      <path value="$PROJECT_DIR$/vendor/dragon-code/support" />
     </include_path>
   </component>
   <component name="ProjectId" id="27QfTWWiKhBTAbnYlRG7U5AYWOe" />
@@ -249,7 +223,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Enum" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -261,11 +235,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/Enum" />
+      <recent name="$PROJECT_DIR$/app/Entities" />
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/config" />
       <recent name="$PROJECT_DIR$/public/js" />
-      <recent name="$PROJECT_DIR$/app/Events" />
-      <recent name="$PROJECT_DIR$/nodejs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order" />
@@ -299,7 +273,13 @@
       <workItem from="1650269893118" duration="6203000" />
       <workItem from="1650313839882" duration="441000" />
       <workItem from="1650365923309" duration="7327000" />
-      <workItem from="1650395082293" duration="3107000" />
+      <workItem from="1650395082293" duration="3842000" />
+      <workItem from="1650442421752" duration="1199000" />
+      <workItem from="1650481801206" duration="654000" />
+      <workItem from="1650488717999" duration="1893000" />
+      <workItem from="1650528542847" duration="2867000" />
+      <workItem from="1650539302565" duration="817000" />
+      <workItem from="1650568144891" duration="2070000" />
     </task>
     <servers />
   </component>

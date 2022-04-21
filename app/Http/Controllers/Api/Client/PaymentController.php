@@ -7,6 +7,8 @@ use App\Entities\Order;
 use App\Entities\OrderBill;
 use App\Enum\PayType;
 use App\Enum\PayStatus;
+use App\Enum\WalletOperationType;
+use App\Enum\WalletType;
 use App\Jobs\SendDelegateOrder;
 use App\Jobs\SendToDelegate;
 use App\Models\User;
@@ -118,8 +120,12 @@ class PaymentController extends Controller
         if($order->price() > $wallet){
             return $this->ApiResponse('fail',trans('api.walletNot'));
         }
-        $user['wallet'] -= $order->price();
-        $user->save();
+        $user->wallets()->create([
+            'amount' => $order->price(),
+            'type' => WalletType::DEPOSIT,
+            'created_by'=>$user['id'],
+            'operation_type'=>WalletOperationType::WITHDRAWAL,
+        ]);
 
         $order->pay_type = PayType::WALLET;
         $order->pay_status = PayStatus::DONE;
@@ -203,8 +209,14 @@ class PaymentController extends Controller
         $checkout = $this->mada_payment_status($id);
         $code = $checkout['result']['code'];
         if(is_success($code)){
-            $user->update([
-                'wallet' => $user['wallet'] + $checkout['amount'],
+            $user->wallets()->create([
+                'amount' => $checkout['amount'],
+                'type' => WalletType::DEPOSIT,
+                'created_by'=>$user['id'],
+                'operation_type'=>WalletOperationType::DEPOSIT,
+                'pay_type' => PayType::MADA,
+                'pay_status' => PayStatus::DONE,
+                'pay_data' => $checkout,
             ]);
 
             return redirect()->to('/api/success');
@@ -272,14 +284,23 @@ class PaymentController extends Controller
                 if($company['balance'] > 0 && $company['balance'] <= $commission){
                     $value = $commission - $company['balance'];
                     $company['balance'] = 0;
-                    $company['wallet'] += $value;
-                    $company->save();
+                    $company->wallets()->create([
+                        'amount' => $value,
+                        'type' => WalletType::DEPOSIT,
+                        'created_by'=>$company['id'],
+                        'operation_type'=>WalletOperationType::DEPOSIT,
+                    ]);
                 }elseif($company['balance'] > 0 && $company['balance'] >= $commission){
                     $value = $company['balance'] - $commission;
                     $company['balance'] = $value;
                     $company->save();
                 }else{
-                    $company['wallet'] += $commission;
+                    $company->wallets()->create([
+                        'amount' => $commission,
+                        'type' => WalletType::DEPOSIT,
+                        'created_by'=>$company['id'],
+                        'operation_type'=>WalletOperationType::DEPOSIT,
+                    ]);
                 }
             }else{
                 $commission = ($order['final_total'] * $technician['commission']) / 100;
@@ -293,14 +314,23 @@ class PaymentController extends Controller
                 if($technician['balance'] > 0 && $technician['balance'] <= $commission){
                     $value = $commission - $technician['balance'];
                     $technician['balance'] = 0;
-                    $technician['wallet'] += $value;
-                    $technician->save();
+                    $technician->wallets()->create([
+                        'amount' => $value,
+                        'type' => WalletType::DEPOSIT,
+                        'created_by'=>$technician['id'],
+                        'operation_type'=>WalletOperationType::DEPOSIT,
+                    ]);
                 }elseif($technician['balance'] > 0 && $technician['balance'] >= $commission){
                     $value = $technician['balance'] - $commission;
                     $technician['balance'] = $value;
                     $technician->save();
                 }else{
-                    $technician['wallet'] += $commission;
+                    $technician->wallets()->create([
+                        'amount' => $commission,
+                        'type' => WalletType::DEPOSIT,
+                        'created_by'=>$technician['id'],
+                        'operation_type'=>WalletOperationType::DEPOSIT,
+                    ]);
                 }
             }
             return redirect()->to('/api/success');
@@ -352,8 +382,15 @@ class PaymentController extends Controller
         $checkout = $this->payment_status($id);
         $code = $checkout['result']['code'];
         if(is_success($code)){
-            $user->update([
-                'wallet' => $user['wallet'] + $checkout['amount'],
+
+            $user->wallets()->create([
+                'amount' => $checkout['amount'],
+                'type' => WalletType::DEPOSIT,
+                'created_by'=>$user['id'],
+                'operation_type'=>WalletOperationType::DEPOSIT,
+                'pay_type' => PayType::VISA,
+                'pay_status' => PayStatus::DONE,
+                'pay_data' => $checkout,
             ]);
 //            return redirect()->route('hyperResult',['type'=>'success']);
             return redirect()->to('/api/success');
@@ -416,14 +453,24 @@ class PaymentController extends Controller
                     if($company['balance'] > 0 && $company['balance'] <= $commission){
                         $value = $commission - $company['balance'];
                         $company['balance'] = 0;
-                        $company['wallet'] += $value;
-                        $company->save();
+
+                        $company->wallets()->create([
+                            'amount' => $value,
+                            'type' => WalletType::DEPOSIT,
+                            'created_by'=>$company['id'],
+                            'operation_type'=>WalletOperationType::DEPOSIT,
+                        ]);
                     }elseif($company['balance'] > 0 && $company['balance'] >= $commission){
                         $value = $company['balance'] - $commission;
                         $company['balance'] = $value;
                         $company->save();
                     }else{
-                        $company['wallet'] += $commission;
+                        $company->wallets()->create([
+                            'amount' => $commission,
+                            'type' => WalletType::DEPOSIT,
+                            'created_by'=>$company['id'],
+                            'operation_type'=>WalletOperationType::DEPOSIT,
+                        ]);
                     }
             }else{
                 $commission = ($order['final_total'] * $technician['commission']) / 100;
@@ -437,14 +484,23 @@ class PaymentController extends Controller
                     if($technician['balance'] > 0 && $technician['balance'] <= $commission){
                         $value = $commission - $technician['balance'];
                         $technician['balance'] = 0;
-                        $technician['wallet'] += $value;
-                        $technician->save();
+                        $technician->wallets()->create([
+                            'amount' => $value,
+                            'type' => WalletType::DEPOSIT,
+                            'created_by'=>$technician['id'],
+                            'operation_type'=>WalletOperationType::DEPOSIT,
+                        ]);
                     }elseif($technician['balance'] > 0 && $technician['balance'] >= $commission){
                         $value = $technician['balance'] - $commission;
                         $technician['balance'] = $value;
                         $technician->save();
                     }else{
-                        $technician['wallet'] += $commission;
+                        $technician->wallets()->create([
+                            'amount' => $commission,
+                            'type' => WalletType::DEPOSIT,
+                            'created_by'=>$technician['id'],
+                            'operation_type'=>WalletOperationType::DEPOSIT,
+                        ]);
                     }
             }
             return redirect()->to('/api/success');
