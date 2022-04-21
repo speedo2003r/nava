@@ -23,10 +23,10 @@ class ArriveToOrder extends Notification
     protected $data;
     public function __construct(protected $order)
     {
-        $title_ar = 'تم وصول التقني اليك الأن';
-        $title_en = 'The technician has arrived for you now';
-        $message_ar = 'تم وصول التقني اليك الأن';
-        $message_en = 'The technician has arrived for you now';
+        $title_ar = 'تم وصول التقني';
+        $title_en = 'The technician has arrived!';
+        $message_ar = 'لقد وصل التقني اليك للتو';
+        $message_en = 'Tech has just arrived for you';
         $this->data = [
             'title' => [
                 'ar' => $title_ar,

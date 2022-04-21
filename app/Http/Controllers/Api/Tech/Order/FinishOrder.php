@@ -46,19 +46,6 @@ class FinishOrder extends Controller
             return $this->ApiResponse('fail',$msg);
         }
         if($order['status'] != OrderStatus::FINISHED){
-//            if($order['pay_type'] == PayType::CASH){
-//                $user = $order->user;
-//                $wallet = $user['wallet'];
-//                if($order->price() > $wallet){
-//                    return $this->ApiResponse('fail',trans('api.walletNot'));
-//                }
-//                $user['wallet'] -= $order->price();
-//                $user->save();
-//
-//                $order->pay_type = PayType::WALLET;
-//                $order->pay_status = PayStatus::DONE;
-//                $order->save();
-//            }
             $order->update([
                 'vat_amount' => $order->tax(),
                 'final_total' => $order->price(),

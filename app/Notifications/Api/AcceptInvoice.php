@@ -23,9 +23,9 @@ class AcceptInvoice extends Notification
     protected $data;
     public function __construct(protected $order)
     {
-        $title_ar = 'تم الموافقه علي الفاتوره في الطلب رقم '.$this->order['order_num'];
-        $title_ur = 'تم الموافقه علي الفاتوره في الطلب رقم '.$this->order['order_num'];
-        $title_en = 'invoice has been accepted in order No '.$this->order['order_num'];
+        $title_ar = 'تم الموافقه علي الفاتوره';
+        $title_ur = 'تم الموافقه علي الفاتوره';
+        $title_en = 'invoice has been accepted';
         $message_ar = 'تم الموافقه علي الفاتوره في الطلب رقم '.$this->order['order_num'];
         $message_ur = 'تم الموافقه علي الفاتوره في الطلب رقم '.$this->order['order_num'];
         $message_en = 'invoice has been accepted in order No '.$this->order['order_num'];

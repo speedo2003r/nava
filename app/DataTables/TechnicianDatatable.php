@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Enum\UserType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -83,7 +84,7 @@ class TechnicianDatatable extends DataTable
                 $in->where('incomes.status',0);
             })
             ->groupBy('users.id')
-            ->with('categories')->with('branches')->with('Technician')->where('company_id',null)->where('user_type','technician')->latest();
+            ->with('categories')->with('branches')->with('Technician')->where('company_id',null)->where('user_type',UserType::TECHNICIAN)->latest();
     }
 
     /**
@@ -130,7 +131,7 @@ class TechnicianDatatable extends DataTable
             Column::make('accounts')->title('كشف حساب'),
             Column::make('deductions')->title('الخصومات'),
             Column::make('categories')->title('التخصصات'),
-            Column::make('wallet')->title('المحفظه'),
+            Column::make('wallet')->title('المحفظه')->searchable(false),
             Column::make('techIncome')->searchable(false)->title('المدخول'),
             Column::make('phone')->title('الهاتف'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),

@@ -23,9 +23,9 @@ class RefuseInvoice extends Notification
     protected $data;
     public function __construct(protected $order)
     {
-        $title_ar = 'تم رفض الفاتوره في الطلب رقم '.$this->order['order_num'];
-        $title_ur = 'تم رفض الفاتوره في الطلب رقم '.$this->order['order_num'];
-        $title_en = 'invoice has been refused in order No '.$this->order['order_num'];
+        $title_ar = 'تم رفض الفاتوره';
+        $title_ur = 'تم رفض الفاتوره';
+        $title_en = 'invoice has been refused';
         $message_ar = 'تم رفض الفاتوره في الطلب رقم '.$this->order['order_num'];
         $message_ur = 'تم رفض الفاتوره في الطلب رقم '.$this->order['order_num'];
         $message_en = 'invoice has been refused in order No '.$this->order['order_num'];

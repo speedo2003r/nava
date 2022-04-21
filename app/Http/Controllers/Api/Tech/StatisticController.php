@@ -18,6 +18,7 @@ use App\Traits\NotifyTrait;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use PDF;
 use Illuminate\Support\Facades\Validator;
 
@@ -71,6 +72,10 @@ class StatisticController extends Controller
             );
         }];
         $user = auth()->user();
+
+        if($user['pdf'] != null){
+            File::delete('pdf/'.$user['pdf']);
+        }
         $data = Order::where('technician_id',$user['id'])->where('status','finished')->latest()->get();
 //        return view('pdf',compact('data'));
         $pdf = PDF::loadView('pdf', compact('data'), [], $config);
