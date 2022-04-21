@@ -39,6 +39,7 @@ class TechnicalOrderDetailsResource extends JsonResource
             'files'                => $this->orderFiles(),
             'tax'                => $this->status == OrderStatus::FINISHED ? (string) round($this->vat_amount,2) : $this->tax(),
             'isPaid'                => $this->isPaid(),
+            'pay_status'                => $this->pay_status,
             'total'                =>   $this->status == OrderStatus::FINISHED ? (string) round($this->final_total,2) : $this->price(),
             'pay_type'                => __($this->pay_type),
         ];

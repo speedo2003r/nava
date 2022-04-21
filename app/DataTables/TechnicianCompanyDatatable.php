@@ -102,7 +102,7 @@ class TechnicianCompanyDatatable extends DataTable
             Column::make('v_code')->title('OTP'),
             Column::make('email')->title('البريد الالكتروني'),
             Column::make('categories')->title('التخصصات'),
-            Column::make('wallet')->title('المحفظه')->searchable(false),
+            Column::make('wallet')->title('المحفظه')->orderable(false)->searchable(false),
             Column::make('phone')->title('الهاتف'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];
