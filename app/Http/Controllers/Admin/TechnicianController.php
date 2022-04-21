@@ -9,6 +9,9 @@ use App\Entities\Income;
 use App\Entities\Order;
 use App\Entities\UserDeduction;
 use App\Enum\OrderStatus;
+use App\Enum\IncomeType;
+use App\Enum\WalletOperationType;
+use App\Enum\WalletType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Technician\Create;
 use App\Http\Requests\Admin\Technician\Update;
@@ -171,14 +174,30 @@ class TechnicianController extends Controller
     public function accounts($id)
     {
         $user = $this->user->find($id);
-        $incomes = Income::where('user_id',$user['id'])->latest()->get();
+        $incomes = Income::where('user_id',$user['id'])->whereIn('type',[IncomeType::DEBTOR,IncomeType::CREDITOR])->latest()->get();
         return view('admin.technicians.accounts',compact('incomes','user'));
     }
     public function settlement(Request $request)
     {
         $income = Income::find($request['id']);
-        $income->status = 1;
-        $income->save();
+        $user = $income->user;
+        if($income['type'] == IncomeType::CREDITOR){
+            if($income['creditor'] >= $user['wallet']){
+                $user->wallets()->create([
+                    'amount' => $income['creditor'],
+                    'type' => WalletType::DEPOSIT,
+                    'created_by'=>$user['id'],
+                    'operation_type'=>WalletOperationType::WITHDRAWAL,
+                ]);
+                $income->status = 1;
+                $income->save();
+            }else{
+                return back()->with('danger',awtTrans('لا يوجد رصيد كافي بالمحفظه للسداد للتقني'));
+            }
+        }else{
+            $income->status = 1;
+            $income->save();
+        }
         return back()->with('success',awtTrans('تم التسوية بنجاح'));
     }
     public function accountsDelete($id)
