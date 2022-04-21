@@ -215,7 +215,7 @@ class PaymentController extends Controller
                 'operation_type'=>WalletOperationType::DEPOSIT,
                 'pay_type' => PayType::MADA,
                 'pay_status' => PayStatus::DONE,
-                'pay_data' => $checkout,
+                'pay_data' => json_encode($checkout),
             ]);
 
             return redirect()->to('/api/success');
@@ -234,18 +234,18 @@ class PaymentController extends Controller
         $code = $checkout['result']['code'];
         if(is_success($code)){
             $order->update([
-                'pay_type' => 'visa',
-                'pay_status' => 'done',
+                'pay_type' => PayType::VISA,
+                'pay_status' => PayStatus::DONE,
 //                'status' => 'finished',
-                'pay_data' => $checkout,
+                'pay_data' => json_encode($checkout),
             ]);
             $bills = $order->bills()->where('order_bills.status',1)->get();
             if(count($bills) > 0){
                 foreach ($bills as $bill){
                     $bill->update([
-                        'pay_type' => 'visa',
-                        'pay_status' => 'done',
-                        'pay_data' => $checkout,
+                        'pay_type' => PayType::VISA,
+                        'pay_status' => PayStatus::DONE,
+                        'pay_data' => json_encode($checkout),
                     ]);
                 }
             }
@@ -348,9 +348,9 @@ class PaymentController extends Controller
         $code = $checkout['result']['code'];
         if(is_success($code)){
             $order->update([
-                'pay_type' => 'visa',
-                'pay_status' => 'done',
-                'pay_data' => $checkout,
+                'pay_type' => PayType::VISA,
+                'pay_status' => PayStatus::DONE,
+                'pay_data' => json_encode($checkout),
             ]);
 
             $orderServices = $order->orderServices;
@@ -380,6 +380,7 @@ class PaymentController extends Controller
         $user = User::find($user_id);
         $checkout = $this->payment_status($id);
         $code = $checkout['result']['code'];
+
         if(is_success($code)){
 
             $user->wallets()->create([
@@ -389,7 +390,7 @@ class PaymentController extends Controller
                 'operation_type'=>WalletOperationType::DEPOSIT,
                 'pay_type' => PayType::VISA,
                 'pay_status' => PayStatus::DONE,
-                'pay_data' => $checkout,
+                'pay_data' => json_encode($checkout),
             ]);
 //            return redirect()->route('hyperResult',['type'=>'success']);
             return redirect()->to('/api/success');
@@ -408,18 +409,18 @@ class PaymentController extends Controller
         $code = $checkout['result']['code'];
         if(is_success($code)){
             $order->update([
-                'pay_data' => $checkout,
-                'pay_type' => 'mada',
+                'pay_data' => json_encode($checkout),
+                'pay_type' => PayType::MADA,
 //                'status' => 'finished',
-                'pay_status' => 'done',
+                'pay_status' => PayStatus::DONE,
             ]);
             $bills = $order->bills()->where('order_bills.status',1)->get();
             if(count($bills) > 0){
                 foreach ($bills as $bill){
                     $bill->update([
-                        'pay_type' => 'mada',
-                        'pay_status' => 'done',
-                        'pay_data' => $checkout,
+                        'pay_type' => PayType::MADA,
+                        'pay_status' => PayStatus::DONE,
+                        'pay_data' => json_encode($checkout),
                     ]);
                 }
             }
@@ -518,9 +519,9 @@ class PaymentController extends Controller
         $code = $checkout['result']['code'];
         if(is_success($code)){
             $order->update([
-                'pay_type' => 'master',
-                'pay_status' => 'done',
-                'pay_data' => $checkout,
+                'pay_type' => PayType::MASTER,
+                'pay_status' => PayStatus::DONE,
+                'pay_data' => json_encode($checkout),
             ]);
 
             $data = $order->order;

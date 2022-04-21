@@ -109,7 +109,7 @@ class CompanyDatatable extends DataTable
             Column::make('technicians')->title('التقنيين'),
             Column::make('images')->title('معرض الصور'),
             Column::make('email')->title('البريد الالكتروني'),
-            Column::make('wallet')->title('المحفظه')->searchable(false),
+            Column::make('wallet')->title('المحفظه')->orderable(false)->searchable(false),
             Column::make('phone')->title('الهاتف'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];

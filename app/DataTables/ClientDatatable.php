@@ -95,7 +95,7 @@ class ClientDatatable extends DataTable
             Column::make('id')->title('')->orderable(false),
             Column::make('name')->title('الاسم'),
             Column::make('email')->title('البريد الالكتروني'),
-            Column::make('wallet')->title('المحفظه')->searchable(false),
+            Column::make('wallet')->title('المحفظه')->orderable(false)->searchable(false),
             Column::make('v_code')->title('OTP'),
             Column::make('phone')->title('الهاتف'),
             Column::make('status')->title('الحاله')->searchable(false),

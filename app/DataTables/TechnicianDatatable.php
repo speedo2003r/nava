@@ -131,7 +131,7 @@ class TechnicianDatatable extends DataTable
             Column::make('accounts')->title('كشف حساب'),
             Column::make('deductions')->title('الخصومات'),
             Column::make('categories')->title('التخصصات'),
-            Column::make('wallet')->title('المحفظه')->searchable(false),
+            Column::make('wallet')->title('المحفظه')->orderable(false)->searchable(false),
             Column::make('techIncome')->searchable(false)->title('المدخول'),
             Column::make('phone')->title('الهاتف'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
