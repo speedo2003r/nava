@@ -134,7 +134,7 @@ class CompanyController extends Controller
     public function accounts($id)
     {
         $user = $this->user->find($id);
-        $incomes = Income::where('user_id',$user['id'])->whereIn('type',[IncomeType::DEBTOR,IncomeType::CREDITOR])->latest()->get();
+        $incomes = Income::where('user_id',$user['id'])->latest()->get();
         return view('admin.companies.accounts',compact('incomes','user'));
     }
 

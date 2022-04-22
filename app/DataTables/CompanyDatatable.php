@@ -75,7 +75,6 @@ class CompanyDatatable extends DataTable
             ->leftJoin('incomes',function ($in){
                 $in->on('incomes.user_id','=','users.id');
                 $in->where('incomes.status',0);
-                $in->whereIn('type',[IncomeType::DEBTOR,IncomeType::CREDITOR]);
             })
             ->with('company')->where('user_type',UserType::COMPANY)->latest();
     }

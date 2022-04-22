@@ -105,7 +105,14 @@
                     <form action="{{route('admin.technicians.settlement')}}" method="POST">
                         @csrf
                         <input type="hidden" name="id" id="income_id">
-
+                        <div class="form-group">
+                            <label for="">الدفع عن طريق</label>
+                            <select name="type" required class="form-control">
+                                <option value="" selected hidden>اختر</option>
+                                <option value="wallet">محفظه</option>
+                                <option value="cash">كاش</option>
+                            </select>
+                        </div>
                         <div class="modal-footer justify-content-between">
                             <button type="submit" class="btn btn-sm btn-success">{{awtTrans('تسوية')}}</button>
                             <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
