@@ -38,7 +38,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string|null $email
  * @property int $commission_status
  * @property float|null $income
- * @property float|null $balance
  * @property int|null $commission
  * @property string $phone
  * @property string|null $replace_phone
@@ -159,7 +158,6 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'commission_status',
         'income',
-        'balance',
         'commission',
         'phone',
         'replace_phone',

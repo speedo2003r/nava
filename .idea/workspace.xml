@@ -2,15 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b02366-1c1d-4bc0-bd9b-e3440db742a5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/companies/accounts.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2022_04_21_223706_drop_col_wallet_from_users2.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/DataTables/CompanyDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/CompanyDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/TechnicianCompanyDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/TechnicianCompanyDatatable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/DataTables/TechnicianDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/TechnicianDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Enum/IncomeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enum/IncomeType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/CompanyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/CompanyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ClientController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/TechnicianController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/TechnicianController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/PaymentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/PaymentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -226,7 +225,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Enum" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/database/migrations" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -238,11 +237,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/database/migrations" />
       <recent name="$PROJECT_DIR$/app/Enum" />
       <recent name="$PROJECT_DIR$/app/Entities" />
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/config" />
-      <recent name="$PROJECT_DIR$/public/js" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order" />

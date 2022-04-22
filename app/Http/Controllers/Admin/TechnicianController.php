@@ -143,18 +143,14 @@ class TechnicianController extends Controller
                 return back()->with('danger',awtTrans('قيمة الخصم أكبر من قيمة الطلب'));
             }
         }
-        if($user['wallet'] == 0){
-            $user->balance += $request['deduction'];
-            $user->save();
-        }elseif($user['wallet'] > 0 && $user['wallet'] < $request['deduction']){
-            $value = $request['deduction'] - $user['wallet'];
-            $user['wallet'] = 0;
-            $user['balance'] += $value;
-            $user->save();
-        }else{
-            $user['wallet'] = $user['wallet'] - $request['deduction'];
-            $user->save();
-        }
+
+        $user->wallets()->create([
+            'amount' => $request['deduction'],
+            'type' => WalletType::DEPOSIT,
+            'created_by'=>auth()->id(),
+            'operation_type'=>WalletOperationType::WITHDRAWAL,
+        ]);
+
         UserDeduction::create([
             'user_id' => $user['id'],
             'admin_id' => auth()->id(),
