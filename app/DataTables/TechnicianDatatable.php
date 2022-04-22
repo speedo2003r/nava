@@ -83,7 +83,6 @@ class TechnicianDatatable extends DataTable
             ->leftJoin('incomes',function ($in){
                 $in->on('incomes.user_id','=','users.id');
                 $in->where('incomes.status',0);
-                $in->whereIn('type',[IncomeType::DEBTOR,IncomeType::CREDITOR]);
             })
             ->groupBy('users.id')
             ->with('categories')->with('branches')->with('Technician')->where('company_id',null)->where('user_type',UserType::TECHNICIAN)->latest();
