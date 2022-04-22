@@ -262,29 +262,13 @@ class PaymentController extends Controller
                     'income'=>$commission,
                     'type'=>IncomeType::CREDITOR,
                 ]);
-                if($company['balance'] > 0 && $company['balance'] <= $commission){
-                    $value = $commission - $company['balance'];
-                    $company['balance'] = 0;
-                    $company->wallets()->create([
-                        'amount' => $value,
-                        'order_id' => $order['id'],
-                        'type' => WalletType::DEPOSIT,
-                        'created_by'=>$company['id'],
-                        'operation_type'=>WalletOperationType::DEPOSIT,
-                    ]);
-                }elseif($company['balance'] > 0 && $company['balance'] >= $commission){
-                    $value = $company['balance'] - $commission;
-                    $company['balance'] = $value;
-                    $company->save();
-                }else{
-                    $company->wallets()->create([
-                        'amount' => $commission,
-                        'order_id' => $order['id'],
-                        'type' => WalletType::DEPOSIT,
-                        'created_by'=>$company['id'],
-                        'operation_type'=>WalletOperationType::DEPOSIT,
-                    ]);
-                }
+                $company->wallets()->create([
+                    'amount' => $commission,
+                    'order_id' => $order['id'],
+                    'type' => WalletType::DEPOSIT,
+                    'created_by'=>$company['id'],
+                    'operation_type'=>WalletOperationType::DEPOSIT,
+                ]);
             }else{
                 $commission = ($order['final_total'] * $technician['commission']) / 100;
                 Income::create([
@@ -295,29 +279,13 @@ class PaymentController extends Controller
                     'income'=>$commission,
                     'type'=>IncomeType::CREDITOR,
                 ]);
-                if($technician['balance'] > 0 && $technician['balance'] <= $commission){
-                    $value = $commission - $technician['balance'];
-                    $technician['balance'] = 0;
-                    $technician->wallets()->create([
-                        'amount' => $value,
-                        'order_id' => $order['id'],
-                        'type' => WalletType::DEPOSIT,
-                        'created_by'=>$technician['id'],
-                        'operation_type'=>WalletOperationType::DEPOSIT,
-                    ]);
-                }elseif($technician['balance'] > 0 && $technician['balance'] >= $commission){
-                    $value = $technician['balance'] - $commission;
-                    $technician['balance'] = $value;
-                    $technician->save();
-                }else{
-                    $technician->wallets()->create([
-                        'amount' => $commission,
-                        'order_id' => $order['id'],
-                        'type' => WalletType::DEPOSIT,
-                        'created_by'=>$technician['id'],
-                        'operation_type'=>WalletOperationType::DEPOSIT,
-                    ]);
-                }
+                $technician->wallets()->create([
+                    'amount' => $commission,
+                    'order_id' => $order['id'],
+                    'type' => WalletType::DEPOSIT,
+                    'created_by'=>$technician['id'],
+                    'operation_type'=>WalletOperationType::DEPOSIT,
+                ]);
             }
             return redirect()->to('/api/success');
         }else{
@@ -423,30 +391,13 @@ class PaymentController extends Controller
                         'income'=>$commission,
                         'type'=>IncomeType::CREDITOR,
                     ]);
-                    if($company['balance'] > 0 && $company['balance'] <= $commission){
-                        $value = $commission - $company['balance'];
-                        $company['balance'] = 0;
-
-                        $company->wallets()->create([
-                            'amount' => $value,
-                            'order_id' => $order['id'],
-                            'type' => WalletType::DEPOSIT,
-                            'created_by'=>$company['id'],
-                            'operation_type'=>WalletOperationType::DEPOSIT,
-                        ]);
-                    }elseif($company['balance'] > 0 && $company['balance'] >= $commission){
-                        $value = $company['balance'] - $commission;
-                        $company['balance'] = $value;
-                        $company->save();
-                    }else{
-                        $company->wallets()->create([
-                            'amount' => $commission,
-                            'order_id' => $order['id'],
-                            'type' => WalletType::DEPOSIT,
-                            'created_by'=>$company['id'],
-                            'operation_type'=>WalletOperationType::DEPOSIT,
-                        ]);
-                    }
+                    $company->wallets()->create([
+                        'amount' => $commission,
+                        'order_id' => $order['id'],
+                        'type' => WalletType::DEPOSIT,
+                        'created_by'=>$company['id'],
+                        'operation_type'=>WalletOperationType::DEPOSIT,
+                    ]);
             }else{
                 $commission = ($order['final_total'] * $technician['commission']) / 100;
                     Income::create([
@@ -457,29 +408,13 @@ class PaymentController extends Controller
                         'income'=>$commission,
                         'type'=>IncomeType::CREDITOR,
                     ]);
-                    if($technician['balance'] > 0 && $technician['balance'] <= $commission){
-                        $value = $commission - $technician['balance'];
-                        $technician['balance'] = 0;
-                        $technician->wallets()->create([
-                            'amount' => $value,
-                            'order_id' => $order['id'],
-                            'type' => WalletType::DEPOSIT,
-                            'created_by'=>$technician['id'],
-                            'operation_type'=>WalletOperationType::DEPOSIT,
-                        ]);
-                    }elseif($technician['balance'] > 0 && $technician['balance'] >= $commission){
-                        $value = $technician['balance'] - $commission;
-                        $technician['balance'] = $value;
-                        $technician->save();
-                    }else{
-                        $technician->wallets()->create([
-                            'amount' => $commission,
-                            'order_id' => $order['id'],
-                            'type' => WalletType::DEPOSIT,
-                            'created_by'=>$technician['id'],
-                            'operation_type'=>WalletOperationType::DEPOSIT,
-                        ]);
-                    }
+                    $technician->wallets()->create([
+                        'amount' => $commission,
+                        'order_id' => $order['id'],
+                        'type' => WalletType::DEPOSIT,
+                        'created_by'=>$technician['id'],
+                        'operation_type'=>WalletOperationType::DEPOSIT,
+                    ]);
             }
             return redirect()->to('/api/success');
         }else{
