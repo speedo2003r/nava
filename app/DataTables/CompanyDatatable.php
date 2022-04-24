@@ -71,7 +71,7 @@ class CompanyDatatable extends DataTable
     public function query(User $model)
     {
         return $model->query()
-            ->select('users.*',DB::raw('SUM(incomes.income) as techIncome'),DB::raw('SUM(incomes.debtor) as debtor'))
+            ->select('users.*',DB::raw('SUM(incomes.income) as techIncome'),DB::raw('SUM(incomes.debtor - incomes.creditor) as debtor'))
             ->leftJoin('incomes',function ($in){
                 $in->on('incomes.user_id','=','users.id');
                 $in->where('incomes.status',0);

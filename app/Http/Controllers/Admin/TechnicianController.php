@@ -179,19 +179,14 @@ class TechnicianController extends Controller
         $income = Income::find($request['id']);
         $user = $income->user;
         if($income['type'] == IncomeType::CREDITOR){
-            if($request['type'] == PayType::WALLET){
-                $user->wallets()->create([
-                    'amount' => $income['creditor'],
-                    'type' => WalletType::DEPOSIT,
-                    'created_by'=>$user['id'],
-                    'operation_type'=>WalletOperationType::WITHDRAWAL,
-                ]);
-                $income->status = 1;
-                $income->save();
-            }else{
-                $income->status = 1;
-                $income->save();
-            }
+            $user->wallets()->create([
+                'amount' => $income['creditor'],
+                'type' => WalletType::DEPOSIT,
+                'created_by'=>$user['id'],
+                'operation_type'=>WalletOperationType::WITHDRAWAL,
+            ]);
+            $income->status = 1;
+            $income->save();
         }else{
             if($request['type'] == PayType::WALLET){
                 $user->wallets()->create([

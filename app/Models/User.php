@@ -202,7 +202,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $deposit = $this->wallets()->where('operation_type',WalletOperationType::DEPOSIT)->sum('amount');
         $withdrawal = $this->wallets()->where('operation_type',WalletOperationType::WITHDRAWAL)->sum('amount');
-        return round($deposit - $withdrawal,2);
+        return number_format($deposit - $withdrawal,2);
     }
     public function wallets()
     {
