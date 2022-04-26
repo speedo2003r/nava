@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateNotification
+class UpdateNotification implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,6 +31,10 @@ class UpdateNotification
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.User.'.$this->data['id']);
+        return new PrivateChannel('users.'.$this->data->id);
+    }
+    public function broadcastAs()
+    {
+        return 'update.notifications';
     }
 }

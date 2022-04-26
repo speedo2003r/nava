@@ -59,7 +59,7 @@ class AuthController extends Controller
         else {
             sendSMS('0'.$user['phone'],$codeMessage);
         }
-
+        $user->refresh();
         // save user and return token
         return $this->successResponse([
             'phone' => $user['phone']
@@ -145,6 +145,7 @@ class AuthController extends Controller
         else {
             sendSMS('0'.$user['phone'],$codeMessage);
         }
+        $user->refresh();
         return $this->successResponse([
             'code' => $user['v_code']
         ]);
