@@ -6,6 +6,7 @@ use App\Entities\Branch;
 use App\Entities\Category;
 use App\Entities\Country;
 use App\Entities\Order;
+use App\Entities\ReviewRate;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;

@@ -41,6 +41,7 @@ class AcceptInvoice extends Notification
                 'ur' => $message_ur,
             ],
             'type'=> NotifyType::ACCEPTINVOICE,
+            'order_id'=> $this->order['id']
         ];
     }
 
