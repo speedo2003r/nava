@@ -47,9 +47,10 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'icon'  => asset('assets/media/menuicon/home.svg'),
             'type'  => 'parent',
             'sub_route' => false,
-            'child'     => ['financial']
+            'child'     => ['financial','notifications']
         ]);
         Route::post('financial',['uses'=>'HomeController@financialReport','as'=>'financial','title'=>awtTrans('التقرير المالي')]);
+        Route::get('notifications',['uses'=>'HomeController@notifications','as'=>'notifications','title'=>awtTrans('الاشعارات')]);
         /********************************* HomeController end *********************************/
 
         /********************************* RoleController start *********************************/

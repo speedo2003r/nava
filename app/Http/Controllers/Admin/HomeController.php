@@ -219,5 +219,11 @@ class HomeController extends Controller
         return response()->json(['data' => $data, 'type' => $type]);
     }
 
+    public function notifications()
+    {
+        $notifications = auth()->user()->notifications()->latest()->paginate(10);
+        auth()->user()->unreadnotifications->markAsRead();
+        return view('admin.notifications.index',compact('notifications'));
+    }
 
 }
