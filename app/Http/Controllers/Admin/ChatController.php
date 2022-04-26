@@ -9,6 +9,7 @@ use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Admin\Create;
 use App\Http\Requests\Admin\Admin\UpdateProfile;
+use App\Models\Message_notification;
 use App\Models\Role;
 use App\Models\Room;
 use App\Repositories\Interfaces\IRole;
@@ -117,6 +118,12 @@ class ChatController extends Controller
         return redirect()->back()->with('success', 'تم الحذف بنجاح');
     }
 
+    public function messagesNotifications()
+    {
+        $messages = Message_notification::whereRaw('created_at IN (select MAX(created_at) FROM message_notifications GROUP BY room_id)')->where('is_sender',1)->latest()->paginate(10);
+        Message_notification::where('is_seen',0)->update(['is_seen'=>1]);
+        return view('admin.messagesNotifications.index',compact('messages'));
+    }
     ############################# END CHAT WORK #############################
 
 

@@ -25,12 +25,12 @@ class TechnicianDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('id',function ($query){
-                return '<label class="custom-control material-checkbox" style="margin: auto">
-                            <input type="checkbox" class="material-control-input checkSingle" id="'.$query->id.'">
-                            <span class="material-control-indicator"></span>
-                        </label>';
-            })
+//            ->editColumn('id',function ($query){
+//                return '<label class="custom-control material-checkbox" style="margin: auto">
+//                            <input type="checkbox" class="material-control-input checkSingle" id="'.$query->id.'">
+//                            <span class="material-control-indicator"></span>
+//                        </label>';
+//            })
             ->addColumn('status',function ($query){
                 if($query['notify'] == 1){
                     if($query->progress_orders_count >= settings('techOrderCount')){
@@ -63,11 +63,14 @@ class TechnicianDatatable extends DataTable
             ->addColumn('url',function ($query){
                 return 'admin.technicians.delete';
             })
+            ->editColumn('rate',function ($query){
+                return '<div class="Stars" style="--rating: '.($query['rate'] ?? 0).'"></div>';
+            })
             ->addColumn('target',function ($query){
                 return 'editModel';
             })
             ->addColumn('control','admin.partial.Control')
-            ->rawColumns(['data','orders','accounts','deductions','categories','status','notify','control','id']);
+            ->rawColumns(['data','rate','orders','accounts','deductions','categories','status','notify','control','id']);
     }
 
     /**
@@ -79,10 +82,14 @@ class TechnicianDatatable extends DataTable
     public function query(User $model)
     {
         return $model->query()
-            ->select('users.*',DB::raw('SUM(incomes.income) as techIncome'),DB::raw('SUM(incomes.debtor - incomes.creditor) as debtor'))
+            ->select('users.*','rating.rate as rate',DB::raw('SUM(incomes.income) as techIncome'),DB::raw('SUM(incomes.debtor - incomes.creditor) as debtor'))
             ->leftJoin('incomes',function ($in){
                 $in->on('incomes.user_id','=','users.id');
                 $in->where('incomes.status',0);
+            })
+            ->leftJoin('rating',function ($in){
+                $in->on('rating.rateable_id','users.id');
+                $in->where('rating.rateable_type',User::class);
             })
             ->groupBy('users.id')
             ->with('categories')->with('branches')->with('Technician')->where('company_id',null)->where('user_type',UserType::TECHNICIAN)->latest();
@@ -126,6 +133,7 @@ class TechnicianDatatable extends DataTable
             Column::make('status')->title('الحاله')->searchable(false),
             Column::make('notify')->title('نشط / غير نشط')->searchable(false),
             Column::make('v_code')->title('OTP'),
+            Column::make('rate')->title('التقييم'),
             Column::make('email')->title('البريد الالكتروني'),
             Column::make('orders')->title('الطلبات'),
             Column::make('accounts')->title('كشف حساب'),

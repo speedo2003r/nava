@@ -6,8 +6,10 @@ use App\Entities\Branch;
 use App\Entities\Category;
 use App\Entities\Country;
 use App\Entities\Order;
+use App\Entities\ReviewRate;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\Admin\NewOrder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -19,6 +21,8 @@ class HomeController extends Controller
     /***************** dashboard *****************/
     public function dashboard()
     {
+//        $order = Order::find(4);
+//        auth()->user()->notify(new NewOrder($order));
         $allUsers        = User::get();
         $countAdmins     = $allUsers->where('user_type', 'admin')->count();
         $countClients    = $allUsers->where('user_type', 'client')->count();
@@ -218,5 +222,11 @@ class HomeController extends Controller
         return response()->json(['data' => $data, 'type' => $type]);
     }
 
+    public function notifications()
+    {
+        $notifications = auth()->user()->notifications()->latest()->paginate(10);
+        auth()->user()->unreadnotifications->markAsRead();
+        return view('admin.notifications.index',compact('notifications'));
+    }
 
 }

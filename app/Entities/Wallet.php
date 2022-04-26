@@ -34,6 +34,28 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Query\Builder|Wallet onlyTrashed()
  * @method static \Illuminate\Database\Query\Builder|Wallet withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Wallet withoutTrashed()
+ * @property float $amount
+ * @property string|null $type
+ * @property string|null $expire_date
+ * @property int $user_id
+ * @property int|null $order_id
+ * @property int|null $created_by
+ * @property int $confirmed
+ * @property string $operation_type
+ * @property string|null $pay_data
+ * @property string|null $pay_type
+ * @property string|null $pay_status
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet whereConfirmed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet whereExpireDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet whereOperationType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet wherePayData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet wherePayStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet wherePayType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Wallet whereUserId($value)
  */
 class Wallet extends Model implements Transformable
 {

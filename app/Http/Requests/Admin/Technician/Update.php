@@ -19,7 +19,7 @@ class Update extends FormRequest
             'name' => 'required|max:191',
             'phone'      => 'required|numeric|digits_between:9,13|unique:users,phone,'.$this->id.',id,deleted_at,NULL',
             'email'      => 'required|email|max:191|unique:users,email,'.$this->id.',id,deleted_at,NULL',
-            'password'   => 'required|max:191',
+            'password'   => 'sometimes|max:191',
             'image'      => 'nullable|mimes:jpeg,jpg,png',
             'country_id'    => 'required|exists:countries,id,deleted_at,NULL',
             'city_id'    => 'required|exists:cities,id,deleted_at,NULL',

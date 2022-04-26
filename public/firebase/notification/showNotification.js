@@ -15,8 +15,12 @@ $(document).ready(function () {
     const messaging = firebase.messaging();
     window.fcmMessageing = messaging;
     messaging.onMessage((payload) => {
+        const noteTitle = payload.notification.title;
+        const noteOptions = {
+            body: payload.notification.body,
+        };
         toastr.success(payload.notification.body, payload.notification.title, {timeOut: 10000});
-        console.log('Message received. ', payload);
+        new Notification(noteTitle, noteOptions);
     });
 
     if ('serviceWorker' in navigator) {

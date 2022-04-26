@@ -14,11 +14,12 @@ class CreateRatingViewTable extends Migration
      */
     public function up()
     {
-
+//        $data = ReviewRate::query()->select('review_rates.rateable_type','review_rates.rateable_id',\DB::raw('ROUND(SUM(review_rates.rate) / COUNT("review_rates.rateable_id"),2) as rate'),\DB::raw('COUNT("review_rates.rateable_id") as followers'))
+//            ->groupBy('review_rates.rateable_type','review_rates.rateable_id')->toSql();
         DB::statement("
           CREATE VIEW rating AS
           (
-            select `review_rates`.`rateable_type`, `review_rates`.`rateable_id`, `review_rates`.`rate`, COUNT('review_rates.rateable_id') as followers from `users` left join `review_rates` on `review_rates`.`rateable_id` = `users`.`id` WHERE `review_rates`.`rateable_type` = 'App\\\Entities\\\User' and `users`.`deleted_at` is null group by `review_rates`.`rateable_type`, `review_rates`.`rateable_id`, `review_rates`.`rate`
+            select `review_rates`.`rateable_type`, `review_rates`.`rateable_id`, ROUND(SUM(review_rates.rate) / COUNT(review_rates.rateable_id),2) as rate, COUNT(review_rates.rateable_id) as followers from `review_rates` group by `review_rates`.`rateable_type`, `review_rates`.`rateable_id`
           )
         ");
     }

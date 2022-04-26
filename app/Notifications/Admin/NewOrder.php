@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Notifications\Api;
+namespace App\Notifications\Admin;
 
 use App\Enum\NotifyType;
+use App\Events\UpdateNotification;
+use App\Notifications\BroadcastChannel;
 use App\Notifications\FireBaseChannel;
 use App\Traits\NotifyTrait;
 use Illuminate\Bus\Queueable;
@@ -10,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AcceptInvoice extends Notification
+class NewOrder extends Notification
 {
     use NotifyTrait;
     use Queueable;
@@ -23,25 +25,22 @@ class AcceptInvoice extends Notification
     protected $data;
     public function __construct(protected $order)
     {
-        $title_ar = 'تم الموافقه علي الفاتوره';
-        $title_ur = 'تم الموافقه علي الفاتوره';
-        $title_en = 'invoice has been accepted';
-        $message_ar = 'تم الموافقه علي الفاتوره في الطلب رقم '.$this->order['order_num'];
-        $message_ur = 'تم الموافقه علي الفاتوره في الطلب رقم '.$this->order['order_num'];
-        $message_en = 'invoice has been accepted in order No '.$this->order['order_num'];
+        $title_ar = 'هناك طلب جديد';
+        $title_en = 'there are a new order';
+        $message_ar = 'هناك طلب جديد رقم '.$this->order['order_num'];
+        $message_en = 'there is new order no.'.$this->order['order_num'];
         $this->data = [
             'title' => [
                 'ar' => $title_ar,
                 'en' => $title_en,
-                'ur' => $title_ur,
             ],
             'body' => [
                 'ar' => $message_ar,
                 'en' => $message_en,
-                'ur' => $message_ur,
             ],
-            'type'=> NotifyType::ACCEPTINVOICE,
-            'order_id'=> $this->order['id']
+            'type'=> NotifyType::NEWORDER,
+            'order_id'=> $this->order['id'],
+            'status'=> $this->order['status'],
         ];
     }
 
@@ -53,7 +52,7 @@ class AcceptInvoice extends Notification
      */
     public function via($notifiable)
     {
-        return ['database',FireBaseChannel::class];
+        return [BroadcastChannel::class,'database',FireBaseChannel::class];
     }
 
     /**
@@ -65,6 +64,10 @@ class AcceptInvoice extends Notification
     public function toDatabase($notifiable)
     {
         return $this->data;
+    }
+    public function toBroadcast($notifiable)
+    {
+        return new UpdateNotification($notifiable);
     }
     public function toFireBase($notifiable)
     {

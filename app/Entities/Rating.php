@@ -40,20 +40,14 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|ReviewRate whereUserId($value)
  * @mixin \Eloquent
  */
-class ReviewRate extends Model implements Transformable
+class Rating extends Model implements Transformable
 {
     use TransformableTrait;
-    protected $casts = [
-        'created_at'=>'datetime:Y-m-d h:i a'
-    ];
     public $fillable = [
-        'user_id',
-        'order_id',
         'rateable_id',
         'rateable_type',
         'rate',
-        'comment',
-        'status',
+        'followers',
     ];
 
     public function rateable()
@@ -61,8 +55,4 @@ class ReviewRate extends Model implements Transformable
         return $this->morphTo();
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

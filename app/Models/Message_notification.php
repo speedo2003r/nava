@@ -37,7 +37,7 @@ use Illuminate\Database\Eloquent\Model;
 class Message_notification extends Model
 {
     protected $fillable = [
-        'message_id', 'room_id', 'is_seen','is_sender','flagged','is_delete','created_at','updated_at'
+        'message_id', 'room_id', 'user_id','is_seen','is_sender','flagged','is_delete','created_at','updated_at'
     ];
 
     public function getCreatedAtAttribute($value)
@@ -50,6 +50,9 @@ class Message_notification extends Model
     }
     public function Message(){
         return $this->belongsTo('App\Models\Message');
+    }
+    public function user(){
+        return $this->belongsTo('App\Models\User');
     }
     public function room(){
         return $this->belongsTo(Room::class);

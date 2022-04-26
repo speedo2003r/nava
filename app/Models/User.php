@@ -10,6 +10,7 @@ use App\Entities\Country;
 use App\Entities\Device;
 use App\Entities\Order;
 use App\Entities\OrderGuarantee;
+use App\Entities\Rating;
 use App\Entities\ReviewRate;
 use App\Entities\Service;
 use App\Entities\Technician;
@@ -142,6 +143,14 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Query\Builder|User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  * @mixin \Eloquent
+ * @property int $max_dept
+ * @property int $chat
+ * @property-read mixed $wallet
+ * @property-read Rating|null $rating
+ * @property-read \Illuminate\Database\Eloquent\Collection|Wallet[] $wallets
+ * @property-read int|null $wallets_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereChat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereMaxDept($value)
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -178,6 +187,8 @@ class User extends Authenticatable implements JWTSubject
         'lng',
         'pdf',
         'company_id',
+        'max_dept',
+        'chat',
     ];
     protected $hidden = [
         'password',
@@ -257,6 +268,10 @@ class User extends Authenticatable implements JWTSubject
     public function reviews()
     {
         return $this->morphMany(ReviewRate::class,'rateable','rateable_type','rateable_id');
+    }
+    public function rating()
+    {
+        return $this->morphOne(Rating::class,'rateable','rateable_type','rateable_id');
     }
     public function scopeExist($value)
     {

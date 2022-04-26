@@ -47,9 +47,10 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'icon'  => asset('assets/media/menuicon/home.svg'),
             'type'  => 'parent',
             'sub_route' => false,
-            'child'     => ['financial']
+            'child'     => ['financial','notifications']
         ]);
         Route::post('financial',['uses'=>'HomeController@financialReport','as'=>'financial','title'=>awtTrans('التقرير المالي')]);
+        Route::get('notifications',['uses'=>'HomeController@notifications','as'=>'notifications','title'=>awtTrans('الاشعارات')]);
         /********************************* HomeController end *********************************/
 
         /********************************* RoleController start *********************************/
@@ -94,7 +95,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'type'      => 'parent',
             'sub_route' => true,
             'child'     => [
-                'admins.index', 'admins.store', 'admins.update', 'admins.delete',
+                'admins.index', 'admins.store', 'admins.update', 'admins.delete','admins.chatStatus',
                 'clients.index', 'clients.store', 'clients.update', 'clients.delete',
                 'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete','technicians.orders', 'technicians.decreaseVal', 'technicians.selectCategories','technicians.accounts','technicians.accountsDelete','technicians.settlement',
                 'companies.index', 'companies.store', 'companies.update', 'companies.delete','companies.accounts', 'companies.images','companies.storeImages',
@@ -107,6 +108,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
 
         # AdminController
         Route::get('admins',['uses'=> 'AdminController@index','as'=> 'admins.index','title'=> awtTrans('المشرفين'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
+        Route::post('admins/change/chatStatus',['uses'=> 'AdminController@chatStatus','as'=> 'admins.chatStatus','title'=> awtTrans('استقبال المحادثه')]);
         Route::post('admins/store',['uses'=> 'AdminController@store','as'=> 'admins.store','title'=> awtTrans('اضافة مشرف')]);
         Route::post('admins/{id}',['uses'=> 'AdminController@update','as'=> 'admins.update','title'=> awtTrans('تعديل مشرف')]);
         Route::delete('admins/{id}',['uses'=> 'AdminController@destroy','as'=> 'admins.delete','title'=> awtTrans('حذف مشرف')]);
@@ -377,7 +379,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'icon'      => asset('assets/media/menuicon/chat.svg'),
             'type'      => 'parent',
             'sub_route' => false,
-            'child'     => ['chats.index','chats.store','chats.users','chats.room','chats.destroy','chats.privateRoom']
+            'child'     => ['chats.index','chats.store','chats.users','chats.room','chats.destroy','chats.privateRoom','chats.messagesNotifications']
         ]);
 
 
@@ -414,6 +416,12 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'as'        => 'chats.privateRoom',
             'title'     => awtTrans('اضافة غرفة دردشه')
         ]);
+        #messages Notifications
+        Route::get('messages-notifications', [
+            'uses'      => 'ChatController@messagesNotifications',
+            'as'        => 'chats.messagesNotifications',
+            'title'     => awtTrans('اشعارات المحادثات')
+        ]);
         Route::get('financial-management',[
             'as'        => 'financial',
             'title'     => awtTrans('الادراه الماليه'),
@@ -427,6 +435,16 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('financial/orders/show/{id}',['uses'=> 'FinancialController@orderShow','as'=> 'financial.orderShow','title'=> awtTrans('مشاهدة الطلب')]);
         Route::get('financial/dailyOrders',['uses'=> 'FinancialController@dailyOrders','as'=> 'financial.dailyOrders','title'=> awtTrans('الايرادات اليوميه'),'icon' => asset('assets/media/menuicon/surface1.svg')]);
         Route::get('financial/catServ',['uses'=> 'FinancialController@catServ','as'=> 'financial.catServ','title'=> awtTrans('ايرادات الأقسام والخدمات'),'icon' => asset('assets/media/menuicon/surface1.svg')]);
+
+        Route::get('reviews',[
+            'as'        => 'reviews.index',
+            'uses'        => 'ReviewController@index',
+            'title'     => awtTrans('التقييمات'),
+            'icon'      => asset('assets/media/menuicon/newspaperw.svg'),
+            'type'      => 'parent',
+            'sub_route' => false,
+            'child'     => ['reviews.index']
+        ]);
 
         /********************************* SliderController start *********************************/
         Route::get('sliders', [
