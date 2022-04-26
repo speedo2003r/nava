@@ -2,18 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b02366-1c1d-4bc0-bd9b-e3440db742a5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/DataTables/ReviewDatatable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ReviewController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/partial/ControlView.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/reviews/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/TechnicianCompanyDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/TechnicianCompanyDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/ReviewRate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/ReviewRate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/ar/awt.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar/awt.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/companies/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/companies/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/companies/technicians/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/companies/technicians/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/technicians/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/technicians/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/admins/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/admins/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -291,7 +283,7 @@
       <workItem from="1650628634589" duration="904000" />
       <workItem from="1650788036806" duration="2734000" />
       <workItem from="1650886897285" duration="775000" />
-      <workItem from="1650960567889" duration="6595000" />
+      <workItem from="1650960567889" duration="7370000" />
     </task>
     <servers />
   </component>

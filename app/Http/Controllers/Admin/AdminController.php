@@ -10,6 +10,7 @@ use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\GovernorateRepository;
 use App\Repositories\UserRepository;
+use App\Traits\ResponseTrait;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -19,6 +20,7 @@ use DB;
 class AdminController extends Controller
 {
     use UploadTrait;
+    use ResponseTrait;
     protected $city,$userRepo, $roleRepo,$country;
 
     public function __construct(CityRepository $city,UserRepository $user,CountryRepository $country,Role $role)
@@ -109,6 +111,15 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'تم الحذف بنجاح');
     }
 
+    public function chatStatus(Request $request)
+    {
+        if($request->ajax()){
+            $provider = $this->userRepo->find($request['id']);
+            $provider['chat'] = !$provider['chat'];
+            $provider->save();
+            return $this->ApiResponse('success','',$provider['chat']);
+        }
+    }
     /***************************  update profile  **************************/
 //    public function updateProfile(UpdateProfile $request,$id)
 //    {
