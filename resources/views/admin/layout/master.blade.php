@@ -646,10 +646,16 @@
     });
 </script>
 
+<script src="{{ asset('js/app.js') }}" defer async></script>
 @include('admin.partial.alert')
 @include('admin.partial.confirm_delete')
 @stack('css')
 @stack('js')
+
+<script>
+    window.Echo.private(`App.Models.User.{{auth()->id()}}`)
+        .listen('UpdateNotification', (e) => console.log('RealTimeMessage: ' + e.message));
+</script>
 </body>
 
 </html>

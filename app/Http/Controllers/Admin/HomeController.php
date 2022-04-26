@@ -9,6 +9,7 @@ use App\Entities\Order;
 use App\Entities\ReviewRate;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\Admin\NewOrder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -20,6 +21,8 @@ class HomeController extends Controller
     /***************** dashboard *****************/
     public function dashboard()
     {
+//        $order = Order::find(4);
+//        auth()->user()->notify(new NewOrder($order));
         $allUsers        = User::get();
         $countAdmins     = $allUsers->where('user_type', 'admin')->count();
         $countClients    = $allUsers->where('user_type', 'client')->count();

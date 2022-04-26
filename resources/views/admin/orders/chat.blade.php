@@ -221,7 +221,6 @@
 @endsection
 @push('js')
 
-    <script src="{{ asset('js/app.js') }}" defer async></script>
     <script type="text/javascript">
 
         $('#reply-message-chat').on('click',function(){
