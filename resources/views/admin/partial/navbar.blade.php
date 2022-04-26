@@ -10,12 +10,12 @@
         </a>
     </div>
     <div class="kt-header__topbar-item kt-header__topbar-item--langs">
-        <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">
-                                <span class="kt-header__topbar-icon position-relative">
-                                    <span class="notify-count">0</span>
-                                    <i class="fa fa-comments-o"></i>
-                                </span>
-        </div>
+        <a href="{{route('admin.chats.messagesNotifications')}}" class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">
+            <a href="{{route('admin.chats.messagesNotifications')}}" class="kt-header__topbar-icon position-relative">
+                <span class="notify-count">{{\App\Models\Message_notification::whereRaw('created_at IN (select MAX(created_at) FROM message_notifications GROUP BY room_id)')->where('is_seen',0)->where('is_sender',1)->where('user_id','!=',auth()->id())->count()}}</span>
+                <i class="fa fa-comments-o"></i>
+            </a>
+        </a>
     </div>
     <div class="kt-header__topbar-item kt-header__topbar-item--langs">
         <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">

@@ -379,7 +379,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'icon'      => asset('assets/media/menuicon/chat.svg'),
             'type'      => 'parent',
             'sub_route' => false,
-            'child'     => ['chats.index','chats.store','chats.users','chats.room','chats.destroy','chats.privateRoom']
+            'child'     => ['chats.index','chats.store','chats.users','chats.room','chats.destroy','chats.privateRoom','chats.messagesNotifications']
         ]);
 
 
@@ -415,6 +415,12 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'uses'      => 'ChatController@NewPrivateRoom',
             'as'        => 'chats.privateRoom',
             'title'     => awtTrans('اضافة غرفة دردشه')
+        ]);
+        #messages Notifications
+        Route::get('messages-notifications', [
+            'uses'      => 'ChatController@messagesNotifications',
+            'as'        => 'chats.messagesNotifications',
+            'title'     => awtTrans('اشعارات المحادثات')
         ]);
         Route::get('financial-management',[
             'as'        => 'financial',
