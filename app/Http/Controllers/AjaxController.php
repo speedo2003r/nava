@@ -144,4 +144,11 @@ class AjaxController extends Controller
         $item->save();
         return response()->json($item->accepted);
     }
+
+    public function getNotificationCount(Request $request)
+    {
+        $user = auth()->user();
+        $unreadNotifications = $user->unreadnotifications()->count();
+        return response()->json($unreadNotifications);
+    }
 }

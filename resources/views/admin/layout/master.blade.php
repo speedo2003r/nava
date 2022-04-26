@@ -157,7 +157,7 @@
         text-align: center;
         width: 70px;
     }
-    .notify-count{
+    .notify-count,.messages-count{
         position: absolute;
         top: 0;
         right: 5px;
@@ -654,7 +654,16 @@
 
 <script>
     Echo.private('users.{{auth()->id()}}')
-        .listen('.update.notifications', (e) => console.log('RealTimeMessage: ' + e));
+        .listen('.update.notifications', (e) => {
+            $.ajax({
+                url: `{{route('admin.ajax.getNotificationCount')}}`,
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    $('.notify-count').html(res);
+                }
+            });
+        });
 </script>
 </body>
 
