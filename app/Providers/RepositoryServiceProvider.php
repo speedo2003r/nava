@@ -36,6 +36,8 @@ use App\Repositories\RegionRepository;
 use App\Repositories\RegionRepositoryEloquent;
 use App\Repositories\ReportRepository;
 use App\Repositories\ReportRepositoryEloquent;
+use App\Repositories\ReviewRateRepository;
+use App\Repositories\ReviewRateRepositoryEloquent;
 use App\Repositories\ServiceRepository;
 use App\Repositories\ServiceRepositoryEloquent;
 use App\Repositories\SettingRepository;
@@ -76,6 +78,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ComplaintRepository::class           , ComplaintRepositoryEloquent::class);
         $this->app->bind(SliderRepository::class           , SliderRepositoryEloquent::class);
         $this->app->bind(QuestionRepository::class           , QuestionRepositoryEloquent::class);
+        $this->app->bind(ReviewRateRepository::class           , ReviewRateRepositoryEloquent::class);
 
     }
 

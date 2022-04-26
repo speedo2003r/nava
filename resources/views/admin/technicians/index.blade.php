@@ -337,12 +337,12 @@
     <script>
         $(function () {
             'use strict'
-            $('.table thead tr:first th:first').html(`
-                            <label class="custom-control material-checkbox" style="margin: auto">
-                                <input type="checkbox" class="material-control-input" id="checkedAll">
-                                <span class="material-control-indicator"></span>
-                            </label>`);
-        });
+        //     $('.table thead tr:first th:first').html(`
+        //                     <label class="custom-control material-checkbox" style="margin: auto">
+        //                         <input type="checkbox" class="material-control-input" id="checkedAll">
+        //                         <span class="material-control-indicator"></span>
+        //                     </label>`);
+        // });
         $('body').on('change','#country_id',function (){
             var country = $(this).val();
             getCities(country)

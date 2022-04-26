@@ -5,6 +5,29 @@
         {{ awtTrans('التقنيين') }}</a>
 @endsection
 @section('content')
+    @push('css')
+        <style>
+            :root {
+                --star-size: 15px;
+                --star-color: #ccc;
+                --star-background: #333;
+            }
+            .Stars {
+                --percent: calc(var(--rating) / 5 * 100%);
+                display: inline-block;
+                font-size: var(--star-size);
+                font-family: Times;
+                line-height: 1;
+            }
+            .Stars::before {
+                content: "★★★★★";
+                letter-spacing: 3px;
+                background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        </style>
+    @endpush
 
     <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
         <!-- begin:: Content -->
@@ -30,10 +53,10 @@
                                 {{awtTrans('اضافه')}}
                             </button>
 
-                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.companies.deleteTechnicians',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
-                                <i class="la la-trash"></i>
-                                {{awtTrans('حذف')}}
-                            </button>
+{{--                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.companies.deleteTechnicians',0)}}')" data-toggle="modal" data-target="#confirm-all-del">--}}
+{{--                                <i class="la la-trash"></i>--}}
+{{--                                {{awtTrans('حذف')}}--}}
+{{--                            </button>--}}
                             <button class="btn btn-warning btn-wide waves-effect waves-light all" onclick="sendNotify('all' , '0')" data-toggle="modal" data-target="#send-noti">
                                 <i class="fas fa-paper-plane"></i>{{awtTrans('ارسال اشعارات للجميع')}}
                             </button>
@@ -261,12 +284,12 @@
         });
         $(function () {
             'use strict'
-            $('.table thead tr:first th:first').html(`
-                            <label class="custom-control material-checkbox" style="margin: auto">
-                                <input type="checkbox" class="material-control-input" id="checkedAll">
-                                <span class="material-control-indicator"></span>
-                            </label>`);
-        });
+        //     $('.table thead tr:first th:first').html(`
+        //                     <label class="custom-control material-checkbox" style="margin: auto">
+        //                         <input type="checkbox" class="material-control-input" id="checkedAll">
+        //                         <span class="material-control-indicator"></span>
+        //                     </label>`);
+        // });
         $('.add-user').on('click',function () {
             $('#editModel .modal-title').text(`{{awtTrans('اضافة تقني')}}`);
             $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');

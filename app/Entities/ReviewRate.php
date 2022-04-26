@@ -43,6 +43,9 @@ use Prettus\Repository\Traits\TransformableTrait;
 class ReviewRate extends Model implements Transformable
 {
     use TransformableTrait;
+    protected $casts = [
+        'created_at'=>'datetime:Y-m-d h:i a'
+    ];
     public $fillable = [
         'user_id',
         'order_id',

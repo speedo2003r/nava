@@ -2,16 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b02366-1c1d-4bc0-bd9b-e3440db742a5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Entities/Rating.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/DataTables/ReviewDatatable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ReviewController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/partial/ControlView.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/reviews/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/TechnicianDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/TechnicianDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Entities/Wallet.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/Wallet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Admin/Technician/Update.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Admin/Technician/Update.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Notifications/Api/AcceptInvoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/Api/AcceptInvoice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_31_144215_create_rating_view_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_31_144215_create_rating_view_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/TechnicianCompanyDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/TechnicianCompanyDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Entities/ReviewRate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Entities/ReviewRate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RepositoryServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ar/awt.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar/awt.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/companies/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/companies/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/companies/technicians/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/companies/technicians/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/technicians/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/technicians/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +230,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Entities" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/admin/partial" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -239,11 +242,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/views/admin/partial" />
+      <recent name="$PROJECT_DIR$/resources/views/admin" />
+      <recent name="$PROJECT_DIR$/app/DataTables" />
+      <recent name="$PROJECT_DIR$/app/Http/Controllers/Admin" />
       <recent name="$PROJECT_DIR$/app/Entities" />
-      <recent name="$PROJECT_DIR$/database/migrations" />
-      <recent name="$PROJECT_DIR$/app/Enum" />
-      <recent name="$PROJECT_DIR$/public" />
-      <recent name="$PROJECT_DIR$/config" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order" />
@@ -288,7 +291,7 @@
       <workItem from="1650628634589" duration="904000" />
       <workItem from="1650788036806" duration="2734000" />
       <workItem from="1650886897285" duration="775000" />
-      <workItem from="1650960567889" duration="3145000" />
+      <workItem from="1650960567889" duration="6595000" />
     </task>
     <servers />
   </component>

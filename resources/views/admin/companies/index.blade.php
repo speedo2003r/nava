@@ -30,10 +30,10 @@
                                 {{awtTrans('اضافه')}}
                             </button>
 
-                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.companies.delete',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
-                                <i class="la la-trash"></i>
-                                {{awtTrans('حذف')}}
-                            </button>
+{{--                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.companies.delete',0)}}')" data-toggle="modal" data-target="#confirm-all-del">--}}
+{{--                                <i class="la la-trash"></i>--}}
+{{--                                {{awtTrans('حذف')}}--}}
+{{--                            </button>--}}
                             <button class="btn btn-warning btn-wide waves-effect waves-light all" onclick="sendNotify('all' , '0')" data-toggle="modal" data-target="#send-noti">
                                 <i class="fas fa-paper-plane"></i>{{awtTrans('ارسال اشعارات للجميع')}}
                             </button>
@@ -204,22 +204,28 @@
                                 </div>
                                 <div id="map" style="height: 300px"></div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>رقم البطاقه</label>
                                     <input type="number" name="id_number" id="id_number" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>رقم الحساب البنكي</label>
                                     <input type="number" name="acc_bank" id="acc_bank" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>العموله بالنسبه</label>
                                     <input type="number" min="0" max="100" value="0" name="commission" id="commission" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>الحد الأقصي للمديونيه</label>
+                                    <input type="number" min="0" value="0" name="max_dept" id="max_dept" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -248,12 +254,12 @@
         })
         $(function () {
             'use strict'
-            $('.table thead tr:first th:first').html(`
-                            <label class="custom-control material-checkbox" style="margin: auto">
-                                <input type="checkbox" class="material-control-input" id="checkedAll">
-                                <span class="material-control-indicator"></span>
-                            </label>`);
-        });
+        //     $('.table thead tr:first th:first').html(`
+        //                     <label class="custom-control material-checkbox" style="margin: auto">
+        //                         <input type="checkbox" class="material-control-input" id="checkedAll">
+        //                         <span class="material-control-indicator"></span>
+        //                     </label>`);
+        // });
         $('.add-user').on('click',function () {
             $('#editModel .modal-title').text(`{{awtTrans('اضافة شركه')}}`);
             $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
@@ -271,6 +277,7 @@
             $('#lat')         .val(ob.lat);
             $('#lng')         .val(ob.lng);
             $('#commission')         .val(ob.commission);
+            $('#max_dept')         .val(ob.max_dept);
             $('#id_number')         .val(ob.company.id_number);
             $('#acc_bank')         .val(ob.company.acc_bank);
             $('#manager_name')         .val(ob.company.manager_name);

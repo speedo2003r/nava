@@ -428,6 +428,16 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('financial/dailyOrders',['uses'=> 'FinancialController@dailyOrders','as'=> 'financial.dailyOrders','title'=> awtTrans('الايرادات اليوميه'),'icon' => asset('assets/media/menuicon/surface1.svg')]);
         Route::get('financial/catServ',['uses'=> 'FinancialController@catServ','as'=> 'financial.catServ','title'=> awtTrans('ايرادات الأقسام والخدمات'),'icon' => asset('assets/media/menuicon/surface1.svg')]);
 
+        Route::get('reviews',[
+            'as'        => 'reviews.index',
+            'uses'        => 'ReviewController@index',
+            'title'     => awtTrans('التقييمات'),
+            'icon'      => asset('assets/media/menuicon/newspaperw.svg'),
+            'type'      => 'parent',
+            'sub_route' => false,
+            'child'     => ['reviews.index']
+        ]);
+
         /********************************* SliderController start *********************************/
         Route::get('sliders', [
             'uses'      => 'SliderController@index',
