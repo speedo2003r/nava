@@ -7,6 +7,7 @@ use App\Entities\Category;
 use App\Entities\City;
 use App\Entities\Order;
 use App\Http\Controllers\Controller;
+use App\Models\Message_notification;
 use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Traits\ResponseTrait;
@@ -150,5 +151,10 @@ class AjaxController extends Controller
         $user = auth()->user();
         $unreadNotifications = $user->unreadnotifications()->count();
         return response()->json($unreadNotifications);
+    }
+    public function getMessagesNotificationCount(Request $request)
+    {
+        $count = Message_notification::whereRaw('created_at IN (select MAX(created_at) FROM message_notifications GROUP BY room_id)')->where('is_seen',0)->where('is_sender',1)->where('user_id','!=',auth()->id())->count();
+        return response()->json($count);
     }
 }

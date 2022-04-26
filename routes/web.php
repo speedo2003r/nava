@@ -599,4 +599,5 @@ Route::any('/admin/getItems','AjaxController@getItems')->name('admin.ajax.getIte
 Route::any('/admin/getSellers','AjaxController@getSellers')->name('admin.ajax.getSellers');
 Route::any('/admin/getservices','AjaxController@getservices')->name('admin.ajax.getservices');
 Route::any('/admin/getNotificationCount','AjaxController@getNotificationCount')->name('admin.ajax.getNotificationCount');
+Route::any('/admin/getMessagesNotificationCount','AjaxController@getMessagesNotificationCount')->name('admin.ajax.getMessagesNotificationCount');
 

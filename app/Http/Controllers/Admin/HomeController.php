@@ -6,6 +6,7 @@ use App\Entities\Branch;
 use App\Entities\Category;
 use App\Entities\Country;
 use App\Entities\Order;
+use App\Events\UpdateNotificationsMessages;
 use App\Entities\ReviewRate;
 use App\Events\UpdateNotification;
 use App\Http\Controllers\Controller;

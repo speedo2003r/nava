@@ -663,6 +663,16 @@
                     $('.notify-count').html(res);
                 }
             });
+        })
+        .listen('.update.messages.notifications', (e) => {
+            $.ajax({
+                url: `{{route('admin.ajax.getMessagesNotificationCount')}}`,
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    $('.messages-count').html(res);
+                }
+            });
         });
 </script>
 </body>
