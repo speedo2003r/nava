@@ -18,7 +18,7 @@ class TechnicalOrderDetailsResource extends JsonResource
         return [
             'id'                => $this->id,
             'order_num'                => $this->order_num,
-            'status'   => (!in_array($this['status'],['finished','canceled','created']) && $this['technician_id'] != null)  ? trans('api.notdoneyet') : (in_array($this['status'],['finished','canceled']) ? trans('api.done') : trans('api.new')),
+            'status'   => (!in_array($this['status'],['finished','canceled','created']) && $this['technician_id'] != null)  ? trans($this['status']) : (in_array($this['status'],['finished','canceled']) ? trans('api.done') : trans('api.new')),
             'order_status' => $this['status'] ?? '',
             'allStatus' => Order::userStatusWithBill(),
             'name'                => $this->user['name'],

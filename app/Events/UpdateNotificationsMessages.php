@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateNotification implements ShouldBroadcast
+class UpdateNotificationsMessages implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -35,6 +35,6 @@ class UpdateNotification implements ShouldBroadcast
     }
     public function broadcastAs()
     {
-        return 'update.notifications';
+        return 'update.messages.notifications';
     }
 }

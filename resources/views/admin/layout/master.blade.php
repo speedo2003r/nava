@@ -157,7 +157,7 @@
         text-align: center;
         width: 70px;
     }
-    .notify-count{
+    .notify-count,.messages-count{
         position: absolute;
         top: 0;
         right: 5px;
@@ -646,15 +646,34 @@
     });
 </script>
 
-<script src="{{ asset('js/app.js') }}" defer async></script>
+<script src="{{ asset('js/app.js') }}"></script>
 @include('admin.partial.alert')
 @include('admin.partial.confirm_delete')
 @stack('css')
 @stack('js')
 
 <script>
-    window.Echo.private(`App.Models.User.{{auth()->id()}}`)
-        .listen('UpdateNotification', (e) => console.log('RealTimeMessage: ' + e.message));
+    Echo.private('users.{{auth()->id()}}')
+        .listen('.update.notifications', (e) => {
+            $.ajax({
+                url: `{{route('admin.ajax.getNotificationCount')}}`,
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    $('.notify-count').html(res);
+                }
+            });
+        })
+        .listen('.update.messages.notifications', (e) => {
+            $.ajax({
+                url: `{{route('admin.ajax.getMessagesNotificationCount')}}`,
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    $('.messages-count').html(res);
+                }
+            });
+        });
 </script>
 </body>
 

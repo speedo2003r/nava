@@ -67,7 +67,7 @@ class NewOrder extends Notification
     }
     public function toBroadcast($notifiable)
     {
-        return new UpdateNotification($notifiable);
+        return broadcast(new UpdateNotification($notifiable));
     }
     public function toFireBase($notifiable)
     {

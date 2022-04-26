@@ -13,6 +13,7 @@ use App\Enum\PayStatus;
 use App\Http\Controllers\Controller;
 use App\Notifications\Admin\AddInvoice;
 use App\Notifications\Admin\UpdateInvoice;
+use App\Notifications\Api\AssignDelegate;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderServiceRepository;
 use App\Repositories\ServiceRepository;
@@ -233,6 +234,9 @@ class OrderController extends Controller
                 'technician_id' => $request['technician_id'],
             ],$order['id']);
         }
+        $order->refresh();
+        $technician = $order->technician;
+        $technician->notify(new AssignDelegate($order));
 
         return back()->with('success','تم تعيين تقني للطلب');
     }
