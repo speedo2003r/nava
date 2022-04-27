@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\Tech\Order;
 
 use App\Enum\OrderStatus;
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -41,6 +43,9 @@ class CancelOrder extends Controller
 
         $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::USERCANCEL);
         $order->user->notify(new \App\Notifications\Api\CancelOrder($order));
+        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $job = (new \App\Jobs\TechCancelOrder($admins,$order));
+        dispatch($job);
         return $this->successResponse();
     }
 }
