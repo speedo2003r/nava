@@ -17,4 +17,6 @@ class OrderStatus{
     const INPROGRESS = 'in-progress';
     const FINISHED = 'finished';
     const USERCANCEL = 'user_cancel';
+    const DELETEINVOICE = 'delete_invoice';
+    const DELETESERVICE = 'delete_service';
 }

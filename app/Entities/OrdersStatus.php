@@ -51,7 +51,7 @@ class OrdersStatus extends Model implements Transformable
     }
     public function orderBill()
     {
-        return $this->belongsTo(OrderBill::class);
+        return $this->belongsTo(OrderBill::class)->withTrashed();
     }
 
 }
