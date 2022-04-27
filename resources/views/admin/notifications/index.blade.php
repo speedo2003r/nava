@@ -43,10 +43,11 @@
                             @if(count($notifications) > 0)
                                 <ul class="notify-list">
                                 @foreach($notifications as $notification)
-                                    <li>
+                                    <li class="position-relative">
                                         <a href="{{isset($notification->data['order_id']) ? route('admin.orders.show',$notification->data['order_id']) : '#'}}">
                                             <small>{{$notification->data['title'][app()->getLocale()] ?? ''}}</small>
                                             <p>{{$notification->data['body'][app()->getLocale()] ?? ''}}</p>
+                                            <span style="position: absolute;bottom: 30px;left: 30px;">{{$notification->created_at->diffforhumans()}}</span>
                                         </a>
                                     </li>
                                 @endforeach
