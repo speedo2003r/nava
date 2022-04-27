@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\RoomDatatable;
 use App\Entities\Order;
+use App\Enum\UserType;
 use App\Events\createOrJoinRoom;
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
@@ -75,6 +76,10 @@ class ChatController extends Controller
         }
         $user_id = auth()->id();
         broadcast(new MessageSent($lastMessage,$user_id))->toOthers();
+
+        $admins = User::where('user_type',UserType::ADMIN)->where('chat',1)->get();
+        $job = (new \App\Jobs\NotifyMsg($admins,$lastMessage->Message['body']));
+        dispatch($job);
         return response()->json(['status' => 1, 'message' => 'success', 'data' => $lastMessage]);
     }
     public function NewPrivateRoom($id){
