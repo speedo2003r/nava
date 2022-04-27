@@ -365,6 +365,22 @@ if(!function_exists('saveMessage')){
     }
 }
 
+function getaddress($lat,$lng)
+{
+    $google_key = settings('map_key');
+    $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($lat).','.trim($lng).'&sensor=false&key='.$google_key;
+    $json = @file_get_contents($url);
+    $data=json_decode($json);
+    $status = $data->status;
+    if($status == "OK")
+    {
+        return $data->results[0]->formatted_address;
+    }
+    else
+    {
+        return false;
+    }
+}
 function sendSMS($numbers, $msg,$viewResult = 1)
 {
     global $arraySendMsg;

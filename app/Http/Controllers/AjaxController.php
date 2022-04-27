@@ -154,7 +154,7 @@ class AjaxController extends Controller
     }
     public function getMessagesNotificationCount(Request $request)
     {
-        $count = Message_notification::whereRaw('created_at IN (select MAX(created_at) FROM message_notifications GROUP BY room_id)')->where('is_seen',0)->where('is_sender',1)->where('user_id','!=',auth()->id())->count();
+        $count = Message_notification::whereRaw('created_at IN (select MAX(created_at) FROM message_notifications GROUP BY room_id)')->where('is_seen',0)->where('is_sender',0)->where('user_id',auth()->id())->count();
         return response()->json($count);
     }
 }
