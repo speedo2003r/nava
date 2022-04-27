@@ -22,7 +22,7 @@ class NotifyMsg extends Notification
      * @return void
      */
     protected $data;
-    public function __construct(protected $message)
+    public function __construct(protected $message,protected $sender_id)
     {
         $title_ar = 'لديك رساله جديده';
         $title_ur = 'لديك رساله جديده';
@@ -74,12 +74,14 @@ class NotifyMsg extends Notification
     }
     public function toFireBase($notifiable)
     {
-        $this->data['title'] = $this->data['title'][$notifiable['lang']];
-        $this->data['body'] = $this->data['body'][$notifiable['lang']];
-        if($notifiable->Devices) {
-            foreach ($notifiable->Devices as $device) {
-                if ($device->device_id != null) {
-                    return $this->send_fcm($device['device_id'], $this->data, $this->data['type']);
+        if($notifiable['id'] != $this->sender_id) {
+            $this->data['title'] = $this->data['title'][$notifiable['lang']];
+            $this->data['body'] = $this->data['body'][$notifiable['lang']];
+            if ($notifiable->Devices) {
+                foreach ($notifiable->Devices as $device) {
+                    if ($device->device_id != null) {
+                        return $this->send_fcm($device['device_id'], $this->data, $this->data['type']);
+                    }
                 }
             }
         }

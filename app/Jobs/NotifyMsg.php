@@ -23,7 +23,7 @@ class NotifyMsg implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(protected $users,protected $message)
+    public function __construct(protected $users,protected $message,protected $sender_id)
     {
 
     }
@@ -35,6 +35,6 @@ class NotifyMsg implements ShouldQueue
      */
     public function handle()
     {
-        Notification::send($this->users, new \App\Notifications\NotifyMsg($this->message));
+        Notification::send($this->users, new \App\Notifications\NotifyMsg($this->message,$this->sender_id));
     }
 }

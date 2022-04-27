@@ -24,6 +24,7 @@ class AuthController extends Controller
             if($request['fcm_token'] != null){
                 if(session('fcm_token')){
                     auth()->user()->devices()->where('device_id',session('fcm_token'))->delete();
+                    session()->forget('fcm_token');
                 }
                 auth()->user()->devices()->create(['device_type'=>'web','device_id' => $request['fcm_token']]);
                 session()->put(['fcm_token'=>$request['fcm_token']]);
@@ -42,8 +43,8 @@ class AuthController extends Controller
     {
         if(session('fcm_token')){
             auth()->user()->devices()->where('device_id',session('fcm_token'))->delete();
+            session()->forget('fcm_token');
         }
-
         auth()->guard()->logout();
         session()->invalidate();
         session()->regenerateToken();

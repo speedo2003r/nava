@@ -304,6 +304,7 @@ export default {
   },
   mounted: function() {
     console.log("chatComponent mounted");
+    this.listenForNewMessage();
   }
 };
 </script>

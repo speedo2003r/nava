@@ -81,8 +81,8 @@ class ChatController extends Controller
         $users = $room->Users()->where('users.id','!=',auth()->id())->get();
         $admins = User::where('user_type',UserType::ADMIN)->where('chat',1)->get();
         Bus::chain([
-            new \App\Jobs\NotifyMsg($users,$lastMessage->Message['body']),
-            new \App\Jobs\NotifyMsg($admins,$lastMessage->Message['body']),
+            new \App\Jobs\NotifyMsg($users,$lastMessage->Message['body'],auth()->id()),
+            new \App\Jobs\NotifyMsg($admins,$lastMessage->Message['body'],auth()->id()),
         ])->dispatch();
         return response()->json(['status' => 1, 'message' => 'success', 'data' => $lastMessage]);
     }
