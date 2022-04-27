@@ -6,15 +6,13 @@ use App\Enum\NotifyType;
 use App\Events\UpdateNotification;
 use App\Notifications\BroadcastChannel;
 use App\Notifications\FireBaseChannel;
-use App\Traits\NotifyTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewOrder extends Notification
+class DelegateRate extends Notification
 {
-    use NotifyTrait;
     use Queueable;
 
     /**
@@ -25,12 +23,12 @@ class NewOrder extends Notification
     protected $data;
     public function __construct(protected $order)
     {
-        $title_ar = 'هناك طلب جديد';
-        $title_ur = 'هناك طلب جديد';
-        $title_en = 'there are a new order';
-        $message_ar = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_ur = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_en = 'there is new order no.'.$this->order['order_num'];
+        $title_ar = 'تم تقييم التقني للطلب رقم ' . $this->order['id'];
+        $title_ur = 'تم تقييم التقني للطلب رقم ' . $this->order['id'];
+        $title_en = 'technical of order was rated from client in order num '. $this->order['id'];
+        $message_ar = ' تم تقييم التقني للطلب رقم ' . $this->order['id'] . ' من قبل العميل ';
+        $message_ur = ' تم تقييم التقني للطلب رقم ' . $this->order['id'] . ' من قبل العميل ';
+        $message_en = 'technical of order have been rated from client in order num '. $this->order['id'] ;
         $this->data = [
             'title' => [
                 'ar' => $title_ar,
@@ -42,7 +40,7 @@ class NewOrder extends Notification
                 'en' => $message_en,
                 'ur' => $message_ur,
             ],
-            'type'=> NotifyType::NEWORDER,
+            'type'=> NotifyType::DELEGATERATE,
             'order_id'=> $this->order['id'],
             'status'=> $this->order['status'],
         ];
@@ -73,6 +71,7 @@ class NewOrder extends Notification
     {
         return broadcast(new UpdateNotification($notifiable));
     }
+
     public function toFireBase($notifiable)
     {
         $this->data['title'] = $this->data['title'][$notifiable['lang']];

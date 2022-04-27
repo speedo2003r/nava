@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\Client\Invoice;
 
 use App\Entities\OrderBill;
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -41,6 +43,9 @@ class RefuseInvoice extends Controller
         $order = $orderBill->order;
         $technician = $order->technician;
         $technician->notify(new \App\Notifications\Api\RefuseInvoice($order));
+        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $job = (new \App\Jobs\RefuseInvoice($admins,$order));
+        dispatch($job);
         return $this->successResponse();
     }
 }

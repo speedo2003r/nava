@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\Client\Order;
 
 use App\Entities\ReviewRate;
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Notifications\Api\DelegateRate;
 use App\Repositories\OrderRepository;
 use App\Traits\ResponseTrait;
@@ -29,6 +31,7 @@ class RateOrderTech extends Controller
         $validator = Validator::make($request->all(), [
             'order_id' => 'required|exists:orders,id,deleted_at,NULL',
             'rate' => 'required',
+            'comment' => 'sometimes',
         ]);
         if ($validator->fails())
             return $this->ApiResponse('fail', $validator->errors()->first());
@@ -46,8 +49,14 @@ class RateOrderTech extends Controller
                 'rateable_id' => $technician['id'],
                 'rateable_type' => get_class($technician),
                 'rate' => $request['rate'],
+                'comment' => $request['comment'],
             ]);
             $user->notify(new DelegateRate($order));
+            if($request['rate'] < 4){
+                $admins = User::where('user_type',UserType::ADMIN)->get();
+                $job = (new \App\Jobs\RateOrderTech($admins,$order));
+                dispatch($job);
+            }
         }else{
             return $this->ApiResponse( 'fail', 'technician is undefined');
         }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\Client\Invoice;
 
 use App\Entities\OrderBill;
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -42,6 +44,9 @@ class AcceptInvoice extends Controller
         $order->total_services = $order->orderServices('order_services.status',1)->count();
         $order->save();
         $technician->notify(new \App\Notifications\Api\AcceptInvoice($order));
+        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $job = (new \App\Jobs\AcceptInvoice($admins,$order));
+        dispatch($job);
         return $this->successResponse();
     }
 }
