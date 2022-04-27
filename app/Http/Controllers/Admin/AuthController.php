@@ -18,11 +18,11 @@ class AuthController extends Controller
             'password'  => 'required|string',
             'fcm_token'  => 'nullable',
         ]);
-
         $remember = true;
         if (auth()->guard()->attempt(['email' => $request->email, 'password' => $request->password], $remember))
         {
             auth()->user()->devices()->create(['device_type'=>'web','device_id' => $request['fcm_token']]);
+            session()->put(['fcm_token'=>$request['fcm_token']]);
             return redirect()->route('admin.dashboard');
         }else{
             return redirect()->route('show.login')->withErrors('تحقق من صحة البيانات المدخلة');
@@ -35,9 +35,14 @@ class AuthController extends Controller
     /**************** logout *****************/
     public function logout()
     {
-        if(count(auth()->user()->devices) > 0){
-            auth()->user()->devices()->delete();
+        if(session('fcm_token')){
+            auth()->user()->devices()->where('device_id',session('fcm_token'))->delete();
+        }else{
+            if(count(auth()->user()->devices) > 0){
+                auth()->user()->devices()->delete();
+            }
         }
+
         auth()->guard()->logout();
         session()->invalidate();
         session()->regenerateToken();

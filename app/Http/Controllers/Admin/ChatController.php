@@ -95,6 +95,7 @@ class ChatController extends Controller
         if(!$existRoom){
             creatPrivateRoom(auth()->id(),$order['user_id'],$order['id']);
         }
+        $existRoom->refresh();
         if(!in_array(auth()->id(),$existRoom->users()->pluck('users.id')->toArray())){
             joinRoom($existRoom['id'],auth()->id());
         }
