@@ -21,8 +21,10 @@ class AuthController extends Controller
         $remember = true;
         if (auth()->guard()->attempt(['email' => $request->email, 'password' => $request->password], $remember))
         {
-            auth()->user()->devices()->create(['device_type'=>'web','device_id' => $request['fcm_token']]);
-            session()->put(['fcm_token'=>$request['fcm_token']]);
+            if($request['fcm_token'] != null){
+                auth()->user()->devices()->create(['device_type'=>'web','device_id' => $request['fcm_token']]);
+                session()->put(['fcm_token'=>$request['fcm_token']]);
+            }
             return redirect()->route('admin.dashboard');
         }else{
             return redirect()->route('show.login')->withErrors('تحقق من صحة البيانات المدخلة');
