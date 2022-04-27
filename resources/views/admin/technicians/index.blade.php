@@ -337,27 +337,23 @@
     <script>
         $(function () {
             'use strict'
-        //     $('.table thead tr:first th:first').html(`
-        //                     <label class="custom-control material-checkbox" style="margin: auto">
-        //                         <input type="checkbox" class="material-control-input" id="checkedAll">
-        //                         <span class="material-control-indicator"></span>
-        //                     </label>`);
-        // });
-        $('body').on('change','#country_id',function (){
-            var country = $(this).val();
-            getCities(country)
-        })
-        $('body').on('change','#city_id',function () {
-            var tokenv  = "{{csrf_token()}}";
-            var city = $(this).val();
-            getBranches(city,tokenv)
-        });
-        $('.add-user').on('click',function () {
-            $('#editModel .modal-title').text(`{{awtTrans('اضافة تقني')}}`);
-            $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
-            $( '#upload_area_img' ).empty();
-            $('#editForm')      .attr("action","{{route('admin.technicians.store')}}");
-            $('.subcat').css({display:'none'});
+
+            $('body').on('change', '#country_id', function () {
+                var country = $(this).val();
+                getCities(country)
+            })
+            $('body').on('change', '#city_id', function () {
+                var tokenv = "{{csrf_token()}}";
+                var city = $(this).val();
+                getBranches(city, tokenv)
+            });
+            $('.add-user').on('click', function () {
+                $('#editModel .modal-title').text(`{{awtTrans('اضافة تقني')}}`);
+                $('#editForm :input:not([type=checkbox],[type=radio],[type=hidden])').val('');
+                $('#upload_area_img').empty();
+                $('#editForm').attr("action", "{{route('admin.technicians.store')}}");
+                $('.subcat').css({display: 'none'});
+            });
         });
         function getBranches(city,tokenv,branches = []){
             $('.branches').empty();
@@ -456,7 +452,6 @@
                             subcat = value.id;
                         }
                     });
-                    console.log(value.title.ar);
                     html += `
                     <table class="table">
                         <tr>
