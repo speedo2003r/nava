@@ -3,6 +3,9 @@
 namespace App\Notifications\Api;
 
 use App\Enum\NotifyType;
+use App\Events\RatingOrder;
+use App\Events\UpdateNotification;
+use App\Notifications\BroadcastChannel;
 use App\Notifications\FireBaseChannel;
 use App\Traits\NotifyTrait;
 use Illuminate\Bus\Queueable;
@@ -50,7 +53,7 @@ class FinishOrder extends Notification
      */
     public function via($notifiable)
     {
-        return ['database',FireBaseChannel::class];
+        return [BroadcastChannel::class,'database',FireBaseChannel::class];
     }
 
     /**
@@ -62,6 +65,10 @@ class FinishOrder extends Notification
     public function toDatabase($notifiable)
     {
         return $this->data;
+    }
+    public function toBroadcast($notifiable)
+    {
+        return broadcast(new RatingOrder($notifiable,$this->order));
     }
     public function toFireBase($notifiable)
     {
