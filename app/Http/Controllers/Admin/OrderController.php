@@ -78,7 +78,8 @@ class OrderController extends Controller
         $timeLineStatus = $order->timeLineStatus;
         $category = $order->category;
         $services = $category->childServices;
-        return view('admin.orders.show', compact('services','order','id','timeLineStatus'));
+        $bills = $order->bills()->whereDoesntHave('orderServices')->get();
+        return view('admin.orders.show', compact('services','order','id','timeLineStatus','bills'));
     }
 
     /***************************  update provider  **************************/
@@ -198,15 +199,44 @@ class OrderController extends Controller
     /***************************  update provider  **************************/
     public function servicesDelete(Request $request)
     {
-        $orderService = $this->orderService->find($request['order_service_id']);
-        if(count($orderService->bills) > 0){
-            foreach ($orderService->bills as $bill){
-                $bill->price -= ($orderService['price'] * $orderService['count']);
-                $bill->vat_amount -= (($orderService['price'] * $orderService['count']) * settings('tax')) / 100;
-                $bill->save();
+
+        if($request['bill_type'] == 'bill') {
+            $orderBill = OrderBill::where('id', $request['order_service_id'])->first();
+            $order = $orderBill->order;
+            if($order['pay_status'] == PayStatus::DONE){
+                $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+                return back()->with('danger',$msg);
             }
+            if($order['status'] == OrderStatus::FINISHED){
+                $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
+                return back()->with('danger',$msg);
+            }
+            $orderBill->delete();
+            $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::DELETEINVOICE);
+
+        }else{
+            $orderService = $this->orderService->find($request['order_service_id']);
+            $order = $orderService->order;
+            if($order['pay_status'] == PayStatus::DONE){
+                $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+                return back()->with('danger',$msg);
+            }
+            if($order['status'] == OrderStatus::FINISHED){
+                $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
+                return back()->with('danger',$msg);
+            }
+            if(count($orderService->bills) > 0){
+                foreach ($orderService->bills as $bill){
+                    $bill->price -= ($orderService['price'] * $orderService['count']);
+                    $bill->vat_amount -= (($orderService['price'] * $orderService['count']) * settings('tax')) / 100;
+                    $bill->save();
+                }
+            }
+            $orderService->delete();
+            $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::DELETESERVICE);
+
         }
-        $orderService->delete();
+
         return back()->with('success','تم الحذف بنجاح');
     }
     /***************************  update provider  **************************/
@@ -355,77 +385,115 @@ class OrderController extends Controller
 
     public function billAccept(Request $request)
     {
-        $orderService = OrderService::find($request['order_service_id']);
-        $order = $orderService->order;
-        if($order['pay_status'] == PayStatus::DONE){
-            $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
-            return back()->with('danger',$msg);
-        }
-        if($order['status'] == OrderStatus::FINISHED){
-            $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
-            return back()->with('danger',$msg);
-        }
-        $orderService->update([
-            'status' => 1
-        ]);
-        $orderBill = OrderBill::where('status',0)->where('order_id',$order['id'])->whereHas('orderServices',function ($q) use ($orderService){
-            $q->where('order_services.id',$orderService['id']);
-        })->first();
-        if($orderBill) {
-            $tax = 0;
-            $amount = 0;
-            foreach ($orderBill->orderServices()->where('order_services.status',0)->get() as $servs){
-                $tax += $servs['tax'] * $servs['count'];
-                $amount += $servs['price'] * $servs['count'];
+        if($request['bill_type'] == 'bill'){
+            $orderBill = OrderBill::where('status',0)->where('id',$request['order_service_id'])->first();
+
+            $order = $orderBill->order;
+            if($order['pay_status'] == PayStatus::DONE){
+                $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+                return back()->with('danger',$msg);
             }
-            $orderBill->update([
-                'vat_amount' => $tax,
-                'price' => $amount,
-            ]);
-            if($orderBill['price'] == 0){
+            if($order['status'] == OrderStatus::FINISHED){
+                $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
+                return back()->with('danger',$msg);
+            }
+            if($orderBill) {
                 $orderBill['status'] = 1;
                 $orderBill->save();
+                $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::ACCEPTINVOICE);
             }
+        }else{
+            $orderService = OrderService::find($request['order_service_id']);
+            $order = $orderService->order;
+            if($order['pay_status'] == PayStatus::DONE){
+                $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+                return back()->with('danger',$msg);
+            }
+            if($order['status'] == OrderStatus::FINISHED){
+                $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
+                return back()->with('danger',$msg);
+            }
+            $orderService->update([
+                'status' => 1
+            ]);
+            $orderBill = OrderBill::where('status',0)->where('order_id',$order['id'])->whereHas('orderServices',function ($q) use ($orderService){
+                $q->where('order_services.id',$orderService['id']);
+            })->first();
+            if($orderBill) {
+                $tax = 0;
+                $amount = 0;
+                foreach ($orderBill->orderServices()->where('order_services.status',0)->get() as $servs){
+                    $tax += $servs['tax'] * $servs['count'];
+                    $amount += $servs['price'] * $servs['count'];
+                }
+                $orderBill->update([
+                    'vat_amount' => $tax,
+                    'price' => $amount,
+                ]);
+                if($orderBill['price'] == 0){
+                    $orderBill['status'] = 1;
+                    $orderBill->save();
+                }
 
-            $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::ACCEPTINVOICE);
+                $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::ACCEPTINVOICE);
+            }
         }
+
         return back()->with('success','تم الموافقه علي الخدمه بنجاح');
 
     }
     public function billReject(Request $request)
     {
-        $orderService = OrderService::find($request['order_service_id']);
-        $order = $orderService->order;
-        if($order['pay_status'] == PayStatus::DONE){
-            $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
-            return back()->with('danger',$msg);
-        }
-        if($order['status'] == OrderStatus::FINISHED){
-            $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
-            return back()->with('danger',$msg);
-        }
-        $orderService->update([
-            'status' => 2
-        ]);
-        $orderBill = OrderBill::where('status',0)->where('order_id',$order['id'])->whereHas('orderServices',function ($q) use ($orderService){
-            $q->where('order_services.id',$orderService['id']);
-        })->first();
-        if($orderBill) {
-            $tax = 0;
-            $amount = 0;
-            foreach ($orderBill->orderServices()->where('order_services.status',0)->get() as $servs){
-                $tax += $servs['tax'] * $servs['count'];
-                $amount += $servs['price'] * $servs['count'];
+        if($request['bill_type'] == 'bill'){
+            $orderBill = OrderBill::where('status',0)->where('id',$request['order_service_id'])->first();
+            $order = $orderBill->order;
+            if($order['pay_status'] == PayStatus::DONE){
+                $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
+                return back()->with('danger',$msg);
             }
-            $orderBill->update([
-                'vat_amount' => $tax,
-                'price' => $amount,
-            ]);
-            if($orderBill['price'] == 0){
+            if($order['status'] == OrderStatus::FINISHED){
+                $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب': 'The order has already been finished';
+                return back()->with('danger',$msg);
+            }
+            if($orderBill) {
                 $orderBill['status'] = 2;
                 $orderBill->save();
+                $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::REFUSEINVOICE);
             }
-            $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::REFUSEINVOICE);
+        }else {
+            $orderService = OrderService::find($request['order_service_id']);
+            $order = $orderService->order;
+            if ($order['pay_status'] == PayStatus::DONE) {
+                $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل' : 'The order has already been paid by the customer';
+                return back()->with('danger', $msg);
+            }
+            if ($order['status'] == OrderStatus::FINISHED) {
+                $msg = app()->getLocale() == 'ar' ? 'تم الانتهاء من الطلب' : 'The order has already been finished';
+                return back()->with('danger', $msg);
+            }
+            $orderService->update([
+                'status' => 2
+            ]);
+            $orderBill = OrderBill::where('status', 0)->where('order_id', $order['id'])->whereHas('orderServices', function ($q) use ($orderService) {
+                $q->where('order_services.id', $orderService['id']);
+            })->first();
+            if ($orderBill) {
+                $tax = 0;
+                $amount = 0;
+                foreach ($orderBill->orderServices()->where('order_services.status', 0)->get() as $servs) {
+                    $tax += $servs['tax'] * $servs['count'];
+                    $amount += $servs['price'] * $servs['count'];
+                }
+                $orderBill->update([
+                    'vat_amount' => $tax,
+                    'price' => $amount,
+                ]);
+                if ($orderBill['price'] == 0) {
+                    $orderBill['status'] = 2;
+                    $orderBill->save();
+                }
+                $this->orderRepo->addBillStatusTimeLine($orderBill['id'], OrderStatus::REFUSEINVOICE);
+            }
         }
         return back()->with('success','تم رفض الخدمه بنجاح');
     }

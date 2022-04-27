@@ -245,21 +245,19 @@
                                                         <a id="child" data-service_id="{{$orderService['id']}}" data-price="{{$orderService['price']}}" data-toggle="kt-tooltip" title="" data-placement="top" data-original-title="إرسال سعر تقديرى" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;" aria-describedby="tooltip579256">
                                                             <i data-toggle="modal" data-target="#set-price" class="la la-dollar"></i>
                                                         </a>
-                                                    @else
-                                                        ---
                                                     @endif
                                                     @if(($orderService->order['status'] != 'finished' && $orderService->order['status'] != 'rejected') && $orderService['status'] != 2)
-                                                        <a id="reject" data-toggle="modal" data-target="#deleteModal-reject" data-service_id="{{$orderService['id']}}" title="" data-placement="top" data-original-title="حذف" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
+                                                        <a id="reject" data-toggle="modal" data-bill-type="service" data-target="#deleteModal-reject" data-service_id="{{$orderService['id']}}" title="" data-placement="top" data-original-title="حذف" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
                                                             <i class="fa fa-trash"></i>
                                                         </a>
-                                                        <a id="edit" Onclick="edit({{$orderService}})" data-toggle="modal" data-target="#addInvoiceModel" data-service_id="{{$orderService['id']}}" title="" data-placement="top" data-original-title="تعديل" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
+                                                        <a id="edit" Onclick="edit({{$orderService}})" data-bill-type="service" data-toggle="modal" data-target="#addInvoiceModel" data-service_id="{{$orderService['id']}}" title="" data-placement="top" data-original-title="تعديل" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
                                                             <i class="fas fa-pen-alt"></i>
                                                         </a>
                                                         @if($orderService['status'] == 0)
-                                                            <button data-id="{{$id}}" data-service_id="{{$orderService['id']}}" data-toggle="modal" data-target="#acceptBill" title="" data-placement="top" data-original-title="قبول" class="child btn btn-sm btn-clean btn-icon btn-icon-md reject">
+                                                            <button data-id="{{$id}}" data-bill-type="service" data-service_id="{{$orderService['id']}}" data-toggle="modal" data-target="#acceptBill" title="" data-placement="top" data-original-title="قبول" class="child btn btn-sm btn-clean btn-icon btn-icon-md reject">
                                                                 <i class="fa fa-check"></i>
                                                             </button>
-                                                            <a data-id="{{$id}}" data-service_id="{{$orderService['id']}}" data-toggle="modal" data-target="#rejectBill" title="" data-placement="top" data-original-title="رفض" class="btn btn-sm btn-clean btn-icon btn-icon-md reject" style="cursor: pointer;">
+                                                            <a data-id="{{$id}}" data-bill-type="service" data-service_id="{{$orderService['id']}}" data-toggle="modal" data-target="#rejectBill" title="" data-placement="top" data-original-title="رفض" class="btn btn-sm btn-clean btn-icon btn-icon-md reject" style="cursor: pointer;">
                                                                 <i class="la la-close"></i>
                                                             </a>
                                                         @endif
@@ -271,6 +269,49 @@
                                 </div>
                             </div>
                         </div>
+                        @if(count($bills) > 0)
+                        <hr>
+                        <div>
+                            <i class="fas fa-list bg-yellow"></i>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header">فواتير مكتوبه</h3>
+                                <div class="timeline-body">
+                                    <br>
+                                    <br>
+                                    <table class="table table-striped table-bordered dt-responsive nowrap">
+                                        <tr>
+                                            <td>وصف الخدمه</td>
+                                            <td>السعر</td>
+                                            <td>الحاله</td>
+                                            <td>التحكم</td>
+                                        </tr>
+                                        @foreach($bills as $bill)
+                                            <tr>
+                                                <td>{{$bill['text'] ?? ''}}</td>
+                                                <td>{{$bill['price'] + $bill['vat_amount']}}</td>
+                                                <td>{{$bill['status'] == 1 ? 'مقبول' : ($bill['status'] == 2 ? 'مرفوض' : ($bill['status'] == 0 ? 'تحت المراجعه من قبل العميل' : '-'))}}</td>
+                                                <td>
+                                                    @if(($bill->order['status'] != 'finished' && $bill->order['status'] != 'rejected') && $bill['status'] != 2)
+                                                        <a id="reject" data-toggle="modal" data-target="#deleteModal-reject" data-bill-type="bill" data-service_id="{{$bill['id']}}" title="" data-placement="top" data-original-title="حذف" class="btn btn-sm btn-clean btn-icon btn-icon-md" style="cursor: pointer;">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                        @if($bill['status'] == 0)
+                                                            <button data-id="{{$id}}" data-service_id="{{$bill['id']}}" data-bill-type="bill" data-toggle="modal" data-target="#acceptBill" title="" data-placement="top" data-original-title="قبول" class="child btn btn-sm btn-clean btn-icon btn-icon-md reject">
+                                                                <i class="fa fa-check"></i>
+                                                            </button>
+                                                            <a data-id="{{$id}}" data-service_id="{{$bill['id']}}" data-bill-type="bill" data-toggle="modal" data-target="#rejectBill" title="" data-placement="top" data-original-title="رفض" class="btn btn-sm btn-clean btn-icon btn-icon-md reject" style="cursor: pointer;">
+                                                                <i class="la la-close"></i>
+                                                            </a>
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                         <hr>
                         <!-- timeline item -->
                         @if($order->orderParts()->whereHas('orderBills',function($query){$query->where('status',1);})->count() > 0)
@@ -323,8 +364,8 @@
                                                 <div class="requist-info rating">
                                                     <div class="row">
                                                         <div class="col-lg-12">
-                                                            <h7 class="font-weight-bold"> {{__('admin/requests.rate')}} : <ul
-                                                                    class="list-unstyled d-inline-block">
+                                                            <h7 class="font-weight-bold"> <ul
+                                                                    class="list-unstyled d-inline-flex">
                                                                     <li> <i class="la {{ $review->rate >=1 ? 'la-star' : 'la-star-o' }}"></i> </li>
                                                                     <li> <i class="la {{ $review->rate >=2 ? 'la-star' : 'la-star-o' }}"></i> </li>
                                                                     <li><i class="la {{ $review->rate >=3 ? 'la-star' : 'la-star-o' }}"></i></li>
@@ -701,6 +742,7 @@
                 <form action="{{route('admin.orders.servicesDelete')}}" method="post">
                     @csrf()
                     <input type="hidden" name="order_service_id">
+                    <input type="hidden" name="bill_type">
                 <div class="modal-body">
                     <p>هل أنت متأكد من عملية الحذف ؟</p>
                 </div>
@@ -720,6 +762,7 @@
                 <form action="{{route('admin.orders.acceptBill')}}" method="post">
                     @csrf()
                     <input type="hidden" name="order_service_id">
+                    <input type="hidden" name="bill_type">
                 <div class="modal-body">
                     <p>هل أنت متأكد من عملية الموافقه علي الخدمه ؟</p>
                 </div>
@@ -798,11 +841,15 @@
         });
         $('body').on('click','#reject',function (){
             var service = $(this).data('service_id');
+            var billType = $(this).data('bill-type');
             $('[name=order_service_id]').val(service);
+            $('[name=bill_type]').val(billType);
         });
         $('body').on('click','.reject',function (){
             var service = $(this).data('service_id');
+            var billType = $(this).data('bill-type');
             $('[name=order_service_id]').val(service);
+            $('[name=bill_type]').val(billType);
         });
 
         $(document).on('click','.checkTech',function (){
