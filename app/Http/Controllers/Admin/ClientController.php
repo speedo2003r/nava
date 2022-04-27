@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ClientDatatable;
+use App\Entities\Order;
 use App\Enum\WalletOperationType;
 use App\Enum\WalletType;
+use App\Events\createOrJoinRoom;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Client\Create;
 use App\Http\Requests\Admin\Client\Update;
 use App\Jobs\NotifyFcm;
+use App\Models\Room;
 use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\UserRepository;
@@ -17,6 +20,7 @@ use App\Traits\ResponseTrait;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
@@ -141,5 +145,35 @@ class ClientController extends Controller
             'operation_type'=>WalletOperationType::DEPOSIT,
         ]);
         return back()->with('success','تم الاضافه بنجاح');
+    }
+
+    public function chat($id)
+    {
+        $existRoom = Room::where(function ($in) use ($id){
+            $in->where('user_id',$id)->orWhere('other_user_id',$id);
+        })->where('order_id',null)->first();
+        if(!$existRoom){
+            $existRoom = creatPrivateRoom(auth()->id(),$id);
+        }
+        $existRoom->refresh();
+        if(!in_array(auth()->id(),$existRoom->users()->pluck('users.id')->toArray())){
+            joinRoom($existRoom['id'],auth()->id());
+        }
+        $user = $this->user->find($id);
+        return view('admin.clients.chat',compact('existRoom','user'));
+    }
+
+    public function NewPrivateRoom($id){
+        $currentUser = Auth::user();
+        $otherUser = User::find($id);
+        $room = Room::where(function ($in) use ($id){
+            $in->where('user_id',$id)->orWhere('other_user_id',$id);
+        })->where('order_id',null)->first();
+        if(!$room) {
+            $room = creatPrivateRoom($currentUser->id, $otherUser->id);
+        }
+        $messages  = getRoomMessages($room->id, $currentUser->id);
+        broadcast(new createOrJoinRoom($room))->toOthers();
+        return response()->json(['status'=>1,'message' => 'success','room' =>$room,'messages'=>$messages ]);
     }
 }

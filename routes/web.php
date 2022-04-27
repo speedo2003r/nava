@@ -96,7 +96,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'sub_route' => true,
             'child'     => [
                 'admins.index', 'admins.store', 'admins.update', 'admins.delete','admins.chatStatus',
-                'clients.index', 'clients.store', 'clients.update', 'clients.delete',
+                'clients.index', 'clients.store', 'clients.update', 'clients.delete','clients.chat','clients.privateRoom',
                 'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete','technicians.orders', 'technicians.decreaseVal', 'technicians.selectCategories','technicians.accounts','technicians.accountsDelete','technicians.settlement',
                 'companies.index', 'companies.store', 'companies.update', 'companies.delete','companies.accounts', 'companies.images','companies.storeImages',
                 'companies.technicians','companies.storeTechnicians','companies.updateTechnicians','companies.deleteTechnicians',
@@ -118,6 +118,8 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('clients/{id}',['uses'=> 'ClientController@update','as'=> 'clients.update','title'=> awtTrans('تعديل عميل')]);
         Route::delete('clients/{id}',['uses'=> 'ClientController@destroy','as'=> 'clients.delete','title'=> awtTrans('حذف عميل')]);
         Route::post('addToWallet',['uses'=> 'ClientController@addToWallet','as'=> 'addToWallet','title'=> awtTrans('اضافه الي المحفظه')]);
+        Route::get('clients/chat/{id}',['uses'=> 'ClientController@chat','as'=> 'clients.chat','title'=> awtTrans('المحادثه')]);
+        Route::get('clients/create-private-room/{id}', ['uses'      => 'ClientController@NewPrivateRoom', 'as'        => 'clients.privateRoom', 'title'     => awtTrans('اضافة غرفة دردشه')]);
         # TechnicianController
         Route::get('technicians',['uses'=> 'TechnicianController@index','as'=> 'technicians.index','title'=> awtTrans('التقني'),'icon'=> '<i class="nav-icon fa fa-users"></i>']);
         Route::post('technicians/store',['uses'=> 'TechnicianController@store','as'=> 'technicians.store','title'=> awtTrans('اضافة تقني')]);

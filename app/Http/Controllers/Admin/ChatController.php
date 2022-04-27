@@ -93,7 +93,7 @@ class ChatController extends Controller
         $order = $this->order->find($id);
         $existRoom = Room::where('order_id',$id)->first();
         if(!$existRoom){
-            creatPrivateRoom(auth()->id(),$order['user_id'],$order['id']);
+            $existRoom = creatPrivateRoom(auth()->id(),$order['user_id'],$order['id']);
         }
         $existRoom->refresh();
         if(!in_array(auth()->id(),$existRoom->users()->pluck('users.id')->toArray())){
