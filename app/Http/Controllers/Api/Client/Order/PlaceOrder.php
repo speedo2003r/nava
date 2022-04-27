@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\Client\Order;
 
 use App\Entities\Coupon;
 use App\Enum\OrderStatus;
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendToDelegate;
 use App\Models\User;
 use App\Notifications\Api\NewOrder;
 use App\Repositories\OrderRepository;
+use App\Repositories\UserRepository;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,7 +21,7 @@ class PlaceOrder extends Controller
 {
     use ResponseTrait;
 
-    public function __construct(protected OrderRepository $orderRepo)
+    public function __construct(protected UserRepository $userRepo,protected OrderRepository $orderRepo)
     {
 
     }
@@ -89,6 +91,9 @@ class PlaceOrder extends Controller
                 }
             }
         }
+        $admins = $this->userRepo->where('user_type',UserType::ADMIN)->get();
+        $job = (new \App\Jobs\NewOrder($admins,$order));
+        dispatch($job);
         return $this->successResponse();
     }
 }

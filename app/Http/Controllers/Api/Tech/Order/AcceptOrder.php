@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\Tech\Order;
 
 use App\Enum\OrderStatus;
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -40,6 +42,9 @@ class AcceptOrder extends Controller
         $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::ACCEPTED);
         creatPrivateRoom($user['id'],$order['user_id'],$order['id']);
         $order->user->notify(new \App\Notifications\Api\AcceptOrder($order));
+        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $job = (new \App\Jobs\TechAcceptOrder($admins,$order));
+        dispatch($job);
         return $this->successResponse();
     }
 }

@@ -6,7 +6,9 @@ use App\Entities\OrderGuarantee;
 use App\Enum\OrderStatus;
 use App\Enum\PayStatus;
 use App\Enum\PayType;
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
@@ -64,6 +66,10 @@ class FinishOrder extends Controller
             $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::FINISHED);
             $user = $order->user;
             $user->notify(new \App\Notifications\Api\FinishOrder($order));
+
+            $admins = User::where('user_type',UserType::ADMIN)->get();
+            $job = (new \App\Jobs\TechFinishOrder($admins,$order));
+            dispatch($job);
         }
         return $this->successResponse();
     }

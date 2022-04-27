@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewOrder extends Notification
+class TechArriveToOrder extends Notification
 {
     use NotifyTrait;
     use Queueable;
@@ -25,26 +25,25 @@ class NewOrder extends Notification
     protected $data;
     public function __construct(protected $order)
     {
-        $title_ar = 'هناك طلب جديد';
-        $title_ur = 'هناك طلب جديد';
-        $title_en = 'there are a new order';
-        $message_ar = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_ur = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_en = 'there is new order no.'.$this->order['order_num'];
+        $title_ar = 'تم وصول التقني';
+        $title_ur = 'تم وصول التقني';
+        $title_en = 'The technician has arrived!';
+        $message_ar = 'لقد وصل التقني الي العميل للتو للطلب رقم '.$this->order['order_num'];
+        $message_ur = 'لقد وصل التقني الي العميل للتو للطلب رقم '.$this->order['order_num'];
+        $message_en = 'Tech has just arrived for order number '.$this->order['order_num'];
         $this->data = [
             'title' => [
                 'ar' => $title_ar,
-                'en' => $title_en,
                 'ur' => $title_ur,
+                'en' => $title_en,
             ],
             'body' => [
                 'ar' => $message_ar,
-                'en' => $message_en,
                 'ur' => $message_ur,
+                'en' => $message_en,
             ],
-            'type'=> NotifyType::NEWORDER,
+            'type'=> NotifyType::ARRIVETOORDER,
             'order_id'=> $this->order['id'],
-            'status'=> $this->order['status'],
         ];
     }
 

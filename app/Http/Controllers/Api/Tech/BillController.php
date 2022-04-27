@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api\Tech;
 
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Notifications\Api\AddBillNotes;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
@@ -51,6 +53,10 @@ class BillController extends Controller
         ]);
         $user = $order->user;
         $user->notify(new AddBillNotes($order));
+
+        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $job = (new \App\Jobs\TechAddBillNotes($admins,$order));
+        dispatch($job);
         return $this->successResponse();
     }
 

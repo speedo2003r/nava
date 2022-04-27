@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewOrder extends Notification
+class TechAcceptOrder extends Notification
 {
     use NotifyTrait;
     use Queueable;
@@ -25,26 +25,25 @@ class NewOrder extends Notification
     protected $data;
     public function __construct(protected $order)
     {
-        $title_ar = 'هناك طلب جديد';
-        $title_ur = 'هناك طلب جديد';
-        $title_en = 'there are a new order';
-        $message_ar = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_ur = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_en = 'there is new order no.'.$this->order['order_num'];
+        $title_ar = 'تم الموافقه علي طلب من قبل تقني';
+        $title_ur = 'تم الموافقه علي طلب من قبل تقني';
+        $title_en = 'there is order has been approved from technical';
+        $message_ar = 'تم الموافقه علي طلب رقم '.$this->order['order_num'].' وجاري تنفيذه الأن التقني في الطريق الي العميل';
+        $message_ur = 'تم الموافقه علي طلب رقم '.$this->order['order_num'].' وجاري تنفيذه الأن التقني في الطريق الي العميل';
+        $message_en = 'order number '.$this->order['order_num'].' has been approved and is being implemented. The technician is on the way to client';
         $this->data = [
             'title' => [
                 'ar' => $title_ar,
-                'en' => $title_en,
                 'ur' => $title_ur,
+                'en' => $title_en,
             ],
             'body' => [
                 'ar' => $message_ar,
-                'en' => $message_en,
                 'ur' => $message_ur,
+                'en' => $message_en,
             ],
-            'type'=> NotifyType::NEWORDER,
+            'type'=> NotifyType::ACCEPTORDER,
             'order_id'=> $this->order['id'],
-            'status'=> $this->order['status'],
         ];
     }
 

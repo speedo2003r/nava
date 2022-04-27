@@ -9,12 +9,15 @@ use App\Entities\OrderGuarantee;
 use App\Entities\OrderService;
 use App\Enum\GuaranteeSolved;
 use App\Enum\OrderStatus;
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Orders\ServiceResource;
 use App\Http\Resources\Orders\TechnicalGuaranteeOrderCollection;
 use App\Http\Resources\Orders\TechnicalOrderDetailsResource;
 use App\Http\Resources\Orders\TechnicalOrderCollection;
 use App\Models\Room;
+use App\Models\User;
+use App\Notifications\Api\AddBillNotes;
 use App\Notifications\Api\FinishOrder;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
@@ -200,6 +203,12 @@ class OrderController extends Controller
         $orderBill = OrderBill::find($orderBill['id']);
 
         $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::NEWINVOICE);
+        $order->refresh();
+        $user = $order->user;
+        $user->notify(new AddBillNotes($order));
+        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $job = (new \App\Jobs\TechAddBillNotes($admins,$order));
+        dispatch($job);
         $msg = app()->getLocale() == 'ar' ? 'تم الاضافه بنجاح' : 'successfully add';
         return $this->ApiResponse('success',$msg,[
             'orderBill_id' => $orderBill != null ? $orderBill['id'] : 0,

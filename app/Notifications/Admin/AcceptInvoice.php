@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewOrder extends Notification
+class AcceptInvoice extends Notification
 {
     use NotifyTrait;
     use Queueable;
@@ -25,12 +25,12 @@ class NewOrder extends Notification
     protected $data;
     public function __construct(protected $order)
     {
-        $title_ar = 'هناك طلب جديد';
-        $title_ur = 'هناك طلب جديد';
-        $title_en = 'there are a new order';
-        $message_ar = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_ur = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_en = 'there is new order no.'.$this->order['order_num'];
+        $title_ar = 'تم الموافقه علي الفاتوره';
+        $title_ur = 'تم الموافقه علي الفاتوره';
+        $title_en = 'invoice has been accepted';
+        $message_ar = 'تم الموافقه علي الفاتوره في الطلب رقم '.$this->order['order_num'];
+        $message_ur = 'تم الموافقه علي الفاتوره في الطلب رقم '.$this->order['order_num'];
+        $message_en = 'invoice has been accepted in order No '.$this->order['order_num'];
         $this->data = [
             'title' => [
                 'ar' => $title_ar,
@@ -42,9 +42,8 @@ class NewOrder extends Notification
                 'en' => $message_en,
                 'ur' => $message_ur,
             ],
-            'type'=> NotifyType::NEWORDER,
-            'order_id'=> $this->order['id'],
-            'status'=> $this->order['status'],
+            'type'=> NotifyType::ACCEPTINVOICE,
+            'order_id'=> $this->order['id']
         ];
     }
 

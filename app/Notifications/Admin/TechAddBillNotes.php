@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewOrder extends Notification
+class TechAddBillNotes extends Notification
 {
     use NotifyTrait;
     use Queueable;
@@ -22,29 +22,27 @@ class NewOrder extends Notification
      *
      * @return void
      */
-    protected $data;
     public function __construct(protected $order)
     {
-        $title_ar = 'هناك طلب جديد';
-        $title_ur = 'هناك طلب جديد';
-        $title_en = 'there are a new order';
-        $message_ar = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_ur = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_en = 'there is new order no.'.$this->order['order_num'];
+        $title_ar = 'تم اصدار فاتوره جديده';
+        $title_ur = 'تم اصدار فاتوره جديده';
+        $title_en = 'there is a new invoice';
+        $message_ar = 'تم اصدار فاتوره لطلبك الحالي رقم '.$this->order['order_num'].' في انتظار موافقة العميل';
+        $message_ur = 'تم اصدار فاتوره لطلبك الحالي رقم '.$this->order['order_num'].' في انتظار موافقة العميل';
+        $message_en = 'An invoice has been issued for your current order No '.$this->order['order_num'].' is Waiting for client approval';
         $this->data = [
             'title' => [
                 'ar' => $title_ar,
-                'en' => $title_en,
                 'ur' => $title_ur,
+                'en' => $title_en,
             ],
             'body' => [
                 'ar' => $message_ar,
-                'en' => $message_en,
                 'ur' => $message_ur,
+                'en' => $message_en,
             ],
-            'type'=> NotifyType::NEWORDER,
+            'type'=> NotifyType::ADDINVOICENOTES,
             'order_id'=> $this->order['id'],
-            'status'=> $this->order['status'],
         ];
     }
 

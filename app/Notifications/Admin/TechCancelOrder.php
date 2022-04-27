@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewOrder extends Notification
+class TechCancelOrder extends Notification
 {
     use NotifyTrait;
     use Queueable;
@@ -25,26 +25,25 @@ class NewOrder extends Notification
     protected $data;
     public function __construct(protected $order)
     {
-        $title_ar = 'هناك طلب جديد';
-        $title_ur = 'هناك طلب جديد';
-        $title_en = 'there are a new order';
-        $message_ar = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_ur = 'هناك طلب جديد رقم '.$this->order['order_num'];
-        $message_en = 'there is new order no.'.$this->order['order_num'];
+        $title_ar = 'تم الغاء الطلب رقم '.$this->order['order_num'];
+        $title_ur = 'تم الغاء الطلب رقم '.$this->order['order_num'];
+        $title_en = 'The order NO. '.$this->order['order_num'].' was canceled';
+        $message_ar =  'تم الغاء الطلب رقم '.$this->order['order_num'].' من قبل التقني';
+        $message_ur =  'تم الغاء الطلب رقم '.$this->order['order_num'].' من قبل التقني';
+        $message_en = 'The order NO. '.$this->order['order_num'].' was canceled by the technician';
         $this->data = [
             'title' => [
                 'ar' => $title_ar,
-                'en' => $title_en,
                 'ur' => $title_ur,
+                'en' => $title_en,
             ],
             'body' => [
                 'ar' => $message_ar,
-                'en' => $message_en,
                 'ur' => $message_ur,
+                'en' => $message_en,
             ],
-            'type'=> NotifyType::NEWORDER,
+            'type'=> NotifyType::CANCELORDER,
             'order_id'=> $this->order['id'],
-            'status'=> $this->order['status'],
         ];
     }
 
