@@ -21,6 +21,7 @@ use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
@@ -78,11 +79,11 @@ class ChatController extends Controller
         broadcast(new MessageSent($lastMessage,$user_id))->toOthers();
         $room = $lastMessage->room;
         $users = $room->Users()->where('users.id','!=',auth()->id())->get();
-        $NotifyJob = (new \App\Jobs\NotifyMsg($users,$lastMessage->Message['body']));
-        dispatch($NotifyJob);
         $admins = User::where('user_type',UserType::ADMIN)->where('chat',1)->get();
-        $job = (new \App\Jobs\NotifyMsg($admins,$lastMessage->Message['body']));
-        dispatch($job);
+        Bus::chain([
+            new \App\Jobs\NotifyMsg($users,$lastMessage->Message['body']),
+            new \App\Jobs\NotifyMsg($admins,$lastMessage->Message['body']),
+        ])->dispatch();
         return response()->json(['status' => 1, 'message' => 'success', 'data' => $lastMessage]);
     }
     public function NewPrivateRoom($id){

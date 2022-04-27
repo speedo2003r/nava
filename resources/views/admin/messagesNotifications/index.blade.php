@@ -45,7 +45,7 @@
                                 @foreach($messages as $message)
                                     <li class="position-relative">
                                         <a href="{{isset($message->room['order_id']) ? route('admin.chats.room',$message->room['order_id']) : route('admin.clients.chat',($message->room['user_id'] == auth()->id() && $message->room->User['user_type'] != \App\Enum\UserType::ADMIN ? $message->room['other_user_id'] : $message->room['user_id']))}}">
-                                            <small>{{$message->user['name'] ?? ''}}</small>
+                                            <small>{{($message->room['user_id'] == auth()->id() && $message->room->User['user_type'] != \App\Enum\UserType::ADMIN  ? $message->room->User['name'] : $message->user['name'])}}</small>
                                             <p>{{$message->message['body'] ?? ''}}</p>
                                             <span style="position: absolute;bottom: 30px;left: 30px;">{{\Carbon\Carbon::parse($message->created_at)->diffforhumans()}}</span>
                                         </a>
