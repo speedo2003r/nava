@@ -2,25 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b02366-1c1d-4bc0-bd9b-e3440db742a5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Jobs/TechAcceptOrder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Jobs/TechAddBillNotes.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Jobs/TechArriveToOrder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Jobs/TechCancelOrder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Jobs/TechFinishOrder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Jobs/TechStartInOrder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Notifications/Admin/TechAcceptOrder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Notifications/Admin/TechAddBillNotes.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Notifications/Admin/TechArriveToOrder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Notifications/Admin/TechCancelOrder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Notifications/Admin/TechFinishOrder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Notifications/Admin/TechStartInOrder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/BillController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/BillController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/AcceptOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/AcceptOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/ArriveToOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/ArriveToOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/CancelOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/CancelOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/FinishOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/FinishOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/StartInOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/StartInOrder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/messagesNotifications/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/messagesNotifications/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/notifications/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/notifications/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -300,7 +284,7 @@
       <workItem from="1650960567889" duration="17816000" />
       <workItem from="1650991870594" duration="3879000" />
       <workItem from="1651000012895" duration="6149000" />
-      <workItem from="1651049009302" duration="10972000" />
+      <workItem from="1651049009302" duration="11780000" />
     </task>
     <servers />
   </component>
