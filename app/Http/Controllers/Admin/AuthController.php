@@ -42,8 +42,8 @@ class AuthController extends Controller
     {
         if(session('fcm_token')){
             auth()->user()->devices()->where('device_id',session('fcm_token'))->delete();
+            session()->forget('fcm_token');
         }
-
         auth()->guard()->logout();
         session()->invalidate();
         session()->regenerateToken();
