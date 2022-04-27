@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Notifications\Api;
+namespace App\Notifications;
 
 use App\Enum\NotifyType;
-use App\Events\RatingOrder;
-use App\Events\UpdateNotification;
-use App\Notifications\BroadcastChannel;
-use App\Notifications\FireBaseChannel;
+use App\Enum\UserType;
+use App\Events\UpdateNotificationsMessages;
 use App\Traits\NotifyTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class FinishOrder extends Notification
+class NotifyMsg extends Notification
 {
     use NotifyTrait;
     use Queueable;
@@ -24,24 +22,23 @@ class FinishOrder extends Notification
      * @return void
      */
     protected $data;
-    public function __construct(protected $order)
+    public function __construct(protected $message)
     {
-        $title_ar = 'تم انهاء الطلب';
-        $title_en = 'there is order has been completed';
-        $message_ar = 'تم انهاء الطلب رقم '.$this->order['order_num'];
-        $message_en = 'Order No. has been completed'.$this->order['order_num'];
+        $title_ar = 'لديك رساله جديده';
+        $title_ur = 'لديك رساله جديده';
+        $title_en = 'You have a new message';
         $this->data = [
             'title' => [
                 'ar' => $title_ar,
+                'ur' => $title_ur,
                 'en' => $title_en,
             ],
             'body' => [
-                'ar' => $message_ar,
-                'en' => $message_en,
+                'ar' => $this->message,
+                'ur' => $this->message,
+                'en' => $this->message,
             ],
-            'type'=> NotifyType::FINISHORDER,
-            'order_id'=> $this->order['id'],
-            'status'=> $this->order['status'],
+            'type'=>NotifyType::NOTIFY
         ];
     }
 
@@ -53,7 +50,7 @@ class FinishOrder extends Notification
      */
     public function via($notifiable)
     {
-        return [BroadcastChannel::class,'database',FireBaseChannel::class];
+        return [BroadcastChannel::class,FireBaseChannel::class];
     }
 
     /**
@@ -62,13 +59,18 @@ class FinishOrder extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toDatabase($notifiable)
-    {
-        return $this->data;
-    }
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+
     public function toBroadcast($notifiable)
     {
-        return broadcast(new RatingOrder($notifiable,$this->order));
+        if($notifiable['user_type'] == UserType::ADMIN){
+            return broadcast(new UpdateNotificationsMessages($notifiable));
+        }
     }
     public function toFireBase($notifiable)
     {

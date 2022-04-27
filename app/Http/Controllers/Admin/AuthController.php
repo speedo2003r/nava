@@ -39,10 +39,6 @@ class AuthController extends Controller
     {
         if(session('fcm_token')){
             auth()->user()->devices()->where('device_id',session('fcm_token'))->delete();
-        }else{
-            if(count(auth()->user()->devices) > 0){
-                auth()->user()->devices()->delete();
-            }
         }
 
         auth()->guard()->logout();
