@@ -77,7 +77,7 @@ class ChatController extends Controller
         $user_id = auth()->id();
         broadcast(new MessageSent($lastMessage,$user_id))->toOthers();
         $room = $lastMessage->room;
-        $users = $room->Users()->where('is_sender',0)->get();
+        $users = $room->Users()->where('users.id','!=',auth()->id())->get();
         $NotifyJob = (new \App\Jobs\NotifyMsg($users,$lastMessage->Message['body']));
         dispatch($NotifyJob);
         $admins = User::where('user_type',UserType::ADMIN)->where('chat',1)->get();
