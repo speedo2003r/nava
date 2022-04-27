@@ -38,7 +38,7 @@ class NotifyMsg extends Notification
                 'ur' => $this->message,
                 'en' => $this->message,
             ],
-            'type'=>NotifyType::NOTIFY
+            'type'=>NotifyType::CHAT
         ];
     }
 
