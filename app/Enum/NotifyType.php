@@ -3,6 +3,7 @@ namespace App\Enum;
 
 class NotifyType{
     const NOTIFY = 'notify';
+    const CHAT = 'chat';
     const DELEGATERATE = 'delegateRate';
     const NEWORDER = 'newOrder';
     const ACCEPTORDER = 'acceptOrder';
