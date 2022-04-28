@@ -79,7 +79,7 @@ class ChatController extends Controller
         broadcast(new MessageSent($lastMessage,$user_id))->toOthers();
         $room = $lastMessage->room;
         $users = $room->Users()->where('users.id','!=',auth()->id())->where('user_type','!=',UserType::ADMIN)->get();
-        $admins = User::where('user_type',UserType::ADMIN)->where('chat',1)->get();
+        $admins = $room->Users()->where('users.id','!=',auth()->id())->where('chat',1)->where('user_type',UserType::ADMIN)->get();
         Bus::chain([
             new \App\Jobs\NotifyMsg($users,$lastMessage->Message['body'],auth()->id()),
             new \App\Jobs\NotifyMsg($admins,$lastMessage->Message['body'],auth()->id()),
