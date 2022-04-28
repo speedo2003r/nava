@@ -78,7 +78,7 @@ class ChatController extends Controller
         $user_id = auth()->id();
         broadcast(new MessageSent($lastMessage,$user_id))->toOthers();
         $room = $lastMessage->room;
-        $users = $room->Users()->where('users.id','!=',auth()->id())->get();
+        $users = $room->Users()->where('users.id','!=',auth()->id())->where('user_type','!=',UserType::ADMIN)->get();
         $admins = User::where('user_type',UserType::ADMIN)->where('chat',1)->get();
         Bus::chain([
             new \App\Jobs\NotifyMsg($users,$lastMessage->Message['body'],auth()->id()),
@@ -130,6 +130,9 @@ class ChatController extends Controller
 
     public function messagesNotifications()
     {
+        if(auth()->user()['chat'] != 1){
+            return back()->with('danger','لا تملك صلاحية الدخول');
+        }
         $messages = Message_notification::whereRaw('created_at IN (select MAX(created_at) FROM message_notifications GROUP BY room_id)')->where('is_sender',1)->latest()->paginate(10);
         Message_notification::where('is_seen',0)->update(['is_seen'=>1]);
         return view('admin.messagesNotifications.index',compact('messages'));
