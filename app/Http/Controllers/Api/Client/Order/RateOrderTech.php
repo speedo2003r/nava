@@ -53,7 +53,7 @@ class RateOrderTech extends Controller
             ]);
             $user->notify(new DelegateRate($order));
             if($request['rate'] < 4){
-                $admins = User::where('user_type',UserType::ADMIN)->get();
+                $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
                 $job = (new \App\Jobs\RateOrderTech($admins,$order));
                 dispatch($job);
             }

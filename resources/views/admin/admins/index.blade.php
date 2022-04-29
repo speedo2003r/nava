@@ -51,6 +51,7 @@
                         <th>{{__('email')}}</th>
                         <th>{{__('phone')}}</th>
                         <th>استقبال اشعارات المحادثه</th>
+                        <th>استقبال الاشعارات</th>
                         <th>{{__('status')}}</th>
                         <th>{{__('control')}}</th>
                     </tr>
@@ -73,6 +74,12 @@
                                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" style="direction: ltr">
                                     <input type="checkbox" onchange="changeChatStatus('{{$ob->id}}')" {{ $ob->chat == 1 ? 'checked' : '' }} class="custom-control-input" id="chatSwitch{{$ob->id}}">
                                     <label class="custom-control-label" id="chat_label{{$ob->id}}" for="chatSwitch{{$ob->id}}"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" style="direction: ltr">
+                                    <input type="checkbox" onchange="changeNotifyStatus('{{$ob->id}}')" {{ $ob->notify == 1 ? 'checked' : '' }} class="custom-control-input" id="notifySwitch{{$ob->id}}">
+                                    <label class="custom-control-label" id="notify_label{{$ob->id}}" for="notifySwitch{{$ob->id}}"></label>
                                 </div>
                             </td>
                             <td>
@@ -273,6 +280,22 @@
                 data     : {
                     'id'         :  id ,
                     'chat'     :  chat ,
+                    '_token'     :  tokenv
+                }, success   : function(res){
+                    //
+                }
+            });
+        }
+        function changeNotifyStatus(id) {
+            var tokenv  = "{{csrf_token()}}";
+            var notify = 1;
+            $.ajax({
+                type     : 'POST',
+                url      : "{{route('admin.admins.notifyStatus')}}" ,
+                datatype : 'json' ,
+                data     : {
+                    'id'         :  id ,
+                    'notify'     :  notify ,
                     '_token'     :  tokenv
                 }, success   : function(res){
                     //

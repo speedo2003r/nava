@@ -120,6 +120,15 @@ class AdminController extends Controller
             return $this->ApiResponse('success','',$provider['chat']);
         }
     }
+    public function notifyStatus(Request $request)
+    {
+        if($request->ajax()){
+            $provider = $this->userRepo->find($request['id']);
+            $provider['notify'] = !$provider['notify'];
+            $provider->save();
+            return $this->ApiResponse('success','',$provider['notify']);
+        }
+    }
     /***************************  update profile  **************************/
 //    public function updateProfile(UpdateProfile $request,$id)
 //    {

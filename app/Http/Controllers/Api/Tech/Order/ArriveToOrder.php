@@ -40,7 +40,7 @@ class ArriveToOrder extends Controller
         $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::ARRIVED);
         $order->user->notify(new \App\Notifications\Api\ArriveToOrder($order));
 
-        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
         $job = (new \App\Jobs\TechArriveToOrder($admins,$order));
         dispatch($job);
         return $this->successResponse();

@@ -40,7 +40,7 @@ class StartInOrder extends Controller
             'progress_type' => 'progress',
         ]);
         $order->user->notify(new \App\Notifications\Api\StartInOrder($order));
-        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
         $job = (new \App\Jobs\TechStartInOrder($admins,$order));
         dispatch($job);
         return $this->successResponse();

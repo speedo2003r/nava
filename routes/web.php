@@ -95,7 +95,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             'type'      => 'parent',
             'sub_route' => true,
             'child'     => [
-                'admins.index', 'admins.store', 'admins.update', 'admins.delete','admins.chatStatus',
+                'admins.index', 'admins.store', 'admins.update', 'admins.delete','admins.chatStatus','admins.notifyStatus',
                 'clients.index', 'clients.store', 'clients.update', 'clients.delete','clients.chat','clients.privateRoom',
                 'technicians.index', 'technicians.store', 'technicians.update', 'technicians.delete','technicians.orders', 'technicians.decreaseVal', 'technicians.selectCategories','technicians.accounts','technicians.accountsDelete','technicians.settlement',
                 'companies.index', 'companies.store', 'companies.update', 'companies.delete','companies.accounts', 'companies.images','companies.storeImages',
@@ -109,6 +109,7 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         # AdminController
         Route::get('admins',['uses'=> 'AdminController@index','as'=> 'admins.index','title'=> awtTrans('المشرفين'),'icon'=> '<i class="nav-icon fa fa-user-tie"></i>']);
         Route::post('admins/change/chatStatus',['uses'=> 'AdminController@chatStatus','as'=> 'admins.chatStatus','title'=> awtTrans('استقبال المحادثه')]);
+        Route::post('admins/change/notifyStatus',['uses'=> 'AdminController@notifyStatus','as'=> 'admins.notifyStatus','title'=> awtTrans('استقبال الاشعارات')]);
         Route::post('admins/store',['uses'=> 'AdminController@store','as'=> 'admins.store','title'=> awtTrans('اضافة مشرف')]);
         Route::post('admins/{id}',['uses'=> 'AdminController@update','as'=> 'admins.update','title'=> awtTrans('تعديل مشرف')]);
         Route::delete('admins/{id}',['uses'=> 'AdminController@destroy','as'=> 'admins.delete','title'=> awtTrans('حذف مشرف')]);

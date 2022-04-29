@@ -44,7 +44,7 @@ class AcceptInvoice extends Controller
         $order->total_services = $order->orderServices('order_services.status',1)->count();
         $order->save();
         $technician->notify(new \App\Notifications\Api\AcceptInvoice($order));
-        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
         $job = (new \App\Jobs\AcceptInvoice($admins,$order));
         dispatch($job);
         return $this->successResponse();
