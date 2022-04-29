@@ -668,7 +668,7 @@
                 dataType: 'json',
                 success: function (res) {
                     $('.notify-count').html(res);
-                    play();
+                    notifyPlay();
                 }
             });
         })
@@ -679,7 +679,7 @@
                 dataType: 'json',
                 success: function (res) {
                     $('.messages-count').html(res);
-                    notifyPlay();
+                    play();
                 }
             });
         });
