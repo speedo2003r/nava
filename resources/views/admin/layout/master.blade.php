@@ -665,8 +665,7 @@
                 dataType: 'json',
                 success: function (res) {
                     $('.notify-count').html(res);
-                    let alert_sound = document.getElementById("chat-alert-sound");
-                    alert_sound.play();
+                    play();
                 }
             });
         })
@@ -680,6 +679,14 @@
                 }
             });
         });
+
+    let alert_sound = document.getElementById("chat-alert-sound");
+    function play(){
+        alert_sound.muted = true;
+        alert_sound.play();
+        alert_sound.muted = false;
+        alert_sound.play();
+    }
 </script>
 </body>
 
