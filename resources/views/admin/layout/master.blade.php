@@ -312,6 +312,9 @@
     <i class="fa fa-arrow-up"></i>
 </div>
 
+<audio id="notify-alert-sound" style="display: none" muted="muted">
+    <source src="{{ dashboard_url('sound/message-ringtone-magic.mp3') }}" />
+</audio>
 <audio id="chat-alert-sound" style="display: none" muted="muted">
     <source src="{{ dashboard_url('sound/facebook_chat.mp3') }}" />
 </audio>
@@ -676,6 +679,7 @@
                 dataType: 'json',
                 success: function (res) {
                     $('.messages-count').html(res);
+                    notifyPlay();
                 }
             });
         });
@@ -686,6 +690,13 @@
         alert_sound.play();
         alert_sound.muted = false;
         alert_sound.play();
+    }
+    let notify_sound = document.getElementById("notify-alert-sound");
+    function notifyPlay(){
+        notify_sound.muted = true;
+        notify_sound.play();
+        notify_sound.muted = false;
+        notify_sound.play();
     }
 </script>
 </body>
