@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b02366-1c1d-4bc0-bd9b-e3440db742a5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/Invoice/AcceptInvoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/Invoice/AcceptInvoice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/Invoice/RefuseInvoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/Invoice/RefuseInvoice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/Order/PlaceOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/Order/PlaceOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/Order/RateOrderTech.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/Order/RateOrderTech.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/BillController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/BillController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/AcceptOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/AcceptOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/ArriveToOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/ArriveToOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/CancelOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/CancelOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/FinishOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/FinishOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/StartInOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order/StartInOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/admins/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/admins/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sound/facebook_chat.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/layout/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/layout/master.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,7 +219,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -244,11 +231,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/app/Jobs" />
       <recent name="$PROJECT_DIR$/app/Notifications" />
       <recent name="$PROJECT_DIR$/resources/views/admin/clients" />
       <recent name="$PROJECT_DIR$/app/Events" />
-      <recent name="$PROJECT_DIR$/app/Notifications/Admin" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order" />
@@ -301,6 +288,7 @@
       <workItem from="1651097484841" duration="810000" />
       <workItem from="1651172951721" duration="2164000" />
       <workItem from="1651233867366" duration="453000" />
+      <workItem from="1651267659539" duration="253000" />
     </task>
     <servers />
   </component>
