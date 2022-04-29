@@ -91,7 +91,7 @@ class PlaceOrder extends Controller
                 }
             }
         }
-        $admins = $this->userRepo->where('user_type',UserType::ADMIN)->get();
+        $admins = $this->userRepo->where('user_type',UserType::ADMIN)->where('notify',1)->get();
         $job = (new \App\Jobs\NewOrder($admins,$order));
         dispatch($job);
         return $this->successResponse();

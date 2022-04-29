@@ -67,7 +67,7 @@ class FinishOrder extends Controller
             $user = $order->user;
             $user->notify(new \App\Notifications\Api\FinishOrder($order));
 
-            $admins = User::where('user_type',UserType::ADMIN)->get();
+            $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
             $job = (new \App\Jobs\TechFinishOrder($admins,$order));
             dispatch($job);
         }

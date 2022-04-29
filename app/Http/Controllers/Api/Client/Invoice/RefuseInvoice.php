@@ -43,7 +43,7 @@ class RefuseInvoice extends Controller
         $order = $orderBill->order;
         $technician = $order->technician;
         $technician->notify(new \App\Notifications\Api\RefuseInvoice($order));
-        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
         $job = (new \App\Jobs\RefuseInvoice($admins,$order));
         dispatch($job);
         return $this->successResponse();

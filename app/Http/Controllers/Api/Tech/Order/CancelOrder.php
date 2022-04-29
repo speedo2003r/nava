@@ -43,7 +43,7 @@ class CancelOrder extends Controller
 
         $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::USERCANCEL);
         $order->user->notify(new \App\Notifications\Api\CancelOrder($order));
-        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
         $job = (new \App\Jobs\TechCancelOrder($admins,$order));
         dispatch($job);
         return $this->successResponse();

@@ -206,7 +206,7 @@ class OrderController extends Controller
         $order->refresh();
         $user = $order->user;
         $user->notify(new AddBillNotes($order));
-        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
         $job = (new \App\Jobs\TechAddBillNotes($admins,$order));
         dispatch($job);
         $msg = app()->getLocale() == 'ar' ? 'تم الاضافه بنجاح' : 'successfully add';

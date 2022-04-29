@@ -42,7 +42,7 @@ class AcceptOrder extends Controller
         $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::ACCEPTED);
         creatPrivateRoom($user['id'],$order['user_id'],$order['id']);
         $order->user->notify(new \App\Notifications\Api\AcceptOrder($order));
-        $admins = User::where('user_type',UserType::ADMIN)->get();
+        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
         $job = (new \App\Jobs\TechAcceptOrder($admins,$order));
         dispatch($job);
         return $this->successResponse();
