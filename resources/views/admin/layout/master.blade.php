@@ -311,6 +311,10 @@
 <div id="kt_scrolltop" class="kt-scrolltop">
     <i class="fa fa-arrow-up"></i>
 </div>
+
+<audio id="chat-alert-sound" style="display: none" muted="muted">
+    <source src="{{ dashboard_url('sound/facebook_chat.mp3') }}" />
+</audio>
 <!--begin:: Global Mandatory Vendors -->
 <script src="{{dashboard_url('admin/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('assets/vendors/general/popper.js/dist/umd/popper.js')}}" type="text/javascript"></script>
@@ -661,6 +665,8 @@
                 dataType: 'json',
                 success: function (res) {
                     $('.notify-count').html(res);
+                    let alert_sound = document.getElementById("chat-alert-sound");
+                    alert_sound.play();
                 }
             });
         })
