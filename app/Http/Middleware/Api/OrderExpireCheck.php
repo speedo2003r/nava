@@ -23,6 +23,7 @@ class OrderExpireCheck
             }
             if($order && Carbon::parse($order['updated_at'])->addHour(12)->format('Y-m-d H:i:s') < Carbon::now()->format('Y-m-d H:i:s')){
                 $order->delete();
+                $order->refresh();
             }
         }
         return $next($request);
