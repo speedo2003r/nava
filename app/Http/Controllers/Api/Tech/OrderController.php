@@ -28,6 +28,7 @@ use App\Traits\NotifyTrait;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -200,21 +201,34 @@ class OrderController extends Controller
                 'tax' => ($service['price'] * settings('tax') ?? 0) / 100,
             ]);
         }
-        $orderBill = OrderBill::find($orderBill['id']);
+        $orderBill->refresh();
 
-        $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::NEWINVOICE);
-        $order->refresh();
-        $user = $order->user;
-        $user->notify(new AddBillNotes($order));
-        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
-        $job = (new \App\Jobs\TechAddBillNotes($admins,$order));
-        dispatch($job);
         $msg = app()->getLocale() == 'ar' ? 'تم الاضافه بنجاح' : 'successfully add';
         return $this->ApiResponse('success',$msg,[
             'orderBill_id' => $orderBill != null ? $orderBill['id'] : 0,
             'tax' => $orderBill != null ? $orderBill['vat_amount'] : 0,
             'price' => $orderBill != null ? $orderBill->_price() : 0,
         ]);
+    }
+
+    public function addServiceNotify(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'orderBill_id' => 'sometimes|exists:order_bills,id,deleted_at,NULL',
+        ]);
+        if ($validator->fails()) {
+            return $this->ApiResponse('fail', $validator->errors()->first());
+        }
+        $orderBill = OrderBill::find($request['orderBill_id']);
+        $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::NEWINVOICE);
+        $order = $orderBill->order;
+        $order->refresh();
+        $user = $order->user;
+        $user->notify(new AddBillNotes($order));
+        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
+        $job = (new \App\Jobs\TechAddBillNotes($admins,$order));
+        dispatch($job);
+        return $this->successResponse();
     }
     public function servicesOrder(Request $request)
     {

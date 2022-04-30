@@ -18,7 +18,7 @@ class OrderBillResource extends JsonResource
             'id'                => $this->id,
             'notes'                => $this->text,
             'tax'                => $this->vat_amount,
-            'price'                => $this->price,
+            'price'                => (string) round($this->price + $this->vat_amount,2),
         ];
     }
 }

@@ -153,6 +153,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Te
         Route::any('add-bill-notes', 'BillController@addBillNotes');
 
         Route::any('add-service-toOrder', 'OrderController@addServiceToOrder');
+        Route::any('add-service-notify', 'OrderController@addServiceNotify');
         Route::any('services-order', 'OrderController@servicesOrder');
         Route::any('del-service-order', 'OrderController@delServiceOrder');
 
