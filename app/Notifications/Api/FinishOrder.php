@@ -68,7 +68,7 @@ class FinishOrder extends Notification
     }
     public function toBroadcast($notifiable)
     {
-        return broadcast(new RatingOrder($notifiable,$this->order));
+        return broadcast(new RatingOrder($notifiable['id'],$this->order));
     }
     public function toFireBase($notifiable)
     {
