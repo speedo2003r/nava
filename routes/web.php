@@ -13,6 +13,11 @@ use App\Http\Controllers\Admin\AuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('test',function (){
+    $user = \App\Models\User::find(14);
+    $order = \App\Entities\Order::find(3);
+    $user->notify(new \App\Notifications\Api\NewOrderDelegate($order));
+});
 Route::group(['middleware' => ['admin-lang']], function () {
     Route::get('/', 'MainController@index');
     Route::get('change-language/{lang}', 'MainController@changeLanguage')->name('change.language');
