@@ -29,6 +29,7 @@ use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -132,102 +133,164 @@ class OrderController extends Controller
             $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
             return $this->ApiResponse('fail', $msg);
         }
-        $orderBill = OrderBill::where('status',0)->where('order_id',$request['order_id'])->whereHas('orderServices')->first();
-        if($orderBill){
-            $orderService = OrderService::where('status',0)->where('order_id', $order['id'])->where('service_id', $request['service_id'])->first();
-            if ($request['counter'] == 'up') {
-                $service = $this->service->find($request['service_id']);
-                $tax = ($service['price'] * settings('tax')) / 100;
-                $orderBill->update([
-                    'vat_amount' => $orderBill['vat_amount'] + $tax,
-                    'price' => $orderBill['price'] + $service['price'],
-                ]);
-                if ($orderService == null) {
-                    $orderBill->orderServices()->create([
-                        'title' => $service['title'],
-                        'type' => $service['type'],
+        $data = new Collection();
+        $servicesData = Cache::get('order_service_'.$order['id'].'_'.$order->user['id']);
+        if(!$servicesData){
+            $servicesData = new Collection();
+        }
+        $vat_amount = 0;
+        $total = 0;
+        $service = $this->service->find($request['service_id']);
+        $tax = ($service['price'] * settings('tax')) / 100;
+        if(count($servicesData) > 0){
+            foreach ($servicesData as $key => $d){
+                if($d['id'] == $service['id']){
+                    if ($request['counter'] == 'up') {
+                        $count = $d['count'] + 1;
+                        $data->push([
+                            'id' => $service['id'],
+                            'title' => $service['title'],
+                            'type' => $service['type'],
+                            'count' => $count,
+                            'status' => 0,
+                            'order_id' => $order['id'],
+                            'category_id' => $request['category_id'],
+                            'service_id' => $service['id'],
+                            'price' => $service['price'],
+                            'tax' => $tax,
+                        ]);
+                        $total += ($d['price'] + $d['tax']) * $count;
+                        $vat_amount += $d['tax'] * $count;
+                    }else{
+                        if ($d['count'] == 1) {
+                            $servicesData->pull($key);
+                        }else{
+                            $count = $d['count'] - 1;
+                            $data->push([
+                                'id' => $service['id'],
+                                'title' => $service['title'],
+                                'type' => $service['type'],
+                                'count' => $count,
+                                'status' => 0,
+                                'order_id' => $order['id'],
+                                'category_id' => $request['category_id'],
+                                'service_id' => $service['id'],
+                                'price' => $service['price'],
+                                'tax' => $tax,
+                            ]);
+                            $total += ($d['price'] + $d['tax']) * $count;
+                            $vat_amount += $d['tax'] * $count;
+                        }
+                    }
+                }else{
+                    $data->push([
+                        'id' => $d['id'],
+                        'title' => $d['title'],
+                        'type' => $d['type'],
+                        'count' => $d['count'],
                         'status' => 0,
                         'order_id' => $order['id'],
                         'category_id' => $request['category_id'],
-                        'service_id' => $service['id'],
-                        'price' => $service['price'],
-                        'tax' => ($service['price'] * settings('tax') ?? 0) / 100,
+                        'service_id' => $d['service_id'],
+                        'price' => $d['price'],
+                        'tax' => $d['tax'],
                     ]);
-                } else {
-                    $orderService->count = $orderService->count + 1;
-                    $orderService->save();
-                }
-            } else {
-                $serviceData = $orderService;
-                if ($orderService == null) {
-                    $serviceData = $this->service->find($request['service_id']);
-                    $tax = ($serviceData['price'] * settings('tax') ?? 0) / 100;
-                } else {
-                    $tax = $orderService['tax'];
-                    if ($orderService['count'] == 1) {
-                        $orderService->forceDelete();
-                    }else{
-                        $orderService->count = $orderService->count - 1;
-                        $orderService->save();
-                    }
-                }
-                if(count($orderBill->orderServices) == 0){
-                    $orderBill->forceDelete();
-                }else{
-                    $orderBill->update([
-                        'vat_amount' => $orderBill['vat_amount'] - $tax,
-                        'price' => $orderBill['price'] - $serviceData['price'],
-                    ]);
+                    $total += ($d['price'] + $d['tax']) * $d['count'];
+                    $vat_amount += $d['tax'] * $d['count'];
                 }
             }
-        }else{
-            $service = $this->service->find($request['service_id']);
-            $tax = ($service['price'] * settings('tax')) / 100;
-            $orderBill = OrderBill::create([
-                'order_id'=>$order['id'],
-                'vat_amount' => $tax,
-                'price' => $service['price'],
-                'type'=>'service',
-                'status'=>0,
-            ]);
-            $orderBill->orderServices()->create([
-                'title' => $service['title'],
-                'type' => $service['type'],
-                'status' => 0,
-                'order_id' => $order['id'],
-                'category_id' => $request['category_id'],
-                'service_id' => $service['id'],
-                'price' => $service['price'],
-                'tax' => ($service['price'] * settings('tax') ?? 0) / 100,
-            ]);
-        }
-        $orderBill->refresh();
+            if(!$servicesData->where('service_id',$request['service_id'])->first() && $request['counter'] == 'up'){
+                $data->push([
+                    'id' => $service['id'],
+                    'title' => $service['title'],
+                    'type' => $service['type'],
+                    'count' => 1,
+                    'status' => 0,
+                    'order_id' => $order['id'],
+                    'category_id' => $request['category_id'],
+                    'service_id' => $service['id'],
+                    'price' => $service['price'],
+                    'tax' => $tax,
+                ]);
 
+                $total += ($service['price'] + $tax);
+                $vat_amount += $tax;
+            }
+        }else{
+            if($request['counter'] == 'up'){
+                $data->push([
+                    'id' => $service['id'],
+                    'title' => $service['title'],
+                    'type' => $service['type'],
+                    'count' => 1,
+                    'status' => 0,
+                    'order_id' => $order['id'],
+                    'category_id' => $request['category_id'],
+                    'service_id' => $service['id'],
+                    'price' => $service['price'],
+                    'tax' => $tax,
+                ]);
+                $total += ($service['price'] + $tax);
+                $vat_amount += $tax;
+            }
+        }
+        Cache::put('order_service_'.$order['id'].'_'.$order->user['id'],$data,600);
         $msg = app()->getLocale() == 'ar' ? 'تم الاضافه بنجاح' : 'successfully add';
         return $this->ApiResponse('success',$msg,[
-            'orderBill_id' => $orderBill != null ? $orderBill['id'] : 0,
-            'tax' => $orderBill != null ? $orderBill['vat_amount'] : 0,
-            'price' => $orderBill != null ? $orderBill->_price() : 0,
+            'orderBill_id' => $order['id'] ?? 0,
+            'tax' => $vat_amount ?? 0,
+            'price' => $total ?? 0,
         ]);
     }
 
     public function addServiceNotify(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'orderBill_id' => 'sometimes|exists:order_bills,id,deleted_at,NULL',
+            'orderBill_id' => 'sometimes|exists:orders,id,deleted_at,NULL',
         ]);
         if ($validator->fails()) {
             return $this->ApiResponse('fail', $validator->errors()->first());
         }
-        $orderBill = OrderBill::find($request['orderBill_id']);
-        $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::NEWINVOICE);
-        $order = $orderBill->order;
-        $order->refresh();
-        $user = $order->user;
-        $user->notify(new AddBillNotes($order));
-        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
-        $job = (new \App\Jobs\TechAddBillNotes($admins,$order));
-        dispatch($job);
+        $order = $this->orderRepo->find($request['orderBill_id']);
+        $servicesData = Cache::get('order_service_'.$order['id'].'_'.$order->user['id']);
+        $tax = 0;
+        $total = 0;
+        if($servicesData && count($servicesData) > 0){
+            $orderBill = OrderBill::create([
+                'order_id'=>$order['id'],
+                'type'=>'service',
+                'status'=>0,
+            ]);
+            foreach ($servicesData as $data){
+                $orderBill->orderServices()->create([
+                    'title' => $data['title'],
+                    'type' => $data['type'],
+                    'count' => $data['count'],
+                    'status' => 0,
+                    'order_id' => $order['id'],
+                    'category_id' => $data['category_id'],
+                    'service_id' => $data['id'],
+                    'price' => $data['price'],
+                    'tax' => $data['tax'],
+                ]);
+                $tax += ($data['tax'] * $data['count']);
+                $total += ($data['price'] * $data['count']);
+            }
+            $orderBill->refresh();
+            $orderBill->update([
+                'vat_amount' => $tax,
+                'price' => $total,
+            ]);
+            $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::NEWINVOICE);
+            $order = $orderBill->order;
+            $order->refresh();
+            $user = $order->user;
+            $user->notify(new AddBillNotes($order));
+            $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
+            $job = (new \App\Jobs\TechAddBillNotes($admins,$order));
+            dispatch($job);
+            Cache::forget('order_service_'.$order['id'].'_'.$order->user['id']);
+        }
         return $this->successResponse();
     }
     public function servicesOrder(Request $request)
