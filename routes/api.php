@@ -18,7 +18,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 |
 */
 
-Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Client'], function () {
+Route::group(['middleware' => ['auth-check', 'api-lang','order-expire-check'], 'namespace' => 'Api\Client'], function () {
     Route::any('regions', 'SettingController@regions');
     Route::any('cities', 'SettingController@cities');
     Route::any('search', 'SettingController@search');
