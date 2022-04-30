@@ -82,13 +82,11 @@ class PlaceOrder extends Controller
             $users = User::where('user_type','technician')->where('notify',1)->exist()->whereHas('branches',function ($query) use ($branch){
                 $query->where('users_branches.branch_id',$branch['id']);
             })->get();
-            foreach($users as $user) {
-                $job = new SendToDelegate($order,$user);
-                if($branch['assign_deadline'] > 0){
-                    dispatch($job)->delay($on);
-                }else{
-                    dispatch($job);
-                }
+            $job = new SendToDelegate($order,$users);
+            if($branch['assign_deadline'] > 0){
+                dispatch($job)->delay($on);
+            }else{
+                dispatch($job);
             }
         }
         $admins = $this->userRepo->where('user_type',UserType::ADMIN)->where('notify',1)->get();
