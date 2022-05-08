@@ -17,6 +17,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "graham-campbell/throttle": "^8.2",
         "guzzlehttp/guzzle": "^7.4",
+        "khrdev/awt": "dev-master",
         "laravel/framework": "^8.42",
         "laravel/telescope": "^4.8",
         "laravel/tinker": "^2.5",
@@ -25,6 +26,7 @@
         "prettus/l5-repository": "^2.7",
         "pusher/pusher-php-server": "^7.0",
         "spatie/laravel-translatable": "^4.5",
+        "stichoza/google-translate-php": "^4.1",
         "tymon/jwt-auth": "^1.0.0",
         "yajra/laravel-datatables": "^1.5"
     },

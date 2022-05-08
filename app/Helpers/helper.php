@@ -23,9 +23,6 @@ function Home()
     ];
     return $blocks[] = $home;
 }
-function awtTrans($trans){
-    return __('awt.'.$trans);
-}
 function hoursRange( $lower = 0, $upper = 86400, $step = 3600, $format = '' ) {
     $times = array();
 
