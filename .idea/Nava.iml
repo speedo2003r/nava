@@ -169,6 +169,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/dragon-code/pretty-array" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dragon-code/support" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/stichoza/google-translate-php" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/khrdev/awt" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

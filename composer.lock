@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6896d773230b959524466b47e34ff645",
+    "content-hash": "b13bbdd4fc75069b7bea4c5c89a74a69",
     "packages": [
         {
             "name": "apility/laravel-fcm",
@@ -1914,6 +1914,67 @@
                 }
             ],
             "time": "2022-03-20T21:55:58+00:00"
+        },
+        {
+            "name": "khrdev/awt",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/speedo2003r/AWT.git",
+                "reference": "be129d52764a39865fc99ae247534ce6a56bca39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/speedo2003r/AWT/zipball/be129d52764a39865fc99ae247534ce6a56bca39",
+                "reference": "be129d52764a39865fc99ae247534ce6a56bca39",
+                "shasum": ""
+            },
+            "require": {
+                "stichoza/google-translate-php": "^4.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "khrdev\\awt\\AWTServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "khrdev\\awt\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "khaled reda",
+                    "email": "speedo2003r@gmail.com"
+                }
+            ],
+            "description": "Awesome Translation For Laravel",
+            "keywords": [
+                "Laravel Lang",
+                "language",
+                "laravel",
+                "laravel localization",
+                "laravel multi language",
+                "localization",
+                "multi language",
+                "multilingual",
+                "multilingual support",
+                "translate",
+                "translation"
+            ],
+            "support": {
+                "source": "https://github.com/speedo2003r/AWT/tree/master"
+            },
+            "time": "2022-05-08T13:16:16+00:00"
         },
         {
             "name": "laravel/framework",
@@ -12675,7 +12736,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "khrdev/awt": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

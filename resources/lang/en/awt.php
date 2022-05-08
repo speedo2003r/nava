@@ -281,6 +281,16 @@ return [
 "تغيير عنوان الطلب"=>"Change the request address",
 "تغيير وقت الطلب"=>"Change order time",
 "الشروط والأحكام"=>"Terms and Conditions",
+"الاشعارات"=>"notifications",
+"الاشعارات"=>"notifications",
+"الاشعارات"=>"notifications",
+"OTP."=>"OTP.",
+"الطلبات الملغيه"=>"Canceled orders",
+"طلبات الضمان"=>"Warranty Requests",
+"طلبات المتأخره"=>"Late requests",
+"طلبات نفذ وقتها"=>"Timed requests",
+"ايرادات الأقسام والخدمات"=>"Department and service revenue",
+"التقييمات"=>"Reviews",
     #AWTLINEHELPER
     #don`t Remove the up line at all
 
