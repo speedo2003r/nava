@@ -23,9 +23,9 @@ function Home()
     ];
     return $blocks[] = $home;
 }
-function awtTrans($trans){
-    return __('awt.'.$trans);
-}
+//function awtTrans($trans){
+//    return __('awt.'.$trans);
+//}
 function hoursRange( $lower = 0, $upper = 86400, $step = 3600, $format = '' ) {
     $times = array();
 
@@ -422,6 +422,46 @@ if(!function_exists('dashboard_url')){
       if(env('APP_PUBLIC'))
         return url('/public/'.$url);
       return url('/'.$url);
+    }
+}
+if (!function_exists('awtTrans')) {
+
+    /**
+     * AWT translation helper function
+     * @param $word
+     * @param null $locale
+     * @return string
+     */
+    function awtTrans($word, $locale = null)
+    {
+
+
+        //Set Locale for translator
+        $locale = App::getLocale();
+
+
+        $AwtFile = resource_path('lang/' . $locale . '/awt.php');
+        if (file_exists($AwtFile)) {
+            if (Lang::get('awt.' . $word,[],$locale,false)!='awt.' . $word) {
+                return trans('awt.' . $word);
+            }
+        }
+
+        try{
+            $langFile = \App\Helpers\AWTClass::openAwtLangFile($AwtFile, $locale);
+            if ($langFile) {
+                    $translateClient = new \Stichoza\GoogleTranslate\GoogleTranslate();
+                    $translatedWord = $translateClient->setSource(null)->setTarget($locale)->translate($word);
+                    \App\Helpers\AWTClass::pushWord($word, $translatedWord, $AwtFile);
+                    return $translatedWord;
+            }
+
+        }catch (Exception $e)
+        {
+            return $word;
+        }
+
+        return trans('awt.' . $word);
     }
 }
 

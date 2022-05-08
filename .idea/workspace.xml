@@ -2,12 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b02366-1c1d-4bc0-bd9b-e3440db742a5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/Api/OrderExpireCheck.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Helpers/AWTClass.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Helpers/stubs/blank.stub" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Nava.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Nava.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/CategoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/Orders/ServiceResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/Orders/ServiceResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Helpers/helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helpers/helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ar/awt.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar/awt.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ur/awt.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ur/awt.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,6 +210,7 @@
       <path value="$PROJECT_DIR$/vendor/dragon-code/contracts" />
       <path value="$PROJECT_DIR$/vendor/dragon-code/pretty-array" />
       <path value="$PROJECT_DIR$/vendor/dragon-code/support" />
+      <path value="$PROJECT_DIR$/vendor/stichoza/google-translate-php" />
     </include_path>
   </component>
   <component name="ProjectId" id="27QfTWWiKhBTAbnYlRG7U5AYWOe" />
@@ -223,7 +228,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Middleware/Api" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -293,7 +298,12 @@
       <workItem from="1651172951721" duration="2164000" />
       <workItem from="1651233867366" duration="453000" />
       <workItem from="1651267659539" duration="9916000" />
-      <workItem from="1651315254998" duration="8919000" />
+      <workItem from="1651315254998" duration="11207000" />
+      <workItem from="1651329614699" duration="305000" />
+      <workItem from="1651351875919" duration="3845000" />
+      <workItem from="1651358573158" duration="1241000" />
+      <workItem from="1651736768822" duration="76000" />
+      <workItem from="1652002377602" duration="1215000" />
     </task>
     <servers />
   </component>

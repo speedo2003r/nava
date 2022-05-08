@@ -177,6 +177,7 @@
       <path value="$PROJECT_DIR$/vendor/dragon-code/contracts" />
       <path value="$PROJECT_DIR$/vendor/dragon-code/pretty-array" />
       <path value="$PROJECT_DIR$/vendor/dragon-code/support" />
+      <path value="$PROJECT_DIR$/vendor/stichoza/google-translate-php" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
