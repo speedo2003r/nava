@@ -66,6 +66,7 @@ class TechnicianController extends Controller
         if($request->has('image')){
             $data['avatar'] = $this->uploadFile($request['image'],'users');
         }
+        $data['active'] = 1;
         $data['v_code'] = generateCode();
         $user = $this->user->create($data);
         $fillable = $user->getFillable();
