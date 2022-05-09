@@ -50,9 +50,17 @@ class CategoryController extends Controller{
         $data = [];
         $services = $this->service->where('category_id',$request['category_id'])->get();
         $servicesData = null;
+        $tax = 0;
+        $total = 0;
         if(isset($request['order_id'])){
             $order = $this->orderRepo->find($request['order_id']);
             $servicesData = Cache::get('order_service_'.$order['id'].'_'.$order->user['id']);
+            if($servicesData && count($servicesData) > 0) {
+                foreach ($servicesData as $data) {
+                    $tax += ($data['tax'] * $data['count']);
+                    $total += ($data['price'] * $data['count']);
+                }
+            }
         }
         foreach ($services as $service){
             $data[] = [
@@ -64,7 +72,11 @@ class CategoryController extends Controller{
                 'count' => $servicesData && $servicesData->where('id',$service['id'])->first() ? ((int) $servicesData->where('id',$service['id'])->first()['count']) : 0,
             ];
         }
-        return $this->successResponse($data);
+        return $this->successResponse([
+            'services' => $data,
+            'tax' => $tax,
+            'price' => $total,
+        ]);
     }
 
 }
