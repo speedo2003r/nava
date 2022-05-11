@@ -501,17 +501,17 @@ Route::group([ 'namespace' => 'Admin', 'as' => 'admin.'], function () {
         /********************************* QuestionController end *********************************/
 
         /********************************* ContactController start *********************************/
-        Route::get('complaints', [
-            'uses'      => 'ComplaintController@index',
-            'as'        => 'complaints.index',
-            'title'     => awtTrans('الشكاوي والمقترحات'),
-            'icon'      => asset('assets/media/menuicon/document.svg'),
-            'type'      => 'parent',
-            'sub_route' => false,
-            'child'     => ['complaints.index','complaints.update', 'complaints.destroy']
-        ]);
-        Route::post('complaints/{id}',['uses'=> 'ComplaintController@update','as'=> 'complaints.update','title'=> awtTrans('تعديل شكوي')]);
-        Route::delete('complaints/{id}',['uses'=> 'ComplaintController@destroy','as'=> 'complaints.destroy','title'=> awtTrans('حذف شكوي')]);
+//        Route::get('complaints', [
+//            'uses'      => 'ComplaintController@index',
+//            'as'        => 'complaints.index',
+//            'title'     => awtTrans('الشكاوي والمقترحات'),
+//            'icon'      => asset('assets/media/menuicon/document.svg'),
+//            'type'      => 'parent',
+//            'sub_route' => false,
+//            'child'     => ['complaints.index','complaints.update', 'complaints.destroy']
+//        ]);
+//        Route::post('complaints/{id}',['uses'=> 'ComplaintController@update','as'=> 'complaints.update','title'=> awtTrans('تعديل شكوي')]);
+//        Route::delete('complaints/{id}',['uses'=> 'ComplaintController@destroy','as'=> 'complaints.destroy','title'=> awtTrans('حذف شكوي')]);
         /********************************* ContactController end *********************************/
 
         /********************************* ContactController start *********************************/
