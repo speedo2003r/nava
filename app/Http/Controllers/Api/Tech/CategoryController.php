@@ -42,7 +42,7 @@ class CategoryController extends Controller{
     {
         $validator = Validator::make($request->all(),[
             'category_id' => 'required|exists:categories,id,deleted_at,NULL',
-            'order_id' => 'sometimes|exists:orders,id,deleted_at,NULL',
+            'order_id' => 'required|exists:orders,id,deleted_at,NULL',
         ]);
         if($validator->fails()){
             return $this->ApiResponse('fail',$validator->errors()->first());
@@ -55,10 +55,11 @@ class CategoryController extends Controller{
         if(isset($request['order_id'])){
             $order = $this->orderRepo->find($request['order_id']);
             $servicesData = Cache::get('order_service_'.$order['id'].'_'.$order->user['id']);
+            $collect = collect($servicesData);
             if($servicesData && count($servicesData) > 0) {
-                foreach ($servicesData as $data) {
-                    $tax += ($data['tax'] * $data['count']);
-                    $total += ($data['price'] * $data['count']);
+                foreach ($servicesData as $d) {
+                    $tax += ($d['tax'] * $d['count']);
+                    $total += ($d['price'] * $d['count']);
                 }
             }
         }
@@ -68,12 +69,12 @@ class CategoryController extends Controller{
                 'title' => $service['title'],
                 'description' => $service['description'],
                 'price' => $service['price'],
-                'checked' => $servicesData && $servicesData->where('id',$service['id'])->first() ? true : false,
-                'count' => $servicesData && $servicesData->where('id',$service['id'])->first() ? ((int) $servicesData->where('id',$service['id'])->first()['count']) : 0,
+                'checked' => $servicesData && $collect->where('id',$service['id'])->first() ? true : false,
+                'count' => $servicesData && $collect->where('id',$service['id'])->first() ? ((int) $collect->where('id',$service['id'])->first()['count']) : 0,
             ];
         }
         return $this->successResponse([
-            'services' => $data,
+            'services' => (array) $data,
             'tax' => $tax,
             'price' => $total,
         ]);
