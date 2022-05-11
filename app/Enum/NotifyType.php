@@ -18,4 +18,5 @@ class NotifyType{
     const ACCEPTINVOICE = 'acceptInvoice';
     const FINISHORDER = 'finishOrder';
     const NEWORDERDELEGATE = 'newOrderDelegate';
+    const NEWMESSAGECONTACT = 'newMessageContact';
 }

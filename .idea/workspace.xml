@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b02366-1c1d-4bc0-bd9b-e3440db742a5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Jobs/ContactUs.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Notifications/Api/ContactNotify.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Enum/NotifyType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enum/NotifyType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/PageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Client/PageController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +225,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Jobs" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -233,11 +237,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/Jobs" />
+      <recent name="$PROJECT_DIR$/app/Events" />
+      <recent name="$PROJECT_DIR$/app/Notifications/Api" />
       <recent name="$PROJECT_DIR$/app/Http/Middleware/Api" />
       <recent name="$PROJECT_DIR$/public" />
-      <recent name="$PROJECT_DIR$/app/Jobs" />
-      <recent name="$PROJECT_DIR$/app/Notifications" />
-      <recent name="$PROJECT_DIR$/resources/views/admin/clients" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Api/Tech/Order" />
