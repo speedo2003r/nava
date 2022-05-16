@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Models\Room;
 use App\Models\User;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
@@ -214,6 +215,9 @@ class Order extends Model implements Transformable
     public function income()
     {
         return $this->hasOne(Income::class,'order_id');
+    }
+    public function room(){
+        return $this->belongsTo(Room::class,'order_id');
     }
     public function guarantee()
     {
