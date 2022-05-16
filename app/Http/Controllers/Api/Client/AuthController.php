@@ -8,6 +8,7 @@ use App\Http\Requests\Api\register\UserRegisterRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\profile\UpdateprofileRequest;
 use App\Http\Requests\Api\login\LoginRequest;
+use App\Http\Requests\Api\login\TechLoginRequest;
 use App\Http\Resources\Users\UserResource;
 use App\Models\User;
 use App\Entities\ReviewRate;
@@ -162,7 +163,41 @@ class AuthController extends Controller
             $msg = app()->getLocale() == 'ar' ? 'الكود غير صحيح' : 'verify code is wrong' ;
             return $this->ApiResponse('fail',$msg);
         }
+        if($user['user_type'] == App\Enum\UserType::CLIENT){
+            //      after login in client
+            $validate = Validator::make($request->all(), [
+                'uuid'   => 'required', // require if user type is client
+                'device_id'   => 'required|max:200',
+                'device_type' => 'required|in:android,ios,web',
+            ]);
+            if ($validate->fails()) return $this->ApiResponse('fail', $validate->errors()->first());
+            $token = auth('api')->attempt(['email' => $user->email]);
+            $device = $this->deviceRepo->findWhere(['uuid'=>$request['uuid'],'user_id'=>$user['id']])->first();
+            if($device){
+                $this->deviceRepo->delete($device['id']);
+            }
+            $this->deviceRepo->create(
+                array_merge($request->only(['device_id', 'device_type','uuid']), ['user_id' => $user->id])
+            );
+            $this->userRepo->update([
+                'online' => 1
+            ],$user['id']);
+            $order1 = $this->order->findWhere(['uuid'=>$request['uuid'],'user_id'=>null,'live'=>0])->first();
+            $order2 = $this->order->findWhere(['uuid'=>$request['uuid'],'user_id'=>$user['id'],'live'=>0])->first();
+            if($order2 && $order1){
+                $order1->user_id = $user['id'];
+                $order1->save();
+                $order2->delete();
+            }elseif($order1 && $order2 == null){
+                $order1->user_id = $user['id'];
+                $order1->save();
+            }
 
+            return $this->successResponse([
+                'user' => userResource::make($user),
+                'token' => $token
+            ]);
+        }
         return $this->successResponse();
     }
     public function resetPassword(Request $request)
@@ -218,42 +253,27 @@ class AuthController extends Controller
             }
         }
 
-        $isSamePassword = $this->userRepo->checkPassword($user,$request->input('password'));
-        if (!$isSamePassword) {
-            return $this->ApiResponse('fail', 'برجاء التأكد من بيانات المستخدم');
-        }
         $exists = $this->userRepo->findWhere(['phone' => $request->input('phone')])->first();
         if(!$exists){
             return $this->ApiResponse('fail', 'برجاء التأكد من بيانات المستخدم');
         }
-        $token = auth('api')->attempt(['email' => $user->email, 'password' => $request->input('password')]);
-        $device = $this->deviceRepo->findWhere(['uuid'=>$request['uuid'],'user_id'=>$user['id']])->first();
-        if($device){
-            $this->deviceRepo->delete($device['id']);
+        $this->userRepo->update(['v_code' => generateCode()],$user['id']);
+
+        $codeMessage = app()->getLocale()=='ar'?'الكود هو:':'Your code is:';
+        $codeMessage = $codeMessage.' '.$user['v_code'];
+        if (preg_match("~^0\d+$~", $user['phone'])) {
+            sendSMS($user['phone'],$codeMessage);
         }
-        $this->deviceRepo->create(
-            array_merge($request->only(['device_id', 'device_type','uuid']), ['user_id' => $user->id])
-        );
-        $this->userRepo->update([
-            'online' => 1
-        ],$user['id']);
-        $order1 = $this->order->findWhere(['uuid'=>$request['uuid'],'user_id'=>null,'live'=>0])->first();
-        $order2 = $this->order->findWhere(['uuid'=>$request['uuid'],'user_id'=>$user['id'],'live'=>0])->first();
-        if($order2 && $order1){
-            $order1->user_id = $user['id'];
-            $order1->save();
-            $order2->delete();
-        }elseif($order1 && $order2 == null){
-            $order1->user_id = $user['id'];
-            $order1->save();
+        else {
+            sendSMS('0'.$user['phone'],$codeMessage);
         }
+        $user->refresh();
         // save user and return token
         return $this->successResponse([
             'user' => userResource::make($user),
-            'token' => $token
         ]);
     }
-    public function techLogin(LoginRequest $request)
+    public function techLogin(TechLoginRequest $request)
     {
         if (!empty($request->input('phone'))) {
             $user = $this->userRepo->findWhere(['phone' => $request->input('phone')])->first();
