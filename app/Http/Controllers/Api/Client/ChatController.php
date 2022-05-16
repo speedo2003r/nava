@@ -5,7 +5,6 @@ use App\Enum\UserType;
 use App\Events\createOrJoinRoom;
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\LangRequest;
 use App\Http\Resources\Chat\ChatResource;
 use App\Http\Resources\Chat\ChatCollection;
 use App\Http\Resources\Chat\RoomResource;
@@ -29,7 +28,45 @@ class ChatController extends Controller{
         $this->userRepo = $user;
     }
 
-    public function chat(LangRequest $request)
+    public function ContactChat(Request $request)
+    {
+        $user = auth()->user();
+        $id = $user['id'];
+        $existRoom = Room::where(function ($in) use ($id){
+            $in->where('other_user_id',$id);
+        })->where('order_id',null)->first();
+        if(!$existRoom){
+            $admin = $this->userRepo->where('user_type',UserType::ADMIN)->first();
+            $existRoom = creatPrivateRoom($admin['id'],$id);
+        }
+        $existRoom->refresh();
+        $admins = $this->userRepo->where('user_type',UserType::ADMIN)->where('chat',1)->get();
+        if(count($admins) > 0){
+            foreach ($admins as $ad){
+                if(!in_array($ad['id'],$existRoom->Users()->pluck('users.id')->toArray())){
+                    joinRoom($existRoom['id'],$ad['id']);
+                }
+            }
+        }
+        $roomMessages = [];
+        if($existRoom){
+            $roomMessages = $existRoom->Messages()->with('Message')->where('user_id',$user['id'])->where('is_delete',0)->orderBy('created_at','desc')->paginate(20);
+        }
+        $countMessages = $existRoom->Messages()->where('is_seen',0)->count();
+        if($countMessages > 0){
+            $Messages = $existRoom->Messages()->where('is_seen',0)->get();
+            foreach ($Messages as $message){
+                $message->is_seen = 1;
+                $message->save();
+            }
+        }
+        broadcast(new createOrJoinRoom($existRoom))->toOthers();
+        return $this->successResponse([
+            'room_id' => $existRoom['id'],
+            'messages' => new ChatCollection($roomMessages),
+        ]);
+    }
+    public function chat(Request $request)
     {
         /** Validate Request **/
         $validate = Validator::make($request->all(), [
@@ -54,7 +91,10 @@ class ChatController extends Controller{
             }
         }
         broadcast(new createOrJoinRoom($room))->toOthers();
-        return $this->successResponse(new ChatCollection($roomMessages));
+        return $this->successResponse([
+            'room_id' => $room['id'],
+            'messages' => new ChatCollection($roomMessages),
+        ]);
     }
 
     public function sendMessage(Request $request)

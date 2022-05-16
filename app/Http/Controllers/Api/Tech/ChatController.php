@@ -5,7 +5,6 @@ use App\Enum\UserType;
 use App\Events\createOrJoinRoom;
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\LangRequest;
 use App\Http\Resources\Chat\ChatResource;
 use App\Http\Resources\Chat\ChatCollection;
 use App\Http\Resources\Chat\RoomResource;
@@ -29,7 +28,7 @@ class ChatController extends Controller{
         $this->userRepo = $user;
     }
 
-    public function chat(LangRequest $request)
+    public function chat(Request $request)
     {
         /** Validate Request **/
         $validate = Validator::make($request->all(), [
@@ -58,7 +57,10 @@ class ChatController extends Controller{
             }
         }
         broadcast(new createOrJoinRoom($room))->toOthers();
-        return $this->successResponse(new ChatCollection($roomMessages));
+        return $this->successResponse([
+            'room_id' => $room['id'],
+            'messages' => new ChatCollection($roomMessages),
+        ]);
     }
 
     public function sendMessage(Request $request)

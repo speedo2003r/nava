@@ -128,6 +128,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang','order-expire-check'], '
         Route::any('wallet-pay', 'PaymentController@walletPay');
 //        # chat
         Route::any('chat', 'ChatController@chat');
+        Route::any('contact-chat', 'ChatController@ContactChat');
         Route::any('sendMessage', 'ChatController@sendMessage');
     });
 });
