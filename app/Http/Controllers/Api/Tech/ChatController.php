@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Client;
+namespace App\Http\Controllers\Api\Tech;
 use App\Enum\UserType;
 use App\Events\createOrJoinRoom;
 use App\Events\MessageSent;
@@ -33,7 +33,7 @@ class ChatController extends Controller{
     {
         /** Validate Request **/
         $validate = Validator::make($request->all(), [
-            'room_id'     => 'required|exists:rooms,id,other_user_id,'.auth()->id(),
+            'room_id'     => 'required|exists:rooms,id',
         ]);
         /** Send Error Massages **/
         if ($validate->fails()) {
@@ -43,6 +43,10 @@ class ChatController extends Controller{
         $roomMessages = [];
         $room = Room::where('rooms.id',$request['room_id'])->first();
         if($room){
+            $exist = $room->Users()->where('room_id',$room['id'])->where('user_id',auth()->id())->exists();
+            if($user['user_type'] != UserType::TECHNICIAN || !$exist){
+                return $this->ApiResponse('fail','room id is undefined');
+            }
             $roomMessages = $room->Messages()->with('Message')->where('user_id',$user['id'])->where('is_delete',0)->orderBy('created_at','desc')->paginate(20);
         }
         $countMessages = $room->Messages()->where('is_seen',0)->count();
@@ -63,7 +67,7 @@ class ChatController extends Controller{
         $validate = Validator::make($request->all(), [
             'message'     => 'max:500',
             'file'        => 'mimes:pdf,jpg,jpeg,png,gif|max:10000000',
-            'room_id'     => 'required|exists:rooms,id,other_user_id,'.auth()->id(),
+            'room_id'     => 'required|exists:rooms,id',
         ]);
         /** Send Error Massages **/
         if ($validate->fails()) {
@@ -73,15 +77,19 @@ class ChatController extends Controller{
             return $this->ApiResponse('fail','no data to save');
         }
         $user = auth()->user();
-        $room = $user->Rooms()->where('rooms.id',$request['room_id'])->first();
-
+        $room = Room::where('rooms.id',$request['room_id'])->first();
+        if($room){
+            $exist = $room->Users()->where('room_id',$room['id'])->where('user_id',auth()->id())->exists();
+            if($user['user_type'] != UserType::TECHNICIAN || !$exist){
+                return $this->ApiResponse('fail','room id is undefined');
+            }
+        }
         if($request->file){
             $filename       = $this->uploadFile($request->file, 'rooms/'. $room['id']);
             $lastMessage    = saveMessage($room['id'],$filename,Auth::id(),'file');
         }elseif($request->message){
             $lastMessage    = saveMessage($room['id'],$request->message,Auth::id());
         }
-
         broadcast(new MessageSent($lastMessage,$user['id']))->toOthers();
         $users = $room->Users()->where('users.id','!=',auth()->id())->where('user_type','!=',UserType::ADMIN)->get();
         $admins = $room->Users()->where('users.id','!=',auth()->id())->where('chat',1)->where('user_type',UserType::ADMIN)->get();

@@ -27,6 +27,7 @@ use App\Traits\SmsTrait;
 use App\Traits\UploadTrait;
 use App\Http\Requests\Api\LangRequest;
 use App\Notifications\Api\DelegateRate;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 /** import */
 
@@ -171,7 +172,7 @@ class AuthController extends Controller
                 'device_type' => 'required|in:android,ios,web',
             ]);
             if ($validate->fails()) return $this->ApiResponse('fail', $validate->errors()->first());
-            $token = auth('api')->attempt(['email' => $user->email]);
+            $token = JWTAuth::fromUser($user);
             $device = $this->deviceRepo->findWhere(['uuid'=>$request['uuid'],'user_id'=>$user['id']])->first();
             if($device){
                 $this->deviceRepo->delete($device['id']);

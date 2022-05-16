@@ -169,6 +169,9 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Te
 //        companies
         Route::any('technicals', 'CompanyController@technicals');
         Route::any('order-transfer', 'CompanyController@orderTransfer');
+//        # chat
+        Route::any('tech-chat', 'ChatController@chat');
+        Route::any('techSendMessage', 'ChatController@sendMessage');
 
     });
 });
