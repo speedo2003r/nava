@@ -47,7 +47,7 @@ class addCoupon extends Controller
             Cache::put('coupon_'.$order['id'],$coupon['id'],now()->addMinutes(10));
             $order = $this->orderRepo->find($request['order_id']);
             $total = (string) round($order->_price() ,2) - $couponValue;
-            return $this->successResponse(['total'=> $total,'value'=>$couponValue]);
+            return $this->successResponse(['total'=> (string) $total,'value'=>(string) $couponValue]);
         }else{
             return $this->ApiResponse('fail',trans('api.coupon_expired'));
         }

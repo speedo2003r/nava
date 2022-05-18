@@ -45,6 +45,10 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
                 'vat_amount' => ($service['price'] * settings('tax') ?? 0) / 100,
                 'final_total' => $service['price'],
             ]);
+
+            $d = (int) (date('Y') . $order['id']);
+            $order->order_num = $d;
+            $order->save();
         }else{
             $category = Category::find($request['category_id']);
             $order = $this->model->create([
@@ -57,6 +61,9 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
                 'vat_amount' => (settings('preview_value') * settings('tax') ?? 0) / 100,
                 'final_total' => settings('preview_value') ?? 0,
             ]);
+            $d = (int) (date('Y') . $order['id']);
+            $order->order_num = $d;
+            $order->save();
         }
 
         $this->orderProductStore($order, $request);
