@@ -39,8 +39,8 @@ return [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => false,
                 'encrypted' => false,
-                'host' => 'demo.navaservices.net',
-                'port' => 6001,
+                'host' => 'navaservices.net',
+                'port' => env('LARAVEL_WEBSOCKETS_PORT'),
                 'scheme' => 'https',
                 'curl_options' => [
                     CURLOPT_SSL_VERIFYHOST => 0,

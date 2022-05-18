@@ -420,14 +420,5 @@ class Order extends Model implements Transformable
     {
         return $this->belongsToMany(User::class,'refuse_orders','order_id','user_id');
     }
-    public static function boot()
-    {
-        parent::boot();
-        $lastId = self::withTrashed()->get()->last()->id ?? 0;
-        $d = (int) (date('Y') . $lastId) + 1;
-        self::creating(function($model) use ($d){
-            $model->order_num = $d;
-        });
-    }
 
 }

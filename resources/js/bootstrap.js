@@ -27,8 +27,8 @@ window.Echo = new Echo({
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     wsHost: window.location.hostname,
     encrypted: false,
-    wsPort: 6001,
-    wssPort: 6001,
+    wsPort: process.env.LARAVEL_WEBSOCKETS_PORT,
+    wssPort: process.env.LARAVEL_WEBSOCKETS_PORT,
     disableStats: true,
     forceTLS: true,
     enabledTransports: ['ws'] // removed wss
