@@ -39,6 +39,7 @@ class CartDetailResource extends JsonResource
             'services'                => $this->services(),
             'tax'                => $this['vat_amount'],
             'total'                => (string) (($this->_price() + $this['increased_price']) - $couponValue),
+            'couponValue' => (string) $couponValue,
             'mini_order_charge'                => $mini_order_charge,
         ];
     }
