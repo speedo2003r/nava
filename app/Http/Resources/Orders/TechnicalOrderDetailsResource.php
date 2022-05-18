@@ -6,6 +6,7 @@ use App\Entities\Category;
 use App\Entities\Order;
 use App\Entities\OrderProduct;
 use App\Entities\UserAddress;
+use App\Enum\OrderStatus;
 use App\Http\Resources\Users\AddressResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -17,7 +18,7 @@ class TechnicalOrderDetailsResource extends JsonResource
         return [
             'id'                => $this->id,
             'order_num'                => $this->order_num,
-            'status'   => (!in_array($this['status'],['finished','canceled','created']) && $this['technician_id'] != null)  ? trans('api.notdoneyet') : (in_array($this['status'],['finished','canceled']) ? trans('api.done') : trans('api.new')),
+            'status'   => (!in_array($this['status'],['finished','canceled','created']) && $this['technician_id'] != null)  ? trans($this['status']) : (in_array($this['status'],['finished','canceled']) ? trans('api.done') : trans('api.new')),
             'order_status' => $this['status'] ?? '',
             'allStatus' => Order::userStatusWithBill(),
             'name'                => $this->user['name'],
@@ -34,10 +35,12 @@ class TechnicalOrderDetailsResource extends JsonResource
             'address_notes'                => $this['address_notes'] ?? '',
             'notes'                => $this['notes'] ?? '',
             'services'                => $this->services(),
+            'bills'                => $this->orderBills(),
             'files'                => $this->orderFiles(),
-            'tax'                => $this->tax(),
+            'tax'                => $this->status == OrderStatus::FINISHED ? (string) round($this->vat_amount,2) : $this->tax(),
             'isPaid'                => $this->isPaid(),
-            'total'                => $this->price(),
+            'pay_status'                => $this->pay_status,
+            'total'                =>   $this->status == OrderStatus::FINISHED ? (string) round($this->final_total,2) : $this->price(),
             'pay_type'                => __($this->pay_type),
         ];
     }
@@ -89,5 +92,19 @@ class TechnicalOrderDetailsResource extends JsonResource
             });
         }
         return $files;
+    }
+    private function orderBills(){
+        $bills = $this->bills()->where('order_bills.status',1)->whereDoesntHave('orderServices')->get();
+        if(count($bills) > 0){
+            $bills = $bills->map(function ($q){
+                return [
+                    'id' => $q['id'],
+                    'text' => $q['text'],
+                    'price' => (string) round($q['price'],2),
+                    'tax' => (string) round($q['vat_amount'],2),
+                ];
+            });
+        }
+        return $bills;
     }
 }

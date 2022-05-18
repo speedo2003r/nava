@@ -2,7 +2,10 @@
 
 namespace App\DataTables;
 
+use App\Enum\UserType;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use App\Enum\IncomeType;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -34,6 +37,9 @@ class CompanyDatatable extends DataTable
                             <label class="custom-control-label" id="status_label'.$query->id.'" for="customSwitch'.$query->id.'"></label>
                         </div>';
             })
+            ->addColumn('accounts',function ($query){
+                return '<a href="'.route('admin.companies.accounts',$query['id']).'" data-placement="top" data-original-title="المديونيه"  class="btn btn-info subs">('.($query['debtor'] ?? 0).') مديونيه</a>';
+            })
             ->addColumn('images',function ($query){
                 return '<a href="'.route('admin.companies.images',$query['id']).'" class="btn btn-success">عرض المستندات</a>';
             })
@@ -53,7 +59,7 @@ class CompanyDatatable extends DataTable
                 return $query->company['manager_name'];
             })
             ->addColumn('control','admin.partial.Control')
-            ->rawColumns(['technicians','images','status','control','id']);
+            ->rawColumns(['accounts','technicians','images','status','control','id']);
     }
 
     /**
@@ -64,7 +70,13 @@ class CompanyDatatable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->query()->with('company')->where('user_type','company')->latest();
+        return $model->query()
+            ->select('users.*',DB::raw('SUM(incomes.income) as techIncome'),DB::raw('SUM(incomes.debtor - incomes.creditor) as debtor'))
+            ->leftJoin('incomes',function ($in){
+                $in->on('incomes.user_id','=','users.id');
+                $in->where('incomes.status',0);
+            })
+            ->with('company')->where('user_type',UserType::COMPANY)->latest();
     }
 
     /**
@@ -104,11 +116,11 @@ class CompanyDatatable extends DataTable
             Column::make('name')->title('الاسم'),
             Column::make('manager_name')->title('المدير'),
             Column::make('status')->title('الحاله')->searchable(false),
-            Column::make('balance')->title('المديونيه'),
+            Column::make('accounts')->title('كشف حساب'),
+            Column::make('wallet')->title('المحفظه')->orderable(false)->searchable(false),
             Column::make('technicians')->title('التقنيين'),
             Column::make('images')->title('معرض الصور'),
             Column::make('email')->title('البريد الالكتروني'),
-            Column::make('wallet')->title('المحفظه'),
             Column::make('phone')->title('الهاتف'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];

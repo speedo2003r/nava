@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\Tech;
 
+use App\Enum\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Users\TechnicalResource;
 use App\Models\User;
+use App\Notifications\Api\AssignDelegate;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderServiceRepository;
@@ -34,7 +36,7 @@ class CompanyController extends Controller
     public function technicals(Request $request)
     {
         $user = auth()->user();
-        $technicals = $user->technicians()->exist()->get();
+        $technicals = $user->technicians()->where('notify',1)->exist()->get();
         return $this->successResponse(TechnicalResource::collection($technicals));
     }
     public function orderTransfer(Request $request)
@@ -47,8 +49,13 @@ class CompanyController extends Controller
         $technical = User::find($request['technical_id']);
         $order = $this->orderRepo->find($request['order_id']);
         $this->orderRepo->update([
-            'technician_id' => $technical['id']
+            'technician_id' => $technical['id'],
+            'status' => OrderStatus::ACCEPTED,
         ],$order['id']);
+        $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::ACCEPTED);
+        $technical->notify(new AssignDelegate($order));
+
+        $order->user->notify(new \App\Notifications\Api\AcceptOrder($order));
         creatPrivateRoom($technical['id'],$order['user_id'],$order['id']);
         return $this->successResponse();
     }

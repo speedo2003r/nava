@@ -8,12 +8,15 @@ use App\Entities\City;
 use App\Entities\Company;
 use App\Entities\Country;
 use App\Entities\Device;
-use App\Entities\Notification;
 use App\Entities\Order;
 use App\Entities\OrderGuarantee;
+use App\Entities\Rating;
 use App\Entities\ReviewRate;
 use App\Entities\Service;
 use App\Entities\Technician;
+use App\Entities\Wallet;
+use App\Enum\OrderStatus;
+use App\Enum\WalletOperationType;
 use App\Models\Role;
 use App\Traits\UploadTrait;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -25,13 +28,136 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Translatable\HasTranslations;
-use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * App\Models\User
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $avatar
+ * @property string|null $email
+ * @property int $commission_status
+ * @property float|null $income
+ * @property int|null $commission
+ * @property string $phone
+ * @property string|null $replace_phone
+ * @property string|null $v_code
+ * @property string $password
+ * @property string $lang
+ * @property int $active mobile activation
+ * @property int $banned
+ * @property int $accepted Admin approval
+ * @property int $notify
+ * @property int $online
+ * @property int|null $role_id
+ * @property int|null $country_id
+ * @property int|null $city_id
+ * @property string $user_type
+ * @property string|null $address
+ * @property string|null $lat
+ * @property string|null $lng
+ * @property string|null $pdf
+ * @property int|null $socket_id
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $company_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|OrderGuarantee[] $GuaranteeOrders
+ * @property-read int|null $guarantee_orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Branch[] $branches
+ * @property-read int|null $branches_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Category[] $categories
+ * @property-read int|null $categories_count
+ * @property-read Category $category
+ * @property-read City|null $city
+ * @property-read Company|null $company
+ * @property-read Country|null $country
+ * @property-read \Illuminate\Database\Eloquent\Collection|Device[] $devices
+ * @property-read int|null $devices_count
+ * @property-read mixed $banner
+ * @property-read mixed $full_phone
+ * @property-read mixed $progress_orders_count
+ * @property-read array $translations
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Order[] $orders
+ * @property-read int|null $orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Order[] $ordersAsTech
+ * @property-read int|null $orders_as_tech_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Order[] $ordersAsUser
+ * @property-read int|null $orders_as_user_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Order[] $refuseOrders
+ * @property-read int|null $refuse_orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|ReviewRate[] $reviews
+ * @property-read int|null $reviews_count
+ * @property-read Role|null $role
+ * @property-read \Illuminate\Database\Eloquent\Collection|Service[] $services
+ * @property-read int|null $services_count
+ * @property-read Technician|null $technician
+ * @property-read \Illuminate\Database\Eloquent\Collection|User[] $technicians
+ * @property-read int|null $technicians_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User exist()
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User olddistance($lat, $lng, $city_id, $unit = 'km')
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAccepted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereBanned($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCommission($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCommissionStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCountryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIncome($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLng($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereNotify($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereOnline($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePdf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereReplacePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereSocketId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUserType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereVCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereWallet($value)
+ * @method static \Illuminate\Database\Query\Builder|User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
+ * @mixin \Eloquent
+ * @property int $max_dept
+ * @property int $chat
+ * @property-read mixed $wallet
+ * @property-read Rating|null $rating
+ * @property-read \Illuminate\Database\Eloquent\Collection|Wallet[] $wallets
+ * @property-read int|null $wallets_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereChat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereMaxDept($value)
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable,UploadTrait;
     use SoftDeletes,CascadeSoftDeletes;
     use HasTranslations;
+    protected $appends = ['wallet'];
     protected $cascadeDeletes = ['technician'];
     public $translatable = ['service_desc','store_name'];
 
@@ -39,10 +165,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'avatar',
         'email',
-        'wallet',
         'commission_status',
         'income',
-        'balance',
         'commission',
         'phone',
         'replace_phone',
@@ -63,6 +187,8 @@ class User extends Authenticatable implements JWTSubject
         'lng',
         'pdf',
         'company_id',
+        'max_dept',
+        'chat',
     ];
     protected $hidden = [
         'password',
@@ -83,6 +209,16 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function getWalletAttribute()
+    {
+        $deposit = $this->wallets()->where('operation_type',WalletOperationType::DEPOSIT)->sum('amount');
+        $withdrawal = $this->wallets()->where('operation_type',WalletOperationType::WITHDRAWAL)->sum('amount');
+        return number_format($deposit - $withdrawal,2);
+    }
+    public function wallets()
+    {
+        return $this->hasMany(Wallet::class,'user_id');
+    }
     public static function getByDistance($lat, $lng)
     {
         $results = DB::select(DB::raw('SELECT users.id,users.user_type as user_type, ( 3959 * acos( cos( radians(' . $lat . ') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians(lat) ) ) ) AS distance FROM users WHERE `user_type` = "provider" ORDER BY distance ASC'));
@@ -129,13 +265,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Company::class,'user_id');
     }
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class,'to_id')->orderByDesc('id');
-    }
     public function reviews()
     {
         return $this->morphMany(ReviewRate::class,'rateable','rateable_type','rateable_id');
+    }
+    public function rating()
+    {
+        return $this->morphOne(Rating::class,'rateable','rateable_type','rateable_id');
     }
     public function scopeExist($value)
     {
@@ -149,6 +285,11 @@ class User extends Authenticatable implements JWTSubject
     }
     public function ordersAsTech(){
         return $this->hasMany(Order::class,'technician_id','id');
+    }
+
+    public function getProgressOrdersCountAttribute($value)
+    {
+        return $this->ordersAsTech()->whereIn('status',[OrderStatus::ACCEPTED,OrderStatus::ARRIVED,OrderStatus::INPROGRESS,OrderStatus::ONWAY])->count();
     }
     public function orders()
     {

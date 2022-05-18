@@ -7,6 +7,7 @@ use App\Entities\Category;
 use App\Entities\City;
 use App\Entities\Order;
 use App\Http\Controllers\Controller;
+use App\Models\Message_notification;
 use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Traits\ResponseTrait;
@@ -104,12 +105,18 @@ class AjaxController extends Controller
             $city = $this->city->find($city_id);
             $region = $order->region;
             $branches = $region->branches()->pluck('branch_regions.branch_id')->toArray();
-            $technicians = $city->technicians()->whereHas('branches',function ($branch) use ($branches){
+            $technicians = $city->technicians()->exist()->whereHas('branches',function ($branch) use ($branches){
                 $branch->whereIn('branches.id',$branches);
             })->whereHas('categories',function ($query) use ($category_id){
                 $query->where('user_categories.category_id',$category_id);
             })->get();
-            return $this->successResponse($technicians);
+            $arr = [];
+            foreach ($technicians as $technician){
+                if($technician->progress_orders_count < settings('techOrderCount')){
+                    $arr[] = $technician;
+                }
+            }
+            return $this->successResponse($arr);
         }
     }
 
@@ -137,5 +144,17 @@ class AjaxController extends Controller
         }
         $item->save();
         return response()->json($item->accepted);
+    }
+
+    public function getNotificationCount(Request $request)
+    {
+        $user = auth()->user();
+        $unreadNotifications = $user->unreadnotifications()->count();
+        return response()->json($unreadNotifications);
+    }
+    public function getMessagesNotificationCount(Request $request)
+    {
+        $count = Message_notification::whereRaw('created_at IN (select MAX(created_at) FROM message_notifications GROUP BY room_id)')->where('is_seen',0)->where('is_sender',0)->where('user_id',auth()->id())->count();
+        return response()->json($count);
     }
 }

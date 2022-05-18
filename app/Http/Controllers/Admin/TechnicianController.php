@@ -4,9 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ClientDatatable;
 use App\DataTables\TechnicianDatatable;
+use App\DataTables\TechnicianOrderDatatable;
 use App\Entities\Income;
 use App\Entities\Order;
 use App\Entities\UserDeduction;
+use App\Enum\OrderStatus;
+use App\Enum\IncomeType;
+use App\Enum\PayType;
+use App\Enum\WalletOperationType;
+use App\Enum\WalletType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Technician\Create;
 use App\Http\Requests\Admin\Technician\Update;
@@ -19,6 +25,7 @@ use App\Repositories\UserRepository;
 use App\Traits\NotifyTrait;
 use App\Traits\ResponseTrait;
 use App\Traits\UploadTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +66,7 @@ class TechnicianController extends Controller
         if($request->has('image')){
             $data['avatar'] = $this->uploadFile($request['image'],'users');
         }
+        $data['active'] = 1;
         $data['v_code'] = generateCode();
         $user = $this->user->create($data);
         $fillable = $user->getFillable();
@@ -106,6 +114,21 @@ class TechnicianController extends Controller
         return redirect()->back()->with('success', 'تم الحذف بنجاح');
     }
 
+    public function orders(TechnicianOrderDatatable $datatable,$id,Request $request)
+    {
+        $orderCount = Order::where('technician_id',$id)
+            ->when($request->has('status') && $request['status'] == OrderStatus::PENDING ,function ($q){
+                $q->where('status',OrderStatus::PENDING);
+            })
+            ->when($request->has('status') && $request['status'] == OrderStatus::DAILY,function ($q){
+                $q->whereDate('created_date',Carbon::now()->format('Y-m-d'));
+            })
+            ->when($request->has('status') && $request['status'] == OrderStatus::FINISHED,function ($q){
+                $q->where('status',OrderStatus::FINISHED);
+            })
+            ->count();
+        return $datatable->with(['id'=>$id])->render('admin.technicians.order',compact('id','orderCount'));
+    }
     public function decreaseVal(Request $request)
     {
         $this->validate($request,[
@@ -122,18 +145,14 @@ class TechnicianController extends Controller
                 return back()->with('danger',awtTrans('قيمة الخصم أكبر من قيمة الطلب'));
             }
         }
-        if($user['wallet'] == 0){
-            $user->balance += $request['deduction'];
-            $user->save();
-        }elseif($user['wallet'] > 0 && $user['wallet'] < $request['deduction']){
-            $value = $request['deduction'] - $user['wallet'];
-            $user['wallet'] = 0;
-            $user['balance'] += $value;
-            $user->save();
-        }else{
-            $user['wallet'] = $user['wallet'] - $request['deduction'];
-            $user->save();
-        }
+
+        $user->wallets()->create([
+            'amount' => $request['deduction'],
+            'type' => WalletType::DEPOSIT,
+            'created_by'=>auth()->id(),
+            'operation_type'=>WalletOperationType::WITHDRAWAL,
+        ]);
+
         UserDeduction::create([
             'user_id' => $user['id'],
             'admin_id' => auth()->id(),
@@ -159,8 +178,31 @@ class TechnicianController extends Controller
     public function settlement(Request $request)
     {
         $income = Income::find($request['id']);
-        $income->status = 1;
-        $income->save();
+        $user = $income->user;
+        if($income['type'] == IncomeType::CREDITOR){
+            $user->wallets()->create([
+                'amount' => $income['creditor'],
+                'type' => WalletType::DEPOSIT,
+                'created_by'=>$user['id'],
+                'operation_type'=>WalletOperationType::WITHDRAWAL,
+            ]);
+            $income->status = 1;
+            $income->save();
+        }else{
+            if($request['type'] == PayType::WALLET){
+                $user->wallets()->create([
+                    'amount' => $income['debtor'],
+                    'type' => WalletType::DEPOSIT,
+                    'created_by'=>$user['id'],
+                    'operation_type'=>WalletOperationType::WITHDRAWAL,
+                ]);
+                $income->status = 1;
+                $income->save();
+            }else{
+                $income->status = 1;
+                $income->save();
+            }
+        }
         return back()->with('success',awtTrans('تم التسوية بنجاح'));
     }
     public function accountsDelete($id)

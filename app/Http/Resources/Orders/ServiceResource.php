@@ -23,6 +23,10 @@ class ServiceResource extends JsonResource
         foreach ($categories as $value){
             $category = Category::find($value);
             $services = $this->orderServices()->where('order_services.category_id',$category['id'])->get();
+            $total = 0;
+            foreach ($services as $service){
+                $total += $service['price'] * $service['count'];
+            }
             $data[] = [
                 'id' => $category['id'],
                 'title' => $category['title'],
@@ -30,10 +34,10 @@ class ServiceResource extends JsonResource
                     return [
                         'id' => $q['id'],
                         'title' => $q['title'],
-                        'price' => $q['price'],
+                        'price' => $q['price'] * $q['count'],
                     ];
                 }),
-                'total' => $services->sum('price')
+                'total' => $total
             ];
         }
         return $data;

@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.83.3.
+ * Generated for Laravel 8.83.7.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -4623,6 +4623,17 @@
                         return $instance->setApplication($app);
         }
                     /**
+         * Determine if the connected database is a MariaDB database.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function isMaria()
+        {
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
+                        return $instance->isMaria();
+        }
+                    /**
          * Get a schema builder instance for the connection.
          *
          * @return \Illuminate\Database\Schema\MySqlBuilder 
@@ -4630,19 +4641,8 @@
          */ 
         public static function getSchemaBuilder()
         {
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getSchemaBuilder();
-        }
-                    /**
-         * Determine if the connected database is a MariaDB database.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function isMaria()
-        {            //Method inherited from \Illuminate\Database\MySqlConnection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
-                        return $instance->isMaria();
         }
                     /**
          * Get the schema state for the connection.
@@ -4653,8 +4653,8 @@
          * @static 
          */ 
         public static function getSchemaState($files = null, $processFactory = null)
-        {            //Method inherited from \Illuminate\Database\MySqlConnection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+        {
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getSchemaState($files, $processFactory);
         }
                     /**
@@ -4665,7 +4665,7 @@
          */ 
         public static function useDefaultQueryGrammar()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->useDefaultQueryGrammar();
         }
                     /**
@@ -4676,7 +4676,7 @@
          */ 
         public static function useDefaultSchemaGrammar()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->useDefaultSchemaGrammar();
         }
                     /**
@@ -4687,7 +4687,7 @@
          */ 
         public static function useDefaultPostProcessor()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->useDefaultPostProcessor();
         }
                     /**
@@ -4700,7 +4700,7 @@
          */ 
         public static function table($table, $as = null)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->table($table, $as);
         }
                     /**
@@ -4711,7 +4711,7 @@
          */ 
         public static function query()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->query();
         }
                     /**
@@ -4725,7 +4725,7 @@
          */ 
         public static function selectOne($query, $bindings = [], $useReadPdo = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->selectOne($query, $bindings, $useReadPdo);
         }
                     /**
@@ -4738,7 +4738,7 @@
          */ 
         public static function selectFromWriteConnection($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->selectFromWriteConnection($query, $bindings);
         }
                     /**
@@ -4752,7 +4752,7 @@
          */ 
         public static function select($query, $bindings = [], $useReadPdo = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->select($query, $bindings, $useReadPdo);
         }
                     /**
@@ -4766,7 +4766,7 @@
          */ 
         public static function cursor($query, $bindings = [], $useReadPdo = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->cursor($query, $bindings, $useReadPdo);
         }
                     /**
@@ -4779,7 +4779,7 @@
          */ 
         public static function insert($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->insert($query, $bindings);
         }
                     /**
@@ -4792,7 +4792,7 @@
          */ 
         public static function update($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->update($query, $bindings);
         }
                     /**
@@ -4805,7 +4805,7 @@
          */ 
         public static function delete($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->delete($query, $bindings);
         }
                     /**
@@ -4818,7 +4818,7 @@
          */ 
         public static function statement($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->statement($query, $bindings);
         }
                     /**
@@ -4831,7 +4831,7 @@
          */ 
         public static function affectingStatement($query, $bindings = [])
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->affectingStatement($query, $bindings);
         }
                     /**
@@ -4843,7 +4843,7 @@
          */ 
         public static function unprepared($query)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->unprepared($query);
         }
                     /**
@@ -4855,7 +4855,7 @@
          */ 
         public static function pretend($callback)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->pretend($callback);
         }
                     /**
@@ -4868,7 +4868,7 @@
          */ 
         public static function bindValues($statement, $bindings)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->bindValues($statement, $bindings);
         }
                     /**
@@ -4880,7 +4880,7 @@
          */ 
         public static function prepareBindings($bindings)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->prepareBindings($bindings);
         }
                     /**
@@ -4894,19 +4894,19 @@
          */ 
         public static function logQuery($query, $bindings, $time = null)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->logQuery($query, $bindings, $time);
         }
                     /**
          * Register a hook to be run just before a database query is executed.
          *
          * @param \Closure $callback
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function beforeExecuting($callback)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->beforeExecuting($callback);
         }
                     /**
@@ -4918,7 +4918,7 @@
          */ 
         public static function listen($callback)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->listen($callback);
         }
                     /**
@@ -4930,7 +4930,7 @@
          */ 
         public static function raw($value)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->raw($value);
         }
                     /**
@@ -4941,7 +4941,7 @@
          */ 
         public static function hasModifiedRecords()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->hasModifiedRecords();
         }
                     /**
@@ -4953,19 +4953,19 @@
          */ 
         public static function recordsHaveBeenModified($value = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->recordsHaveBeenModified($value);
         }
                     /**
          * Set the record modification state.
          *
          * @param bool $value
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setRecordModificationState($value)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setRecordModificationState($value);
         }
                     /**
@@ -4976,19 +4976,19 @@
          */ 
         public static function forgetRecordModificationState()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->forgetRecordModificationState();
         }
                     /**
          * Indicate that the connection should use the write PDO connection for reads.
          *
          * @param bool $value
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function useWriteConnectionWhenReading($value = true)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->useWriteConnectionWhenReading($value);
         }
                     /**
@@ -4999,7 +4999,7 @@
          */ 
         public static function isDoctrineAvailable()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->isDoctrineAvailable();
         }
                     /**
@@ -5012,7 +5012,7 @@
          */ 
         public static function getDoctrineColumn($table, $column)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getDoctrineColumn($table, $column);
         }
                     /**
@@ -5023,7 +5023,7 @@
          */ 
         public static function getDoctrineSchemaManager()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getDoctrineSchemaManager();
         }
                     /**
@@ -5034,7 +5034,7 @@
          */ 
         public static function getDoctrineConnection()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getDoctrineConnection();
         }
                     /**
@@ -5045,7 +5045,7 @@
          */ 
         public static function getPdo()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getPdo();
         }
                     /**
@@ -5056,7 +5056,7 @@
          */ 
         public static function getRawPdo()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getRawPdo();
         }
                     /**
@@ -5067,7 +5067,7 @@
          */ 
         public static function getReadPdo()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getReadPdo();
         }
                     /**
@@ -5078,31 +5078,31 @@
          */ 
         public static function getRawReadPdo()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getRawReadPdo();
         }
                     /**
          * Set the PDO connection.
          *
          * @param \PDO|\Closure|null $pdo
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setPdo($pdo)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setPdo($pdo);
         }
                     /**
          * Set the PDO connection used for reading.
          *
          * @param \PDO|\Closure|null $pdo
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setReadPdo($pdo)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setReadPdo($pdo);
         }
                     /**
@@ -5113,7 +5113,7 @@
          */ 
         public static function getName()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getName();
         }
                     /**
@@ -5124,7 +5124,7 @@
          */ 
         public static function getNameWithReadWriteType()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getNameWithReadWriteType();
         }
                     /**
@@ -5136,7 +5136,7 @@
          */ 
         public static function getConfig($option = null)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getConfig($option);
         }
                     /**
@@ -5147,7 +5147,7 @@
          */ 
         public static function getDriverName()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getDriverName();
         }
                     /**
@@ -5158,19 +5158,19 @@
          */ 
         public static function getQueryGrammar()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getQueryGrammar();
         }
                     /**
          * Set the query grammar used by the connection.
          *
          * @param \Illuminate\Database\Query\Grammars\Grammar $grammar
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setQueryGrammar($grammar)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setQueryGrammar($grammar);
         }
                     /**
@@ -5181,19 +5181,19 @@
          */ 
         public static function getSchemaGrammar()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getSchemaGrammar();
         }
                     /**
          * Set the schema grammar used by the connection.
          *
          * @param \Illuminate\Database\Schema\Grammars\Grammar $grammar
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setSchemaGrammar($grammar)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setSchemaGrammar($grammar);
         }
                     /**
@@ -5204,19 +5204,19 @@
          */ 
         public static function getPostProcessor()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getPostProcessor();
         }
                     /**
          * Set the query post processor used by the connection.
          *
          * @param \Illuminate\Database\Query\Processors\Processor $processor
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setPostProcessor($processor)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setPostProcessor($processor);
         }
                     /**
@@ -5227,19 +5227,19 @@
          */ 
         public static function getEventDispatcher()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getEventDispatcher();
         }
                     /**
          * Set the event dispatcher instance on the connection.
          *
          * @param \Illuminate\Contracts\Events\Dispatcher $events
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setEventDispatcher($events)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setEventDispatcher($events);
         }
                     /**
@@ -5250,19 +5250,19 @@
          */ 
         public static function unsetEventDispatcher()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->unsetEventDispatcher();
         }
                     /**
          * Set the transaction manager instance on the connection.
          *
          * @param \Illuminate\Database\DatabaseTransactionsManager $manager
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setTransactionManager($manager)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setTransactionManager($manager);
         }
                     /**
@@ -5273,7 +5273,7 @@
          */ 
         public static function unsetTransactionManager()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->unsetTransactionManager();
         }
                     /**
@@ -5284,7 +5284,7 @@
          */ 
         public static function pretending()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->pretending();
         }
                     /**
@@ -5295,7 +5295,7 @@
          */ 
         public static function getQueryLog()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getQueryLog();
         }
                     /**
@@ -5306,7 +5306,7 @@
          */ 
         public static function flushQueryLog()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->flushQueryLog();
         }
                     /**
@@ -5317,7 +5317,7 @@
          */ 
         public static function enableQueryLog()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->enableQueryLog();
         }
                     /**
@@ -5328,7 +5328,7 @@
          */ 
         public static function disableQueryLog()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->disableQueryLog();
         }
                     /**
@@ -5339,7 +5339,7 @@
          */ 
         public static function logging()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->logging();
         }
                     /**
@@ -5350,31 +5350,31 @@
          */ 
         public static function getDatabaseName()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getDatabaseName();
         }
                     /**
          * Set the name of the connected database.
          *
          * @param string $database
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setDatabaseName($database)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setDatabaseName($database);
         }
                     /**
          * Set the read / write type of the connection.
          *
          * @param string|null $readWriteType
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setReadWriteType($readWriteType)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setReadWriteType($readWriteType);
         }
                     /**
@@ -5385,19 +5385,19 @@
          */ 
         public static function getTablePrefix()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getTablePrefix();
         }
                     /**
          * Set the table prefix in use by the connection.
          *
          * @param string $prefix
-         * @return \Grimzy\LaravelMysqlSpatial\MysqlConnection 
+         * @return \Illuminate\Database\MySqlConnection 
          * @static 
          */ 
         public static function setTablePrefix($prefix)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->setTablePrefix($prefix);
         }
                     /**
@@ -5409,7 +5409,7 @@
          */ 
         public static function withTablePrefix($grammar)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->withTablePrefix($grammar);
         }
                     /**
@@ -5422,7 +5422,7 @@
          */ 
         public static function resolverFor($driver, $callback)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        \Grimzy\LaravelMysqlSpatial\MysqlConnection::resolverFor($driver, $callback);
+                        \Illuminate\Database\MySqlConnection::resolverFor($driver, $callback);
         }
                     /**
          * Get the connection resolver for the given driver.
@@ -5433,7 +5433,7 @@
          */ 
         public static function getResolver($driver)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        return \Grimzy\LaravelMysqlSpatial\MysqlConnection::getResolver($driver);
+                        return \Illuminate\Database\MySqlConnection::getResolver($driver);
         }
                     /**
          * Execute a Closure within a transaction.
@@ -5446,7 +5446,7 @@
          */ 
         public static function transaction($callback, $attempts = 1)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->transaction($callback, $attempts);
         }
                     /**
@@ -5458,7 +5458,7 @@
          */ 
         public static function beginTransaction()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->beginTransaction();
         }
                     /**
@@ -5470,7 +5470,7 @@
          */ 
         public static function commit()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->commit();
         }
                     /**
@@ -5483,7 +5483,7 @@
          */ 
         public static function rollBack($toLevel = null)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->rollBack($toLevel);
         }
                     /**
@@ -5494,7 +5494,7 @@
          */ 
         public static function transactionLevel()
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->transactionLevel();
         }
                     /**
@@ -5507,7 +5507,7 @@
          */ 
         public static function afterCommit($callback)
         {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Grimzy\LaravelMysqlSpatial\MysqlConnection $instance */
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->afterCommit($callback);
         }
          
@@ -12507,8 +12507,8 @@
          * @static 
          */ 
         public static function createDatabase($name)
-        {            //Method inherited from \Illuminate\Database\Schema\MySqlBuilder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+        {
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->createDatabase($name);
         }
                     /**
@@ -12519,8 +12519,8 @@
          * @static 
          */ 
         public static function dropDatabaseIfExists($name)
-        {            //Method inherited from \Illuminate\Database\Schema\MySqlBuilder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+        {
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->dropDatabaseIfExists($name);
         }
                     /**
@@ -12531,8 +12531,8 @@
          * @static 
          */ 
         public static function hasTable($table)
-        {            //Method inherited from \Illuminate\Database\Schema\MySqlBuilder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+        {
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->hasTable($table);
         }
                     /**
@@ -12543,8 +12543,8 @@
          * @static 
          */ 
         public static function getColumnListing($table)
-        {            //Method inherited from \Illuminate\Database\Schema\MySqlBuilder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+        {
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->getColumnListing($table);
         }
                     /**
@@ -12554,8 +12554,8 @@
          * @static 
          */ 
         public static function dropAllTables()
-        {            //Method inherited from \Illuminate\Database\Schema\MySqlBuilder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+        {
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->dropAllTables();
         }
                     /**
@@ -12565,8 +12565,8 @@
          * @static 
          */ 
         public static function dropAllViews()
-        {            //Method inherited from \Illuminate\Database\Schema\MySqlBuilder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+        {
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->dropAllViews();
         }
                     /**
@@ -12576,8 +12576,8 @@
          * @static 
          */ 
         public static function getAllTables()
-        {            //Method inherited from \Illuminate\Database\Schema\MySqlBuilder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+        {
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->getAllTables();
         }
                     /**
@@ -12587,8 +12587,8 @@
          * @static 
          */ 
         public static function getAllViews()
-        {            //Method inherited from \Illuminate\Database\Schema\MySqlBuilder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+        {
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->getAllViews();
         }
                     /**
@@ -12600,7 +12600,7 @@
          */ 
         public static function defaultStringLength($length)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Grimzy\LaravelMysqlSpatial\Schema\Builder::defaultStringLength($length);
+                        \Illuminate\Database\Schema\MySqlBuilder::defaultStringLength($length);
         }
                     /**
          * Set the default morph key type for migrations.
@@ -12612,7 +12612,7 @@
          */ 
         public static function defaultMorphKeyType($type)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Grimzy\LaravelMysqlSpatial\Schema\Builder::defaultMorphKeyType($type);
+                        \Illuminate\Database\Schema\MySqlBuilder::defaultMorphKeyType($type);
         }
                     /**
          * Set the default morph key type for migrations to UUIDs.
@@ -12622,7 +12622,7 @@
          */ 
         public static function morphUsingUuids()
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Grimzy\LaravelMysqlSpatial\Schema\Builder::morphUsingUuids();
+                        \Illuminate\Database\Schema\MySqlBuilder::morphUsingUuids();
         }
                     /**
          * Determine if the given table has a given column.
@@ -12634,7 +12634,7 @@
          */ 
         public static function hasColumn($table, $column)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->hasColumn($table, $column);
         }
                     /**
@@ -12647,7 +12647,7 @@
          */ 
         public static function hasColumns($table, $columns)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->hasColumns($table, $columns);
         }
                     /**
@@ -12660,7 +12660,7 @@
          */ 
         public static function getColumnType($table, $column)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->getColumnType($table, $column);
         }
                     /**
@@ -12673,7 +12673,7 @@
          */ 
         public static function table($table, $callback)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->table($table, $callback);
         }
                     /**
@@ -12686,7 +12686,7 @@
          */ 
         public static function create($table, $callback)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->create($table, $callback);
         }
                     /**
@@ -12698,7 +12698,7 @@
          */ 
         public static function drop($table)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->drop($table);
         }
                     /**
@@ -12710,7 +12710,7 @@
          */ 
         public static function dropIfExists($table)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->dropIfExists($table);
         }
                     /**
@@ -12723,7 +12723,7 @@
          */ 
         public static function dropColumns($table, $columns)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->dropColumns($table, $columns);
         }
                     /**
@@ -12735,7 +12735,7 @@
          */ 
         public static function dropAllTypes()
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->dropAllTypes();
         }
                     /**
@@ -12748,7 +12748,7 @@
          */ 
         public static function rename($from, $to)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->rename($from, $to);
         }
                     /**
@@ -12759,7 +12759,7 @@
          */ 
         public static function enableForeignKeyConstraints()
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->enableForeignKeyConstraints();
         }
                     /**
@@ -12770,7 +12770,7 @@
          */ 
         public static function disableForeignKeyConstraints()
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->disableForeignKeyConstraints();
         }
                     /**
@@ -12784,7 +12784,7 @@
          */ 
         public static function registerCustomDoctrineType($class, $name, $type)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->registerCustomDoctrineType($class, $name, $type);
         }
                     /**
@@ -12795,19 +12795,19 @@
          */ 
         public static function getConnection()
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->getConnection();
         }
                     /**
          * Set the database connection instance.
          *
          * @param \Illuminate\Database\Connection $connection
-         * @return \Grimzy\LaravelMysqlSpatial\Schema\Builder 
+         * @return \Illuminate\Database\Schema\MySqlBuilder 
          * @static 
          */ 
         public static function setConnection($connection)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         return $instance->setConnection($connection);
         }
                     /**
@@ -12819,7 +12819,7 @@
          */ 
         public static function blueprintResolver($resolver)
         {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Grimzy\LaravelMysqlSpatial\Schema\Builder $instance */
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
                         $instance->blueprintResolver($resolver);
         }
          
@@ -15804,268 +15804,7 @@
      
 }
 
-        namespace Berkayk\OneSignal { 
-            /**
-     * 
-     *
-     */ 
-        class OneSignalFacade {
-                    /**
-         * Turn on, turn off async requests
-         *
-         * @param bool $on
-         * @return \Berkayk\OneSignal\OneSignalClient 
-         * @static 
-         */ 
-        public static function async($on = true)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->async($on);
-        }
-                    /**
-         * Callback to execute after OneSignal returns the response
-         *
-         * @param Callable $requestCallback
-         * @return \Berkayk\OneSignal\OneSignalClient 
-         * @static 
-         */ 
-        public static function callback($requestCallback)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->callback($requestCallback);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function testCredentials()
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->testCredentials();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function addParams($params = [])
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->addParams($params);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function setParam($key, $value)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->setParam($key, $value);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function sendNotificationToUser($message, $userId, $url = null, $data = null, $buttons = null, $schedule = null, $headings = null, $subtitle = null)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->sendNotificationToUser($message, $userId, $url, $data, $buttons, $schedule, $headings, $subtitle);
-        }
-                    /**
-         * 
-         *
-         * @param $message
-         * @param $userId
-         * @param null $url
-         * @param null $data
-         * @param null $buttons
-         * @param null $schedule
-         * @param null $headings
-         * @param null $subtitle
-         * @static 
-         */ 
-        public static function sendNotificationToExternalUser($message, $userId, $url = null, $data = null, $buttons = null, $schedule = null, $headings = null, $subtitle = null)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->sendNotificationToExternalUser($message, $userId, $url, $data, $buttons, $schedule, $headings, $subtitle);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function sendNotificationUsingTags($message, $tags, $url = null, $data = null, $buttons = null, $schedule = null, $headings = null, $subtitle = null)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->sendNotificationUsingTags($message, $tags, $url, $data, $buttons, $schedule, $headings, $subtitle);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function sendNotificationToAll($message, $url = null, $data = null, $buttons = null, $schedule = null, $headings = null, $subtitle = null)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->sendNotificationToAll($message, $url, $data, $buttons, $schedule, $headings, $subtitle);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function sendNotificationToSegment($message, $segment, $url = null, $data = null, $buttons = null, $schedule = null, $headings = null, $subtitle = null)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->sendNotificationToSegment($message, $segment, $url, $data, $buttons, $schedule, $headings, $subtitle);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function deleteNotification($notificationId, $appId = null)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->deleteNotification($notificationId, $appId);
-        }
-                    /**
-         * Send a notification with custom parameters defined in
-         * https://documentation.onesignal.com/reference#section-example-code-create-notification
-         *
-         * @param array $parameters
-         * @return mixed 
-         * @static 
-         */ 
-        public static function sendNotificationCustom($parameters = [])
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->sendNotificationCustom($parameters);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getNotification($notification_id, $app_id = null)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->getNotification($notification_id, $app_id);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getNotifications($app_id = null, $limit = null, $offset = null)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->getNotifications($app_id, $limit, $offset);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getApp($app_id = null)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->getApp($app_id);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getApps()
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->getApps();
-        }
-                    /**
-         * Creates a user/player
-         *
-         * @param array $parameters
-         * @return mixed 
-         * @throws \Exception
-         * @static 
-         */ 
-        public static function createPlayer($parameters)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->createPlayer($parameters);
-        }
-                    /**
-         * Edit a user/player
-         *
-         * @param array $parameters
-         * @return mixed 
-         * @static 
-         */ 
-        public static function editPlayer($parameters)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->editPlayer($parameters);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function requestPlayersCSV($app_id = null, $parameters = null)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->requestPlayersCSV($app_id, $parameters);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function post($endPoint)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->post($endPoint);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function put($endPoint)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->put($endPoint);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function get($endPoint)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->get($endPoint);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function delete($endPoint)
-        {
-                        /** @var \Berkayk\OneSignal\OneSignalClient $instance */
-                        return $instance->delete($endPoint);
-        }
-         
-    }
-     
-}
-
-    namespace LaravelFCM\Facades { 
+        namespace LaravelFCM\Facades { 
             /**
      * 
      *
@@ -16723,7 +16462,7 @@
      
 }
 
-    namespace PHPOpenSourceSaver\JWTAuth\Facades { 
+    namespace Tymon\JWTAuth\Facades { 
             /**
      * 
      *
@@ -16732,67 +16471,70 @@
                     /**
          * Attempt to authenticate the user and return the token.
          *
+         * @param array $credentials
          * @return false|string 
          * @static 
          */ 
         public static function attempt($credentials)
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->attempt($credentials);
         }
                     /**
          * Authenticate a user via a token.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject|false 
+         * @return \Tymon\JWTAuth\Contracts\JWTSubject|false 
          * @static 
          */ 
         public static function authenticate()
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->authenticate();
         }
                     /**
          * Alias for authenticate().
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject|false 
+         * @return \Tymon\JWTAuth\Contracts\JWTSubject|false 
          * @static 
          */ 
         public static function toUser()
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->toUser();
         }
                     /**
          * Get the authenticated user.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject 
+         * @return \Tymon\JWTAuth\Contracts\JWTSubject 
          * @static 
          */ 
         public static function user()
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->user();
         }
                     /**
          * Generate a token for a given subject.
          *
+         * @param \Tymon\JWTAuth\Contracts\JWTSubject $subject
          * @return string 
          * @static 
          */ 
         public static function fromSubject($subject)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->fromSubject($subject);
         }
                     /**
          * Alias to generate a token for a given user.
          *
+         * @param \Tymon\JWTAuth\Contracts\JWTSubject $user
          * @return string 
          * @static 
          */ 
         public static function fromUser($user)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->fromUser($user);
         }
                     /**
@@ -16804,90 +16546,90 @@
          * @static 
          */ 
         public static function refresh($forceForever = false, $resetClaims = false)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->refresh($forceForever, $resetClaims);
         }
                     /**
          * Invalidate a token (add it to the blacklist).
          *
          * @param bool $forceForever
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTAuth 
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
         public static function invalidate($forceForever = false)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->invalidate($forceForever);
         }
                     /**
          * Alias to get the payload, and as a result checks that
          * the token is valid i.e. not expired or blacklisted.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Payload 
-         * @throws JWTException
+         * @return \Tymon\JWTAuth\Payload 
+         * @throws \Tymon\JWTAuth\Exceptions\JWTException
          * @static 
          */ 
         public static function checkOrFail()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->checkOrFail();
         }
                     /**
          * Check that the token is valid.
          *
          * @param bool $getPayload
-         * @return \PHPOpenSourceSaver\JWTAuth\Payload|bool 
+         * @return \Tymon\JWTAuth\Payload|bool 
          * @static 
          */ 
         public static function check($getPayload = false)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->check($getPayload);
         }
                     /**
          * Get the token.
          *
-         * @return \Token|null 
+         * @return \Tymon\JWTAuth\Token|null 
          * @static 
          */ 
         public static function getToken()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->getToken();
         }
                     /**
          * Parse the token from the request.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTAuth 
-         * @throws JWTException
+         * @return \Tymon\JWTAuth\JWTAuth 
+         * @throws \Tymon\JWTAuth\Exceptions\JWTException
          * @static 
          */ 
         public static function parseToken()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->parseToken();
         }
                     /**
          * Get the raw Payload instance.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Payload 
+         * @return \Tymon\JWTAuth\Payload 
          * @static 
          */ 
         public static function getPayload()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->getPayload();
         }
                     /**
          * Alias for getPayload().
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Payload 
+         * @return \Tymon\JWTAuth\Payload 
          * @static 
          */ 
         public static function payload()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->payload();
         }
                     /**
@@ -16898,19 +16640,20 @@
          * @static 
          */ 
         public static function getClaim($claim)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->getClaim($claim);
         }
                     /**
          * Create a Payload instance.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Payload 
+         * @param \Tymon\JWTAuth\Contracts\JWTSubject $subject
+         * @return \Tymon\JWTAuth\Payload 
          * @static 
          */ 
         public static function makePayload($subject)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->makePayload($subject);
         }
                     /**
@@ -16921,120 +16664,123 @@
          * @static 
          */ 
         public static function checkSubjectModel($model)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->checkSubjectModel($model);
         }
                     /**
          * Set the token.
          *
-         * @param \Token|string $token
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTAuth 
+         * @param \Tymon\JWTAuth\Token|string $token
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
         public static function setToken($token)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->setToken($token);
         }
                     /**
          * Unset the current token.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTAuth 
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
         public static function unsetToken()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->unsetToken();
         }
                     /**
          * Set the request instance.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTAuth 
+         * @param \Illuminate\Http\Request $request
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
         public static function setRequest($request)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->setRequest($request);
         }
                     /**
          * Set whether the subject should be "locked".
          *
          * @param bool $lock
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTAuth 
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
         public static function lockSubject($lock)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->lockSubject($lock);
         }
                     /**
          * Get the Manager instance.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Manager 
+         * @return \Tymon\JWTAuth\Manager 
          * @static 
          */ 
         public static function manager()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->manager();
         }
                     /**
          * Get the Parser instance.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Http\Parser\Parser 
+         * @return \Tymon\JWTAuth\Http\Parser\Parser 
          * @static 
          */ 
         public static function parser()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->parser();
         }
                     /**
          * Get the Payload Factory.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Factory 
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
         public static function factory()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->factory();
         }
                     /**
          * Get the Blacklist.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Blacklist 
+         * @return \Tymon\JWTAuth\Blacklist 
          * @static 
          */ 
         public static function blacklist()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->blacklist();
         }
                     /**
          * Set the custom claims.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTAuth 
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
         public static function customClaims($customClaims)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->customClaims($customClaims);
         }
                     /**
          * Alias to set the custom claims.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\JWTAuth 
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
         public static function claims($customClaims)
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->claims($customClaims);
         }
                     /**
@@ -17044,8 +16790,8 @@
          * @static 
          */ 
         public static function getCustomClaims()
-        {            //Method inherited from \PHPOpenSourceSaver\JWTAuth\JWT         
-                        /** @var \PHPOpenSourceSaver\JWTAuth\JWTAuth $instance */
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
                         return $instance->getCustomClaims();
         }
          
@@ -17059,68 +16805,70 @@
          * Create the Payload instance.
          *
          * @param bool $resetClaims
-         * @return \PHPOpenSourceSaver\JWTAuth\Payload 
+         * @return \Tymon\JWTAuth\Payload 
          * @static 
          */ 
         public static function make($resetClaims = false)
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->make($resetClaims);
         }
                     /**
          * Empty the claims collection.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Factory 
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
         public static function emptyClaims()
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->emptyClaims();
         }
                     /**
          * Build and get the Claims Collection.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Claims\Collection 
+         * @return \Tymon\JWTAuth\Claims\Collection 
          * @static 
          */ 
         public static function buildClaimsCollection()
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->buildClaimsCollection();
         }
                     /**
          * Get a Payload instance with a claims collection.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Payload 
+         * @param \Tymon\JWTAuth\Claims\Collection $claims
+         * @return \Tymon\JWTAuth\Payload 
          * @static 
          */ 
         public static function withClaims($claims)
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->withClaims($claims);
         }
                     /**
          * Set the default claims to be added to the Payload.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Factory 
+         * @param array $claims
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
         public static function setDefaultClaims($claims)
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->setDefaultClaims($claims);
         }
                     /**
          * Helper to set the ttl.
          *
-         * @param int|null $ttl
-         * @return \PHPOpenSourceSaver\JWTAuth\Factory 
+         * @param int $ttl
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
         public static function setTTL($ttl)
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->setTTL($ttl);
         }
                     /**
@@ -17131,7 +16879,7 @@
          */ 
         public static function getTTL()
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->getTTL();
         }
                     /**
@@ -17142,40 +16890,42 @@
          */ 
         public static function getDefaultClaims()
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->getDefaultClaims();
         }
                     /**
          * Get the PayloadValidator instance.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Validators\PayloadValidator 
+         * @return \Tymon\JWTAuth\Validators\PayloadValidator 
          * @static 
          */ 
         public static function validator()
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->validator();
         }
                     /**
          * Set the custom claims.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Factory 
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
         public static function customClaims($customClaims)
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->customClaims($customClaims);
         }
                     /**
          * Alias to set the custom claims.
          *
-         * @return \PHPOpenSourceSaver\JWTAuth\Factory 
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
         public static function claims($customClaims)
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->claims($customClaims);
         }
                     /**
@@ -17186,328 +16936,20 @@
          */ 
         public static function getCustomClaims()
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->getCustomClaims();
         }
                     /**
          * Set the refresh flow flag.
          *
          * @param bool $refreshFlow
-         * @return \PHPOpenSourceSaver\JWTAuth\Factory 
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
         public static function setRefreshFlow($refreshFlow = true)
         {
-                        /** @var \PHPOpenSourceSaver\JWTAuth\Factory $instance */
+                        /** @var \Tymon\JWTAuth\Factory $instance */
                         return $instance->setRefreshFlow($refreshFlow);
-        }
-         
-    }
-     
-}
-
-    namespace Intervention\Image\Facades { 
-            /**
-     * 
-     *
-     */ 
-        class Image {
-                    /**
-         * Overrides configuration settings
-         *
-         * @param array $config
-         * @return self 
-         * @static 
-         */ 
-        public static function configure($config = [])
-        {
-                        /** @var \Intervention\Image\ImageManager $instance */
-                        return $instance->configure($config);
-        }
-                    /**
-         * Initiates an Image instance from different input types
-         *
-         * @param mixed $data
-         * @return \Intervention\Image\Image 
-         * @static 
-         */ 
-        public static function make($data)
-        {
-                        /** @var \Intervention\Image\ImageManager $instance */
-                        return $instance->make($data);
-        }
-                    /**
-         * Creates an empty image canvas
-         *
-         * @param int $width
-         * @param int $height
-         * @param mixed $background
-         * @return \Intervention\Image\Image 
-         * @static 
-         */ 
-        public static function canvas($width, $height, $background = null)
-        {
-                        /** @var \Intervention\Image\ImageManager $instance */
-                        return $instance->canvas($width, $height, $background);
-        }
-                    /**
-         * Create new cached image and run callback
-         * (requires additional package intervention/imagecache)
-         *
-         * @param \Closure $callback
-         * @param int $lifetime
-         * @param boolean $returnObj
-         * @return \Image 
-         * @static 
-         */ 
-        public static function cache($callback, $lifetime = null, $returnObj = false)
-        {
-                        /** @var \Intervention\Image\ImageManager $instance */
-                        return $instance->cache($callback, $lifetime, $returnObj);
-        }
-         
-    }
-     
-}
-
-    namespace Maatwebsite\Excel\Facades { 
-            /**
-     * 
-     *
-     */ 
-        class Excel {
-                    /**
-         * 
-         *
-         * @param object $export
-         * @param string|null $fileName
-         * @param string $writerType
-         * @param array $headers
-         * @return \Symfony\Component\HttpFoundation\BinaryFileResponse 
-         * @throws \PhpOffice\PhpSpreadsheet\Exception
-         * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-         * @static 
-         */ 
-        public static function download($export, $fileName, $writerType = null, $headers = [])
-        {
-                        /** @var \Maatwebsite\Excel\Excel $instance */
-                        return $instance->download($export, $fileName, $writerType, $headers);
-        }
-                    /**
-         * 
-         *
-         * @param object $export
-         * @param string $filePath
-         * @param string|null $disk
-         * @param string $writerType
-         * @param mixed $diskOptions
-         * @return bool 
-         * @throws \PhpOffice\PhpSpreadsheet\Exception
-         * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-         * @static 
-         */ 
-        public static function store($export, $filePath, $diskName = null, $writerType = null, $diskOptions = [])
-        {
-                        /** @var \Maatwebsite\Excel\Excel $instance */
-                        return $instance->store($export, $filePath, $diskName, $writerType, $diskOptions);
-        }
-                    /**
-         * 
-         *
-         * @param object $export
-         * @param string $filePath
-         * @param string|null $disk
-         * @param string $writerType
-         * @param mixed $diskOptions
-         * @return \Illuminate\Foundation\Bus\PendingDispatch 
-         * @static 
-         */ 
-        public static function queue($export, $filePath, $disk = null, $writerType = null, $diskOptions = [])
-        {
-                        /** @var \Maatwebsite\Excel\Excel $instance */
-                        return $instance->queue($export, $filePath, $disk, $writerType, $diskOptions);
-        }
-                    /**
-         * 
-         *
-         * @param object $export
-         * @param string $writerType
-         * @return string 
-         * @static 
-         */ 
-        public static function raw($export, $writerType)
-        {
-                        /** @var \Maatwebsite\Excel\Excel $instance */
-                        return $instance->raw($export, $writerType);
-        }
-                    /**
-         * 
-         *
-         * @param object $import
-         * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $filePath
-         * @param string|null $disk
-         * @param string|null $readerType
-         * @return \Maatwebsite\Excel\Reader|\Illuminate\Foundation\Bus\PendingDispatch 
-         * @static 
-         */ 
-        public static function import($import, $filePath, $disk = null, $readerType = null)
-        {
-                        /** @var \Maatwebsite\Excel\Excel $instance */
-                        return $instance->import($import, $filePath, $disk, $readerType);
-        }
-                    /**
-         * 
-         *
-         * @param object $import
-         * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $filePath
-         * @param string|null $disk
-         * @param string|null $readerType
-         * @return array 
-         * @static 
-         */ 
-        public static function toArray($import, $filePath, $disk = null, $readerType = null)
-        {
-                        /** @var \Maatwebsite\Excel\Excel $instance */
-                        return $instance->toArray($import, $filePath, $disk, $readerType);
-        }
-                    /**
-         * 
-         *
-         * @param object $import
-         * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $filePath
-         * @param string|null $disk
-         * @param string|null $readerType
-         * @return \Illuminate\Support\Collection 
-         * @static 
-         */ 
-        public static function toCollection($import, $filePath, $disk = null, $readerType = null)
-        {
-                        /** @var \Maatwebsite\Excel\Excel $instance */
-                        return $instance->toCollection($import, $filePath, $disk, $readerType);
-        }
-                    /**
-         * 
-         *
-         * @param \Illuminate\Contracts\Queue\ShouldQueue $import
-         * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $filePath
-         * @param string|null $disk
-         * @param string $readerType
-         * @return \Illuminate\Foundation\Bus\PendingDispatch 
-         * @static 
-         */ 
-        public static function queueImport($import, $filePath, $disk = null, $readerType = null)
-        {
-                        /** @var \Maatwebsite\Excel\Excel $instance */
-                        return $instance->queueImport($import, $filePath, $disk, $readerType);
-        }
-                    /**
-         * 
-         *
-         * @param string $concern
-         * @param callable $handler
-         * @param string $event
-         * @static 
-         */ 
-        public static function extend($concern, $handler, $event = 'Maatwebsite\\Excel\\Events\\BeforeWriting')
-        {
-                        return \Maatwebsite\Excel\Excel::extend($concern, $handler, $event);
-        }
-                    /**
-         * When asserting downloaded, stored, queued or imported, use regular expression
-         * to look for a matching file path.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function matchByRegex()
-        {
-                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
-                        $instance->matchByRegex();
-        }
-                    /**
-         * When asserting downloaded, stored, queued or imported, use regular string
-         * comparison for matching file path.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function doNotMatchByRegex()
-        {
-                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
-                        $instance->doNotMatchByRegex();
-        }
-                    /**
-         * 
-         *
-         * @param string $fileName
-         * @param callable|null $callback
-         * @static 
-         */ 
-        public static function assertDownloaded($fileName, $callback = null)
-        {
-                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
-                        return $instance->assertDownloaded($fileName, $callback);
-        }
-                    /**
-         * 
-         *
-         * @param string $filePath
-         * @param string|callable|null $disk
-         * @param callable|null $callback
-         * @static 
-         */ 
-        public static function assertStored($filePath, $disk = null, $callback = null)
-        {
-                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
-                        return $instance->assertStored($filePath, $disk, $callback);
-        }
-                    /**
-         * 
-         *
-         * @param string $filePath
-         * @param string|callable|null $disk
-         * @param callable|null $callback
-         * @static 
-         */ 
-        public static function assertQueued($filePath, $disk = null, $callback = null)
-        {
-                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
-                        return $instance->assertQueued($filePath, $disk, $callback);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function assertQueuedWithChain($chain)
-        {
-                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
-                        return $instance->assertQueuedWithChain($chain);
-        }
-                    /**
-         * 
-         *
-         * @param string $classname
-         * @param callable|null $callback
-         * @static 
-         */ 
-        public static function assertExportedInRaw($classname, $callback = null)
-        {
-                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
-                        return $instance->assertExportedInRaw($classname, $callback);
-        }
-                    /**
-         * 
-         *
-         * @param string $filePath
-         * @param string|callable|null $disk
-         * @param callable|null $callback
-         * @static 
-         */ 
-        public static function assertImported($filePath, $disk = null, $callback = null)
-        {
-                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
-                        return $instance->assertImported($filePath, $disk, $callback);
         }
          
     }
@@ -17557,155 +16999,6 @@
         {
                         /** @var \niklasravnsborg\LaravelPdf\PdfWrapper $instance */
                         return $instance->loadView($view, $data, $mergeData, $config);
-        }
-         
-    }
-     
-}
-
-    namespace GrahamCampbell\Throttle\Facades { 
-            /**
-     * This is the throttle facade class.
-     *
-     * @author Graham Campbell <hello@gjcampbell.co.uk>
-     */ 
-        class Throttle {
-                    /**
-         * Get a new throttler.
-         *
-         * @param mixed $data
-         * @param int $limit
-         * @param int $time
-         * @return \GrahamCampbell\Throttle\Throttler\ThrottlerInterface 
-         * @static 
-         */ 
-        public static function get($data, $limit = 10, $time = 60)
-        {
-                        /** @var \GrahamCampbell\Throttle\Throttle $instance */
-                        return $instance->get($data, $limit, $time);
-        }
-                    /**
-         * Get the cache instance.
-         *
-         * @return \GrahamCampbell\Throttle\Factory\FactoryInterface 
-         * @static 
-         */ 
-        public static function getFactory()
-        {
-                        /** @var \GrahamCampbell\Throttle\Throttle $instance */
-                        return $instance->getFactory();
-        }
-                    /**
-         * Get the transformer factory instance.
-         *
-         * @return \GrahamCampbell\Throttle\Transformer\TransformerFactoryInterface 
-         * @static 
-         */ 
-        public static function getTransformer()
-        {
-                        /** @var \GrahamCampbell\Throttle\Throttle $instance */
-                        return $instance->getTransformer();
-        }
-         
-    }
-     
-}
-
-    namespace Dirape\Token\Facades { 
-            /**
-     * 
-     *
-     */ 
-        class Facade {
-                    /**
-         * Create a unique token.
-         *
-         * @param string $table
-         * @param string $col
-         * @param integer $size
-         * @param bool $withSpecialCharacters
-         * @return string 
-         * @throws \Exception
-         * @static 
-         */ 
-        public static function unique($table, $col, $size, $withSpecialCharacters = false)
-        {
-                        /** @var \Dirape\Token\Token $instance */
-                        return $instance->unique($table, $col, $size, $withSpecialCharacters);
-        }
-                    /**
-         * Create a unique number.
-         *
-         * @param string $table
-         * @param string $column
-         * @param $size
-         * @param bool $withSpecialCharacters
-         * @return integer 
-         * @throws \Exception
-         * @static 
-         */ 
-        public static function uniqueNumber($table, $column, $size, $withSpecialCharacters = false)
-        {
-                        /** @var \Dirape\Token\Token $instance */
-                        return $instance->uniqueNumber($table, $column, $size, $withSpecialCharacters);
-        }
-                    /**
-         * Create a unique string.
-         *
-         * @param string $table
-         * @param string $column
-         * @param int $size
-         * @param bool $withSpecialCharacters
-         * @return string 
-         * @throws \Exception
-         * @static 
-         */ 
-        public static function uniqueString($table, $column, $size, $withSpecialCharacters = false)
-        {
-                        /** @var \Dirape\Token\Token $instance */
-                        return $instance->uniqueString($table, $column, $size, $withSpecialCharacters);
-        }
-                    /**
-         * Create a random token.
-         *
-         * @param int $size
-         * @param bool $withSpecialCharacters
-         * @return string 
-         * @throws \Exception
-         * @static 
-         */ 
-        public static function random($size, $withSpecialCharacters = false)
-        {
-                        /** @var \Dirape\Token\Token $instance */
-                        return $instance->random($size, $withSpecialCharacters);
-        }
-                    /**
-         * Create a random number.
-         *
-         * @param int $size
-         * @param bool $withSpecialCharacters
-         * @return string 
-         * @throws \Exception
-         * @static 
-         */ 
-        public static function randomNumber($size, $withSpecialCharacters = false)
-        {
-                        /** @var \Dirape\Token\Token $instance */
-                        return $instance->randomNumber($size, $withSpecialCharacters);
-        }
-                    /**
-         * Create a random string.
-         *
-         * @param int $size
-         * @param bool $withSpecialCharacters
-         * @return string 
-         * @throws \Exception
-         * @static 
-         */ 
-        public static function randomString($size, $withSpecialCharacters = false)
-        {
-                        /** @var \Dirape\Token\Token $instance */
-                        return $instance->randomString($size, $withSpecialCharacters);
         }
          
     }
@@ -17998,56 +17291,6 @@
         {
                         /** @var \Facade\FlareClient\Flare $instance */
                         return $instance->group($groupName, $properties);
-        }
-         
-    }
-     
-}
-
-    namespace Kreait\Laravel\Firebase\Facades { 
-            /**
-     * 
-     *
-     * @method static \Kreait\Firebase\Contract\Auth auth()
-     * @method static \Kreait\Firebase\Contract\Database database()
-     * @method static \Kreait\Firebase\Contract\DynamicLinks dynamicLinks()
-     * @method static \Kreait\Firebase\Contract\Firestore firestore()
-     * @method static \Kreait\Firebase\Contract\Messaging messaging()
-     * @method static \Kreait\Firebase\Contract\RemoteConfig remoteConfig()
-     * @method static \Kreait\Firebase\Contract\Storage storage()
-     * @see \Kreait\Laravel\Firebase\FirebaseProjectManager
-     * @see \Kreait\Laravel\Firebase\FirebaseProject
-     */ 
-        class Firebase {
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function project($name = null)
-        {
-                        /** @var \Kreait\Laravel\Firebase\FirebaseProjectManager $instance */
-                        return $instance->project($name);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getDefaultProject()
-        {
-                        /** @var \Kreait\Laravel\Firebase\FirebaseProjectManager $instance */
-                        return $instance->getDefaultProject();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function setDefaultProject($name)
-        {
-                        /** @var \Kreait\Laravel\Firebase\FirebaseProjectManager $instance */
-                        return $instance->setDefaultProject($name);
         }
          
     }
@@ -19186,1207 +18429,244 @@
      
 }
 
-    namespace Livewire { 
-            /**
-     * 
-     *
-     * @see \Livewire\LivewireManager
-     */ 
-        class Livewire {
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function component($alias, $viewClass = null)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->component($alias, $viewClass);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getAlias($class, $default = null)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->getAlias($class, $default);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getComponentAliases()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->getComponentAliases();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getClass($alias)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->getClass($alias);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getInstance($component, $id)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->getInstance($component, $id);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function mount($name, $params = [])
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->mount($name, $params);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function dummyMount($id, $tagName)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->dummyMount($id, $tagName);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function test($name, $params = [])
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->test($name, $params);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function visit($browser, $class, $queryString = '')
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->visit($browser, $class, $queryString);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function actingAs($user, $driver = null)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->actingAs($user, $driver);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function addPersistentMiddleware($middleware)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->addPersistentMiddleware($middleware);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function setPersistentMiddleware($middleware)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->setPersistentMiddleware($middleware);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getPersistentMiddleware()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->getPersistentMiddleware();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function styles($options = [])
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->styles($options);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function scripts($options = [])
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->scripts($options);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function isLivewireRequest()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->isLivewireRequest();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function isDefinitelyLivewireRequest()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->isDefinitelyLivewireRequest();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function isProbablyLivewireRequest()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->isProbablyLivewireRequest();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function originalUrl()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->originalUrl();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function originalPath()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->originalPath();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function originalMethod()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->originalMethod();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function getRootElementTagName($dom)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->getRootElementTagName($dom);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function dispatch($event, ...$params)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->dispatch($event, ...$params);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function listen($event, $callback)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->listen($event, $callback);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function isOnVapor()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->isOnVapor();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function isRunningServerless()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->isRunningServerless();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function withQueryParams($queryParams)
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->withQueryParams($queryParams);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function setBackButtonCache()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->setBackButtonCache();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function disableBackButtonCache()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->disableBackButtonCache();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function enableBackButtonCache()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->enableBackButtonCache();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function shouldDisableBackButtonCache()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->shouldDisableBackButtonCache();
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function flushState()
-        {
-                        /** @var \Livewire\LivewireManager $instance */
-                        return $instance->flushState();
-        }
-         
-    }
-     
-}
-
-    namespace Nwidart\Modules\Facades { 
+    namespace Maatwebsite\Excel\Facades { 
             /**
      * 
      *
      */ 
-        class Module {
+        class Excel {
                     /**
-         * Add other module location.
+         * 
          *
-         * @param string $path
-         * @return \Nwidart\Modules\Laravel\LaravelFileRepository 
+         * @param object $export
+         * @param string|null $fileName
+         * @param string $writerType
+         * @param array $headers
+         * @return \Symfony\Component\HttpFoundation\BinaryFileResponse 
+         * @throws \PhpOffice\PhpSpreadsheet\Exception
+         * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
          * @static 
          */ 
-        public static function addLocation($path)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->addLocation($path);
+        public static function download($export, $fileName, $writerType = null, $headers = [])
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->download($export, $fileName, $writerType, $headers);
         }
                     /**
-         * Get all additional paths.
+         * 
          *
-         * @return array 
-         * @static 
-         */ 
-        public static function getPaths()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getPaths();
-        }
-                    /**
-         * Get scanned modules paths.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getScanPaths()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getScanPaths();
-        }
-                    /**
-         * Get & scan all modules.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function scan()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->scan();
-        }
-                    /**
-         * Get all modules.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function all()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->all();
-        }
-                    /**
-         * Get cached modules.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getCached()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getCached();
-        }
-                    /**
-         * Get all modules as collection instance.
-         *
-         * @return \Nwidart\Modules\Collection 
-         * @static 
-         */ 
-        public static function toCollection()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->toCollection();
-        }
-                    /**
-         * Get modules by status.
-         *
-         * @param $status
-         * @return array 
-         * @static 
-         */ 
-        public static function getByStatus($status)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getByStatus($status);
-        }
-                    /**
-         * Determine whether the given module exist.
-         *
-         * @param $name
+         * @param object $export
+         * @param string $filePath
+         * @param string|null $disk
+         * @param string $writerType
+         * @param mixed $diskOptions
          * @return bool 
+         * @throws \PhpOffice\PhpSpreadsheet\Exception
+         * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
          * @static 
          */ 
-        public static function has($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->has($name);
+        public static function store($export, $filePath, $diskName = null, $writerType = null, $diskOptions = [])
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->store($export, $filePath, $diskName, $writerType, $diskOptions);
         }
                     /**
-         * Get list of enabled modules.
+         * 
          *
+         * @param object $export
+         * @param string $filePath
+         * @param string|null $disk
+         * @param string $writerType
+         * @param mixed $diskOptions
+         * @return \Illuminate\Foundation\Bus\PendingDispatch 
+         * @static 
+         */ 
+        public static function queue($export, $filePath, $disk = null, $writerType = null, $diskOptions = [])
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->queue($export, $filePath, $disk, $writerType, $diskOptions);
+        }
+                    /**
+         * 
+         *
+         * @param object $export
+         * @param string $writerType
+         * @return string 
+         * @static 
+         */ 
+        public static function raw($export, $writerType)
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->raw($export, $writerType);
+        }
+                    /**
+         * 
+         *
+         * @param object $import
+         * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string|null $readerType
+         * @return \Maatwebsite\Excel\Reader|\Illuminate\Foundation\Bus\PendingDispatch 
+         * @static 
+         */ 
+        public static function import($import, $filePath, $disk = null, $readerType = null)
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->import($import, $filePath, $disk, $readerType);
+        }
+                    /**
+         * 
+         *
+         * @param object $import
+         * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string|null $readerType
          * @return array 
          * @static 
          */ 
-        public static function allEnabled()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->allEnabled();
-        }
-                    /**
-         * Get list of disabled modules.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function allDisabled()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->allDisabled();
-        }
-                    /**
-         * Get count from all modules.
-         *
-         * @return int 
-         * @static 
-         */ 
-        public static function count()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->count();
-        }
-                    /**
-         * Get all ordered modules.
-         *
-         * @param string $direction
-         * @return array 
-         * @static 
-         */ 
-        public static function getOrdered($direction = 'asc')
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getOrdered($direction);
+        public static function toArray($import, $filePath, $disk = null, $readerType = null)
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->toArray($import, $filePath, $disk, $readerType);
         }
                     /**
          * 
          *
-         * @inheritDoc 
+         * @param object $import
+         * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string|null $readerType
+         * @return \Illuminate\Support\Collection 
          * @static 
          */ 
-        public static function getPath()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getPath();
+        public static function toCollection($import, $filePath, $disk = null, $readerType = null)
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->toCollection($import, $filePath, $disk, $readerType);
         }
                     /**
          * 
          *
-         * @inheritDoc 
+         * @param \Illuminate\Contracts\Queue\ShouldQueue $import
+         * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string $readerType
+         * @return \Illuminate\Foundation\Bus\PendingDispatch 
          * @static 
          */ 
-        public static function register()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->register();
+        public static function queueImport($import, $filePath, $disk = null, $readerType = null)
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->queueImport($import, $filePath, $disk, $readerType);
         }
                     /**
          * 
          *
-         * @inheritDoc 
+         * @param string $concern
+         * @param callable $handler
+         * @param string $event
          * @static 
          */ 
-        public static function boot()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->boot();
+        public static function extend($concern, $handler, $event = 'Maatwebsite\\Excel\\Events\\BeforeWriting')
+        {
+                        return \Maatwebsite\Excel\Excel::extend($concern, $handler, $event);
         }
                     /**
-         * 
-         *
-         * @inheritDoc 
-         * @static 
-         */ 
-        public static function find($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->find($name);
-        }
-                    /**
-         * 
-         *
-         * @inheritDoc 
-         * @static 
-         */ 
-        public static function findByAlias($alias)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->findByAlias($alias);
-        }
-                    /**
-         * 
-         *
-         * @inheritDoc 
-         * @static 
-         */ 
-        public static function findRequirements($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->findRequirements($name);
-        }
-                    /**
-         * Find a specific module, if there return that, otherwise throw exception.
-         *
-         * @param $name
-         * @return \Module 
-         * @throws ModuleNotFoundException
-         * @static 
-         */ 
-        public static function findOrFail($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->findOrFail($name);
-        }
-                    /**
-         * Get all modules as laravel collection instance.
-         *
-         * @param $status
-         * @return \Nwidart\Modules\Collection 
-         * @static 
-         */ 
-        public static function collections($status = 1)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->collections($status);
-        }
-                    /**
-         * Get module path for a specific module.
-         *
-         * @param $module
-         * @return string 
-         * @static 
-         */ 
-        public static function getModulePath($module)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getModulePath($module);
-        }
-                    /**
-         * 
-         *
-         * @inheritDoc 
-         * @static 
-         */ 
-        public static function assetPath($module)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->assetPath($module);
-        }
-                    /**
-         * 
-         *
-         * @inheritDoc 
-         * @static 
-         */ 
-        public static function config($key, $default = null)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->config($key, $default);
-        }
-                    /**
-         * Get storage path for module used.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getUsedStoragePath()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getUsedStoragePath();
-        }
-                    /**
-         * Set module used for cli session.
-         *
-         * @param $name
-         * @throws ModuleNotFoundException
-         * @static 
-         */ 
-        public static function setUsed($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->setUsed($name);
-        }
-                    /**
-         * Forget the module used for cli session.
-         *
-         * @static 
-         */ 
-        public static function forgetUsed()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->forgetUsed();
-        }
-                    /**
-         * Get module used for cli session.
-         *
-         * @return string 
-         * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
-         * @static 
-         */ 
-        public static function getUsedNow()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getUsedNow();
-        }
-                    /**
-         * Get laravel filesystem instance.
-         *
-         * @return \Nwidart\Modules\Filesystem 
-         * @static 
-         */ 
-        public static function getFiles()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getFiles();
-        }
-                    /**
-         * Get module assets path.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getAssetsPath()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getAssetsPath();
-        }
-                    /**
-         * Get asset url from a specific module.
-         *
-         * @param string $asset
-         * @return string 
-         * @throws InvalidAssetPath
-         * @static 
-         */ 
-        public static function asset($asset)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->asset($asset);
-        }
-                    /**
-         * 
-         *
-         * @inheritDoc 
-         * @static 
-         */ 
-        public static function isEnabled($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->isEnabled($name);
-        }
-                    /**
-         * 
-         *
-         * @inheritDoc 
-         * @static 
-         */ 
-        public static function isDisabled($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->isDisabled($name);
-        }
-                    /**
-         * Enabling a specific module.
-         *
-         * @param string $name
-         * @return void 
-         * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
-         * @static 
-         */ 
-        public static function enable($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        $instance->enable($name);
-        }
-                    /**
-         * Disabling a specific module.
-         *
-         * @param string $name
-         * @return void 
-         * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
-         * @static 
-         */ 
-        public static function disable($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        $instance->disable($name);
-        }
-                    /**
-         * 
-         *
-         * @inheritDoc 
-         * @static 
-         */ 
-        public static function delete($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->delete($name);
-        }
-                    /**
-         * Update dependencies for the specified module.
-         *
-         * @param string $module
-         * @static 
-         */ 
-        public static function update($module)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->update($module);
-        }
-                    /**
-         * Install the specified module.
-         *
-         * @param string $name
-         * @param string $version
-         * @param string $type
-         * @param bool $subtree
-         * @return \Symfony\Component\Process\Process 
-         * @static 
-         */ 
-        public static function install($name, $version = 'dev-master', $type = 'composer', $subtree = false)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->install($name, $version, $type, $subtree);
-        }
-                    /**
-         * Get stub path.
-         *
-         * @return string|null 
-         * @static 
-         */ 
-        public static function getStubPath()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->getStubPath();
-        }
-                    /**
-         * Set stub path.
-         *
-         * @param string $stubPath
-         * @return \Nwidart\Modules\Laravel\LaravelFileRepository 
-         * @static 
-         */ 
-        public static function setStubPath($stubPath)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        /** @var \Nwidart\Modules\Laravel\LaravelFileRepository $instance */
-                        return $instance->setStubPath($stubPath);
-        }
-                    /**
-         * Register a custom macro.
-         *
-         * @param string $name
-         * @param object|callable $macro
-         * @return void 
-         * @static 
-         */ 
-        public static function macro($name, $macro)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        \Nwidart\Modules\Laravel\LaravelFileRepository::macro($name, $macro);
-        }
-                    /**
-         * Mix another object into the class.
-         *
-         * @param object $mixin
-         * @param bool $replace
-         * @return void 
-         * @throws \ReflectionException
-         * @static 
-         */ 
-        public static function mixin($mixin, $replace = true)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        \Nwidart\Modules\Laravel\LaravelFileRepository::mixin($mixin, $replace);
-        }
-                    /**
-         * Checks if macro is registered.
-         *
-         * @param string $name
-         * @return bool 
-         * @static 
-         */ 
-        public static function hasMacro($name)
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        return \Nwidart\Modules\Laravel\LaravelFileRepository::hasMacro($name);
-        }
-                    /**
-         * Flush the existing macros.
+         * When asserting downloaded, stored, queued or imported, use regular expression
+         * to look for a matching file path.
          *
          * @return void 
          * @static 
          */ 
-        public static function flushMacros()
-        {            //Method inherited from \Nwidart\Modules\FileRepository         
-                        \Nwidart\Modules\Laravel\LaravelFileRepository::flushMacros();
-        }
-         
-    }
-     
-}
-
-    namespace Proengsoft\JsValidation\Facades { 
-            /**
-     * 
-     *
-     */ 
-        class JsValidatorFacade {
-                    /**
-         * Creates JsValidator instance based on rules and message arrays.
-         *
-         * @param array $rules
-         * @param array $messages
-         * @param array $customAttributes
-         * @param null|string $selector
-         * @return \Proengsoft\JsValidation\Javascript\JavascriptValidator 
-         * @static 
-         */ 
-        public static function make($rules, $messages = [], $customAttributes = [], $selector = null)
+        public static function matchByRegex()
         {
-                        /** @var \Proengsoft\JsValidation\JsValidatorFactory $instance */
-                        return $instance->make($rules, $messages, $customAttributes, $selector);
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        $instance->matchByRegex();
         }
                     /**
-         * Creates JsValidator instance based on FormRequest.
+         * When asserting downloaded, stored, queued or imported, use regular string
+         * comparison for matching file path.
          *
-         * @param $formRequest
-         * @param null|string $selector
-         * @return \Proengsoft\JsValidation\Javascript\JavascriptValidator 
-         * @throws \Illuminate\Contracts\Container\BindingResolutionException
+         * @return void 
          * @static 
          */ 
-        public static function formRequest($formRequest, $selector = null)
+        public static function doNotMatchByRegex()
         {
-                        /** @var \Proengsoft\JsValidation\JsValidatorFactory $instance */
-                        return $instance->formRequest($formRequest, $selector);
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        $instance->doNotMatchByRegex();
         }
                     /**
-         * Creates JsValidator instance based on Validator.
+         * 
          *
-         * @param \Illuminate\Validation\Validator $validator
-         * @param null|string $selector
-         * @return \Proengsoft\JsValidation\Javascript\JavascriptValidator 
+         * @param string $fileName
+         * @param callable|null $callback
          * @static 
          */ 
-        public static function validator($validator, $selector = null)
+        public static function assertDownloaded($fileName, $callback = null)
         {
-                        /** @var \Proengsoft\JsValidation\JsValidatorFactory $instance */
-                        return $instance->validator($validator, $selector);
-        }
-         
-    }
-     
-}
-
-    namespace SimpleSoftwareIO\QrCode\Facades { 
-            /**
-     * 
-     *
-     */ 
-        class QrCode {
-                    /**
-         * Generates the QrCode.
-         *
-         * @param string $text
-         * @param string|null $filename
-         * @return void|\Illuminate\Support\HtmlString|string 
-         * @throws WriterException
-         * @throws InvalidArgumentException
-         * @static 
-         */ 
-        public static function generate($text, $filename = null)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->generate($text, $filename);
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertDownloaded($fileName, $callback);
         }
                     /**
-         * Merges an image over the QrCode.
+         * 
          *
-         * @param string $filepath
-         * @param float $percentage
-         * @param \SimpleSoftwareIO\QrCode\SimpleSoftwareIO\QrCode\boolean|bool $absolute
-         * @return \Generator 
+         * @param string $filePath
+         * @param string|callable|null $disk
+         * @param callable|null $callback
          * @static 
          */ 
-        public static function merge($filepath, $percentage = 0.2, $absolute = false)
+        public static function assertStored($filePath, $disk = null, $callback = null)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->merge($filepath, $percentage, $absolute);
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertStored($filePath, $disk, $callback);
         }
                     /**
-         * Merges an image string with the center of the QrCode.
+         * 
          *
-         * @param string $content
-         * @param float $percentage
-         * @return \Generator 
+         * @param string $filePath
+         * @param string|callable|null $disk
+         * @param callable|null $callback
          * @static 
          */ 
-        public static function mergeString($content, $percentage = 0.2)
+        public static function assertQueued($filePath, $disk = null, $callback = null)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->mergeString($content, $percentage);
-        }
-                    /**
-         * Sets the size of the QrCode.
-         *
-         * @param int $pixels
-         * @return \Generator 
-         * @static 
-         */ 
-        public static function size($pixels)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->size($pixels);
-        }
-                    /**
-         * Sets the format of the QrCode.
-         *
-         * @param string $format
-         * @return \Generator 
-         * @throws InvalidArgumentException
-         * @static 
-         */ 
-        public static function format($format)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->format($format);
-        }
-                    /**
-         * Sets the foreground color of the QrCode.
-         *
-         * @param int $red
-         * @param int $green
-         * @param int $blue
-         * @param null|int $alpha
-         * @return \Generator 
-         * @static 
-         */ 
-        public static function color($red, $green, $blue, $alpha = null)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->color($red, $green, $blue, $alpha);
-        }
-                    /**
-         * Sets the background color of the QrCode.
-         *
-         * @param int $red
-         * @param int $green
-         * @param int $blue
-         * @param null|int $alpha
-         * @return \Generator 
-         * @static 
-         */ 
-        public static function backgroundColor($red, $green, $blue, $alpha = null)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->backgroundColor($red, $green, $blue, $alpha);
-        }
-                    /**
-         * Sets the eye color for the provided eye index.
-         *
-         * @param int $eyeNumber
-         * @param int $innerRed
-         * @param int $innerGreen
-         * @param int $innerBlue
-         * @param int $outterRed
-         * @param int $outterGreen
-         * @param int $outterBlue
-         * @return \Generator 
-         * @throws InvalidArgumentException
-         * @static 
-         */ 
-        public static function eyeColor($eyeNumber, $innerRed, $innerGreen, $innerBlue, $outterRed = 0, $outterGreen = 0, $outterBlue = 0)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->eyeColor($eyeNumber, $innerRed, $innerGreen, $innerBlue, $outterRed, $outterGreen, $outterBlue);
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertQueued($filePath, $disk, $callback);
         }
                     /**
          * 
          *
          * @static 
          */ 
-        public static function gradient($startRed, $startGreen, $startBlue, $endRed, $endGreen, $endBlue, $type)
+        public static function assertQueuedWithChain($chain)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->gradient($startRed, $startGreen, $startBlue, $endRed, $endGreen, $endBlue, $type);
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertQueuedWithChain($chain);
         }
                     /**
-         * Sets the eye style.
-         *
-         * @param string $style
-         * @return \Generator 
-         * @throws InvalidArgumentException
-         * @static 
-         */ 
-        public static function eye($style)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->eye($style);
-        }
-                    /**
-         * Sets the style of the blocks for the QrCode.
-         *
-         * @param string $style
-         * @param float $size
-         * @return \Generator 
-         * @throws InvalidArgumentException
-         * @static 
-         */ 
-        public static function style($style, $size = 0.5)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->style($style, $size);
-        }
-                    /**
-         * Sets the encoding for the QrCode.
          * 
-         * Possible values are
-         * ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6,
-         * ISO-8859-7, ISO-8859-8, ISO-8859-9, ISO-8859-10, ISO-8859-11,
-         * ISO-8859-12, ISO-8859-13, ISO-8859-14, ISO-8859-15, ISO-8859-16,
-         * SHIFT-JIS, WINDOWS-1250, WINDOWS-1251, WINDOWS-1252, WINDOWS-1256,
-         * UTF-16BE, UTF-8, ASCII, GBK, EUC-KR.
          *
-         * @param string $encoding
-         * @return \Generator 
+         * @param string $classname
+         * @param callable|null $callback
          * @static 
          */ 
-        public static function encoding($encoding)
+        public static function assertExportedInRaw($classname, $callback = null)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->encoding($encoding);
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertExportedInRaw($classname, $callback);
         }
                     /**
-         * Sets the error correction for the QrCode.
          * 
-         * L: 7% loss.
-         * M: 15% loss.
-         * Q: 25% loss.
-         * H: 30% loss.
          *
-         * @param string $errorCorrection
-         * @return \Generator 
+         * @param string $filePath
+         * @param string|callable|null $disk
+         * @param callable|null $callback
          * @static 
          */ 
-        public static function errorCorrection($errorCorrection)
+        public static function assertImported($filePath, $disk = null, $callback = null)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->errorCorrection($errorCorrection);
-        }
-                    /**
-         * Sets the margin of the QrCode.
-         *
-         * @param int $margin
-         * @return \Generator 
-         * @static 
-         */ 
-        public static function margin($margin)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->margin($margin);
-        }
-                    /**
-         * Fetches the Writer.
-         *
-         * @param \BaconQrCode\Renderer\ImageRenderer $renderer
-         * @return \BaconQrCode\Writer 
-         * @static 
-         */ 
-        public static function getWriter($renderer)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->getWriter($renderer);
-        }
-                    /**
-         * Fetches the Image Renderer.
-         *
-         * @return \BaconQrCode\Renderer\ImageRenderer 
-         * @static 
-         */ 
-        public static function getRenderer()
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->getRenderer();
-        }
-                    /**
-         * Returns the Renderer Style.
-         *
-         * @return \BaconQrCode\Renderer\RendererStyle\RendererStyle 
-         * @static 
-         */ 
-        public static function getRendererStyle()
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->getRendererStyle();
-        }
-                    /**
-         * Fetches the formatter.
-         *
-         * @return \BaconQrCode\Renderer\Image\ImageBackEndInterface 
-         * @static 
-         */ 
-        public static function getFormatter()
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->getFormatter();
-        }
-                    /**
-         * Fetches the module.
-         *
-         * @return \BaconQrCode\Renderer\Module\ModuleInterface 
-         * @static 
-         */ 
-        public static function getModule()
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->getModule();
-        }
-                    /**
-         * Fetches the eye style.
-         *
-         * @return \BaconQrCode\Renderer\Eye\EyeInterface 
-         * @static 
-         */ 
-        public static function getEye()
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->getEye();
-        }
-                    /**
-         * Fetches the color fill.
-         *
-         * @return \BaconQrCode\Renderer\RendererStyle\Fill 
-         * @static 
-         */ 
-        public static function getFill()
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->getFill();
-        }
-                    /**
-         * Creates a RGB or Alpha channel color.
-         *
-         * @param int $red
-         * @param int $green
-         * @param int $blue
-         * @param null|int $alpha
-         * @return \BaconQrCode\Renderer\Color\ColorInterface 
-         * @static 
-         */ 
-        public static function createColor($red, $green, $blue, $alpha = null)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
-                        return $instance->createColor($red, $green, $blue, $alpha);
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertImported($filePath, $disk, $callback);
         }
          
     }
@@ -20630,176 +18910,6 @@
      
 }
 
-    namespace Illuminate\Testing { 
-            /**
-     * 
-     *
-     * @mixin \Illuminate\Http\Response
-     */ 
-        class TestResponse {
-                    /**
-         * 
-         *
-         * @see \Livewire\LivewireServiceProvider::registerTestMacros()
-         * @param mixed $component
-         * @static 
-         */ 
-        public static function assertSeeLivewire($component)
-        {
-                        return \Illuminate\Testing\TestResponse::assertSeeLivewire($component);
-        }
-                    /**
-         * 
-         *
-         * @see \Livewire\LivewireServiceProvider::registerTestMacros()
-         * @param mixed $component
-         * @static 
-         */ 
-        public static function assertDontSeeLivewire($component)
-        {
-                        return \Illuminate\Testing\TestResponse::assertDontSeeLivewire($component);
-        }
-         
-    }
-            /**
-     * 
-     *
-     */ 
-        class TestView {
-                    /**
-         * 
-         *
-         * @see \Livewire\LivewireServiceProvider::registerTestMacros()
-         * @param mixed $component
-         * @static 
-         */ 
-        public static function assertSeeLivewire($component)
-        {
-                        return \Illuminate\Testing\TestView::assertSeeLivewire($component);
-        }
-                    /**
-         * 
-         *
-         * @see \Livewire\LivewireServiceProvider::registerTestMacros()
-         * @param mixed $component
-         * @static 
-         */ 
-        public static function assertDontSeeLivewire($component)
-        {
-                        return \Illuminate\Testing\TestView::assertDontSeeLivewire($component);
-        }
-         
-    }
-     
-}
-
-    namespace Illuminate\View { 
-            /**
-     * 
-     *
-     */ 
-        class ComponentAttributeBag {
-                    /**
-         * 
-         *
-         * @see \Livewire\LivewireServiceProvider::registerViewMacros()
-         * @param mixed $name
-         * @static 
-         */ 
-        public static function wire($name)
-        {
-                        return \Illuminate\View\ComponentAttributeBag::wire($name);
-        }
-         
-    }
-            /**
-     * 
-     *
-     */ 
-        class View {
-                    /**
-         * 
-         *
-         * @see \Livewire\Macros\ViewMacros::extends()
-         * @param mixed $view
-         * @param mixed $params
-         * @static 
-         */ 
-        public static function extends($view, $params = [])
-        {
-                        return \Illuminate\View\View::extends($view, $params);
-        }
-                    /**
-         * 
-         *
-         * @see \Livewire\Macros\ViewMacros::layout()
-         * @param mixed $view
-         * @param mixed $params
-         * @static 
-         */ 
-        public static function layout($view, $params = [])
-        {
-                        return \Illuminate\View\View::layout($view, $params);
-        }
-                    /**
-         * 
-         *
-         * @see \Livewire\Macros\ViewMacros::layoutData()
-         * @param mixed $data
-         * @static 
-         */ 
-        public static function layoutData($data = [])
-        {
-                        return \Illuminate\View\View::layoutData($data);
-        }
-                    /**
-         * 
-         *
-         * @see \Livewire\Macros\ViewMacros::section()
-         * @param mixed $section
-         * @static 
-         */ 
-        public static function section($section)
-        {
-                        return \Illuminate\View\View::section($section);
-        }
-                    /**
-         * 
-         *
-         * @see \Livewire\Macros\ViewMacros::slot()
-         * @param mixed $slot
-         * @static 
-         */ 
-        public static function slot($slot)
-        {
-                        return \Illuminate\View\View::slot($slot);
-        }
-         
-    }
-     
-}
-
-    namespace Illuminate\Validation { 
-            /**
-     * 
-     *
-     */ 
-        class Rule {
-                    /**
-         * 
-         *
-         * @see \Propaganistas\LaravelPhone\PhoneServiceProvider::boot()
-         * @static 
-         */ 
-        public static function phone()
-        {
-                        return \Illuminate\Validation\Rule::phone();
-        }
-         
-    }
-     
-}
-
     namespace Yajra\DataTables { 
             /**
      * 
@@ -20847,7 +18957,7 @@
      
 }
 
-    namespace PHPOpenSourceSaver\JWTAuth\Claims { 
+    namespace Tymon\JWTAuth\Claims { 
             /**
      * 
      *
@@ -24333,25 +22443,16 @@ namespace  {
             class URL extends \Illuminate\Support\Facades\URL {}
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
-            class OneSignal extends \Berkayk\OneSignal\OneSignalFacade {}
             class FCM extends \LaravelFCM\Facades\FCM {}
             class FCMGroup extends \LaravelFCM\Facades\FCMGroup {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
-            class JWTAuth extends \PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth {}
-            class JWTFactory extends \PHPOpenSourceSaver\JWTAuth\Facades\JWTFactory {}
-            class Image extends \Intervention\Image\Facades\Image {}
-            class Excel extends \Maatwebsite\Excel\Facades\Excel {}
+            class JWTAuth extends \Tymon\JWTAuth\Facades\JWTAuth {}
+            class JWTFactory extends \Tymon\JWTAuth\Facades\JWTFactory {}
             class PDF extends \niklasravnsborg\LaravelPdf\Facades\Pdf {}
-            class Throttle extends \GrahamCampbell\Throttle\Facades\Throttle {}
-            class Token extends \Dirape\Token\Facades\Facade {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
-            class Firebase extends \Kreait\Laravel\Firebase\Facades\Firebase {}
             class Form extends \Collective\Html\FormFacade {}
             class Html extends \Collective\Html\HtmlFacade {}
-            class Livewire extends \Livewire\Livewire {}
-            class Module extends \Nwidart\Modules\Facades\Module {}
-            class JsValidator extends \Proengsoft\JsValidation\Facades\JsValidatorFacade {}
-            class QrCode extends \SimpleSoftwareIO\QrCode\Facades\QrCode {}
+            class Excel extends \Maatwebsite\Excel\Facades\Excel {}
             class DataTables extends \Yajra\DataTables\Facades\DataTables {}
      
 }

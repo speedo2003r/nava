@@ -24,22 +24,13 @@
                                 </h3>
                             </div>
                         </div>
-                        <div class="kt-portlet__head-label mt-3">
-                            <button class="btn btn-brand btn-elevate btn-icon-sm confirmDel" disabled onclick="deleteAllData('more','{{route('admin.technicians.delete',0)}}')" data-toggle="modal" data-target="#confirm-all-del">
-                                <i class="la la-trash"></i>
-                                {{awtTrans('حذف')}}
-                            </button>
-                        </div>
                         <div class="kt-portlet__body kt-portlet__body--fit  margin-15 ">
                             <div class="table-responsive">
                                 <table id="datatable-table" class="table table-striped table-bordered dt-responsive nowrap"  style="width:100%">
                                     <thead>
                                     <tr>
                                         <th>
-                                            <label class="custom-control material-checkbox" style="margin: auto">
-                                                <input type="checkbox" class="material-control-input" id="checkedAll">
-                                                <span class="material-control-indicator"></span>
-                                            </label>
+                                            {{__('ID')}}
                                         </th>
                                         <th>{{awtTrans('رقم الطلب')}}</th>
                                         <th>{{awtTrans('مدخول')}}</th>
@@ -48,17 +39,13 @@
                                         <th>{{awtTrans('تسوية')}}</th>
                                         <th>{{awtTrans('تاريخ الاضافه')}}</th>
                                         <th>{{awtTrans('تاريخ التحديث')}}</th>
-                                        <th>{{awtTrans('تحكم')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($incomes as $ob)
                                         <tr>
                                             <td>
-                                                <label class="custom-control material-checkbox" style="margin: auto">
-                                                    <input type="checkbox" class="material-control-input checkSingle" id="{{$ob->id}}">
-                                                    <span class="material-control-indicator"></span>
-                                                </label>
+                                                {{$ob['id']}}
                                             </td>
                                             <td>{{$ob->order ? $ob->order['order_num'] : ''}}</td>
                                             <td>{{$ob->income}}</td>
@@ -66,7 +53,7 @@
                                             <td>{{$ob->creditor}}</td>
                                             <td>
                                                 @if($ob['status'] == 0)
-                                                <button data-id="{{$ob['id']}}" data-toggle="modal" data-target="#settlement" data-placement="top" data-original-title="{{awtTrans('تسويه')}}"  class="add-settlement btn btn-sm btn-clean btn-icon btn-icon-md">
+                                                <button data-id="{{$ob['id']}}" data-type="{{$ob['type']}}" data-toggle="modal" data-target="#settlement" data-placement="top" data-original-title="{{awtTrans('تسويه')}}"  class="add-settlement btn btn-sm btn-clean btn-icon btn-icon-md">
                                                     <i class="la la-cog"></i>
                                                 </button>
                                                 @else
@@ -75,11 +62,6 @@
                                             </td>
                                             <td>{{$ob->created_at->format('Y-m-d h:i a')}}</td>
                                             <td>{{$ob->updated_at->format('Y-m-d h:i a')}}</td>
-                                            <td class="tAction">
-                                                <button type="button"  onclick="confirmDelete('{{route('admin.cities.destroy',$ob->id)}}')" data-toggle="modal" data-target="#delete-model" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="" data-placement="top" data-original-title="{{awtTrans('حذف')}}" style="cursor: pointer">
-                                                    <i class="la la-trash"></i>
-                                                </button>
-                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -105,7 +87,14 @@
                     <form action="{{route('admin.technicians.settlement')}}" method="POST">
                         @csrf
                         <input type="hidden" name="id" id="income_id">
-
+                        <div class="form-group">
+                            <label for="">الدفع عن طريق</label>
+                            <select name="type" id="type" required class="form-control">
+                                <option value="" selected hidden>اختر</option>
+                                <option value="wallet">محفظه</option>
+                                <option value="cash">كاش</option>
+                            </select>
+                        </div>
                         <div class="modal-footer justify-content-between">
                             <button type="submit" class="btn btn-sm btn-success">{{awtTrans('تسوية')}}</button>
                             <button type="button" class="btn btn-default" id="notifyClose" data-dismiss="modal">{{awtTrans('اغلاق')}}</button>
@@ -124,6 +113,12 @@
     <script>
         $('body').on('click','.add-settlement',function(){
            var id = $(this).data('id');
+           var type = $(this).data('type');
+           if(type == 'creditor'){
+               $("#type option[value=wallet]").hide();
+           }else{
+               $("#type option[value=wallet]").show();
+           }
            $('#income_id').val(id);
         });
     </script>

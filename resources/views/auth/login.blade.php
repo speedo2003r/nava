@@ -75,6 +75,7 @@
                                     <div class="kt-login__form">
                                         <form action="{{route('admin.login')}}" method="post" class="kt-form'">
                                         @csrf
+                                            <input type="hidden" id="fcm_token" name="fcm_token">
                                             <div class="form-group">
                                                 <input type="email" name="email" class="form-control p-3" placeholder="{{awtTrans('البريد الاليكتروني')}}">
                                             </div>
@@ -180,6 +181,10 @@
     <script src="{{ asset('assets/vendors/general/sticky-js/dist/sticky.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/vendors/general/wnumb/wNumb.js') }}" type="text/javascript"></script>
     <!--end:: Global Mandatory Vendors -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-messaging.js"></script>
+    <script src="{{dashboard_url('firebase/notification/getToken.js')}}"></script>
     <script src="{{asset('admin/toastr/toastr.min.js')}}"></script>
 
     @include('admin.partial.alert')

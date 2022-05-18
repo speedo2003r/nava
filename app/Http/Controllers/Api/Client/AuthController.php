@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\profile\UpdateprofileRequest;
 use App\Http\Requests\Api\login\LoginRequest;
 use App\Http\Resources\Users\UserResource;
-use App\Entities\Notification;
 use App\Models\User;
 use App\Entities\ReviewRate;
 use App\Traits\NotifyTrait;
@@ -22,11 +21,11 @@ use Illuminate\Validation\Rule;
 use App\Rules\watchOldPassword;
 use App\Repositories\UserRepository;
 use App\Repositories\DeviceRepository;
-use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
 use App\Traits\SmsTrait;
 use App\Traits\UploadTrait;
 use App\Http\Requests\Api\LangRequest;
+use App\Notifications\Api\DelegateRate;
 
 /** import */
 
@@ -36,13 +35,12 @@ class AuthController extends Controller
     use SmsTrait;
     use ResponseTrait;
     use UploadTrait;
-    public $userRepo,$deviceRepo,$notifyRepo,$order;
-    public function __construct(OrderRepository $order,UserRepository $user,DeviceRepository $device,NotificationRepository $notify)
+    public $userRepo,$deviceRepo,$order;
+    public function __construct(OrderRepository $order,UserRepository $user,DeviceRepository $device)
     {
         $this->order     = $order;
         $this->userRepo     = $user;
         $this->deviceRepo   = $device;
-        $this->notifyRepo   = $notify;
     }
     /************************* Start Register ************************/
     public function UserRegister(UserRegisterRequest $request)
@@ -61,7 +59,7 @@ class AuthController extends Controller
         else {
             sendSMS('0'.$user['phone'],$codeMessage);
         }
-
+        $user->refresh();
         // save user and return token
         return $this->successResponse([
             'phone' => $user['phone']
@@ -94,7 +92,7 @@ class AuthController extends Controller
                 'phone'  => 'required|exists:users,phone|unique:users,phone,'. $user['id'].',id,deleted_at,NULL',
                 'uuid'        => 'required',
                 'code'        => 'required|exists:users,v_code',
-                'device_id'   => 'required',
+                'device_id'   => 'required|string',
                 'device_type' => 'required:in,ios,android,web',
             ]);
             if ($validate->fails()) return $this->ApiResponse('fail', $validate->errors()->first());
@@ -104,14 +102,15 @@ class AuthController extends Controller
                 $user->online = 1;
                 $user->save();
                 //
-                $device = $this->deviceRepo->findWhere(['uuid'=>$request['uuid'],'user_id'=>$user['id']])->first();
-                if($device){
-                    $this->deviceRepo->delete($device['id']);
+                if($user['user_type'] != App\Enum\UserType::CLIENT){
+                    $device = $this->deviceRepo->findWhere(['uuid'=>$request['uuid'],'user_id'=>$user['id']])->first();
+                    if($device){
+                        $this->deviceRepo->delete($device['id']);
+                    }
+                    $this->deviceRepo->create(
+                        array_merge($request->only(['device_id', 'device_type','uuid']), ['user_id' => $user->id])
+                    );
                 }
-                $this->deviceRepo->create(
-                    array_merge($request->only(['device_id', 'device_type','uuid']), ['user_id' => $user->id])
-                );
-
                 if ((auth()->check() && $user->accepted == 0) || $user->accepted == 0) {
                     return response()->json([
                         'key' => 'not_accepted',
@@ -146,6 +145,7 @@ class AuthController extends Controller
         else {
             sendSMS('0'.$user['phone'],$codeMessage);
         }
+        $user->refresh();
         return $this->successResponse([
             'code' => $user['v_code']
         ]);
@@ -397,6 +397,13 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         # update user
+        return $this->successResponse(['notify' => $user->notify]);
+    }
+    # switch notification status for receive fcm or not
+    public function NotificationToggle(Request $request)
+    {
+        $user = auth()->user();
+        # update user
         $this->userRepo->update(['notify'  => !$user->notify],$user['id']);
         $user = $this->userRepo->find($user['id']);
         return $this->successResponse(['notify' => $user->notify]);
@@ -445,9 +452,9 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         # make all notifications seen = 1
-        $UnreadNotifications = $user->Notifications->where('seen', 0);
+        $UnreadNotifications = $user->notifications->where('read_at', null);
         foreach ($UnreadNotifications as $UnreadNotification){
-            $this->notifyRepo->update(['seen'=>1],$UnreadNotification['id']);
+            $UnreadNotification->markAsRead();
         }
         $data = new NotificationCollection($user->Notifications()->orderBy('notifications.id','desc')->paginate(20));
         return $this->successResponse($data);
@@ -521,7 +528,7 @@ class AuthController extends Controller
             'accept' => 1,
         ]);
         $order = App\Entities\Order::find($request['order_id']);
-        $this->send_notify($order['delegate_id'], ' تم تقييمك للطلب رقم ' . $order['id'] . ' من قبل العميل ', 'You have been rated from client in order num ' . $order['id'] . '', $order['id'], $order['status']);
+        $user->notify(new DelegateRate($order));
         return $this->ApiResponse('success', app()->getLocale() == 'ar' ? 'تم تقييم هذا الطلب بنجاح' : 'this order is success rated');
     }
     /*********************** Start user wallet ***********************/

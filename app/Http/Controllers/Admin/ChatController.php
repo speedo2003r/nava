@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\RoomDatatable;
 use App\Entities\Order;
+use App\Enum\UserType;
+use App\Events\createOrJoinRoom;
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Admin\Create;
 use App\Http\Requests\Admin\Admin\UpdateProfile;
+use App\Models\Message_notification;
 use App\Models\Role;
 use App\Models\Room;
 use App\Repositories\Interfaces\IRole;
@@ -17,6 +21,7 @@ use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
@@ -70,6 +75,15 @@ class ChatController extends Controller
         }elseif($request->message){
             $lastMessage    = saveMessage($request->room_id,$request->message,Auth::id());
         }
+        $user_id = auth()->id();
+        broadcast(new MessageSent($lastMessage,$user_id))->toOthers();
+        $room = $lastMessage->room;
+        $users = $room->Users()->where('users.id','!=',auth()->id())->where('user_type','!=',UserType::ADMIN)->get();
+        $admins = $room->Users()->where('users.id','!=',auth()->id())->where('chat',1)->where('user_type',UserType::ADMIN)->get();
+        Bus::chain([
+            new \App\Jobs\NotifyMsg($users,$lastMessage->Message['body'],auth()->id()),
+            new \App\Jobs\NotifyMsg($admins,$lastMessage->Message['body'],auth()->id()),
+        ])->dispatch();
         return response()->json(['status' => 1, 'message' => 'success', 'data' => $lastMessage]);
     }
     public function NewPrivateRoom($id){
@@ -81,19 +95,21 @@ class ChatController extends Controller
             $room = creatPrivateRoom($currentUser->id, $otherUser->id);
         }
         $messages  = getRoomMessages($room->id, $currentUser->id);
+        broadcast(new createOrJoinRoom($room))->toOthers();
         return response()->json(['status'=>1,'message' => 'success','room' =>$room,'messages'=>$messages ]);
     }
     public function ViewMessages($id){
         $order = $this->order->find($id);
         $existRoom = Room::where('order_id',$id)->first();
         if(!$existRoom){
-            creatPrivateRoom(auth()->id(),$order['user_id'],$order['id']);
+            $existRoom = creatPrivateRoom(auth()->id(),$order['user_id'],$order['id']);
         }
+        $existRoom->refresh();
         if(!in_array(auth()->id(),$existRoom->users()->pluck('users.id')->toArray())){
             joinRoom($existRoom['id'],auth()->id());
         }
         $user = $order->user;
-        return view('admin.orders.chat',compact('order','user'));
+        return view('admin.orders.chat',compact('existRoom','order','user'));
     }
     public function destroy(Request $request,$id)
     {
@@ -112,6 +128,15 @@ class ChatController extends Controller
         return redirect()->back()->with('success', 'تم الحذف بنجاح');
     }
 
+    public function messagesNotifications()
+    {
+        if(auth()->user()['chat'] != 1){
+            return back()->with('danger','لا تملك صلاحية الدخول');
+        }
+        $messages = Message_notification::whereRaw('created_at IN (select MAX(created_at) FROM message_notifications GROUP BY room_id)')->where('is_sender',1)->latest()->paginate(10);
+        Message_notification::where('is_seen',0)->update(['is_seen'=>1]);
+        return view('admin.messagesNotifications.index',compact('messages'));
+    }
     ############################# END CHAT WORK #############################
 
 

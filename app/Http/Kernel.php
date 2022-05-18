@@ -70,7 +70,9 @@ class Kernel extends HttpKernel
         'api-lang'       => \App\Http\Middleware\Api\ApiLang::class,
         'cors'          => \App\Http\Middleware\Api\cors::class,
         'jwt.verify'    => \App\Http\Middleware\Api\JwtMiddleware::class,
+        'jwt.refresh'      => \App\Http\Middleware\Api\JwtRefreshMiddleware::class,
         'phone-activated'    => \App\Http\Middleware\Api\PhoneActivated::class,
         'auth-check'    => \App\Http\Middleware\Api\AuthCheck::class,
+        'order-expire-check'    => \App\Http\Middleware\Api\OrderExpireCheck::class,
     ];
 }

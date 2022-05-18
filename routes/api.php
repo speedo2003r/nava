@@ -18,7 +18,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 |
 */
 
-Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Client'], function () {
+Route::group(['middleware' => ['auth-check', 'api-lang','order-expire-check'], 'namespace' => 'Api\Client'], function () {
     Route::any('regions', 'SettingController@regions');
     Route::any('cities', 'SettingController@cities');
     Route::any('search', 'SettingController@search');
@@ -31,7 +31,9 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
 
     Route::any('questions', 'PageController@questions');
 //   cart
-    Route::any('add-to-cart', 'CartController@AddToCart');
+    Route::group(['namespace'=>'Cart'],function (){
+        Route::any('add-to-cart', AddToCart::class);
+    });
     Route::any('hours-range', 'SettingController@hoursRange');
 //
 //
@@ -58,6 +60,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
 //
 //        # contact us
     Route::any('contact-us', 'PageController@ContactMessage');
+    Route::any('pay-apple', 'PaymentController@payApple');
     Route::any('pay-visa', 'PaymentController@payVisa');
     Route::any('pay-cash', 'PaymentController@payCash');
     Route::any('pay-invoice-visa', 'PaymentController@payInvoiceVisa');
@@ -66,6 +69,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
     Route::any('pay-invoice-mada', 'PaymentController@payInvoiceMada');
     Route::any('pay-wallet-mada', 'PaymentController@payWalletMada');
     Route::any('hyperResult', 'PaymentController@hyperResult')->name('hyperResult');
+    Route::any('hyperApplePayResult', 'PaymentController@hyperApplePayResult')->name('hyperApplePayResult');
     Route::any('hyperInvoiceResult', 'PaymentController@hyperInvoiceResult')->name('hyperInvoiceResult');
     Route::any('hyperWalletResult', 'PaymentController@hyperWalletResult')->name('hyperWalletResult');
     Route::any('madaHyperResult', 'PaymentController@madaHyperResult')->name('madaHyperResult');
@@ -85,30 +89,43 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Cl
         Route::any('fake-notifications/{id}', 'AuthController@Fakenotifications');
 //        # notifications
         Route::any('notifications', 'AuthController@Notifications');
+        Route::any('notification-status', 'AuthController@NotificationStatus');
+        Route::any('notification-toggle', 'AuthController@NotificationToggle');
         Route::post('delete-notification', 'AuthController@deleteNotification');
 //        # wallet
         Route::any('wallet', 'AuthController@Wallet');
 //        # cart
         Route::any('cart', 'CartController@Cart');
-        Route::any('addNotesAndImage', 'CartController@addNotesAndImage');
-        Route::any('addDateAndAddress', 'CartController@addDateAndAddress');
+
+        Route::group(['namespace'=>'Cart'],function (){
+            Route::any('addDateAndAddress', addDateAndAddress::class);
+            Route::any('addNotesAndImage', addNotesAndImage::class);
+        });
         Route::any('cart-details', 'CartController@cartDetails');
         Route::any('delete-cart-item', 'CartController@deleteCartItem');
-        Route::any('add-coupon', 'CartController@addCoupon');
-        Route::any('place-order', 'OrderController@placeOrder');
 
+
+        Route::group(['namespace'=>'Coupon'],function (){
+            Route::any('add-coupon', addCoupon::class);
+        });
 
         Route::any('my-orders/{type}', 'OrderController@MyOrders');
-        Route::any('order-cancel', 'OrderController@cancelOrder');
-        Route::any('order-guarantee', 'OrderController@orderGuarantee');
+        Route::group(['namespace'=>'Order'],function (){
+            Route::any('order-cancel', CancelOrder::class);
+            Route::any('order-guarantee', OrderGuarantee::class);
+            Route::any('rate-order-tech', RateOrderTech::class);
+            Route::any('place-order', PlaceOrder::class);
+        });
+        Route::group(['namespace'=>'Invoice'],function (){
+            Route::any('invoice', Invoice::class);
+            Route::any('accept-invoice', AcceptInvoice::class);
+            Route::any('refuse-invoice', RefuseInvoice::class);
+        });
         Route::any('order-details', 'OrderController@OrderDetails');
-        Route::any('invoice', 'OrderController@invoice');
-        Route::any('accept-invoice', 'OrderController@acceptInvoice');
-        Route::any('refuse-invoice', 'OrderController@refuseInvoice');
-        Route::any('wallet-pay', 'OrderController@walletPay');
-        Route::any('wallet-bill-pay', 'OrderController@walletBillPay');
-        Route::any('cash-bill-pay', 'OrderController@cashBillPay');
-        Route::any('rate-order-tech', 'OrderController@rateOrderTech');
+
+
+
+        Route::any('wallet-pay', 'PaymentController@walletPay');
 //        # chat
         Route::any('chat', 'ChatController@chat');
         Route::any('sendMessage', 'ChatController@sendMessage');
@@ -124,15 +141,19 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Te
         Route::any('finished-orders', 'OrderController@FinishedOrders');
         Route::any('guarantee-orders', 'OrderController@GuaranteeOrders');
 
-        Route::any('accept-order', 'OrderController@acceptOrder');
-        Route::any('refuse-order', 'OrderController@refuseOrder');
-        Route::any('arrive-to-order', 'OrderController@arriveToOrder');
-        Route::any('cancel-order', 'OrderController@cancelOrder');
-        Route::any('start-in-order', 'OrderController@StartInOrder');
-        Route::any('finish-order', 'OrderController@FinishOrder');
+        Route::group(['namespace'=>'Order'],function (){
+            Route::any('accept-order', AcceptOrder::class);
+            Route::any('arrive-to-order', ArriveToOrder::class);
+            Route::any('start-in-order', StartInOrder::class);
+            Route::any('refuse-order', RefuseOrder::class);
+            Route::any('cancel-order', CancelOrder::class);
+            Route::any('finish-order', FinishOrder::class);
+        });
 
         Route::any('add-bill-notes', 'BillController@addBillNotes');
+
         Route::any('add-service-toOrder', 'OrderController@addServiceToOrder');
+        Route::any('add-service-notify', 'OrderController@addServiceNotify');
         Route::any('services-order', 'OrderController@servicesOrder');
         Route::any('del-service-order', 'OrderController@delServiceOrder');
 

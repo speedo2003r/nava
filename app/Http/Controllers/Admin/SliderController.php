@@ -8,6 +8,7 @@ use App\Entities\Service;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Slider\Create;
 use App\Http\Requests\Admin\Slider\Update;
+use App\Repositories\CategoryRepository;
 use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\SliderRepository;
@@ -22,7 +23,7 @@ class SliderController extends Controller
     use UploadTrait;
     protected $sliderRepo,$city,$countryRepo,$user;
 
-    public function __construct(CityRepository $city,UserRepository $user,SliderRepository $slider,CountryRepository $country)
+    public function __construct(protected CategoryRepository $category,CityRepository $city,UserRepository $user,SliderRepository $slider,CountryRepository $country)
     {
         $this->sliderRepo = $slider;
         $this->countryRepo = $country;
@@ -33,9 +34,9 @@ class SliderController extends Controller
     /***************************  get all providers  **************************/
     public function index(SliderDatatable $sliderDatatable)
     {
-//        dd(app()->getLocale());
+        $categories = $this->category->where('parent_id',null)->get();
         $cities = $this->city->all();
-        return $sliderDatatable->render('admin.sliders.index',compact('cities'));
+        return $sliderDatatable->render('admin.sliders.index',compact('cities','categories'));
     }
 
 

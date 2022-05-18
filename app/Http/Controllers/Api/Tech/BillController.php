@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api\Tech;
 
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Notifications\Api\AddBillNotes;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderServiceRepository;
@@ -48,7 +51,12 @@ class BillController extends Controller
             'status' => 0,
             'payment_method' => 'cod',
         ]);
-        $this->send_notify($order['user_id'],'تم اصدار فاتوره لطلبك الحالي رقم '.$order['order_num'].' في انتظار موافقتك','An invoice has been issued for your current order No '.$order['order_num'].' is Waiting for your approval',$order['id'],$order['status'],'bills');
+        $user = $order->user;
+        $user->notify(new AddBillNotes($order));
+
+        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
+        $job = (new \App\Jobs\TechAddBillNotes($admins,$order));
+        dispatch($job);
         return $this->successResponse();
     }
 

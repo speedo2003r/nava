@@ -5,9 +5,10 @@ namespace App\Http\Middleware\Api;
 use App\Traits\ResponseTrait;
 use Closure;
 use Exception;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
-class JwtMiddleware
+class JwtMiddleware extends BaseMiddleware
 {
     use ResponseTrait;
     public function handle($request, Closure $next)

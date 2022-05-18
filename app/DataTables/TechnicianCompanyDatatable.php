@@ -2,8 +2,10 @@
 
 namespace App\DataTables;
 
+use App\Enum\UserType;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -22,12 +24,12 @@ class TechnicianCompanyDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('id',function ($query){
-                return '<label class="custom-control material-checkbox" style="margin: auto">
-                            <input type="checkbox" class="material-control-input checkSingle" id="'.$query->id.'">
-                            <span class="material-control-indicator"></span>
-                        </label>';
-            })
+//            ->editColumn('id',function ($query){
+//                return '<label class="custom-control material-checkbox" style="margin: auto">
+//                            <input type="checkbox" class="material-control-input checkSingle" id="'.$query->id.'">
+//                            <span class="material-control-indicator"></span>
+//                        </label>';
+//            })
             ->addColumn('status',function ($query){
                 return '<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" style="direction: ltr">
                             <input type="checkbox" onchange="changeUserStatus('.$query->id.')" '.($query->banned == 0 ? 'checked' : '') .' class="custom-control-input" id="customSwitch'.$query->id.'">
@@ -43,11 +45,14 @@ class TechnicianCompanyDatatable extends DataTable
             ->addColumn('target',function ($query){
                 return 'editModel';
             })
+            ->editColumn('rate',function ($query){
+                return '<div class="Stars" style="--rating: '.($query['rate'] ?? 0).'"></div>';
+            })
             ->addColumn('data',function ($query){
                 return $query;
             })
             ->addColumn('control','admin.partial.ControlNotify')
-            ->rawColumns(['categories','status','control','id']);
+            ->rawColumns(['categories','rate','status','control','id']);
     }
 
     /**
@@ -58,7 +63,13 @@ class TechnicianCompanyDatatable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->query()->where('company_id',$this->id)->with('Technician')->where('company_id','!=',null)->where('user_type','technician')->latest();
+        return $model->query()
+            ->select('users.*','rating.rate as rate')
+            ->leftJoin('rating',function ($in){
+                $in->on('rating.rateable_id','users.id');
+                $in->where('rating.rateable_type',User::class);
+            })
+            ->where('users.company_id',$this->id)->with('Technician')->where('users.company_id','!=',null)->where('users.user_type',UserType::TECHNICIAN)->latest();
     }
 
     /**
@@ -97,11 +108,11 @@ class TechnicianCompanyDatatable extends DataTable
             Column::make('id')->title('')->orderable(false),
             Column::make('name')->title('الاسم'),
             Column::make('status')->title('الحاله')->searchable(false),
-            Column::make('balance')->title('المديونيه'),
             Column::make('v_code')->title('OTP'),
+            Column::make('rate')->title('التقييم'),
             Column::make('email')->title('البريد الالكتروني'),
             Column::make('categories')->title('التخصصات'),
-            Column::make('wallet')->title('المحفظه'),
+            Column::make('wallet')->title('المحفظه')->orderable(false)->searchable(false),
             Column::make('phone')->title('الهاتف'),
             Column::make('control')->title('التحكم')->orderable(false)->searchable(false),
         ];

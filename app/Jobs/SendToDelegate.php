@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Entities\OrderTechnician;
+use App\Notifications\Api\NewOrderDelegate;
 use http\Client\Curl\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -12,21 +13,22 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 class SendToDelegate implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $order_id,$user_id;
+    public $order,$users;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($order_id,$user_id)
+    public function __construct($order,$users)
     {
-        $this->order_id = $order_id;
-        $this->user_id = $user_id;
+        $this->order = $order;
+        $this->users = $users;
     }
 
     /**
@@ -36,14 +38,13 @@ class SendToDelegate implements ShouldQueue
      */
     public function handle()
     {
-        OrderTechnician::create([
-            'order_id' => $this->order_id,
-            'technician_id' => $this->user_id,
-        ]);
-        $user = \App\Models\User::find($this->user_id);
-        Artisan::call('tech:notify', [
-          'tech' => $user, 'order' => $this->order
-        ]);
+        foreach ($this->users as $user){
+            OrderTechnician::create([
+                'order_id' => $this->order['id'],
+                'technician_id' => $user['id'],
+            ]);
+        }
 
+        Notification::send($this->users, new NewOrderDelegate($this->order));
     }
 }

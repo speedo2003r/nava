@@ -7,12 +7,18 @@ use App\Entities\Order;
 use App\Entities\OrderBill;
 use App\Entities\OrderGuarantee;
 use App\Entities\OrderService;
+use App\Enum\GuaranteeSolved;
+use App\Enum\OrderStatus;
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Orders\ServiceResource;
 use App\Http\Resources\Orders\TechnicalGuaranteeOrderCollection;
 use App\Http\Resources\Orders\TechnicalOrderDetailsResource;
 use App\Http\Resources\Orders\TechnicalOrderCollection;
 use App\Models\Room;
+use App\Models\User;
+use App\Notifications\Api\AddBillNotes;
+use App\Notifications\Api\FinishOrder;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderServiceRepository;
@@ -22,6 +28,8 @@ use App\Traits\NotifyTrait;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -44,7 +52,7 @@ class OrderController extends Controller
     public function NewOrders(Request $request)
     {
         $user = auth()->user();
-        $orders = $user->orders()->where('orders.status','created')->whereDoesntHave('refuseOrders',function ($query) use ($user){
+        $orders = $user->orders()->where('orders.status',OrderStatus::CREATED)->whereDoesntHave('refuseOrders',function ($query) use ($user){
             $query->where('refuse_orders.user_id',$user['id']);
         })->orderBy('created_date','desc')->paginate(10);
         return $this->successResponse(TechnicalOrderCollection::make($orders));
@@ -59,7 +67,7 @@ class OrderController extends Controller
                 ->orderBy('created_date','desc')
                 ->paginate(10);
         }else{
-            $orders = $user->ordersAsTech()->whereNotIn('orders.status', ['finished','created'])->whereDoesntHave('refuseOrders')->orderBy('created_date','desc')->paginate(10);
+            $orders = $user->ordersAsTech()->whereNotIn('orders.status', [OrderStatus::REJECTED,OrderStatus::FINISHED,OrderStatus::CREATED])->whereDoesntHave('refuseOrders')->orderBy('created_date','desc')->paginate(10);
         }
         return $this->successResponse(TechnicalOrderCollection::make($orders));
     }
@@ -70,11 +78,11 @@ class OrderController extends Controller
             $orders = Order::join('users','users.id','orders.technician_id')
                 ->whereDoesntHave('refuseOrders')
                 ->where('users.company_id',$user['id'])
-                ->where('orders.status', 'finished')
+                ->where('orders.status',OrderStatus::FINISHED)
                 ->orderBy('created_date','desc')
                 ->paginate(10);
         }else {
-            $orders = $user->ordersAsTech()->where('orders.status', 'finished')->orderBy('created_date','desc')->paginate(10);
+            $orders = $user->ordersAsTech()->where('orders.status', OrderStatus::FINISHED)->orderBy('created_date','desc')->paginate(10);
         }
         return $this->successResponse(TechnicalOrderCollection::make($orders));
     }
@@ -88,129 +96,15 @@ class OrderController extends Controller
                 ->whereDate('start_date', '<=', Carbon::now()->format('Y-m-d'))
                 ->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))
                 ->where('status', 1)
-                ->where('solved', 0)
+                ->where('solved', GuaranteeSolved::UNSOLVED)
                 ->latest()
                 ->paginate(10);
         }else {
-            $orders = $user->GuaranteeOrders()->whereDate('start_date', '<=', Carbon::now()->format('Y-m-d'))->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->where('status', 1)->where('solved', 0)->paginate(10);
+            $orders = $user->GuaranteeOrders()->whereDate('start_date', '<=', Carbon::now()->format('Y-m-d'))->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->where('status', 1)->where('solved', GuaranteeSolved::UNSOLVED)->paginate(10);
         }
         return $this->successResponse(TechnicalGuaranteeOrderCollection::make($orders));
     }
 
-    public function acceptOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $user = auth()->user();
-        $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'technician_id' => $user['id'],
-            'status' => 'accepted',
-        ]);
-        creatPrivateRoom($user['id'],$order['user_id'],$order['id']);
-        $this->send_notify($order['user_id'],'تم الموافقه علي طلبك وجاري تنفيذه الأن التقني في الطريق اليك','Your request has been approved and is being implemented. The technician is on the way to you',$order['id'],$order['status'],'accepted');
-        return $this->successResponse();
-    }
-    public function arriveToOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'status' => 'arrived',
-        ]);
-        $this->send_notify($order['user_id'],'تم وصول التقني اليك الأن','The technician has arrived for you now',$order['id'],$order['status'],'arrived');
-        return $this->successResponse();
-    }
-    public function StartInOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'status' => 'in-progress',
-            'progress_start' => Carbon::now()->format('Y-m-d H:i'),
-            'progress_type' => 'progress',
-        ]);
-        $this->send_notify($order['user_id'],'تم بدء العمل','Work has begun',$order['id'],$order['status'],'inProgress');
-        return $this->successResponse();
-    }
-    public function FinishOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL'
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $order = $this->orderRepo->find($request['order_id']);
-        if($order['status'] == 'finished'){
-            $msg = app()->getLocale() == 'ar' ? 'تم انهاء العمل بالفعل' : 'The work has already been completed';
-            return $this->ApiResponse('fail',$msg);
-        }
-        if($order['status'] != 'finished'){
-            
-            $order->update([
-                'status' => 'finished',
-                'progress_end' => Carbon::now()->format('Y-m-d H:i'),
-            ]);
-            $category = $order->category;
-            if($category['guarantee_days'] > 0){
-                OrderGuarantee::create([
-                    'order_id' => $order['id'],
-                    'start_date' => Carbon::now()->format('Y-m-d'),
-                    'end_date' => Carbon::now()->addDay($category['guarantee_days']),
-                ]);
-            }
-
-            $this->send_notify($order['user_id'],'تم انهاء العمل','Work has finished',$order['id'],$order['status'],'finished');
-        }
-        return $this->successResponse();
-    }
-    public function refuseOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL',
-            'notes' => 'required|string|max:2000',
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $user = auth()->user();
-        $order = $this->orderRepo->find($request['order_id']);
-        $user->refuseOrders()->syncWithOutDetaching([$order['id']=>['notes' => $request['notes']]]);
-        return $this->successResponse();
-    }
-    public function cancelOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            'order_id' => 'required|exists:orders,id,deleted_at,NULL',
-            'notes' => 'required|string|max:2000',
-        ]);
-        if($validator->fails()){
-            return $this->ApiResponse('fail',$validator->errors()->first());
-        }
-        $order = $this->orderRepo->find($request['order_id']);
-        $order->update([
-            'status' => 'canceled',
-            'cancellation_reason' => $request['notes'],
-            'canceled_by' => auth()->id(),
-        ]);
-        $this->send_notify($order['user_id'],'تم الغاء الطلب من قبل التقني','The request was canceled by the technician',$order['id'],$order['status'],'canceled');
-        return $this->successResponse();
-    }
     public function orderDetails(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -239,82 +133,165 @@ class OrderController extends Controller
             $msg = app()->getLocale() == 'ar' ? 'تم سداد الطلب بالفعل من قبل العميل': 'The order has already been paid by the customer';
             return $this->ApiResponse('fail', $msg);
         }
-        $orderBill = OrderBill::where('status',0)->where('order_id',$request['order_id'])->whereHas('orderServices')->first();
-        if($orderBill){
-            $orderService = OrderService::where('status',0)->where('order_id', $order['id'])->where('service_id', $request['service_id'])->first();
-            if ($request['counter'] == 'up') {
-                $service = $this->service->find($request['service_id']);
-                $tax = ($service['price'] * settings('tax')) / 100;
-                $orderBill->update([
-                    'vat_amount' => $orderBill['vat_amount'] + $tax,
-                    'price' => $orderBill['price'] + $service['price'],
-                ]);
-                if ($orderService == null) {
-                    $orderBill->orderServices()->create([
-                        'title' => $service['title'],
-                        'type' => $service['type'],
+        $data = new Collection();
+        $servicesData = Cache::get('order_service_'.$order['id'].'_'.$order->user['id']);
+        if(!$servicesData){
+            $servicesData = new Collection();
+        }
+        $vat_amount = 0;
+        $total = 0;
+        $service = $this->service->find($request['service_id']);
+        $tax = ($service['price'] * settings('tax')) / 100;
+        if(count($servicesData) > 0){
+            foreach ($servicesData as $key => $d){
+                if($d['id'] == $service['id']){
+                    if ($request['counter'] == 'up') {
+                        $count = $d['count'] + 1;
+                        $data->push([
+                            'id' => $service['id'],
+                            'title' => $service['title'],
+                            'type' => $service['type'],
+                            'count' => $count,
+                            'status' => 0,
+                            'order_id' => $order['id'],
+                            'category_id' => $request['category_id'],
+                            'service_id' => $service['id'],
+                            'price' => $service['price'],
+                            'tax' => $tax,
+                        ]);
+                        $total += ($d['price'] + $d['tax']) * $count;
+                        $vat_amount += $d['tax'] * $count;
+                    }else{
+                        if ($d['count'] == 1) {
+                            $servicesData->pull($key);
+                        }else{
+                            $count = $d['count'] - 1;
+                            $data->push([
+                                'id' => $service['id'],
+                                'title' => $service['title'],
+                                'type' => $service['type'],
+                                'count' => $count,
+                                'status' => 0,
+                                'order_id' => $order['id'],
+                                'category_id' => $request['category_id'],
+                                'service_id' => $service['id'],
+                                'price' => $service['price'],
+                                'tax' => $tax,
+                            ]);
+                            $total += ($d['price'] + $d['tax']) * $count;
+                            $vat_amount += $d['tax'] * $count;
+                        }
+                    }
+                }else{
+                    $data->push([
+                        'id' => $d['id'],
+                        'title' => $d['title'],
+                        'type' => $d['type'],
+                        'count' => $d['count'],
                         'status' => 0,
                         'order_id' => $order['id'],
                         'category_id' => $request['category_id'],
-                        'service_id' => $service['id'],
-                        'price' => $service['price'],
-                        'tax' => ($service['price'] * settings('tax') ?? 0) / 100,
+                        'service_id' => $d['service_id'],
+                        'price' => $d['price'],
+                        'tax' => $d['tax'],
                     ]);
-                } else {
-                    $orderService->count = $orderService->count + 1;
-                    $orderService->save();
-                }
-            } else {
-                $serviceData = $orderService;
-                if ($orderService == null) {
-                    $serviceData = $this->service->find($request['service_id']);
-                    $tax = ($serviceData['price'] * settings('tax') ?? 0) / 100;
-                } else {
-                    $tax = $orderService['tax'];
-                    if ($orderService['count'] == 1) {
-                        $orderService->forceDelete();
-                    }else{
-                        $orderService->count = $orderService->count - 1;
-                        $orderService->save();
-                    }
-                }
-                if(count($orderBill->orderServices) == 0){
-                    $orderBill->forceDelete();
-                }else{
-                    $orderBill->update([
-                        'vat_amount' => $orderBill['vat_amount'] - $tax,
-                        'price' => $orderBill['price'] - $serviceData['price'],
-                    ]);
+                    $total += ($d['price'] + $d['tax']) * $d['count'];
+                    $vat_amount += $d['tax'] * $d['count'];
                 }
             }
+            if(!$servicesData->where('service_id',$request['service_id'])->first() && $request['counter'] == 'up'){
+                $data->push([
+                    'id' => $service['id'],
+                    'title' => $service['title'],
+                    'type' => $service['type'],
+                    'count' => 1,
+                    'status' => 0,
+                    'order_id' => $order['id'],
+                    'category_id' => $request['category_id'],
+                    'service_id' => $service['id'],
+                    'price' => $service['price'],
+                    'tax' => $tax,
+                ]);
+
+                $total += ($service['price'] + $tax);
+                $vat_amount += $tax;
+            }
         }else{
-            $service = $this->service->find($request['service_id']);
-            $tax = ($service['price'] * settings('tax')) / 100;
+            if($request['counter'] == 'up'){
+                $data->push([
+                    'id' => $service['id'],
+                    'title' => $service['title'],
+                    'type' => $service['type'],
+                    'count' => 1,
+                    'status' => 0,
+                    'order_id' => $order['id'],
+                    'category_id' => $request['category_id'],
+                    'service_id' => $service['id'],
+                    'price' => $service['price'],
+                    'tax' => $tax,
+                ]);
+                $total += ($service['price'] + $tax);
+                $vat_amount += $tax;
+            }
+        }
+        Cache::put('order_service_'.$order['id'].'_'.$order->user['id'],$data,600);
+        $msg = app()->getLocale() == 'ar' ? 'تم الاضافه بنجاح' : 'successfully add';
+        return $this->ApiResponse('success',$msg,[
+            'orderBill_id' => $order['id'] ?? 0,
+            'tax' => $vat_amount ?? 0,
+            'price' => $total ?? 0,
+        ]);
+    }
+
+    public function addServiceNotify(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'orderBill_id' => 'sometimes|exists:orders,id,deleted_at,NULL',
+        ]);
+        if ($validator->fails()) {
+            return $this->ApiResponse('fail', $validator->errors()->first());
+        }
+        $order = $this->orderRepo->find($request['orderBill_id']);
+        $servicesData = Cache::get('order_service_'.$order['id'].'_'.$order->user['id']);
+        $tax = 0;
+        $total = 0;
+        if($servicesData && count($servicesData) > 0){
             $orderBill = OrderBill::create([
                 'order_id'=>$order['id'],
-                'vat_amount' => $tax,
-                'price' => $service['price'],
                 'type'=>'service',
                 'status'=>0,
             ]);
-            $orderBill->orderServices()->create([
-                'title' => $service['title'],
-                'type' => $service['type'],
-                'status' => 0,
-                'order_id' => $order['id'],
-                'category_id' => $request['category_id'],
-                'service_id' => $service['id'],
-                'price' => $service['price'],
-                'tax' => ($service['price'] * settings('tax') ?? 0) / 100,
+            foreach ($servicesData as $data){
+                $orderBill->orderServices()->create([
+                    'title' => $data['title'],
+                    'type' => $data['type'],
+                    'count' => $data['count'],
+                    'status' => 0,
+                    'order_id' => $order['id'],
+                    'category_id' => $data['category_id'],
+                    'service_id' => $data['id'],
+                    'price' => $data['price'],
+                    'tax' => $data['tax'],
+                ]);
+                $tax += ($data['tax'] * $data['count']);
+                $total += ($data['price'] * $data['count']);
+            }
+            $orderBill->refresh();
+            $orderBill->update([
+                'vat_amount' => $tax,
+                'price' => $total,
             ]);
+            $this->orderRepo->addBillStatusTimeLine($orderBill['id'],OrderStatus::NEWINVOICE);
+            $order = $orderBill->order;
+            $order->refresh();
+            $user = $order->user;
+            $user->notify(new AddBillNotes($order));
+            $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
+            $job = (new \App\Jobs\TechAddBillNotes($admins,$order));
+            dispatch($job);
+            Cache::forget('order_service_'.$order['id'].'_'.$order->user['id']);
         }
-        $orderBill = OrderBill::find($orderBill['id']);
-        $msg = app()->getLocale() == 'ar' ? 'تم الاضافه بنجاح' : 'successfully add';
-        return $this->ApiResponse('success',$msg,[
-            'orderBill_id' => $orderBill != null ? $orderBill['id'] : 0,
-            'tax' => $orderBill != null ? $orderBill['vat_amount'] : 0,
-            'price' => $orderBill != null ? $orderBill->_price() : 0,
-        ]);
+        return $this->successResponse();
     }
     public function servicesOrder(Request $request)
     {

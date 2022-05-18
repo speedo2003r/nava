@@ -18,6 +18,8 @@ class Update extends FormRequest
         return [
             'title' => 'required|max:191',
             'image'  => 'sometimes|mimes:jpg,jpeg,png',
+            'category_id'  => 'required|exists:categories,id,deleted_at,NULL',
+            'sub_category_id'  => 'required|exists:categories,id,deleted_at,NULL',
         ];
     }
 }

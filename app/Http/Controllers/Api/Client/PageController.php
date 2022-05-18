@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\Client;
 use App\Entities\Question;
+use App\Enum\UserType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Contact\ContactRequest;
 use App\Http\Resources\Questions\QuestionResource;
 use App\Http\Resources\Settings\pageResource;
+use App\Models\User;
 use App\Repositories\ContactUsRepository;
 use App\Repositories\PageRepository;
 use App\Repositories\UserRepository;
@@ -31,17 +33,21 @@ class PageController extends Controller{
 
     public function About(Request $request)
     {
-        return $this->successResponse(new pageResource($this->pageRepo->find(1)));
+        return $this->successResponse(new pageResource($this->pageRepo->about()));
     }
 
     public function Policy(Request $request)
     {
-        return $this->successResponse(new pageResource($this->pageRepo->find(2)));
+        return $this->successResponse(new pageResource($this->pageRepo->policy()));
     }
     public function ContactMessage(ContactRequest $request)
     {
         $data = array_filter($request->all());
-        $this->contactRepo->create($data);
+        $contact = $this->contactRepo->create($data);
+
+        $admins = User::where('user_type',UserType::ADMIN)->where('notify',1)->get();
+        $job = (new \App\Jobs\ContactUs($admins,$contact['message'],$contact['message']));
+        dispatch($job);
         return $this->successResponse();
     }
 }

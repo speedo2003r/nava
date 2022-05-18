@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ClientDatatable;
+use App\Entities\Order;
+use App\Enum\WalletOperationType;
+use App\Enum\WalletType;
+use App\Events\createOrJoinRoom;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Client\Create;
 use App\Http\Requests\Admin\Client\Update;
 use App\Jobs\NotifyFcm;
+use App\Models\Room;
 use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\UserRepository;
@@ -15,6 +20,8 @@ use App\Traits\ResponseTrait;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
@@ -103,25 +110,10 @@ class ClientController extends Controller
         }else {
             $users = User::where('notify', 1)->whereId($request->id)->get();
         }
-        foreach ($users as $user) {
-            $message = $request->message;
-            #send FCM
-            $job = (new NotifyFcm(auth()->user(),$user,$message,$message));
-            if($user){
-                $data['title'] = app()->getLocale() == 'ar' ? $message: $message;
-                $data['body'] = app()->getLocale() == 'ar' ? $message: $message;
-                $data['type'] = null;
-                if($user->Devices){
-                    foreach ($user->Devices as $device) {
-                        if($device->device_id){
-                            $this->send_fcm($device->device_id, $data, $device->device_type);
-                        }
-                    }
-                }
+        $message = $request->message;
+        $job = (new NotifyFcm($users,$message));
+        dispatch($job);
 
-            }
-            dispatch($job);
-        }
         return $this->ApiResponse('success', 'تم الارسال بنجاح');
     }
 
@@ -134,21 +126,54 @@ class ClientController extends Controller
             return $this->ApiResponse('success','',$provider['banned']);
         }
     }
+    public function changeNotify(Request $request)
+    {
+        if($request->ajax()){
+            $provider = $this->user->find($request['id']);
+            $provider['notify'] = !$provider['notify'];
+            $provider->save();
+            return $this->ApiResponse('success','',$provider['notify']);
+        }
+    }
     public function addToWallet(Request $request)
     {
         $provider = $this->user->find($request['id']);
-        if($provider['balance'] == 0){
-            $provider->wallet += $request['wallet'];
-            $provider->save();
-        }elseif($provider['balance'] > 0 && $provider['balance'] < $request['wallet']){
-            $value = $request['wallet'] - $provider['balance'];
-            $provider['balance'] = 0;
-            $provider['wallet'] += $value;
-            $provider->save();
-        }else{
-            $provider['balance'] = $provider['balance'] - $request['wallet'];
-            $provider->save();
-        }
+        $provider->wallets()->create([
+            'amount' => $request['wallet'],
+            'type' => WalletType::DEPOSIT,
+            'created_by'=>auth()->id(),
+            'operation_type'=>WalletOperationType::DEPOSIT,
+        ]);
         return back()->with('success','تم الاضافه بنجاح');
+    }
+
+    public function chat($id)
+    {
+        $existRoom = Room::where(function ($in) use ($id){
+            $in->where('user_id',$id)->orWhere('other_user_id',$id);
+        })->where('order_id',null)->first();
+        if(!$existRoom){
+            $existRoom = creatPrivateRoom(auth()->id(),$id);
+        }
+        $existRoom->refresh();
+        if(!in_array(auth()->id(),$existRoom->users()->pluck('users.id')->toArray())){
+            joinRoom($existRoom['id'],auth()->id());
+        }
+        $user = $this->user->find($id);
+        return view('admin.clients.chat',compact('existRoom','user'));
+    }
+
+    public function NewPrivateRoom($id){
+        $currentUser = Auth::user();
+        $otherUser = User::find($id);
+        $room = Room::where(function ($in) use ($id){
+            $in->where('user_id',$id)->orWhere('other_user_id',$id);
+        })->where('order_id',null)->first();
+        if(!$room) {
+            $room = creatPrivateRoom($currentUser->id, $otherUser->id);
+        }
+        $messages  = getRoomMessages($room->id, $currentUser->id);
+        broadcast(new createOrJoinRoom($room))->toOthers();
+        return response()->json(['status'=>1,'message' => 'success','room' =>$room,'messages'=>$messages ]);
     }
 }

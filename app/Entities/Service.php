@@ -14,6 +14,37 @@ use Spatie\Translatable\HasTranslations;
  * Class Slider.
  *
  * @package namespace App\Entities;
+ * @property int $id
+ * @property array|null $title
+ * @property array|null $description
+ * @property int|null $category_id
+ * @property float $price
+ * @property string|null $image
+ * @property string $type
+ * @property int $active
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read array $translations
+ * @method static \Illuminate\Database\Eloquent\Builder|Service newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Service newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Service onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Service query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Service subexist()
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Service withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Service withoutTrashed()
+ * @mixin \Eloquent
  */
 class Service extends Model implements Transformable
 {

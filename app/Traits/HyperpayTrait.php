@@ -141,6 +141,8 @@ trait HyperpayTrait{
 //            "&billing.city=".$address['city_id']. // al reyad
 //            "&billing.state=".$address['state_id']. // alreyad
 //            "&billing.street1=".$address['address']. // 35 st alryad etc
+//            "&notificationUrl={$url}".
+//            "&createRegistration=true".
             "&paymentType=DB";
 
         $ch = curl_init();

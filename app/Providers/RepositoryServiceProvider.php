@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use App\Repositories\AdRepository;
-use App\Repositories\AdRepositoryEloquent;
-use App\Repositories\BannerRepository;
-use App\Repositories\BannerRepositoryEloquent;
 use App\Repositories\BranchRepository;
 use App\Repositories\BranchRepositoryEloquent;
 use App\Repositories\CategoryRepository;
@@ -22,14 +18,10 @@ use App\Repositories\CountryRepository;
 use App\Repositories\CountryRepositoryEloquent;
 use App\Repositories\CouponRepository;
 use App\Repositories\CouponRepositoryEloquent;
-use App\Repositories\CreditRepository;
-use App\Repositories\CreditRepositoryEloquent;
 use App\Repositories\DeviceRepository;
 use App\Repositories\DeviceRepositoryEloquent;
 use App\Repositories\ImageRepository;
 use App\Repositories\ImageRepositoryEloquent;
-use App\Repositories\NotificationRepository;
-use App\Repositories\NotificationRepositoryEloquent;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderRepositoryEloquent;
 use App\Repositories\OrderServiceRepository;
@@ -44,6 +36,8 @@ use App\Repositories\RegionRepository;
 use App\Repositories\RegionRepositoryEloquent;
 use App\Repositories\ReportRepository;
 use App\Repositories\ReportRepositoryEloquent;
+use App\Repositories\ReviewRateRepository;
+use App\Repositories\ReviewRateRepositoryEloquent;
 use App\Repositories\ServiceRepository;
 use App\Repositories\ServiceRepositoryEloquent;
 use App\Repositories\SettingRepository;
@@ -75,8 +69,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ServiceRepository::class           , ServiceRepositoryEloquent::class);
         $this->app->bind(ImageRepository::class           , ImageRepositoryEloquent::class);
         $this->app->bind(DeviceRepository::class           , DeviceRepositoryEloquent::class);
-        $this->app->bind(NotificationRepository::class           , NotificationRepositoryEloquent::class);
-        $this->app->bind(ProviderRepository::class           , ProviderRepositoryEloquent::class);
         $this->app->bind(OrderServiceRepository::class           , OrderServiceRepositoryEloquent::class);
         $this->app->bind(TechnicianRepository::class           , TechnicianRepositoryEloquent::class);
         $this->app->bind(BranchRepository::class           , BranchRepositoryEloquent::class);
@@ -86,6 +78,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ComplaintRepository::class           , ComplaintRepositoryEloquent::class);
         $this->app->bind(SliderRepository::class           , SliderRepositoryEloquent::class);
         $this->app->bind(QuestionRepository::class           , QuestionRepositoryEloquent::class);
+        $this->app->bind(ReviewRateRepository::class           , ReviewRateRepositoryEloquent::class);
 
     }
 

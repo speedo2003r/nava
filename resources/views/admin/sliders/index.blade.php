@@ -93,6 +93,21 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-md-6">
+                                <label>الأقسام</label>
+                                <select name="category_id" id="category_id" class="form-control">
+                                    <option value="" hidden selected>أختر</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{$category['id']}}">{{$category['title']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>الأقسام الفرعيه</label>
+                                <select name="sub_category_id" id="sub_category_id" class="form-control">
+                                    <option value="" hidden selected>أختر</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -132,6 +147,40 @@
                 }
             });
         }
+        $(function (){
+            'use strict'
+            $('body').on('change','#category_id',function (){
+                var id = $(this).val();
+                getCategories(id);
+            })
+        })
+
+        function getCategories(category_id, type = '', placeholder = 'اختر') {
+            var html = '';
+            var sub_category_id = '';
+            $('[name=sub_category_id]').empty();
+            if (category_id) {
+                $.ajax({
+                    url: `<?php echo e(route('admin.ajax.getCategories')); ?>`,
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        category: category_id
+                    },
+                    success: function(res) {
+                        if (type != '') {
+                            sub_category_id = type;
+                        }
+                        html += `<option value="" selected hidden>${placeholder}</option>`;
+                        $.each(res.data, function(index, value) {
+                            html +=
+                                `<option value="${value.id}" ${sub_category_id == value.id ? 'selected':'' }>${value.title.ar}</option>`;
+                        });
+                        $('[name=sub_category_id]').append(html);
+                    }
+                });
+            }
+        }
     </script>
 
     <script>
@@ -147,6 +196,8 @@
             $('#editForm')      .attr("action","{{route('admin.sliders.update','obId')}}".replace('obId',ob.id));
             $('#title')    .val(ob.title);
             $('#city_id')     .val(ob.city_id).change;
+            $('#category_id')     .val(ob.category_id).change;
+            getCategories(ob.category_id,ob.sub_category_id);
             $('.type[value=' + ob.type + ']').prop('checked', true);
 
 

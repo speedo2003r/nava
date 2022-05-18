@@ -1,28 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Api\Tech;
-use App\Entities\Category;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\LangRequest;
-use App\Http\Resources\services\ServiceCollection;
-use App\Http\Resources\services\ServiceResource;
-use App\Http\Resources\Settings\BannerResource;
 use App\Http\Resources\Settings\CategoryResource;
-use App\Http\Resources\Settings\SliderResource;
-use App\Http\Resources\Users\ProviderCollection;
-use App\Http\Resources\Users\ProviderResource;
-use App\Models\User;
-use App\Repositories\BannerRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\UserRepository;
 use App\Traits\ResponseTrait;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller{
 
@@ -54,21 +42,42 @@ class CategoryController extends Controller{
     {
         $validator = Validator::make($request->all(),[
             'category_id' => 'required|exists:categories,id,deleted_at,NULL',
+            'order_id' => 'required|exists:orders,id,deleted_at,NULL',
         ]);
         if($validator->fails()){
             return $this->ApiResponse('fail',$validator->errors()->first());
         }
         $data = [];
         $services = $this->service->where('category_id',$request['category_id'])->get();
+        $servicesData = null;
+        $tax = 0;
+        $total = 0;
+        if(isset($request['order_id'])){
+            $order = $this->orderRepo->find($request['order_id']);
+            $servicesData = Cache::get('order_service_'.$order['id'].'_'.$order->user['id']);
+            $collect = collect($servicesData);
+            if($servicesData && count($servicesData) > 0) {
+                foreach ($servicesData as $d) {
+                    $tax += ($d['tax'] * $d['count']);
+                    $total += ($d['price'] * $d['count']);
+                }
+            }
+        }
         foreach ($services as $service){
             $data[] = [
                 'id' => $service['id'],
                 'title' => $service['title'],
                 'description' => $service['description'],
                 'price' => $service['price'],
+                'checked' => $servicesData && $collect->where('id',$service['id'])->first() ? true : false,
+                'count' => $servicesData && $collect->where('id',$service['id'])->first() ? ((int) $collect->where('id',$service['id'])->first()['count']) : 0,
             ];
         }
-        return $this->successResponse($data);
+        return $this->successResponse([
+            'services' => (array) $data,
+            'tax' => $tax,
+            'price' => $total,
+        ]);
     }
 
 }

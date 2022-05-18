@@ -157,6 +157,18 @@
         text-align: center;
         width: 70px;
     }
+    .notify-count,.messages-count{
+        position: absolute;
+        top: 0;
+        right: 5px;
+        background: #e70000;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        color: #fff;
+        text-align: center;
+        line-height: 15px;
+    }
     .info-box .info-box-content {
         display: -ms-flexbox;
         display: flex;
@@ -263,72 +275,7 @@
                     </div>
                 </div>
                 <!-- end:: Header Menu -->
-                <!-- begin:: Header Topbar -->
-                <div class="kt-header__topbar">
-                    <div class="kt-header__topbar-item kt-header__topbar-item--langs">
-                        <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">
-                                <span class="kt-header__topbar-icon">
-                                    <img class="" src="{{dashboard_url('assets/media/flag-400.png')}}" alt="">
-                                </span>
-                        </div>
-                        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround">
-                            <ul class="kt-nav kt-margin-t-10 kt-margin-b-10">
-                                @foreach($langs as $locale)
-                                    <li class="kt-nav__item">
-                                        <a href="{{route('change.language',$locale['lang'])}}" class="kt-nav__link">
-                                            <span class="kt-nav__link-text">{{$locale['name']}}</span>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    <!--begin: User Bar -->
-                    <div class="kt-header__topbar-item kt-header__topbar-item--user">
-                        <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px,0px">
-                            <div class="kt-header__topbar-user">
-                                <span class="kt-header__topbar-welcome kt-hidden-mobile">{{awtTrans('مرحبا')}}</span>
-                                <span class="kt-header__topbar-username kt-hidden-mobile">{{auth()->user()->name}}</span>
-                                <img class="kt-hidden" alt="Pic" src="{{asset('assets/media/users/300_25.jpg')}}" />
-                                <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
-                                <span class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold"><img class=" " alt="Pic" src="{{asset('images/avatarDefault.png')}}" /></span>
-                            </div>
-                        </div>
-                        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
-                            <!--begin: Head -->
-                            <div class="kt-user-card kt-user-card--skin-dark kt-notification-item-padding-x" style="background-image: url({{asset('assets/media/misc/bg-1.jpg')}})">
-                                <div class="kt-user-card__avatar">
-                                    <img class="kt-hidden" alt="Pic" src="{{asset('assets/media/users/300_25.jpg')}}" />
-                                    <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
-                                    <span class="kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success"><img class=" " alt="Pic" src="{{asset('images/avatarDefault.png')}}" /></span>
-                                </div>
-                                <div class="kt-user-card__name">
-                                    {{auth()->user()->name}}
-                                </div>
-                            </div>
-                            <!--end: Head -->
-                            <!--begin: Navigation -->
-                            <div class="kt-notification">
-                                <a href="{{route('admin.settings.index')}}" class="kt-notification__item">
-                                    <div class="kt-notification__item-icon">
-                                        <i class="flaticon2-calendar-3 kt-font-success"></i>
-                                    </div>
-                                    <div class="kt-notification__item-details">
-                                        <div class="kt-notification__item-title kt-font-bold">
-                                            {{awtTrans('الاعدادات')}}
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="kt-notification__custom kt-space-between" style="float:left">
-                                    <a style="line-height: 30px" href="{{ url('/logout') }}" class="btn btn-label btn-label-brand btn-sm btn-bold">{{awtTrans('تسجيل الخروج')}}</a>
-                                </div>
-                            </div>
-                            <!--end: Navigation -->
-                        </div>
-                    </div>
-                    <!--end: User Bar -->
-                </div>
-                <!-- end:: Header Topbar -->
+                @include('admin.partial.navbar')
             </div>
             <div class="kt-subheader   kt-grid__item" id="kt_subheader">
                 <div class="kt-container  kt-container--fluid ">
@@ -364,6 +311,13 @@
 <div id="kt_scrolltop" class="kt-scrolltop">
     <i class="fa fa-arrow-up"></i>
 </div>
+
+<audio id="notify-alert-sound" style="display: none" muted="muted">
+    <source src="{{ dashboard_url('sound/message-ringtone-magic.mp3') }}" />
+</audio>
+<audio id="chat-alert-sound" style="display: none" muted="muted">
+    <source src="{{ dashboard_url('sound/facebook_chat.mp3') }}" />
+</audio>
 <!--begin:: Global Mandatory Vendors -->
 <script src="{{dashboard_url('admin/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('assets/vendors/general/popper.js/dist/umd/popper.js')}}" type="text/javascript"></script>
@@ -400,14 +354,17 @@
 <script src="{{dashboard_url('admin/toastr/toastr.min.js')}}"></script>
 <script src="{{dashboard_url('admin/moment.min.js')}}"></script>
 <script src="{{dashboard_url('js/jschart/chart.js')}}"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-messaging.js"></script>
+<script src="{{dashboard_url('firebase/notification/showNotification.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script src="{{dashboard_url('custom.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-<script>
-    var socket = io.connect('https://navaservices.net:4321',{
-        query: "id= " + `{{auth()->id()}}`
-    });
-</script>
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>--}}
+{{--<script>--}}
+{{--    var socket = io.connect('https://navaservices.net:4321',{--}}
+{{--        query: "id= " + `{{auth()->id()}}`--}}
+{{--    });--}}
+{{--</script>--}}
 <script>
     var KTAppOptions = {
         "colors": {
@@ -552,6 +509,22 @@
             }
         });
     }
+    function changeUserNotify(id) {
+        var tokenv  = "{{csrf_token()}}";
+        var notify = 1;
+        $.ajax({
+            type     : 'POST',
+            url      : "{{route('admin.changeNotify')}}" ,
+            datatype : 'json' ,
+            data     : {
+                'id'         :  id ,
+                'notify'     :  notify ,
+                '_token'     :  tokenv
+            }, success   : function(res){
+                //
+            }
+        });
+    }
     function changeServiceActive(id) {
         var tokenv  = "{{csrf_token()}}";
         var active = 1;
@@ -680,10 +653,52 @@
     });
 </script>
 
+<script src="{{ asset('js/app.js') }}"></script>
 @include('admin.partial.alert')
 @include('admin.partial.confirm_delete')
 @stack('css')
 @stack('js')
+
+<script>
+    Echo.private('users.{{auth()->id()}}')
+        .listen('.update.notifications', (e) => {
+            $.ajax({
+                url: `{{route('admin.ajax.getNotificationCount')}}`,
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    $('.notify-count').html(res);
+                    notifyPlay();
+                }
+            });
+        })
+        .listen('.update.messages.notifications', (e) => {
+            $.ajax({
+                url: `{{route('admin.ajax.getMessagesNotificationCount')}}`,
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    $('.messages-count').html(res);
+                    play();
+                }
+            });
+        });
+
+    let alert_sound = document.getElementById("chat-alert-sound");
+    function play(){
+        alert_sound.muted = true;
+        alert_sound.play();
+        alert_sound.muted = false;
+        alert_sound.play();
+    }
+    let notify_sound = document.getElementById("notify-alert-sound");
+    function notifyPlay(){
+        notify_sound.muted = true;
+        notify_sound.play();
+        notify_sound.muted = false;
+        notify_sound.play();
+    }
+</script>
 </body>
 
 </html>

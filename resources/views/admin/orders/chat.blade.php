@@ -175,7 +175,7 @@
                                                                                                 </div>
                                                                                             </div>
 
-                                                                                            <chat-order-component order='{{ $order['id'] }}'></chat-order-component>
+                                                                                            <chat-order-component order="{{ $order['id'] }}" room_id="{{$existRoom['id']}}" ></chat-order-component>
 {{--                                                                                        </div>--}}
 
 
@@ -221,7 +221,6 @@
 @endsection
 @push('js')
 
-    <script src="{{ asset('js/app.js') }}" defer async></script>
     <script type="text/javascript">
 
         $('#reply-message-chat').on('click',function(){

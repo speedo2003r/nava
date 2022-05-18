@@ -55,7 +55,7 @@
                   </div>
               </div>
               <div class="direct-chat-info clearfix">
-                  <small class="font_12 pull-right">{{messagePacket.message.created_at | moment("calendar")}}</small>
+                  <small class="font_12 pull-right">{{messagePacket.message.created_at | moment("calendar")}} رساله من {{messagePacket.message.user_name}}</small>
               </div>
           </div>
       </div>
@@ -115,6 +115,7 @@
 export default {
     props:[
         'order',
+        'room_id',
     ],
   data: function() {
     return {
@@ -142,26 +143,26 @@ export default {
   components: {
     Loading
   },
-  sockets: {
-    addMessageResponse(data) {
-      if (data.room_id == this.room.id && this.user_id != data.user_id) {
-        data["is_sender"] = "0";
-        this.allMsgs.push(data);
-        this.typing = false;
-      }
-    },
-    ResTyping(data) {
-      if (data.room_id == this.room.id && this.user_id != data.user_id) {
-        this.typing = true;
-        setInterval(() => {
-          this.typing = false;
-        }, 5000);
-      }
-    }
-  },
+  // sockets: {
+  //   addMessageResponse(data) {
+  //     if (data.room_id == this.room.id && this.user_id != data.user_id) {
+  //       data["is_sender"] = "0";
+  //       this.allMsgs.push(data);
+  //       this.typing = false;
+  //     }
+  //   },
+    // ResTyping(data) {
+    //   if (data.room_id == this.room.id && this.user_id != data.user_id) {
+    //     this.typing = true;
+    //     setInterval(() => {
+    //       this.typing = false;
+    //     }, 5000);
+    //   }
+    // }
+  // },
   methods: {
     startTyping() {
-      this.$socket.client.emit("startTyping", {'room_id' : this.room.id,'users': this.otherRoomUsers});
+        // window.Echo.private(`startTyping.${this.room.user_id}`)
     },
     clearInput() {
       this.fileChosen = "";
@@ -203,6 +204,15 @@ export default {
         this.sendMessage(this.message);
       }
     },
+      listenForNewMessage() {
+          Echo.private('rooms.' + this.room_id)
+              .listen('MessageSent', (e) => {
+                  if(e.user_id != this.user_id){
+                      this.allMsgs.push(e)
+                  }
+                  // $("#messages").animate({ scrollTop: $(document).height() }, "slow");
+              });
+      },
     uploadFile(formData) {
       this.isLoading = true;
 
@@ -222,9 +232,7 @@ export default {
               this.fileChosen = "";
 
               this.allMsgs.push(response.body.data);
-              this.$socket.client.emit("addMessage", response.body.data);
               //console.log(response.body.data);
-              //this.$root.$emit('new-message', response.body.data)
             } else if (response.body.status == 2) {
               location.reload();
             } else {
@@ -235,7 +243,7 @@ export default {
             }
           },
           response => {
-            console.log(response.body);
+            // console.log(response.body);
             //error callback
             this.isLoading = false;
             this.$swal({
@@ -269,10 +277,8 @@ export default {
 
             if (response.body.status == 1) {
               this.message = "";
-              console.log(this.allMsgs);
+
               this.allMsgs.push(response.body.data);
-              this.$socket.client.emit("addMessage", response.body.data);
-              //this.$root.$emit('new-message', response.body.data)
             } else if (response.body.status == 2) {
               location.reload();
             } else {
@@ -305,7 +311,6 @@ export default {
       .then(response => {
           that.room = response.body.room;
           that.allMsgs = response.body.messages;
-          that.$socket.client.emit("createOrJoinRoom", response.body.room.id);
         //console.log(response.body.room.id.toString());
       });
     this.otherRoomUsers.push(this.otherUser);
@@ -314,7 +319,7 @@ export default {
   },
   mounted() {
       this.getUser(1)
-
+      this.listenForNewMessage();
     //console.log("box chat instance mounted");
   },
   beforeDestroyed(){

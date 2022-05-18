@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Orders;
 
 use App\Entities\Category;
+use App\Enum\OrderStatus;
 use App\Http\Resources\Users\AddressResource;
 use App\Models\Order;
 use App\Models\Review;
@@ -34,8 +35,9 @@ class OrderDetailResource extends JsonResource
             'street'                => $this['street'] ?? '',
             'address_notes'                => $this['address_notes'] ?? '',
             'services'                => $this->services(),
-            'tax'                => $this->tax(),
-            'total'                =>   (string) round($this->price(),1),
+            'bills'                => $this->orderBills(),
+            'tax'                => $this->status == OrderStatus::FINISHED ? (string) round($this->vat_amount,2) : $this->tax(),
+            'total'                =>   $this->status == OrderStatus::FINISHED ? (string) round($this->final_total,2) : (string) round($this->price(),1),
             'status'                =>   $status,
             'pay_type'                =>   $this['pay_type'] ?? 'cash',
             'is_payment'                =>   $this->pay_status == 'pending' && $status == 'in-progress',
@@ -74,5 +76,19 @@ class OrderDetailResource extends JsonResource
             ];
         }
         return $data;
+    }
+    private function orderBills(){
+        $bills = $this->bills()->where('order_bills.status',1)->whereDoesntHave('orderServices')->get();
+        if(count($bills) > 0){
+            $bills = $bills->map(function ($q){
+                return [
+                    'id' => $q['id'],
+                    'text' => $q['text'],
+                    'price' => (string) round($q['price'],2),
+                    'tax' => (string) round($q['vat_amount'],2),
+                ];
+            });
+        }
+        return $bills;
     }
 }

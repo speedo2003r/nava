@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Enum\UserType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Html\Button;
@@ -55,7 +56,7 @@ class ClientDatatable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->query()->where('user_type','client')->latest();
+        return $model->query()->where('user_type',UserType::CLIENT)->latest();
     }
 
     /**
@@ -94,7 +95,7 @@ class ClientDatatable extends DataTable
             Column::make('id')->title('')->orderable(false),
             Column::make('name')->title('الاسم'),
             Column::make('email')->title('البريد الالكتروني'),
-            Column::make('wallet')->title('المحفظه'),
+            Column::make('wallet')->title('المحفظه')->orderable(false)->searchable(false),
             Column::make('v_code')->title('OTP'),
             Column::make('phone')->title('الهاتف'),
             Column::make('status')->title('الحاله')->searchable(false),

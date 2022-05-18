@@ -20,11 +20,12 @@ class TransController extends Controller
         $langs = [
             'ar' => 'arabic',
             'en' => 'english',
+            'ur' => 'ur',
         ];
         $files = [
+            'admin',
+            'awt',
             'api',
-            'auth',
-            'validation',
         ];
         return view('admin.translation.index', compact('langs','files'));
     }

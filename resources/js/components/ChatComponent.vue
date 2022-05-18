@@ -1,103 +1,114 @@
 <template>
-  <div>
-    <loading
-      :active.sync="isLoading"
-      :can-cancel="false"
-      :on-cancel="onCancel"
-      :is-full-page="fullPage"
-      :loader="type"
-      :color="loaderColor"
-      :hight="loaderHight"
-      :width="loaderWidth"
-    ></loading>
+    <div>
+        <loading
+            :active.sync="isLoading"
+            :can-cancel="false"
+            :on-cancel="onCancel"
+            :is-full-page="fullPage"
+            :loader="type"
+            :color="loaderColor"
+            :hight="loaderHight"
+            :width="loaderWidth"
+        ></loading>
 
-    <div class="chat-content" v-chat-scroll="{always: false, smooth: true, scrollonremoved:true, smoothonremoved: false}">
-      <div v-for="(message,index) in allMsgs" :key="index">
-        <div class="people-blocks recieve" v-if="message.is_sender == 0">
-          <div class="desc" v-if="message.message.type == 'text'">
-            <p>{{message.message.body}}</p>
-          </div>
-          <div class="file" v-else-if="message.message.type == 'file'">
-            <a
-              v-if="message.message.body.split('.').pop() == 'pdf'"
-              :href="origin + message.message.body"
-              target="_blank"
-            >
-              <img :src="origin + 'images/pdfimg.jpeg'" alt="pdf" width="50" height="50" />
-            </a>
-            <a v-else :href="origin + message.message.body" target="_blank">
-              <img :src="origin + message.message.body" alt="image" width="50" height="50" />
-            </a>
-          </div>
-          <div class="time">
-            <span>{{message.message.created_at | moment("calendar")}}</span>
-          </div>
-        </div>
-        <div class="people-blocks send" v-else>
-          <div class="desc" v-if="message.message.type == 'text'">
-            <p>{{message.message.body}}</p>
-          </div>
-          <div class="file" v-else-if="message.message.type == 'file'">
-            <a
-              v-if="message.message.body.split('.').pop() == 'pdf'"
-              :href="origin + message.message.body"
-              target="_blank"
-            >
-              <img :src="origin + 'images/pdfimg.jpeg'" alt="pdf" width="50" height="50" />
-            </a>
-            <a v-else :href="origin + message.message.body" target="_blank">
-              <img :src="origin + message.message.body" alt="image" width="50" height="50" />
-            </a>
-          </div>
-          <div class="time">
-            <span>{{message.message.created_at | moment("calendar")}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="text-center" v-show="typing">
-        <img :src="origin + '/images/typing1.gif'" alt="typing" width="200" height="30" />
-      </div>
-    </div>
 
-    <div class="chat-footer">
-      <form id="form" action>
-        <div class="form-group">
-          <textarea
-            class="form-group"
-            id="input-custom-size"
-            placeholder="اكتب رسالتك هـنا"
-            v-model="message"
-            @keypress="startTyping"
-            @keyup.enter.exact="addMessage"
-            @keydown.enter.shift.exact="newline"
-            :readonly="fileChosen != ''"
-          ></textarea>
+        <!-- /.box-header -->
+        <div :id="'chatboxscroll-' + otherUser.id"
+             v-chat-scroll="{always: false, smooth: true, scrollonremoved:true, smoothonremoved: false}"
+             class="chat-content over_scroll_chat height_chat" style="height: 300px;overflow: auto">
+            <div class="sent_chat"
+                 v-for="messagePacket in allMsgs"
+                 :key="messagePacket.id"
+                 :class="{ 'content_sent' : (messagePacket.is_sender == 1),'content_receive' : (messagePacket.is_sender == 0) }">
+                <div class="receive"
+                     :class="{ 'sent' : (messagePacket.is_sender == 1), 'receive' : (messagePacket.is_sender != 1) }">
+                    <p v-if="messagePacket.message.type == 'text'"
+                       :class="{ 'pull-right direct-chat-text' : (messagePacket.is_sender == 1), 'pull-left direct-chat-text' : (messagePacket.is_sender != 1) }"
+                       style="display: inline-block;margin-left: 1px;margin-left: 1px;word-break: break-all;padding: 3px 10px;">{{messagePacket.message.body}}</p>
+                    <div
+                        v-if="messagePacket.message.type == 'file'"
+                        :class="{ 'pull-left' : (messagePacket.is_sender == 1), 'pull-left' : (messagePacket.is_sender != 1) }"
+                        class="clearfix"
+                        style="display: inline-block;margin-left: 1px;margin-left: 1px;word-break: break-all;padding: 3px 3px;"
+                    >
+                        <a
+                            v-if="messagePacket.message.body.split('.').pop() != 'pdf'"
+                            :href="origin+'/storage/images/rooms/'+room.id+'/' + messagePacket.message.body"
+                            download
+                            title="image"
+                            target="_new"
+                        >
+                            <img height="110px;" width="110px;" :src="origin+'/storage/images/rooms/'+room.id+'/' + messagePacket.message.body" />
+                        </a>
+                        <a
+                            v-else
+                            :href="origin+'/storage/images/rooms/'+room.id+'/' + messagePacket.message.body"
+                            download
+                            title="pdf"
+                            target="_new"
+                            class="direct-chat-text"
+                        >
+                  <span class="info-box-icon" style="color: white;background:none;">
+                    <i class="fa fa-paperclip"></i>
+                  </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="direct-chat-info clearfix">
+                    <small class="font_12 pull-right">{{messagePacket.message.created_at | moment("calendar")}} رساله من {{messagePacket.message.user_name}}</small>
+                </div>
+            </div>
         </div>
-        <div class="form-group file">
-          <input
-            type="file"
-            id="file"
-            ref="file"
-            @change="handleFileUpload()"
-            accept="image/jpeg, image/gif, image/png, application/pdf, image/jpg"
-          />
-          <i class="fas fa-paperclip"></i>
+
+        <div class="writ_massage d-flex">
+            <form class="form d-flex flex-grow-1">
+                <div class="input-group">
+                    <!-- <input
+                      name="message"
+                      :id="'msginput-' + otherUser.id"
+                      v-model.trim="message"
+                      placeholder="Type Message And Hit Enter"
+                      class="form-control"
+                      type="text"
+                      v-on:keydown="sendMessage($event)"
+                    />-->
+                    <textarea
+                        class="form-control"
+                        :id="'msginput-' + otherUser.id"
+                        placeholder="اكتب رسالتك هـنا"
+                        v-model="message"
+                        @keypress="startTyping"
+                        @keyup.enter.exact="addMessage"
+                        @keydown.enter.shift.exact="newline"
+                        :readonly="fileChosen != ''"
+                    ></textarea>
+                    <i
+                        class="fa fa-times fa-3"
+                        style="color:red;margin:0 20px"
+                        v-show="fileChosen != ''"
+                        @click="clearInput"
+                    ></i>
+                    <span class="input-group-btn">
+              <div class="btn btn-default btn-file">
+                <i class="fa fa-paperclip"></i>
+                  <!-- <input name="attachment" type="file" v-on:change="file($event)" /> -->
+                <input
+                    type="file"
+                    id="file"
+                    ref="file"
+                    @change="handleFileUpload()"
+                    accept="image/jpeg, image/gif, image/png, application/pdf, image/jpg"
+                />
+              </div>
+            </span>
+                </div>
+                <!--              <button class="" @click="addMessage" type="button" style="height: 55px;margin-top: 17px;">-->
+                <!--                  <i class="fas fa-paper-plane" aria-hidden="true"></i>-->
+                <!--                  ارسال-->
+                <!--              </button>-->
+            </form>
         </div>
-        <div class="form-group sub d-flex">
-          <i
-            class="fa fa-times fa-3"
-            style="color:red;margin:0 20px"
-            v-show="fileChosen != ''"
-            @click="clearInput"
-          >x</i>
-          <button class="site-btn" id="myBtn" type="submit" @click.prevent="addMessage">
-              send
-            <i class="fas fa-paper-plane"></i>
-          </button>
-        </div>
-      </form>
     </div>
-  </div>
 </template>
 
 <script>
@@ -122,33 +133,18 @@ export default {
       otherRoomUsers:[],
 
       user_id:USER_ID,
+      otherUser:'',
+      room: {}
     };
   },
-  props: ["messages", "room"],
+  props: ["messages", "room_id", "ouser_id"],
   computed: {},
   components: {
     Loading
   },
-  sockets: {
-    addMessageResponse(data) {
-      if (data.room_id == this.room.id && this.user_id != data.user_id) {
-        data["is_sender"] = "0";
-        this.allMsgs.push(data);
-        this.typing = false;
-      }
-    },
-    ResTyping(data) {
-      if (data.room_id == this.room.id && this.user_id != data.user_id) {
-        this.typing=true;
-        setInterval(()=>{
-          this.typing=false
-        },3000);
-      }
-    }
-  },
   methods: {
     startTyping(){
-      this.$socket.client.emit("startTyping", {'room_id' : this.room.id,'users': this.otherRoomUsers});
+      // this.$socket.client.emit("startTyping", {'room_id' : this.room.id,'users': this.otherRoomUsers});
     },
     clearInput() {
       this.fileChosen = "";
@@ -190,12 +186,21 @@ export default {
         this.sendMessage(this.message);
       }
     },
+      listenForNewMessage() {
+          Echo.private('rooms.' + this.room_id)
+              .listen('MessageSent', (e) => {
+                  if(e.user_id != this.user_id){
+                      this.allMsgs.push(e)
+                  }
+                  // $("#messages").animate({ scrollTop: $(document).height() }, "slow");
+              });
+      },
     uploadFile(formData) {
       this.isLoading = true;
 
       // POST /someUrl
       this.$http
-        .post("/save-message", formData, {
+        .post("/chats/store", formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -232,76 +237,76 @@ export default {
           }
         );
     },
+      getUser(id){
+          this.$http
+              .post(`/ajax/getUser/${id}`)
+              .then(
+                  response => {
+                      this.otherUser = response.body.data;
+                  })
+      },
     sendMessage($msg) {
       //this.isLoading = true;
 
       // POST /someUrl
       this.$http
-        .post("/save-message", {
+        .post("/chats/store", {
           message: $msg,
           room_id: this.room.id,
           user_id: this.user_id
         })
-        .then(
-          response => {
-            //this.isLoading = false;
+          .then(
+              response => {
+                  //this.isLoading = false;
 
-            if (response.body.status == 1) {
-              this.message = "";
-              this.allMsgs.push(response.body.data);
-              this.$socket.client.emit("addMessage", response.body.data);
-              //console.log(response.body.data);
-              //this.$root.$emit('new-message', response.body.data)
-            } else if (response.body.status == 2) {
-              location.reload();
-            } else {
-              this.$swal({
-                title: response.body.message,
-                type: "error"
-              });
-            }
-          },
-          response => {
-            console.log(response.body);
-            //error callback
-            //this.isLoading = false;
-            this.$swal({
-              title: "خطأ فى الاتصال ",
-              type: "error"
-            });
-          }
-        );
+                  if (response.body.status == 1) {
+                      this.message = "";
+
+                      this.allMsgs.push(response.body.data);
+                  } else if (response.body.status == 2) {
+                      location.reload();
+                  } else {
+                      this.$swal({
+                          title: response.body.message,
+                          type: "error"
+                      });
+                  }
+              },
+              response => {
+                  console.log(response.body);
+                  //error callback
+                  //this.isLoading = false;
+                  this.$swal({
+                      title: "خطأ فى الاتصال ",
+                      type: "error"
+                  });
+              }
+          );
     },
     onCancel() { // for loader
       console.log("User cancelled the loader.");
     }
   },
   created() {
-    this.allMsgs = this.messages;
+      var that = this;
 
-    if(this.room){
-        var roomUsers = this.room.users;
-        if(roomUsers != undefined){
-            this.otherRoomUsers = roomUsers.filter((user)=>{
-                return user.id != this.user_id;
-            });
-        }
-    }
+      this.$http
+          .get(`/clients/create-private-room/${that.ouser_id}`)
+          .then(response => {
+              that.room = response.body.room;
+              that.allMsgs = response.body.messages;
+              //console.log(response.body.room.id.toString());
+          });
+      this.otherRoomUsers.push(this.otherUser);
+
 
 
   },
   mounted: function() {
     console.log("chatComponent mounted");
+    this.listenForNewMessage();
   }
 };
 </script>
-<style scoped>
-  .d-flex {
-    display: flex;
-    align-items: center;
-  }
-  .chat-content{
-      height: 300px;
-      overflow: hidden;
-  }
+<style lang="scss" scoped>
 </style>

@@ -3,7 +3,9 @@
 namespace App\DataTables;
 
 use App\Entities\Order;
+use App\Enum\OrderStatus;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Yajra\DataTables\Html\Button;
@@ -62,38 +64,42 @@ class OrderDatatable extends DataTable
      */
     public function query(Order $model)
     {
-        if(Route::currentRouteName() == 'admin.orders.index'){
-            return $model->query()
-                ->whereHas('category')
-                ->where('status','created')
-                ->where('technician_id',null)
-                ->with(['orderServices','region','city','category','user'])
-                ->where('live',1)
-                ->orderBy('created_date','desc');
-        }elseif (Route::currentRouteName() == 'admin.orders.onWayOrders'){
-            return $model->query()
-                ->whereHas('category')
-                ->whereNotIn('status',['created','finished'])
-                ->where('technician_id','!=',null)
-                ->with(['orderServices','region','city','category','user'])
-                ->where('live',1)
-                ->orderBy('created_date','desc');
-        }elseif (Route::currentRouteName() == 'admin.orders.finishedOrders'){
-            return $model->query()
-                ->whereHas('category')
-                ->where('status','finished')
-                ->where('technician_id','!=',null)
-                ->with(['orderServices','region','city','category','user'])
-                ->where('live',1)
-                ->orderBy('created_date','desc');
-        }elseif (Route::currentRouteName() == 'admin.orders.canceledOrders'){
-            return $model->query()
-                ->whereHas('category')
-                ->where('status','user_cancel')
-                ->with(['orderServices','region','city','category','user'])
-                ->where('live',1)
-                ->orderBy('created_date','desc');
-        }
+        $late45 = Carbon::now()->addMinute(45)->format('Y-m-d H:i');
+        $late120 = Carbon::now()->addMinute(120)->format('Y-m-d H:i');
+        return $model->query()
+            ->where('status','!=',OrderStatus::REJECTED)
+            ->whereHas('category')
+            ->when(Route::currentRouteName() == 'admin.orders.index',function($q){
+                $q->where('status',OrderStatus::CREATED);
+                $q->where('technician_id',null);
+            })
+            ->when(Route::currentRouteName() == 'admin.orders.onWayOrders',function($q){
+                $q->whereNotIn('status',[OrderStatus::CREATED,OrderStatus::FINISHED]);
+                $q->where('technician_id','!=',null);
+            })
+            ->when(Route::currentRouteName() == 'admin.orders.finishedOrders',function($q){
+                $q->where('status',OrderStatus::FINISHED);
+                $q->where('technician_id','!=',null);
+            })
+            ->when(Route::currentRouteName() == 'admin.orders.canceledOrders',function($q){
+                $q->where('status','user_cancel');
+            })
+            ->when(Route::currentRouteName() == 'admin.orders.delayedOrders',function($q){
+                $q->where(function ($query) {
+                    $query->where('created_date', '<', Carbon::now()->subMinutes(45)->toDateTimeString())->where('created_date', '>', Carbon::now()->subMinutes(120)->toDateTimeString());
+                });
+                $q->where('technician_id',null);
+            })
+            ->when(Route::currentRouteName() == 'admin.orders.timeOutOrders',function($q){
+                $q->where(function ($query) {
+                    $query->where('created_date', '<', Carbon::now()->subMinutes(120)->toDateTimeString());
+                });
+                $q->where('technician_id',null);
+            })
+            ->with(['orderServices','region','city','category','user'])
+            ->where('live',1)
+            ->orderBy('created_date','desc');
+
 
     }
 
