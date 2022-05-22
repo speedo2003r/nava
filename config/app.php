@@ -172,6 +172,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class,
         /*
          * Application Service Providers...
          */

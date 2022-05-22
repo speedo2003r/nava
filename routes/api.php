@@ -128,6 +128,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang','order-expire-check'], '
         Route::any('wallet-pay', 'PaymentController@walletPay');
 //        # chat
         Route::any('chat', 'ChatController@chat');
+        Route::any('contact-chat', 'ChatController@ContactChat');
         Route::any('sendMessage', 'ChatController@sendMessage');
     });
 });
@@ -169,6 +170,9 @@ Route::group(['middleware' => ['auth-check', 'api-lang'], 'namespace' => 'Api\Te
 //        companies
         Route::any('technicals', 'CompanyController@technicals');
         Route::any('order-transfer', 'CompanyController@orderTransfer');
+//        # chat
+        Route::any('tech-chat', 'ChatController@chat');
+        Route::any('techSendMessage', 'ChatController@sendMessage');
 
     });
 });

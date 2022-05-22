@@ -260,6 +260,11 @@ class OrderController extends Controller
             $this->orderRepo->addStatusTimeLine($order['id'],OrderStatus::ACCEPTED);
             creatPrivateRoom($request['technician_id'],$order['user_id'],$order['id']);
         }else{
+            $room = $order->room;
+            if($room){
+                $room->Users()->where('room_users.user_id',$order['technician_id'])->delete();
+                joinRoom($room['id'],$request['technician_id']);
+            }
             $this->orderRepo->update([
                 'technician_id' => $request['technician_id'],
             ],$order['id']);

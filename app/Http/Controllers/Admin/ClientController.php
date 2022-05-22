@@ -150,7 +150,7 @@ class ClientController extends Controller
     public function chat($id)
     {
         $existRoom = Room::where(function ($in) use ($id){
-            $in->where('user_id',$id)->orWhere('other_user_id',$id);
+            $in->where('other_user_id',$id);
         })->where('order_id',null)->first();
         if(!$existRoom){
             $existRoom = creatPrivateRoom(auth()->id(),$id);

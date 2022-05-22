@@ -261,6 +261,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(User::class,'company_id');
     }
+    public function Rooms()
+    {
+        return $this->hasMany(Room::class,'other_user_id');
+    }
     public function company()
     {
         return $this->hasOne(Company::class,'user_id');

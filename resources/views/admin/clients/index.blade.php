@@ -159,18 +159,6 @@
                             </div>
 
 
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>{{__('password')}}</label>
-                                    <input type="password" name="password" class="form-control" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>{{awtTrans('اعادة كلمة المرور')}}</label>
-                                    <input type="password" name="password_confirmation" class="form-control" autocomplete="off">
-                                </div>
-                            </div>
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
                                     <label>{{awtTrans('العنوان')}}</label>
@@ -215,7 +203,6 @@
             $('#editForm')      .attr("action","{{route('admin.clients.store')}}");
         });
         function edit(ob){
-            $('#password')         .val('');
             $('#editForm')      .attr("action","{{route('admin.clients.update','obId')}}".replace('obId',ob.id));
             $('#name')    .val(ob.name);
             $('#phone')         .val(ob.phone);

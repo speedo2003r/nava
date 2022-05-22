@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 
-class LoginRequest extends FormRequest
+class TechLoginRequest extends FormRequest
 {
     use ResponseTrait;
     public function __construct(Request $request)
@@ -24,7 +24,12 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
+            'uuid'       => 'required',
             'phone'       => 'required|exists:users,phone,deleted_at,NULL',
+            'password'    => 'required|string|max:100',
+            'device_id'   => 'required|max:200',
+            'device_type' => 'required|in:android,ios,web',
+            //'app_type'    => 'required|in:provider,user',
         ];
     }
 

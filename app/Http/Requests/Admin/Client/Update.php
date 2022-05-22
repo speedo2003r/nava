@@ -19,7 +19,6 @@ class Update extends FormRequest
             'name' => 'required|max:191',
             'phone'      => 'required|numeric|digits_between:9,13|unique:users,phone,'.$this->id.',id,deleted_at,NULL',
             'email'      => 'required|email|max:191|unique:users,email,'.$this->id.',id,deleted_at,NULL',
-            'password'   => 'nullable|max:191|confirmed',
             'image'      => 'nullable|image|mimes:jpeg,jpg,png',
             'address'    => 'required',
             'lat'   => 'required',
