@@ -101,5 +101,6 @@
     "Whoops!": "عذراً!",
     "delete_invoice": "حذف فاتوره",
     "delete_service": "حذف خدمه",
+    "new" : "جديد",
     "You are receiving this email because we received a password reset request for your account.": "لقد استلمت هذا الإيميل لأننا استقبلنا طلباً لاستعادة كلمة مرور حسابك."
 }

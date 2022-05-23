@@ -15,6 +15,7 @@ class TechnicalGuaranteeOrderResource extends JsonResource
             'name' => $this->order->user['name'],
             'address' => $this->order->city['title'].' - '.$this->order->region['title'].' - '.$this->order->street,
             'order_num' => $this->order->order_num,
+            'category_title' => $this->order->category ? $this->order->category['title'] : '',
             'created_date' => \Carbon\Carbon::parse($this->order->created_date)->diffForHumans(),
             'date' => $this->order->date ?? '',
             'time' => $this->order->time ?? '',
