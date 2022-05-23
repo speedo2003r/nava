@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Entities\Ad;
+use App\Events\TestSent;
 use App\Http\Requests\Api\Contact\ContactRequest;
 use App\Http\Requests\Api\LangRequest;
 use App\Http\Resources\Home\HomeResource;
@@ -214,5 +215,10 @@ class SettingController extends Controller
             $seconds = $hour * 3600 + $minute * 60 + $parsed['second'];
         }
         return $this->successResponse(hoursRange( $seconds, 75600, 60 * 30, 'h:i a' ) ?? []);
+    }
+
+    public function testSent($id)
+    {
+        return broadcast(new TestSent($id))->toOthers();
     }
 }

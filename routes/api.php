@@ -24,6 +24,8 @@ Route::group(['middleware' => ['auth-check', 'api-lang','order-expire-check'], '
     Route::any('search', 'SettingController@search');
     Route::any('cities-search', 'SettingController@citySearch');
 
+    Route::any('test-sent/{id}', 'SettingController@testSent');
+
     Route::any('home', 'HomeController@Home');
     Route::any('slider-home', 'HomeController@sliderHome');
     Route::any('sub-categories', 'CategoryController@subCategories');
