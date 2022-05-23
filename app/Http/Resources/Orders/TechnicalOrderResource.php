@@ -16,11 +16,12 @@ class TechnicalOrderResource extends JsonResource
             'name' => $this->user['name'],
             'address' => ($this->city ? $this->city['title'].' - ' : '').$this->map_desc,
             'order_num' => $this->order_num,
+            'category_title' => $this->category ? $this->category['title'] : '',
             'room_id' => $this->room ? $this->room['id'] : 0,
             'created_date' => \Carbon\Carbon::parse($this->created_date)->diffForHumans(),
             'date' => $this->date ?? '',
             'time' => $this->time ?? '',
-            'status'   => (!in_array($this['status'],['finished','canceled','created']) && $this['technician_id'] != null)  ? trans($this['status']) : ($this['status'] == 'finished' ? trans('api.finished')  :trans('api.new')),
+            'status'   => (!in_array($this['status'],['finished','canceled','created']) && $this['technician_id'] != null)  ? trans($this['status']) : ($this['status'] == 'finished' ? trans('finished')  :trans('new')),
             'order_status'   => $this['status'],
         ];
     }
