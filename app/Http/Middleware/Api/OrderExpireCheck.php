@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\Route;
 use Auth;
 use Closure;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use function React\Promise\all;
 
 class OrderExpireCheck
 {
 
     public function handle($request, Closure $next)
     {
-        if($request['uuid']){
+        if(isset($request['uuid']) && $request['uuid']){
             $user_id = auth()->id();
             if($user_id != null){
                 $order = Order::where('uuid',$request['uuid'])->where('user_id',$user_id)->where('live',0)->first();

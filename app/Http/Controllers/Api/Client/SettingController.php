@@ -219,6 +219,7 @@ class SettingController extends Controller
 
     public function testSent($id)
     {
-        return broadcast(new TestSent($id))->toOthers();
+        broadcast(new TestSent($id))->toOthers();
+        return $this->successResponse();
     }
 }
