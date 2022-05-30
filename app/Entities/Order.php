@@ -217,7 +217,7 @@ class Order extends Model implements Transformable
         return $this->hasOne(Income::class,'order_id');
     }
     public function room(){
-        return $this->belongsTo(Room::class,'order_id');
+        return $this->hasOne(Room::class,'order_id');
     }
     public function guarantee()
     {

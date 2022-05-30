@@ -39,7 +39,7 @@ return [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => false,
                 'encrypted' => false,
-                'host' => 'navaservices.net',
+                'host' => env('LARAVEL_WEBSOCKETS_HOST','demo.navaservices.net'),
                 'port' => env('LARAVEL_WEBSOCKETS_PORT'),
                 'scheme' => 'https',
                 'curl_options' => [

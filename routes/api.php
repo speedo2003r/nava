@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang','order-expire-check'], '
     Route::any('madaHyperWalletResult', 'PaymentController@madaHyperWalletResult')->name('madaHyperWalletResult');
 //
 //
-    Route::group(['middleware' => ['jwt.verify', 'phone-activated']], function () {
+    Route::group(['middleware' => ['jwt.verify','check-user-active']], function () {
 //        # User profile
         Route::any('profile', 'AuthController@ShowProfile');
         Route::any('profile/update', 'AuthController@UpdateProfile');
