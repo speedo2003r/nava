@@ -237,13 +237,6 @@ class AuthController extends Controller
                     'msg' =>'لقد تم حظرك من قبل الاداره'
                 ]);
             }
-            if ($user->active == 0){
-                return response()->json([
-                    'key' => 'not_active',
-                    'value' => 3,
-                    'msg' =>'يرجي تفعيل الهاتف قبل الاستكمال'
-                ]);
-            }
 
             if ($user->accepted == 0) {
                 return response()->json([
@@ -291,14 +284,6 @@ class AuthController extends Controller
                     'key' => 'not_active',
                     'value' => 3,
                     'msg' =>'يرجي تفعيل الهاتف قبل الاستكمال'
-                ]);
-            }
-
-            if ($user->accepted == 0) {
-                return response()->json([
-                    'key' => 'not_accepted',
-                    'value' => 4,
-                    'msg' =>'برجاء الرجوع للاداره لتفعيل حسابك'
                 ]);
             }
         }

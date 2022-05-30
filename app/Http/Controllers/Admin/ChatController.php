@@ -80,10 +80,10 @@ class ChatController extends Controller
         $room = $lastMessage->room;
         $users = $room->Users()->where('users.id','!=',auth()->id())->where('user_type','!=',UserType::ADMIN)->get();
         $admins = $room->Users()->where('users.id','!=',auth()->id())->where('chat',1)->where('user_type',UserType::ADMIN)->get();
-        Bus::chain([
-            new \App\Jobs\NotifyMsg($users,$lastMessage->Message['body'],auth()->id()),
-            new \App\Jobs\NotifyMsg($admins,$lastMessage->Message['body'],auth()->id()),
-        ])->dispatch();
+//        Bus::chain([
+//            new \App\Jobs\NotifyMsg($users,$lastMessage->Message['body'],auth()->id()),
+//            new \App\Jobs\NotifyMsg($admins,$lastMessage->Message['body'],auth()->id()),
+//        ])->dispatch();
         return response()->json(['status' => 1, 'message' => 'success', 'data' => $lastMessage]);
     }
     public function NewPrivateRoom($id){

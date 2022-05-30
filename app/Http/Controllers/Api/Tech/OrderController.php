@@ -114,6 +114,11 @@ class OrderController extends Controller
             return $this->ApiResponse('fail',$validator->errors()->first());
         }
         $order = $this->orderRepo->find($request['order_id']);
+        $user = auth()->user();
+        if($order['delegate_id'] != null && $order['delegate_id'] != $user['id']){
+            $msg = app()->getLocale() == 'ar' ? 'هذا الطلب غير تابع لك': 'This request does not belong to you';
+            return $this->ApiResponse('fail', $msg);
+        }
         return $this->successResponse(TechnicalOrderDetailsResource::make($order));
     }
 
