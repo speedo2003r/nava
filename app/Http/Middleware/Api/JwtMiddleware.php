@@ -5,7 +5,7 @@ namespace App\Http\Middleware\Api;
 use App\Traits\ResponseTrait;
 use Closure;
 use Exception;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use JWTAuth;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
 class JwtMiddleware extends BaseMiddleware

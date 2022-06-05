@@ -660,6 +660,12 @@
 @stack('js')
 
 <script>
+    console.log(Echo.private('rooms.10'));
+    Echo.private('rooms.10')
+        .listen('MessageSent', (e) => {
+            console.log(e);
+            // $("#messages").animate({ scrollTop: $(document).height() }, "slow");
+        });
     Echo.private('users.{{auth()->id()}}')
         .listen('.update.notifications', (e) => {
             $.ajax({

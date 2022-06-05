@@ -27,6 +27,7 @@ use App\Traits\SmsTrait;
 use App\Traits\UploadTrait;
 use App\Http\Requests\Api\LangRequest;
 use App\Notifications\Api\DelegateRate;
+use Pusher\Pusher;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /** import */
@@ -544,6 +545,32 @@ class AuthController extends Controller
         return $this->successResponse([
             'user_id'=>$user['id'],
             'wallet' => $user['wallet']
+        ]);
+    }
+
+    public function postMobilePusher(Request $request)
+    {
+        $user = auth()->user();
+        $appId = env('PUSHER_APP_ID');
+        $appKey = env('PUSHER_APP_KEY');
+        $appSecret = env('PUSHER_APP_SECRET');
+        $pusher = new Pusher($appId,$appKey,$appSecret);
+
+        $socket_id = $request['socket_id'];
+        $channel_name = $request['channel_name'];
+
+        if(str_starts_with($channel_name,'private-')){
+            $auth = $pusher->socketAuth($channel_name,$socket_id);
+        }else{
+            $user_id = $user->id;
+            $user_info = [
+                'firstName' => $user->name
+            ];
+
+            $auth = $pusher->presenceAuth( $channel_name, $socket_id, $user_id, $user_info );
+        }
+        return response()->json((object)[
+            'auth' =>str_replace($appId.':','',json_decode($auth)->auth)
         ]);
     }
 }

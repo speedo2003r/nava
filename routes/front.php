@@ -15,3 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('contact','MainController@contact')->name('front.contact');
 Route::get('policy','MainController@policy');
+Route::get('git',function (){
+    Artisan::call('app:refresh');
+});
