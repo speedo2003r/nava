@@ -28,6 +28,9 @@ class addDateAndAddress extends Controller
         $validator = Validator::make($request->all(), [
             'order_id' => 'required|exists:orders,id,deleted_at,NULL',
             'date' => 'required|date|after:'.Carbon::yesterday()->format('Y-m-d'),
+            'name' => 'required|string|max:191',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|digits_between:9:13',
             'time' => 'required',
             'lat' => 'required',
             'lng' => 'required',
@@ -54,6 +57,9 @@ class addDateAndAddress extends Controller
         $this->orderRepo->update([
             'date' => Carbon::parse($request['date'])->format('Y-m-d'),
             'time' => Carbon::parse($request['time'])->format('H:i:s'),
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'phone' => $request['phone'],
             'lat' => $request['lat'],
             'lng' => $request['lng'],
             'map_desc' => $request['address'],
