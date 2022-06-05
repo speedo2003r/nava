@@ -24,9 +24,9 @@ class StartInOrder extends Notification
     public function __construct(protected $order)
     {
         $title_ar = 'تم بدء العمل';
-        $title_en = 'Work has begun';
-        $message_ar = 'تم بدء العمل';
-        $message_en = 'Work has begun';
+        $title_en = 'Work has begun from order number '.$this->order['order_num'];
+        $message_ar = 'تم بدء العمل للطلب رقم '.$this->order['order_num'];
+        $message_en = 'Work has begun ';
         $this->data = [
             'title' => [
                 'ar' => $title_ar,

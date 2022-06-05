@@ -25,8 +25,8 @@ class ArriveToOrder extends Notification
     {
         $title_ar = 'تم وصول التقني';
         $title_en = 'The technician has arrived!';
-        $message_ar = 'لقد وصل التقني اليك للتو';
-        $message_en = 'Tech has just arrived for you';
+        $message_ar = 'لقد وصل التقني اليك للتو للطلب رقم '.$this->order['order_num'];
+        $message_en = 'Tech has just arrived for you to order number '.$this->order['order_num'];
         $this->data = [
             'title' => [
                 'ar' => $title_ar,

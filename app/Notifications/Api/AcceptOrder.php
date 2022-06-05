@@ -25,8 +25,8 @@ class AcceptOrder extends Notification
     {
         $title_ar = 'تم الموافقه علي طلبك';
         $title_en = 'Your request has been approved';
-        $message_ar = 'تم الموافقه علي طلبك وجاري تنفيذه الأن التقني في الطريق اليك';
-        $message_en = 'Your request has been approved and is being implemented. The technician is on the way to you';
+        $message_ar = 'تم الموافقه علي طلبك رقم '.$this->order['order_num'].' وجاري تنفيذه الأن التقني في الطريق اليك';
+        $message_en = 'Your request has been approved in order number '.$this->order['order_num'].' and is being implemented. The technician is on the way to you';
         $this->data = [
             'title' => [
                 'ar' => $title_ar,
