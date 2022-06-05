@@ -46,28 +46,28 @@ class AuthController extends Controller
         $this->deviceRepo   = $device;
     }
     /************************* Start Register ************************/
-    public function UserRegister(UserRegisterRequest $request)
-    {
-        $user = $this->userRepo->create($request->all());
-        if(empty($request['email']) || $request['email'] == ''){
-            $user->email = 'user'.$user['id'].'@nava.com';
-            $user->save();
-        }
-
-        $codeMessage = app()->getLocale()=='ar'?'الكود هو:':'Your code is:';
-        $codeMessage = $codeMessage.' '.$user['v_code'];
-        if (preg_match("~^0\d+$~", $user['phone'])) {
-            sendSMS($user['phone'],$codeMessage);
-        }
-        else {
-            sendSMS('0'.$user['phone'],$codeMessage);
-        }
-        $user->refresh();
-        // save user and return token
-        return $this->successResponse([
-            'phone' => $user['phone']
-        ]);
-    }
+//    public function UserRegister(UserRegisterRequest $request)
+//    {
+//        $user = $this->userRepo->create($request->all());
+//        if(empty($request['email']) || $request['email'] == ''){
+//            $user->email = 'user'.$user['id'].'@nava.com';
+//            $user->save();
+//        }
+//
+//        $codeMessage = app()->getLocale()=='ar'?'الكود هو:':'Your code is:';
+//        $codeMessage = $codeMessage.' '.$user['v_code'];
+//        if (preg_match("~^0\d+$~", $user['phone'])) {
+//            sendSMS($user['phone'],$codeMessage);
+//        }
+//        else {
+//            sendSMS('0'.$user['phone'],$codeMessage);
+//        }
+//        $user->refresh();
+//        // save user and return token
+//        return $this->successResponse([
+//            'phone' => $user['phone']
+//        ]);
+//    }
 
     # active account after register - if ok logged in
     public function Activation(Request $request)
@@ -228,9 +228,8 @@ class AuthController extends Controller
     /************************   start basics *******************************/
     public function Login(LoginRequest $request)
     {
-        if (!empty($request->input('phone'))) {
-            $user = $this->userRepo->findWhere(['phone' => $request->input('phone')])->first();
-
+        $user = $this->userRepo->firstOrCreate($request->all());
+        if($user){
             if ($user->banned == 1){
                 return response()->json([
                     'key' => 'is_banned',
@@ -247,13 +246,6 @@ class AuthController extends Controller
                 ]);
             }
         }
-
-        $exists = $this->userRepo->findWhere(['phone' => $request->input('phone')])->first();
-        if(!$exists){
-            return $this->ApiResponse('fail', 'برجاء التأكد من بيانات المستخدم');
-        }
-        $this->userRepo->update(['v_code' => generateCode()],$user['id']);
-
         $codeMessage = app()->getLocale()=='ar'?'الكود هو:':'Your code is:';
         $codeMessage = $codeMessage.' '.$user['v_code'];
         if (preg_match("~^0\d+$~", $user['phone'])) {
@@ -262,7 +254,6 @@ class AuthController extends Controller
         else {
             sendSMS('0'.$user['phone'],$codeMessage);
         }
-        $user->refresh();
         // save user and return token
         return $this->successResponse([
             'user' => userResource::make($user),

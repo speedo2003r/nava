@@ -23,6 +23,8 @@ class User
      */
     public function created(UserModel $user)
     {
+        $user->email = 'user'.$user['id'].'@nava.com';
+        $user->save();
         $text = 'قام ' . $this->user . ' ب' . ' أضافة العميل ' . $user->name;
         $this->report->create(['desc' => $text]);
     }

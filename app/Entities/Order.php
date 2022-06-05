@@ -199,6 +199,9 @@ class Order extends Model implements Transformable
         'admin_delete',
         'increased_price',
         'increase_tax',
+        'name',
+        'phone',
+        'email',
     ];
 
     protected $casts   = [
