@@ -48,7 +48,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(
+        // the original class
+            'laravel\framework\src\Illuminate\Broadcasting\Broadcasters\PusherBroadcaster',
+            // my custom class
+            'App\Http\Controllers\PusherBroadcaster'
+        );
     }
 
     /**

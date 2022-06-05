@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang','order-expire-check'], '
     Route::any('user/sign-up', 'AuthController@UserRegister');
     Route::any('active-code', 'AuthController@Activation');
     Route::any('send-active-code', 'AuthController@sendActiveCode');
+    Route::any('resend_code', 'AuthController@sendActiveCode');
     Route::any('check-active-code', 'AuthController@checkActiveCode');
     Route::any('logout', 'AuthController@Logout');
     Route::any('forget-password', 'AuthController@ForgetPasswordCode');
@@ -127,6 +128,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang','order-expire-check'], '
 
 
 
+        Route::any('post-mobile-pusher', 'AuthController@postMobilePusher');
         Route::any('wallet-pay', 'PaymentController@walletPay');
 //        # chat
         Route::any('chat', 'ChatController@chat');
