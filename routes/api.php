@@ -48,7 +48,7 @@ Route::group(['middleware' => ['auth-check', 'api-lang','order-expire-check'], '
 //    /***************************** AuthController Start *****************************/
 //    client
     Route::any('sign-in', 'AuthController@Login');
-    Route::any('user/sign-up', 'AuthController@UserRegister');
+//    Route::any('user/sign-up', 'AuthController@UserRegister');
     Route::any('active-code', 'AuthController@Activation');
     Route::any('send-active-code', 'AuthController@sendActiveCode');
     Route::any('resend_code', 'AuthController@sendActiveCode');

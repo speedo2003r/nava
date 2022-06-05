@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\login;
 
+use App\Enum\UserType;
 use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -13,7 +14,9 @@ class LoginRequest extends FormRequest
     use ResponseTrait;
     public function __construct(Request $request)
     {
-        //
+        $request['user_type'] = UserType::CLIENT;
+        $request['v_code'] = generateCode();
+        $request['accepted'] = 1;
     }
 
     public function authorize()
@@ -24,7 +27,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone'       => 'required|exists:users,phone,deleted_at,NULL',
+            'phone'       => 'required',
         ];
     }
 
