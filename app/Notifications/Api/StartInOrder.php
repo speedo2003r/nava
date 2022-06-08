@@ -66,6 +66,7 @@ class StartInOrder extends Notification
     {
         $this->data['title'] = $this->data['title'][$notifiable['lang']];
         $this->data['body'] = $this->data['body'][$notifiable['lang']];
+        $this->data['order_id'] = $this->order['id'];
         if($notifiable->Devices) {
             foreach ($notifiable->Devices as $device) {
                 if ($device->device_id != null) {

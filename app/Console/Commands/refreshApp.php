@@ -82,17 +82,6 @@ class refreshApp extends Command
         }
 
 
-        if(!$this->runComposer()) {
-
-            $this->error("Error while updating composer files. \nLogs:");
-
-            foreach($this->composerLog as $logLine) {
-                $this->info($logLine);
-            }
-
-            return;
-        }
-
         $this->info("Succesfully updated the application.");
 
 
