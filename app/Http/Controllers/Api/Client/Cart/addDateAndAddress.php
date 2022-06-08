@@ -45,7 +45,7 @@ class addDateAndAddress extends Controller
             return $this->ApiResponse('fail', trans('api.timemustbe'));
         }
         $order = $this->orderRepo->find($request['order_id']);
-
+        $user = auth()->user();
         $mini_order_charge = settings('mini_order_charge');
         $increase = 0;
         $increase_tax = 0;
@@ -59,7 +59,7 @@ class addDateAndAddress extends Controller
             'time' => Carbon::parse($request['time'])->format('H:i:s'),
             'name' => $request['name'],
             'email' => $request['email'],
-            'phone' => $request['phone'],
+            'phone' => $user['phone'],
             'lat' => $request['lat'],
             'lng' => $request['lng'],
             'map_desc' => $request['address'],

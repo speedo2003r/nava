@@ -561,7 +561,7 @@ class AuthController extends Controller
             $auth = $pusher->presenceAuth( $channel_name, $socket_id, $user_id, $user_info );
         }
         return response()->json((object)[
-            'auth' =>str_replace($appId.':','',json_decode($auth)->auth)
+            'auth' =>$appKey.':'.str_replace($appId.':','',json_decode($auth)->auth)
         ]);
     }
 }

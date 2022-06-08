@@ -632,7 +632,7 @@
                             </div>
                             <div class="contact02-text">
                                 <h4>{{awtTrans('الموقع')}}</h4>
-                                <p><a href="https://navaservices.net/">nava.sa</a></p>
+                                <p><a href="https://navaservices.net/">navaservices.net</a></p>
                                 <p><a href="https://navaservices.net/policy">{{awtTrans('الشروط والأحكام')}}</a></p>
                             </div>
                         </div>
@@ -735,7 +735,7 @@
             <!-- Start Copyright -->
             <div class="col-md-8 col-sm-6 wow fadeInUp" data-wow-duration="1s">
                 <div class="copyright-design">
-                    <p><span>  </span> ©{{\Carbon\Carbon::now()->format('Y')}}{{awtTrans(' جميع الحقوق محفوظة')}}</p>
+                    <p><span>  </span> ©{{\Carbon\Carbon::now()->format('Y')}} {{awtTrans(' جميع الحقوق محفوظة لصالح شركة اعمال نافا للتشغيل والصيانة')}}</p>
                 </div>
             </div>
             <!-- End Copyright -->
