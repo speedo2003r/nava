@@ -22,6 +22,7 @@ class TechnicalOrderResource extends JsonResource
             'created_date' => \Carbon\Carbon::parse($this->created_date)->diffForHumans(),
             'date' => $this->date ?? '',
             'time' => $this->time ?? '',
+            'distance' => (request('lat') && request('lng')) ? (string) round(distance(request('lat'),request('lng'),$this['lat'],$this['lng']),2) ? '0',
             'status'   => (!in_array($this['status'],['finished','canceled','created']) && $this['technician_id'] != null)  ? trans($this['status']) : ($this['status'] == 'finished' ? trans('finished')  :trans('new')),
             'order_status'   => $this['status'],
         ];

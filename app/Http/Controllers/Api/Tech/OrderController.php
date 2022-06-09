@@ -51,6 +51,13 @@ class OrderController extends Controller
 
     public function NewOrders(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'lat' => 'required',
+            'lng' => 'required',
+        ]);
+        if($validator->fails()){
+            return $this->ApiResponse('fail',$validator->errors()->first());
+        }
         $user = auth()->user();
         $orders = $user->orders()->where('orders.status',OrderStatus::CREATED)->whereDoesntHave('refuseOrders',function ($query) use ($user){
             $query->where('refuse_orders.user_id',$user['id']);
@@ -59,6 +66,13 @@ class OrderController extends Controller
     }
     public function CurrentOrders(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'lat' => 'required',
+            'lng' => 'required',
+        ]);
+        if($validator->fails()){
+            return $this->ApiResponse('fail',$validator->errors()->first());
+        }
         $user = auth()->user();
         if($user['user_type'] == 'company'){
             $orders = Order::join('users','users.id','orders.technician_id')
