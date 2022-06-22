@@ -152,7 +152,7 @@ class Order extends Model implements Transformable
 {
     use TransformableTrait,CascadeSoftDeletes;
     use SoftDeletes;
-    protected $cascadeDeletes = ['orderServices'];
+    protected $cascadeDeletes = ['orderServices','room'];
     protected $fillable = [
         'uuid',
         'order_num',

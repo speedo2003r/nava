@@ -52,8 +52,8 @@ class OrderController extends Controller
     public function NewOrders(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'lat' => 'required',
-            'lng' => 'required',
+            'lat' => 'sometimes',
+            'lng' => 'sometimes',
         ]);
         if($validator->fails()){
             return $this->ApiResponse('fail',$validator->errors()->first());
@@ -67,8 +67,8 @@ class OrderController extends Controller
     public function CurrentOrders(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'lat' => 'required',
-            'lng' => 'required',
+            'lat' => 'sometimes',
+            'lng' => 'sometimes',
         ]);
         if($validator->fails()){
             return $this->ApiResponse('fail',$validator->errors()->first());

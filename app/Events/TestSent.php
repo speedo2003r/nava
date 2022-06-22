@@ -38,6 +38,11 @@ class TestSent implements ShouldBroadcast
     {
         return new PrivateChannel('users.' . $this->user_id);
     }
+
+    public function broadcastAs()
+    {
+        return 'test.sent';
+    }
     public function broadcastWith()
     {
         return [
